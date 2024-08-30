@@ -1,6 +1,8 @@
 Team Members: 
 Ayan Gupta
+
 Mayank Konduri
+
 Nischal Konduri
 
 Rules Document:
