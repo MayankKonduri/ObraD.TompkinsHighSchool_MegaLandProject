@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Megaland_RuleBook_Final">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Assets/Rules/Megaland_RuleBook_Final.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
