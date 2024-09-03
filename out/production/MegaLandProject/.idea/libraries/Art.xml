@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Art">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Assets/Art/MegaLand_TreasureCards.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Assets/Art/MegaLand_PlayerCards.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Assets/Art/MegaLand_LevelCards.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Assets/Art/MegaLand_BuildingCards.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Assets/Art/MegaLand_StarImages.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
