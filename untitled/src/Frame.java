@@ -14,7 +14,7 @@ public class Frame extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(true);
-        setAlwaysOnTop(true);
+        setAlwaysOnTop(false);
         setVisible(true);
         setSize(1920, 1040);
         l = new LoadingPanel();
