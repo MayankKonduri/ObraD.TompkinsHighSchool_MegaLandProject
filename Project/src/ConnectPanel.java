@@ -6,13 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class HostPanel extends JPanel{
+public class ConnectPanel extends JPanel{
     private BufferedImage loading;
-    private JLabel hostLabel = new JLabel("You are the Host");
+    private JLabel hostLabel = new JLabel("Connect");
     private JLabel ipLabel = new JLabel("IP Address: ");
     private JTextArea playersJoined = new JTextArea("Players Joined:\n");
 
-    public HostPanel(JFrame frame) {
+    public ConnectPanel(JFrame frame) {
         setSize(1920, 1040);
         setLayout(null);
 
