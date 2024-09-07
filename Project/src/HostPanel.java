@@ -171,6 +171,8 @@ public class HostPanel extends JPanel {
         startHostingButton.setEnabled(false);
         startHostingButton.addActionListener(e -> {
             System.out.println("Hosting Started!");
+            frame.setContentPane(new CardSelectPanel(frame));
+            frame.revalidate();
         });
         add(startHostingButton);
 
@@ -179,6 +181,7 @@ public class HostPanel extends JPanel {
         startButton.setEnabled(false);
         startButton.addActionListener(e -> {
             System.out.println("Game Has Started!!!");
+
         });
         add(startButton);
 
