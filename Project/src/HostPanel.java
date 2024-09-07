@@ -25,11 +25,13 @@ public class HostPanel extends JPanel {
     private JLabel ipPlaceHolderLabel = new JLabel();
     private JButton homeButton = new JButton("Home");
     private JButton changeSettings = new JButton("Change Settings: ");
+    private JButton startHostingButton = new JButton("Start Hosting!");
+    private JButton startButton = new JButton("Start Game!");
     private boolean settingsConfirmed = false;
     private BufferedImage loading;
     private String ipAddress;
     private String hostName;
-
+    private final int[] selectedNumberOfPlayers = {2};
     private JLabel peopleInGameLabel = new JLabel("People in Game Server: ");
     private JTextArea peopleListArea = new JTextArea();
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);
@@ -97,6 +99,8 @@ public class HostPanel extends JPanel {
                     updatePeopleList(new String[]{hostName});
                 }
                 clearPeopleList();
+                startButton.setVisible(true);
+                startHostingButton.setEnabled(false);
             } else {
                 hostName = nameTextField.getText();
                 nameTextField.setEnabled(false);
@@ -108,7 +112,9 @@ public class HostPanel extends JPanel {
                 setPlayerButtonsEnabled(false);
                 peoplePanel.setVisible(true);
                 updatePeopleList(new String[]{hostName});
-
+                startButton.setVisible(true);
+                updateStartButtonState();
+                startHostingButton.setEnabled(true);
             }
             settingsConfirmed = !settingsConfirmed;
             revalidate();
@@ -122,10 +128,15 @@ public class HostPanel extends JPanel {
 
         String[] numberPlayersOption = {"2", "3", "4", "5"};
         for (int i = 0; i < numberPlayersOption.length; i++) {
+            final int index = i;
             playerButtons[i] = new JRadioButton(numberPlayersOption[i]);
             playerButtons[i].setBounds(600 + i * 75, 200, 70, 30);
             playerButtons[i].setFont(new Font("Georgia", Font.PLAIN, 20));
-            playerButtons[i].addActionListener(e -> updateConfirmSettingsButtonState());
+            playerButtons[i].addActionListener(e -> {
+                selectedNumberOfPlayers[0] = Integer.parseInt(numberPlayersOption[index]);
+                updateConfirmSettingsButtonState();
+                updateStartButtonState();
+            });
             playerGroup.add(playerButtons[i]);
             add(playerButtons[i]);
         }
@@ -154,6 +165,22 @@ public class HostPanel extends JPanel {
         peoplePanel.add(peopleScrollPane);
         add(peoplePanel);
 
+        startHostingButton.setBounds(400,600,200,30);
+        startHostingButton.setFont(new Font("Georgia", Font.BOLD,15));
+        startHostingButton.setEnabled(false);
+        startHostingButton.addActionListener(e -> {
+            System.out.println("Hosting Started!");
+        });
+        add(startHostingButton);
+
+        startButton.setBounds(650,600,150,30);
+        startButton.setFont(new Font("Georgia",Font.BOLD,15));
+        startButton.setEnabled(false);
+        startButton.addActionListener(e -> {
+            System.out.println("Game Has Started!!!");
+        });
+        add(startButton);
+
         homeButton.setBounds(10, 10, 100, 30);
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
         homeButton.addActionListener(e -> {
@@ -175,6 +202,16 @@ public class HostPanel extends JPanel {
         boolean isNameValid = !nameTextField.getText().trim().isEmpty();
         boolean isPlayerSelected = playerGroup.getSelection() != null;
         confirmSettings.setEnabled(isNameValid && isPlayerSelected);
+    }
+
+    public void updateStartButtonState(){
+        int numberOfPeople = getNumberOfPeopleInGame();
+        startButton.setEnabled(numberOfPeople == selectedNumberOfPlayers[0]);
+    }
+
+    public int getNumberOfPeopleInGame(){
+        String[] peopleList = peopleListArea.getText().split("\n");
+        return peopleList.length;
     }
 
     public void updatePeopleList(String[] people) {
