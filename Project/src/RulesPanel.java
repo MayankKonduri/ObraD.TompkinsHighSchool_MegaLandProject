@@ -10,6 +10,7 @@ public class RulesPanel extends JPanel{
     private BufferedImage rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12, ruleEnd;
     private JButton nextPage = new JButton(">");
     private JButton previousPage = new JButton("<");
+    private JButton homeButton = new JButton("Home");
     public int pageCount1 = 0;
     public int pageCount = 0;
 
@@ -42,6 +43,7 @@ public class RulesPanel extends JPanel{
         }
         nextPage.setBounds(1845, 480, 50, 80);
         previousPage.setBounds(10, 480, 50, 80);
+        homeButton.setBounds(10, 10, 100, 58);
 
         nextPage.addActionListener(e -> {
             pageCount++;
@@ -64,8 +66,14 @@ public class RulesPanel extends JPanel{
             repaint();
         });
 
+        homeButton.addActionListener(e -> {
+            frame.setContentPane(new LoadingPanel(frame));
+            frame.revalidate();
+        });
+
         add(nextPage);
         add(previousPage);
+        add(homeButton);
         setVisible(true);
     }
 
