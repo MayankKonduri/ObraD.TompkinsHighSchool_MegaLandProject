@@ -11,15 +11,19 @@ import java.net.*;
 import java.nio.Buffer;
 
 public class ConnectPanel extends JPanel{
-  /*  private BufferedImage loading;
-    private JLabel hostLabel = new JLabel("Connect");
+    private BufferedImage loading;
+    private JLabel titleLabel = new JLabel("Connect to Server:");
+    private JLabel nameLabel = new JLabel("Name: ");
+    private JTextField nameTextField = new JTextField(20);
     private JLabel ipLabel = new JLabel("IP Address: ");
-    private JTextArea playersJoined = new JTextArea("Players Joined:\n");
+    private JTextField ipTextField = new JTextField(20);
+    private JButton confirmButton = new JButton("Connect to Live Game!");
+    private JButton homeButton = new JButton("Home");
+    private boolean isConnecting = false;
 
-    public ConnectPanel(JFrame frame) {
+    public ConnectPanel(JFrame frame){
         setSize(1920, 1040);
         setLayout(null);
-
         try {
             loading = ImageIO.read((new File("Project\\src\\Images\\megaland_banner_1.png")));
 
@@ -27,45 +31,15 @@ public class ConnectPanel extends JPanel{
             ah.printStackTrace();
             System.out.println("Error Loading Images: " + ah.getMessage());
         }
-
-        hostLabel.setBounds(400, 450, 400, 75);
-        hostLabel.setFont(new Font("Oswald", Font.BOLD, 30));
-        add(hostLabel);
-        setVisible(true);
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-//        Graphics bg = buffer.getGraphics();
-        g.drawImage(loading, 0, 0, 1920, 1040, null);
-//        g.drawImage(buffer, 0, 0, null);
-    }
-
-*/
-
-    private JLabel titleLabel = new JLabel("Connecting to Game Server");
-    private JLabel nameLabel = new JLabel("Name: ");
-    private JTextField nameTextField = new JTextField(20);
-    private JLabel ipLabel = new JLabel("IP Address: ");
-    private JTextField ipTextField = new JTextField(20);
-    private JButton confirmButton = new JButton("Connect to Live Game!");
-    private JButton homeButton = new JButton("Home");
-    private BufferedImage loading;
-    private boolean isConnecting = false;
-
-    public ConnectPanel(JFrame frame){
-        setSize(1920, 1040);
-        setLayout(null);
-
-        titleLabel.setBounds(400,50,500,75);
-        titleLabel.setFont(new Font("Oswald", Font.BOLD,30));
+        titleLabel.setBounds(250,380,500,75);
+        titleLabel.setFont(new Font("Oswald", Font.BOLD,40));
         add(titleLabel);
 
-        nameLabel.setBounds(400,150,100,30);
+        nameLabel.setBounds(250,450,100,30);
         nameLabel.setFont(new Font("Georgia", Font.PLAIN,20));
         add(nameLabel);
 
-        nameTextField.setBounds(470,150,300,30);
+        nameTextField.setBounds(350,450,300,30);
         nameTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -84,12 +58,12 @@ public class ConnectPanel extends JPanel{
         });
         add(nameTextField);
 
-        ipLabel.setBounds(400,200,150,30);
+        ipLabel.setBounds(250,500,150,30);
         ipLabel.setFont(new Font("Georgia", Font.PLAIN,20));
         ipLabel.setVisible(true);
         add(ipLabel);
 
-        ipTextField.setBounds(520,200,250,30);
+        ipTextField.setBounds(400,500,250,30);
         ipTextField.setVisible(true);
         ipTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -109,7 +83,7 @@ public class ConnectPanel extends JPanel{
         });
         add(ipTextField);
 
-        confirmButton.setBounds(400,250,250,30);
+        confirmButton.setBounds(350,550,250,30);
         confirmButton.setFont(new Font("Georgia",Font.BOLD,15));
         confirmButton.setEnabled(false);
         confirmButton.addActionListener(e -> {
@@ -135,6 +109,12 @@ public class ConnectPanel extends JPanel{
         add(homeButton);
 
         setVisible(true);
+    }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        Graphics bg = buffer.getGraphics();
+        g.drawImage(loading, 0, 0, 1920, 1010, null);
+//        g.drawImage(buffer, 0, 0, null);
     }
 
     private void updateConfirmButtonState(){

@@ -43,7 +43,7 @@ public class RulesPanel extends JPanel{
         }
         nextPage.setBounds(1845, 480, 50, 80);
         previousPage.setBounds(10, 480, 50, 80);
-        homeButton.setBounds(10, 10, 100, 58);
+        homeButton.setBounds(10, 10, 100, 30);
 
         nextPage.addActionListener(e -> {
             pageCount++;
@@ -70,6 +70,7 @@ public class RulesPanel extends JPanel{
             frame.setContentPane(new LoadingPanel(frame));
             frame.revalidate();
         });
+        homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
 
         add(nextPage);
         add(previousPage);

@@ -22,11 +22,11 @@ public class HostPanel extends JPanel {
     private ButtonGroup playerGroup = new ButtonGroup();
     private JRadioButton[] playerButtons = new JRadioButton[4];
     private JLabel ipLabel = new JLabel("Hosting IP Address: ");
-    private JLabel ipPlaceHolderLabel = new JLabel();
+    private JLabel ipPlaceHolderLabel = new JLabel("Waiting for game settings...");
     private JButton homeButton = new JButton("Home");
     private JButton changeSettings = new JButton("Change Settings: ");
-    private JButton startHostingButton = new JButton("Start Hosting!");
-    private JButton startButton = new JButton("Start Game!");
+    private JButton startHostingButton = new JButton("Start Hosting");
+    private JButton startButton = new JButton("Start Game");
     private boolean settingsConfirmed = false;
     private BufferedImage loading;
     private String ipAddress;
@@ -57,15 +57,15 @@ public class HostPanel extends JPanel {
             System.out.println("Error Loading Images: " + e.getMessage());
         }
 
-        hostSettingsLabel.setBounds(400, 50, 400, 75);
+        hostSettingsLabel.setBounds(250, 380, 400, 75);
         hostSettingsLabel.setFont(new Font("Oswald", Font.BOLD, 40));
         add(hostSettingsLabel);
 
-        nameLabel.setBounds(400, 150, 100, 30);
+        nameLabel.setBounds(250, 450, 100, 30);
         nameLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
         add(nameLabel);
 
-        nameTextField.setBounds(470, 150, 300, 30);
+        nameTextField.setBounds(350, 450, 300, 30);
         nameTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -84,15 +84,16 @@ public class HostPanel extends JPanel {
         });
         add(nameTextField);
 
-        confirmSettings.setBounds(780, 150, 250, 30);
+        confirmSettings.setBounds(750, 450, 250, 30);
         confirmSettings.setFont(new Font("Georgia", Font.BOLD, 15));
         confirmSettings.setEnabled(false);
         confirmSettings.addActionListener(e -> {
             if (settingsConfirmed) {
                 nameTextField.setEnabled(true);
                 confirmSettings.setText("Confirm Settings");
-                ipLabel.setVisible(false);
-                ipPlaceHolderLabel.setVisible(false);
+                ipLabel.setVisible(true);
+                ipPlaceHolderLabel.setVisible(true);
+                ipPlaceHolderLabel.setText("Waiting for game settings...");
                 changeSettings.setVisible(false);
                 setPlayerButtonsEnabled(true);
                 if(!hostName.isEmpty()){
@@ -122,7 +123,7 @@ public class HostPanel extends JPanel {
         });
         add(confirmSettings);
 
-        numPlayersLabel.setBounds(400, 200, 200, 30);
+        numPlayersLabel.setBounds(250, 500, 200, 30);
         numPlayersLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
         add(numPlayersLabel);
 
@@ -130,7 +131,7 @@ public class HostPanel extends JPanel {
         for (int i = 0; i < numberPlayersOption.length; i++) {
             final int index = i;
             playerButtons[i] = new JRadioButton(numberPlayersOption[i]);
-            playerButtons[i].setBounds(600 + i * 75, 200, 70, 30);
+            playerButtons[i].setBounds(450 + i * 55, 500, 50, 30);
             playerButtons[i].setFont(new Font("Georgia", Font.PLAIN, 20));
             playerButtons[i].addActionListener(e -> {
                 selectedNumberOfPlayers[0] = Integer.parseInt(numberPlayersOption[index]);
@@ -141,18 +142,18 @@ public class HostPanel extends JPanel {
             add(playerButtons[i]);
         }
 
-        ipLabel.setBounds(400, 250, 250, 30);
+        ipLabel.setBounds(250, 550, 250, 30);
         ipLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
-        ipLabel.setVisible(false);
+        ipLabel.setVisible(true);
         add(ipLabel);
 
-        ipPlaceHolderLabel.setBounds(600, 250, 200, 30);
-        ipPlaceHolderLabel.setFont(new Font("Georgia", Font.ITALIC, 25));
-        ipPlaceHolderLabel.setVisible(false);
+        ipPlaceHolderLabel.setBounds(450, 550, 400, 30);
+        ipPlaceHolderLabel.setFont(new Font("Georgia", Font.ITALIC, 20));
+        ipPlaceHolderLabel.setVisible(true);
         add(ipPlaceHolderLabel);
 
-        peopleInGameLabel.setBounds(400, 300, 350, 30);
-        peopleInGameLabel.setFont(new Font("Georgia", Font.BOLD, 15));
+        peopleInGameLabel.setBounds(250, 600, 350, 30);
+        peopleInGameLabel.setFont(new Font("Georgia", Font.BOLD, 20));
         add(peopleInGameLabel);
 
         peopleListArea.setFont(new Font("Georgia", Font.PLAIN, 20));
@@ -160,12 +161,12 @@ public class HostPanel extends JPanel {
         peopleScrollPane.setBounds(0, 0, 600, 200);
         add(peopleScrollPane);
 
-        peoplePanel.setBounds(400, 340, 600, 250);
+        peoplePanel.setBounds(250, 650, 400, 250);
         peoplePanel.setLayout(null);
         peoplePanel.add(peopleScrollPane);
         add(peoplePanel);
 
-        startHostingButton.setBounds(400,600,200,30);
+        startHostingButton.setBounds(250,950,200,30);
         startHostingButton.setFont(new Font("Georgia", Font.BOLD,15));
         startHostingButton.setEnabled(false);
         startHostingButton.addActionListener(e -> {
@@ -173,7 +174,7 @@ public class HostPanel extends JPanel {
         });
         add(startHostingButton);
 
-        startButton.setBounds(650,600,150,30);
+        startButton.setBounds(500,950,200,30);
         startButton.setFont(new Font("Georgia",Font.BOLD,15));
         startButton.setEnabled(false);
         startButton.addActionListener(e -> {
@@ -190,6 +191,10 @@ public class HostPanel extends JPanel {
         add(homeButton);
 
         setVisible(true);
+    }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(loading, 0, 0, 1920, 1010, null);
     }
 
     private void setPlayerButtonsEnabled(boolean enabled) {
