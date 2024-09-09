@@ -13,6 +13,7 @@ import java.io.File;
 public class CardSelectPanel extends JPanel {
     private BufferedImage image12, image13, image14, image15, image16, image17, image18, image19, image20, image21, image22, image23, image24, image25, image26, image27, image28, image29;
     private JLabel title = new JLabel ("Please select 7 cards.");
+    private JButton done = new JButton ("Done");
 
     public CardSelectPanel(JFrame frame) {
         setSize(1920, 1010);
@@ -44,8 +45,14 @@ public class CardSelectPanel extends JPanel {
         }
         title.setBounds(710, 0, 500,75);
         title.setFont(new Font("Georgia", Font.BOLD, 40));
+        done.setBounds(1800, 900, 100, 100);
+        done.addActionListener(e -> {
+            frame.setContentPane(new CharacterSelectPanel(frame));
+            frame.revalidate();
+        });
 
         add(title);
+        add(done);
         setVisible(true);
     }
 
