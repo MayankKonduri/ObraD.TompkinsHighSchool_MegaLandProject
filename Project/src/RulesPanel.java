@@ -42,7 +42,11 @@ public class RulesPanel extends JPanel{
             System.out.println("Error Loading Images: " + ah.getMessage());
         }
         nextPage.setBounds(1845, 480, 50, 80);
+        nextPage.setOpaque(true);
+
         previousPage.setBounds(10, 480, 50, 80);
+        previousPage.setOpaque(true);
+
         homeButton.setBounds(10, 10, 100, 30);
 
         nextPage.addActionListener(e -> {
@@ -51,16 +55,6 @@ public class RulesPanel extends JPanel{
             repaint();
 
         });
-//        if(pageCount > 5) {
-//            nextPage.setVisible(false);
-//        }else {
-//            nextPage.setVisible(true);
-//        }
-//        if(pageCount == 0) {
-//            previousPage.setVisible(false);
-//        }else {
-//            previousPage.setVisible(true);
-//        }
         previousPage.addActionListener(e -> {
             pageCount--;
             repaint();
@@ -80,7 +74,6 @@ public class RulesPanel extends JPanel{
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-//        Graphics bg = buffer.getGraphics();
         if(pageCount == 0) {
             g.drawImage(rule1, 0, 0, 1920, 1010, null);
             previousPage.setVisible(false);

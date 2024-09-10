@@ -19,6 +19,8 @@ public class CharacterSelectPanel extends JPanel {
     private JButton catB = new JButton ("Available");
     private JButton frogB = new JButton ("Available");
     private ArrayList<Boolean> available= new ArrayList<Boolean>();
+    private JButton done = new JButton ("Done");
+    private boolean isSelected = false;
     public CharacterSelectPanel(JFrame frame) {
         setSize(1920, 1010);
         setLayout(null);
@@ -63,6 +65,7 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(0,true);
 
                 selected.setText("Your Character is Cat");
+                isSelected = true;
                 System.out.println("Selected: Cat");
             } else {
                 catB.setText("Available");
@@ -81,6 +84,7 @@ public class CharacterSelectPanel extends JPanel {
                 indianWomanB.setForeground(Color.WHITE);
                 available.set(1,true);
                 selected.setText("Your Character is Woman");
+                isSelected = true;
 
                 System.out.println("Selected: frogB");
             } else {
@@ -100,6 +104,7 @@ public class CharacterSelectPanel extends JPanel {
                 whiteB.setForeground(Color.WHITE);
                 available.set(2,true);
                 selected.setText("Your Character is White Boy");
+                isSelected = true;
 
 
                 System.out.println("Selected: whiteB");
@@ -120,6 +125,7 @@ public class CharacterSelectPanel extends JPanel {
                 frogB.setForeground(Color.WHITE);
                 available.set(3,true);
                 selected.setText("Your Character is Froggy");
+                isSelected = true;
 
                 System.out.println("Selected: frogB");
             } else {
@@ -139,6 +145,7 @@ public class CharacterSelectPanel extends JPanel {
                 gandalfB.setForeground(Color.WHITE);
                 available.set(3,true);
                 selected.setText("Your Character is Gandalf");
+                isSelected = true;
 
                 System.out.println("Selected: gandalfB");
             } else {
@@ -149,6 +156,16 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(4,false);
             }
             System.out.println(available.toString());
+        });
+        done.setBounds(1770, 900, 100, 60);
+        done.addActionListener(e -> {
+            if(isSelected) {
+                frame.setContentPane(new GamePanel(frame));
+                frame.revalidate();
+            } else{
+                selected.setText("You need to select a character.");
+            }
+
         });
 
 
@@ -170,6 +187,7 @@ public class CharacterSelectPanel extends JPanel {
         add(frogB);
         add(whiteB);
         add(catB);
+        add(done);
         setVisible(true);
     }
 
