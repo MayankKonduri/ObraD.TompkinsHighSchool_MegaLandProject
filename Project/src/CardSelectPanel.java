@@ -187,6 +187,7 @@ public class CardSelectPanel extends JPanel {
                 switch(buttonRandom) {
                     case 12:
                         select12.setText("Selected");
+                        select12.setBackground(Color.black);
                         break;
                     case 13:
                         select13.setText("Selected");
@@ -284,6 +285,8 @@ public class CardSelectPanel extends JPanel {
             buildingsSelect.set(buttonNumber-12,true);
             System.out.println("Selected: " + selectionCount + pressed);
             buildingLabel.setText("You have selected " + selectionCount + "/7 buildings");
+            button.setBackground(Color.black);
+            button.setForeground(Color.WHITE);
         } else {
             button.setText("Select");
             selectionCount--;
@@ -293,6 +296,8 @@ public class CardSelectPanel extends JPanel {
             buildingsSelect.set(buttonNumber-12,false);
             System.out.println("Unselected: " + selectionCount + pressed);
             buildingLabel.setText("You have selected " + selectionCount + "/7 buildings");
+            button.setBackground(null);
+            button.setForeground(null);
         }
         System.out.println("Final: " + buildingsSelect.toString());
     }

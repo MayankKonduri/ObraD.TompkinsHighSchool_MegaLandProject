@@ -171,16 +171,18 @@ public class HostPanel extends JPanel {
         startHostingButton.setEnabled(false);
         startHostingButton.addActionListener(e -> {
             System.out.println("Hosting Started!");
-            frame.setContentPane(new CardSelectPanel(frame));
-            frame.revalidate();
+//            frame.setContentPane(new CardSelectPanel(frame));
+//            frame.revalidate();
         });
         add(startHostingButton);
 
         startButton.setBounds(500,950,200,30);
         startButton.setFont(new Font("Georgia",Font.BOLD,15));
-        startButton.setEnabled(false);
+        startButton.setEnabled(true);//mayank fix this
         startButton.addActionListener(e -> {
             System.out.println("Game Has Started!!!");
+            frame.setContentPane(new CardSelectPanel(frame));
+            frame.revalidate();
 
         });
         add(startButton);
@@ -214,7 +216,8 @@ public class HostPanel extends JPanel {
 
     public void updateStartButtonState(){
         int numberOfPeople = getNumberOfPeopleInGame();
-        startButton.setEnabled(numberOfPeople == selectedNumberOfPlayers[0]);
+        //startButton.setEnabled(numberOfPeople == selectedNumberOfPlayers[0]);
+        //////mayank fix this bruh
     }
 
     public int getNumberOfPeopleInGame(){
