@@ -80,10 +80,12 @@ public class CardSelectPanel extends JPanel {
                 frame.setContentPane(new CharacterSelectPanel(frame));
                 frame.revalidate();
             } else if(selectionCount<7){
+                error.setVisible(true);
                 int needed = 7 - selectionCount;
                 error.setText("You need to select " + needed + " more.");
 
             } else {
+                error.setVisible(true);
                 int neededG = selectionCount -7;
                 error.setText("You need to deselect " + neededG + ".");
             }
@@ -162,12 +164,13 @@ public class CardSelectPanel extends JPanel {
         buildingLabel.setBounds(630, 920, 800, 80);
         buildingLabel.setFont(new Font("Georgia", Font.BOLD, 40));
         error.setBounds(730, 890, 500, 40);
-        error.setFont(new Font("georgia", Font.BOLD, 35));
+        error.setFont(new Font("Georgia", Font.BOLD, 35));
         randomLabel.setBounds(610, 770, 800, 60);
         randomLabel.setFont(new Font("Georgia", Font.BOLD, 40));
         random.setBounds(910,840 , 100, 40);
         random.addActionListener(e -> {
             reset();
+            error.setVisible(false);
             //buttonsEnabled();
             buildingsSelect.clear();
             for(int i = 0; i <17; i++) {
@@ -187,55 +190,71 @@ public class CardSelectPanel extends JPanel {
                 switch(buttonRandom) {
                     case 12:
                         select12.setText("Selected");
-                        select12.setBackground(Color.black);
+                        randomSelectedColor(select12);
                         break;
                     case 13:
                         select13.setText("Selected");
+                        randomSelectedColor(select13);
                         break;
                     case 14:
                         select14.setText("Selected");
+                        randomSelectedColor(select14);
                         break;
                     case 15:
                         select15.setText("Selected");
+                        randomSelectedColor(select15);
                         break;
                     case 16:
                         select16.setText("Selected");
+                        randomSelectedColor(select16);
                         break;
                     case 17:
                         select17.setText("Selected");
+                        randomSelectedColor(select17);
                         break;
                     case 18:
                         select18.setText("Selected");
+                        randomSelectedColor(select18);
                         break;
                     case 19:
                         select19.setText("Selected");
+                        randomSelectedColor(select19);
                         break;
                     case 20:
                         select20.setText("Selected");
+                        randomSelectedColor(select20);
                         break;
                     case 21:
                         select21.setText("Selected");
+                        randomSelectedColor(select21);
                         break;
                     case 22:
                         select22.setText("Selected");
+                        randomSelectedColor(select22);
                         break;
                     case 23:
                         select23.setText("Selected");
+                        randomSelectedColor(select23);
                         break;
                     case 24:
                         select24.setText("Selected");
+                        randomSelectedColor(select24);
                         break;
                     case 25:
                         select25.setText("Selected");
+                        randomSelectedColor(select25);
                         break;
                     case 26:
                         select26.setText("Selected");
+                        randomSelectedColor(select26);
                         break;
                     case 27:
                         select27.setText("Selected");
+                        randomSelectedColor(select27);
                         break;
                     case 28:
                         select28.setText("Selected");
+                        randomSelectedColor(select28);
                         break;
                     default:
                         break;
@@ -271,6 +290,11 @@ public class CardSelectPanel extends JPanel {
         add(randomLabel);
         add(error);
         setVisible(true);
+    }
+
+    public void randomSelectedColor(JButton button) {
+        button.setForeground(Color.WHITE);
+        button.setBackground(Color.BLACK);
     }
 
     public void buildingsSelected(JButton button){
@@ -361,6 +385,42 @@ public class CardSelectPanel extends JPanel {
         select26.setText("Select");
         select27.setText("Select");
         select28.setText("Select");
+
+        select12.setBackground(null);
+        select12.setForeground(null);
+        select13.setBackground(null);
+        select13.setForeground(null);
+        select14.setBackground(null);
+        select14.setForeground(null);
+        select15.setBackground(null);
+        select15.setForeground(null);
+        select16.setBackground(null);
+        select16.setForeground(null);
+        select17.setBackground(null);
+        select17.setForeground(null);
+        select18.setBackground(null);
+        select18.setForeground(null);
+        select19.setBackground(null);
+        select19.setForeground(null);
+        select20.setBackground(null);
+        select20.setForeground(null);
+        select21.setBackground(null);
+        select21.setForeground(null);
+        select22.setBackground(null);
+        select22.setForeground(null);
+        select23.setBackground(null);
+        select23.setForeground(null);
+        select24.setBackground(null);
+        select24.setForeground(null);
+        select25.setBackground(null);
+        select25.setForeground(null);
+        select26.setBackground(null);
+        select26.setForeground(null);
+        select27.setBackground(null);
+        select27.setForeground(null);
+        select28.setBackground(null);
+        select28.setForeground(null);
+
     }
     public void buttonsEnabled() {
         select12.setEnabled(false);
