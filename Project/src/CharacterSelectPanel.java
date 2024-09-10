@@ -34,11 +34,13 @@ public class CharacterSelectPanel extends JPanel {
         }
         title.setBounds(610, 50, 700,75);
         title.setFont(new Font("Times New Roman", Font.BOLD, 50));
-        catB.setBounds(65, 300, 700,75);
-        indianWomanB.setBounds(475, 300, 700,75);
-        whiteB.setBounds(785, 300, 700,75);
-        frogB.setBounds(1145, 300, 700,75);
-        gandalfB.setBounds(1505, 300, 700,75);
+
+
+        catB.setBounds(245, 600, 180, 30);
+        indianWomanB.setBounds(605, 600, 180, 30);
+        whiteB.setBounds(965, 600, 180, 30);
+        frogB.setBounds(1325, 600, 180, 30);
+        gandalfB.setBounds(1685, 600, 180, 30);
 
 
 
@@ -50,7 +52,7 @@ public class CharacterSelectPanel extends JPanel {
         g.drawImage(cat, 65, 250, 360, 540, null);
         g.drawImage(indianWoman, 425, 250, 360, 540, null);
         g.drawImage(white, 785, 250, 360, 540, null);
-        g.drawImage(frog, 1145, 250, 360, 540, null);
+        g.drawImage(frog, 1325, 250, 360, 540, null);
         g.drawImage(gandalf, 1505, 250, 360, 540, null);
 
 
