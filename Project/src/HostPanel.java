@@ -37,6 +37,7 @@ public class HostPanel extends JPanel {
     private JTextArea peopleListArea = new JTextArea();
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);
     private JPanel peoplePanel = new JPanel();
+    ArrayList<Player> playerInfo = new ArrayList<>();
 
 
     public HostPanel(JFrame frame) {
@@ -115,7 +116,7 @@ public class HostPanel extends JPanel {
                 setPlayerButtonsEnabled(false);
                 peoplePanel.setVisible(true);
                 updatePeopleList(new String[]{hostName});
-                playerInfo.add(new Player(01, hostName, false, 0, 4, 0, true, false));
+                playerInfo.add(new Player(1, hostName, false, 0, 4, 0, true, false));
                 System.out.println("Host: " + playerInfo.get(0).getPlayerName());
                 startButton.setVisible(true);
                 updateStartButtonState();

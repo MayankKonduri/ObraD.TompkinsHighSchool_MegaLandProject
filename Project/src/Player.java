@@ -11,7 +11,7 @@ public class Player{
     public int playerJumps;
     public boolean isPlayerActive;
     public boolean canDrawLevel;
-    public ArrayList<Player> names = new ArrayList<>();
+    public ArrayList<Player> allPlayers = new ArrayList<>();
 //    public ArrayList<TreasureCards> playerOwnedTreasureCards;
 //    public ArrayList<BuildingCards> playerOwnedBuildingCards;
     public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel) {
@@ -88,6 +88,6 @@ public class Player{
     }
 
     public ArrayList<Player> getNames() {
-        return names;
+        return allPlayers;
     }
 }
