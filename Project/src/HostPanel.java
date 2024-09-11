@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class HostPanel extends JPanel {
 
@@ -30,12 +31,13 @@ public class HostPanel extends JPanel {
     private boolean settingsConfirmed = false;
     private BufferedImage loading;
     private String ipAddress;
-    private String hostName;
+    public String hostName;
     private final int[] selectedNumberOfPlayers = {2};
     private JLabel peopleInGameLabel = new JLabel("People in Game Server: ");
     private JTextArea peopleListArea = new JTextArea();
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);
     private JPanel peoplePanel = new JPanel();
+
 
     public HostPanel(JFrame frame) {
         hostName="";
@@ -113,6 +115,8 @@ public class HostPanel extends JPanel {
                 setPlayerButtonsEnabled(false);
                 peoplePanel.setVisible(true);
                 updatePeopleList(new String[]{hostName});
+                playerInfo.add(new Player(01, hostName, false, 0, 4, 0, true, false));
+                System.out.println("Host: " + playerInfo.get(0).getPlayerName());
                 startButton.setVisible(true);
                 updateStartButtonState();
                 startHostingButton.setEnabled(true);
