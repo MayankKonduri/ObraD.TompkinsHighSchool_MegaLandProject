@@ -73,6 +73,8 @@ public class CharacterSelectPanel extends JPanel {
                 catB.setBackground(null);
                 catB.setForeground(null);
                 available.set(0,false);
+                isSelected = false;
+                selected.setText("You need to select a character.");
             }
             System.out.println(available.toString());
         });
@@ -93,6 +95,8 @@ public class CharacterSelectPanel extends JPanel {
                 indianWomanB.setBackground(null);
                 indianWomanB.setForeground(null);
                 available.set(1,false);
+                isSelected = false;
+                selected.setText("You need to select a character.");
             }
             System.out.println(available.toString());
         });
@@ -114,6 +118,8 @@ public class CharacterSelectPanel extends JPanel {
                 whiteB.setBackground(null);
                 whiteB.setForeground(null);
                 available.set(2,false);
+                isSelected = false;
+                selected.setText("You need to select a character.");
             }
             System.out.println(available.toString());
         });
@@ -134,6 +140,8 @@ public class CharacterSelectPanel extends JPanel {
                 frogB.setBackground(null);
                 frogB.setForeground(null);
                 available.set(3,false);
+                isSelected = false;
+                selected.setText("You need to select a character.");
             }
             System.out.println(available.toString());
         });
@@ -154,6 +162,8 @@ public class CharacterSelectPanel extends JPanel {
                 gandalfB.setBackground(null);
                 gandalfB.setForeground(null);
                 available.set(4,false);
+                isSelected = false;
+                selected.setText("You need to select a character.");
             }
             System.out.println(available.toString());
         });

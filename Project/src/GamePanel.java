@@ -10,8 +10,17 @@ import java.lang.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
+    private JLabel title = new JLabel ("Please select 7 cards.");
     public GamePanel(JFrame frame) {
         setSize(1920, 1010);
         setLayout(null);
+
+
+        title.setBounds(700, 1, 1920, 1010);
+        title.setText("Welcome to the Game!");
+        title.setFont(new Font("Georgia", Font.BOLD, 40));
+
+        add(title);
+        setVisible(true);
     }
 }
