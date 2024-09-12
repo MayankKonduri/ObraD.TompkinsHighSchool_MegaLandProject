@@ -12,8 +12,9 @@ import java.io.File;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class HostPanel extends JPanel {
+public class HostPanel extends JPanel implements ClientUpdateListener{
 
     private JLabel hostSettingsLabel = new JLabel("Hosting Settings:");
     private JLabel nameLabel = new JLabel("Name: ");
@@ -37,7 +38,12 @@ public class HostPanel extends JPanel {
     private JTextArea peopleListArea = new JTextArea();
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);
     private JPanel peoplePanel = new JPanel();
-    ArrayList<Player> playerInfo = new ArrayList<>();
+    ArrayList<Player> playerInfo = new ArrayList<>(); //Ayan Code Implement
+    private ServerSocket serverSocket;
+    private final List<ClientHandler> clientHandler = new ArrayList<ClientHandler>();
+    private ArrayList<String> playerNames = new ArrayList<>();
+    private ServerListener serverListener;
+
 
 
     public HostPanel(JFrame frame) {
@@ -93,18 +99,18 @@ public class HostPanel extends JPanel {
         confirmSettings.addActionListener(e -> {
             if (settingsConfirmed) {
                 nameTextField.setEnabled(true);
-                confirmSettings.setText("Confirm Settings");
-                ipLabel.setVisible(true);
-                ipPlaceHolderLabel.setVisible(true);
-                ipPlaceHolderLabel.setText("Waiting for game settings...");
-                changeSettings.setVisible(false);
-                setPlayerButtonsEnabled(true);
-                if(!hostName.isEmpty()){
-                    updatePeopleList(new String[]{hostName});
-                }
-                clearPeopleList();
                 startButton.setVisible(true);
                 startHostingButton.setEnabled(false);
+                confirmSettings.setText("Confirm Settings");
+                ipLabel.setVisible(false);
+                ipPlaceHolderLabel.setVisible(false);
+                changeSettings.setVisible(false);
+                setPlayerButtonsEnabled(true);
+                peoplePanel.setVisible(true);
+                stopHosting();
+                resetStartHostingButton();
+                clearPeopleList();
+                notifyClientsOfDisconnection();
             } else {
                 hostName = nameTextField.getText();
                 nameTextField.setEnabled(false);
@@ -115,9 +121,6 @@ public class HostPanel extends JPanel {
                 changeSettings.setVisible(true);
                 setPlayerButtonsEnabled(false);
                 peoplePanel.setVisible(true);
-                updatePeopleList(new String[]{hostName});
-                playerInfo.add(new Player(1, hostName, false, 0, 4, 0, true, false));
-                System.out.println("Host: " + playerInfo.get(0).getPlayerName());
                 startButton.setVisible(true);
                 updateStartButtonState();
                 startHostingButton.setEnabled(true);
@@ -175,15 +178,20 @@ public class HostPanel extends JPanel {
         startHostingButton.setFont(new Font("Georgia", Font.BOLD,15));
         startHostingButton.setEnabled(false);
         startHostingButton.addActionListener(e -> {
-            System.out.println("Hosting Started!");
-//            frame.setContentPane(new CardSelectPanel(frame));
-//            frame.revalidate();
+            startHostingButton.setEnabled(false);
+            startHostingButton.setBackground(Color.LIGHT_GRAY);
+            startHostingButton.setForeground(Color.WHITE);
+            startHostingButton.setText("Hosting in Progress");
+            startHostingServer();
+            updatePeopleList();
+            System.out.print("TEST1: " + serverListener.getClientHandlers());
+            //System.out.println("Hosting Started!");
         });
         add(startHostingButton);
 
         startButton.setBounds(500,950,200,30);
         startButton.setFont(new Font("Georgia",Font.BOLD,15));
-        startButton.setEnabled(true);//mayank fix this
+        startButton.setEnabled(false);//mayank fix this
         startButton.addActionListener(e -> {
             System.out.println("Game Has Started!!!");
             frame.setContentPane(new CardSelectPanel(frame));
@@ -213,6 +221,13 @@ public class HostPanel extends JPanel {
         }
     }
 
+    public void onClientAdded(ClientHandler clientHandler){
+        updatePeopleList();
+    }
+    public void onClientRemoved(ClientHandler clientHandler){
+        updatePeopleList();
+    }
+
     public void updateConfirmSettingsButtonState(){
         boolean isNameValid = !nameTextField.getText().trim().isEmpty();
         boolean isPlayerSelected = playerGroup.getSelection() != null;
@@ -221,28 +236,103 @@ public class HostPanel extends JPanel {
 
     public void updateStartButtonState(){
         int numberOfPeople = getNumberOfPeopleInGame();
-        //startButton.setEnabled(numberOfPeople == selectedNumberOfPlayers[0]);
-        //////mayank fix this bruh
+        startButton.setEnabled(numberOfPeople == selectedNumberOfPlayers[0]);
+        System.out.print(selectedNumberOfPlayers[0]  + "Selected Number of People");
+        System.out.print(numberOfPeople + "Number of People");
     }
 
     public int getNumberOfPeopleInGame(){
-        String[] peopleList = peopleListArea.getText().split("\n");
-        return peopleList.length;
+        return playerNames.size();
     }
 
-    public void updatePeopleList(String[] people) {
-        StringBuilder sb = new StringBuilder();
-        for (String person : people) {
-            if(person.equals(hostName)){
-                sb.append(person).append(" (Host)").append("\n");
-            } else{
-                sb.append(person).append("\n");
-            }
+    public synchronized void updatePeopleList() {
+        if (serverListener == null) {
+            System.out.print("ServerListener is not Initialized");
         }
-        peopleListArea.setText(sb.toString());
+
+        if(playerNames == null)
+        {
+            playerNames = new ArrayList<>();
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(hostName).append(" (Host)").append("\n");
+        for (ClientHandler handler : serverListener.getClientHandlers()) {
+            sb.append(handler.getName()).append(" (Player)").append("\n");
+        }
+        String playerList = sb.toString();
+        peopleListArea.setText(playerList);
+        sendPlayerListToClients();
+        printPlayerList();
+        playerNames.clear();
+        playerNames.add(hostName);
+        for(ClientHandler handler : serverListener.getClientHandlers()){
+            playerNames.add(handler.getName());
+        }
+        System.out.print(playerNames);
+        updateStartButtonState();
     }
 
     public void clearPeopleList(){
         peopleListArea.setText("");
     }
+
+    public void startHostingServer(){
+        if(serverListener == null){
+            serverListener = new ServerListener(12345);
+            serverListener.setClientUpdateListener(this);
+            serverListener.start();
+            System.out.println("Hosting Started");
+        }
+    }
+    private synchronized void printPlayerList(){
+        System.out.println("People Currently in the Game:");
+        System.out.println(hostName + " (Host)");
+        for(ClientHandler handler : serverListener.getClientHandlers()){
+            System.out.println(handler.getName() + " (Player)");
+        }
+    }
+    private synchronized void removeClient(ClientHandler clientHandler){
+        serverListener.removeClient(clientHandler);
+    }
+    public synchronized void stopHosting(){
+        serverListener.stop();
+        System.out.print("Hosting Stopped!");
+    }
+
+    public String generatePlayerList(){
+        StringBuilder sb = new StringBuilder();
+        if(playerNames != null && !playerNames.isEmpty()) {
+            sb.append(playerNames.get(0)).append(" (Host)").append("\n");
+            for (int i=1; i<playerNames.size();i++) {
+                sb.append(playerNames.get(i)).append(" (Player)").append("\n");
+            }
+        }
+        String playerList = sb.toString();
+        return playerList;
+    }
+    public void sendPlayerListToClients() {
+        if(serverListener == null) return;
+        for(ClientHandler handler : serverListener.getClientHandlers()){
+            String playerList = generatePlayerList();
+            handler.getOut().println("UPDATE_PLAYERS\n" + playerList);
+        }
+    }
+
+    private void notifyClientsOfDisconnection(){
+        for(ClientHandler handler: serverListener.getClientHandlers()){
+            handler.getOut().println("HOST_DISCONNECTED");
+        }
+    }
+
+    private void resetStartHostingButton(){
+        startHostingButton.setEnabled(false);
+        startHostingButton.setForeground(new JButton().getForeground());
+        startHostingButton.setBackground(new JButton().getBackground());
+        startHostingButton.setText("Start Hosting!");
+    }
+    public ArrayList<String> getPlayerList(){
+        return playerNames;
+    }
+
 }

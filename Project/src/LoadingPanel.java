@@ -15,7 +15,6 @@ public class LoadingPanel extends JPanel {
     private JButton rulesButton = new JButton("Rules");
     private BufferedImage loading;
     private BufferedImage buffer;
-    private JLabel welcome = new JLabel ("Welcome to Megaland!");
 
 
     public LoadingPanel(JFrame frame) {
@@ -30,11 +29,9 @@ public class LoadingPanel extends JPanel {
             ah.printStackTrace();
             System.out.println("Error Loading Images: " + ah.getMessage());
         }
-        hostButton.setBounds(350, 600, 225, 75);
-        connectButton.setBounds(350, 700, 225, 75);
-        rulesButton.setBounds(350, 800, 225, 75);
-        welcome.setBounds(250, 500, 600, 75);
-        welcome.setFont(new Font ("Georgia", Font.BOLD, 40));
+        hostButton.setBounds(400, 550, 225, 75);
+        connectButton.setBounds(400, 650, 225, 75);
+        rulesButton.setBounds(400, 750, 225, 75);
 
         hostButton.setOpaque(false);
         connectButton.setOpaque(false);
@@ -69,12 +66,11 @@ public class LoadingPanel extends JPanel {
 
         add(hostButton);
         add(connectButton);
-        add(welcome);
         add(rulesButton);
         setVisible(true);
     }
 
-//    public void paint(Graphics g) {
+    //    public void paint(Graphics g) {
 //        Graphics bg = buffer.getGraphics();
 //        bg.setColor(Color.red);
 //        bg.drawImage(loading, 0, 0, 1920, 1040, null);
@@ -83,7 +79,7 @@ public class LoadingPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        Graphics bg = buffer.getGraphics();
-        g.drawImage(loading, 0, 0, 1920, 1010, null);
+        g.drawImage(loading, 0, 0, 1920, 1050, null);
 //        g.drawImage(buffer, 0, 0, null);
     }
 

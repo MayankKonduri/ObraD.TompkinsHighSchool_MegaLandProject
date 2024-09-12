@@ -1,57 +1,17 @@
 package Project.src;
 
-import java.net.*;
-import java.io.*;
+import javax.swing.JFrame;
 
-public class ServerMain
-{
-    private Socket          socket   = null;
-    private ServerSocket    server   = null;
-    private DataInputStream in       =  null;
+public class ServerMain{
+    public static void main(String[] args){
+        /*JFrame frame = new JFrame("Host");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1920,1040);
+        frame.setContentPane(new HostPanel(frame));
+        frame.setVisible(true);*/
+        int port = 12345;
+        ServerListener serverListener = new ServerListener(port);
+        serverListener.start();
 
-    // constructor with port
-    public ServerMain(int port)
-    {
-        try
-        {
-            server = new ServerSocket(port);
-            System.out.println("Server started");
-
-            System.out.println("Waiting for a client ...");
-
-            socket = server.accept();
-            System.out.println("Client accepted");
-
-            in = new DataInputStream(
-                    new BufferedInputStream(socket.getInputStream()));
-
-            String line = "";
-
-            while (!line.equals("Over"))
-            {
-                try
-                {
-                    line = in.readUTF();
-                    System.out.println(line);
-
-                }
-                catch(IOException i)
-                {
-                    System.out.println(i);
-                }
-            }
-            System.out.println("Closing connection");// close connection
-            socket.close();
-            in.close();
-        }
-        catch(IOException i)
-        {
-            System.out.println(i);
-        }
-    }
-
-    public static void main(String args[])
-    {
-        ServerMain server = new ServerMain(5000);
     }
 }
