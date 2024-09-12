@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 public class CommandFromServer implements Serializable
 {
+    public static final int JOIN = 0;
     private int command;
     private String data ="";
 

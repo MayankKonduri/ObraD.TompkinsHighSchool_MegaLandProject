@@ -38,9 +38,10 @@ public class HostPanel extends JPanel {
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);
     private JPanel peoplePanel = new JPanel();
     ArrayList<Player> playerInfo = new ArrayList<>();
+    ObjectOutputStream os;
 
 
-    public HostPanel(JFrame frame) {
+    public HostPanel(JFrame frame, ObjectOutputStream os) {
         hostName="";
         setSize(1920, 1040);
         setLayout(null);
@@ -195,7 +196,7 @@ public class HostPanel extends JPanel {
         homeButton.setBounds(10, 10, 100, 30);
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
         homeButton.addActionListener(e -> {
-            frame.setContentPane(new LoadingPanel(frame));
+            frame.setContentPane(new LoadingPanel(frame, os));
             frame.revalidate();
         });
         add(homeButton);

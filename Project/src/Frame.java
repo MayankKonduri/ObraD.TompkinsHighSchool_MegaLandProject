@@ -12,7 +12,7 @@ public class Frame extends JFrame {
         setResizable(true);
         pack();
 
-        LoadingPanel l = new LoadingPanel(this);
+        LoadingPanel l = new LoadingPanel(this, os);
         setPreferredSize(new Dimension(l.getWidth(), l.getHeight()));
 
         setLayout(null);
