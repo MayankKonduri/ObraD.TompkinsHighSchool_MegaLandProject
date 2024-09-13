@@ -1,4 +1,4 @@
-package Project.src.Images;
+package Project.src;
 
 import javax.swing.*;
 import java.awt.*;
