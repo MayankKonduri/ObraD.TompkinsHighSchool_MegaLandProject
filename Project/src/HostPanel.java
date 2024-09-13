@@ -194,6 +194,11 @@ public class HostPanel extends JPanel implements ClientUpdateListener{
         startButton.setEnabled(false);//mayank fix this
         startButton.addActionListener(e -> {
             System.out.println("Game Has Started!!!");
+
+            for(ClientHandler clientHandler : serverListener.getClientHandlers()){
+                clientHandler.getOut().println("GAME STARTED");
+            }
+
             frame.setContentPane(new CardSelectPanel(frame));
             frame.revalidate();
 
