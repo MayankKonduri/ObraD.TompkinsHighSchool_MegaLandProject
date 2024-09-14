@@ -6,9 +6,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.*;
-import java.net.*;
-import java.nio.Buffer;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class ConnectPanel extends JPanel{
     private BufferedImage loading;
@@ -20,8 +19,10 @@ public class ConnectPanel extends JPanel{
     private JButton confirmButton = new JButton("Connect to Live Game!");
     private JButton homeButton = new JButton("Home");
     private boolean isConnecting = false;
+    ObjectOutputStream os;
 
-    public ConnectPanel(JFrame frame){
+    public ConnectPanel(JFrame frame, ObjectOutputStream os){
+        this.os = os;
         setSize(1920, 1040);
         setLayout(null);
         try {
@@ -90,11 +91,29 @@ public class ConnectPanel extends JPanel{
             if(isConnecting){
                 String clientName = nameTextField.getText();
                 String ipAddress = ipTextField.getText();
+                String data = clientName + "+" + ipAddress;
                 System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
+                try {
+                    os.writeObject(new CommandFromClient(CommandFromClient.CONNECT, "" + data));
+                    System.out.println("Connection sent");
+
+                }
+                catch (IOException except) {
+                    throw new RuntimeException(except);
+                }
             } else{
                 ipTextField.setVisible(true);
                 confirmButton.setText("Connect to Live Game!");
                 isConnecting = true;
+                String clientName = nameTextField.getText();
+                String ipAddress = ipTextField.getText();
+                String data = clientName + "+" + ipAddress;
+                try {
+                    os.writeObject(new CommandFromClient(CommandFromClient.CONNECT, "" + data));
+                }
+                catch (IOException except) {
+                    throw new RuntimeException(except);
+                }
             }
             updateConfirmButtonState();
         });
@@ -103,7 +122,7 @@ public class ConnectPanel extends JPanel{
         homeButton.setBounds(10, 10, 100, 30);
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
         homeButton.addActionListener(e -> {
-            frame.setContentPane(new LoadingPanel(frame));
+            frame.setContentPane(new LoadingPanel(frame, os));
             frame.revalidate();
         });
         add(homeButton);

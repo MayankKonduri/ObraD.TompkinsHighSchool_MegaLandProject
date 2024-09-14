@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.ObjectOutputStream;
 
 
 public class LoadingPanel extends JPanel {
@@ -16,9 +17,11 @@ public class LoadingPanel extends JPanel {
     private BufferedImage loading;
     private BufferedImage buffer;
     private JLabel welcome = new JLabel ("Welcome to Megaland!");
+    ObjectOutputStream os;
 
 
-    public LoadingPanel(JFrame frame) {
+    public <os> LoadingPanel(JFrame frame, ObjectOutputStream os) {
+        this.os = this.os;
         setSize(1920, 1040);
         setLayout(null);
 
@@ -48,21 +51,21 @@ public class LoadingPanel extends JPanel {
         hostButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setContentPane(new HostPanel(frame));
+                frame.setContentPane(new HostPanel(frame, os));
                 frame.revalidate();
             }
         });
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setContentPane(new ConnectPanel(frame));
+                frame.setContentPane(new ConnectPanel(frame, os));
                 frame.revalidate();
             }
         });
         rulesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setContentPane(new RulesPanel(frame));
+                frame.setContentPane(new RulesPanel(frame, os));
                 frame.revalidate();
             }
         });

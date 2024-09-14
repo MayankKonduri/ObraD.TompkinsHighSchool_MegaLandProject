@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.ObjectOutputStream;
 
 
 public class RulesPanel extends JPanel{
@@ -13,11 +14,13 @@ public class RulesPanel extends JPanel{
     private JButton homeButton = new JButton("Home");
     public int pageCount1 = 0;
     public int pageCount = 0;
+    ObjectOutputStream os;
 
 
 
 
-    public RulesPanel(JFrame frame) {
+    public RulesPanel(JFrame frame, ObjectOutputStream os) {
+        this.os = os;
         setSize(1920, 1010);
         setLayout(null);
 
@@ -61,7 +64,7 @@ public class RulesPanel extends JPanel{
         });
 
         homeButton.addActionListener(e -> {
-            frame.setContentPane(new LoadingPanel(frame));
+            frame.setContentPane(new LoadingPanel(frame, os));
             frame.revalidate();
         });
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));

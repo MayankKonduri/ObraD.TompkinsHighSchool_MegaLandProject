@@ -4,14 +4,12 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.io.ObjectOutputStream;
 
 public class HostPanel extends JPanel {
 
@@ -34,14 +32,17 @@ public class HostPanel extends JPanel {
     public String hostName;
     private final int[] selectedNumberOfPlayers = {2};
     private JLabel peopleInGameLabel = new JLabel("People in Game Server: ");
-    private JTextArea peopleListArea = new JTextArea();
+    public static JTextArea peopleListArea = new JTextArea();
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);
     private JPanel peoplePanel = new JPanel();
+    public static JLabel test = new JLabel();
     ArrayList<Player> playerInfo = new ArrayList<>();
+    ObjectOutputStream os;
 
 
-    public HostPanel(JFrame frame) {
+    public HostPanel(JFrame frame, ObjectOutputStream os) {
         hostName="";
+        this.os = os;
         setSize(1920, 1040);
         setLayout(null);
 
@@ -176,6 +177,11 @@ public class HostPanel extends JPanel {
         startHostingButton.setEnabled(false);
         startHostingButton.addActionListener(e -> {
             System.out.println("Hosting Started!");
+            try {
+                os.writeObject(new CommandFromClient(CommandFromClient.START_HOSTING, "" + ipAddress));
+            }catch (IOException except) {
+                throw new RuntimeException(except);
+            }
 //            frame.setContentPane(new CardSelectPanel(frame));
 //            frame.revalidate();
         });
@@ -195,10 +201,13 @@ public class HostPanel extends JPanel {
         homeButton.setBounds(10, 10, 100, 30);
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
         homeButton.addActionListener(e -> {
-            frame.setContentPane(new LoadingPanel(frame));
+            frame.setContentPane(new LoadingPanel(frame, os));
             frame.revalidate();
         });
         add(homeButton);
+
+        test.setBounds(100, 100, 800, 50);
+        add(test);
 
         setVisible(true);
     }
@@ -240,6 +249,16 @@ public class HostPanel extends JPanel {
             }
         }
         peopleListArea.setText(sb.toString());
+    }
+
+    public void updatePeopleListString(String name) {
+        System.out.println("Received Command = person joined is " + name);
+        String snew = peopleListArea.getText();
+        snew = snew + name;
+        System.out.println("People Joined: " + snew);
+        peopleListArea.setText(snew);
+        revalidate();
+        repaint();
     }
 
     public void clearPeopleList(){

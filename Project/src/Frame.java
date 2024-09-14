@@ -6,13 +6,14 @@ import java.io.ObjectOutputStream;
 public class Frame extends JFrame {
 
     ObjectOutputStream os;
-    public Frame() {
-        super("MegaLand");
+    public Frame(ObjectOutputStream os) {
+        this.os = os;
+//        super("MegaLand");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(true);
         pack();
 
-        LoadingPanel l = new LoadingPanel(this);
+        LoadingPanel l = new LoadingPanel(this, os);
         setPreferredSize(new Dimension(l.getWidth(), l.getHeight()));
 
         setLayout(null);
