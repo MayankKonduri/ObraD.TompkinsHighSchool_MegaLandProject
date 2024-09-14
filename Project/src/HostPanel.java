@@ -199,7 +199,7 @@ public class HostPanel extends JPanel{
             serverMain.broadcastMessage(1, nameTextField.getText());
             //commandFromServer.notify_START_GAME(serverMain.getOut(), nameTextField.getText());
             System.out.println("Game Has Started!!!");
-            frame.setContentPane(new CardSelectPanel(frame, serverMain));
+            frame.setContentPane(new CardSelectPanel(frame, serverMain,clientMain));
             frame.revalidate();
         });
         add(startButton);

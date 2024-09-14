@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.lang.*;
 import java.util.ArrayList;
 
@@ -23,11 +25,19 @@ public class CharacterSelectPanel extends JPanel {
     private boolean isSelected = false;
     private JFrame jFrame1;
     private ClientMain clientMain;
+    private ServerMain serverMain;
     public CharacterSelectPanel(JFrame frame, ClientMain clientMain) {
         setSize(1920, 1010);
         setLayout(null);
 
-        clientMain.setcharacterSelectPanel(this);
+        this.jFrame1 = frame;
+        this.clientMain = clientMain;
+
+        if(clientMain != null){
+            clientMain.setcharacterSelectPanel(this);
+        } else{
+            System.err.println("ClientMain is not Init.");
+        }
 
 
         for(int i=0;i<=4;i++){
@@ -223,4 +233,12 @@ public class CharacterSelectPanel extends JPanel {
         jFrame1.setContentPane(new GamePanel(jFrame1));
         jFrame1.revalidate();
     }
+    /*public void notifyCharacterSelection(String characterName){
+      if(clientMain != null){
+          try{
+              ObjectOutputStream out = clientMain.getOut();
+              serverMain.broadcastMessage(6, );
+          }
+      }
+    }*/
 }

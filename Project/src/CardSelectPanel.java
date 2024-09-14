@@ -45,10 +45,10 @@ public class CardSelectPanel extends JPanel {
     private HostPanel hostPanel;
     private ClientMain clientMain;
 
-    public CardSelectPanel(JFrame frame, ServerMain serverMain) {
+    public CardSelectPanel(JFrame frame, ServerMain serverMain, ClientMain clientMain) {
         this.serverMain = serverMain;
         this.hostPanel = new HostPanel(new JFrame());
-        //this.clientMain = ClientMain;
+        this.clientMain = clientMain;
 
         setSize(1920, 1010);
         setLayout(null);
@@ -56,7 +56,6 @@ public class CardSelectPanel extends JPanel {
         for(int i = 0; i <17; i++) {
             buildingsSelect.add(false);
         }
-        this.hostPanel = new HostPanel(new JFrame()); //new
         try {
             image12 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
             image13 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
