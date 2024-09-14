@@ -5,64 +5,59 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 public class ServerListener {
-    private ServerSocket serverSocket;
-    private final ArrayList<ClientHandler> clientHandlers = new ArrayList<ClientHandler>();
-    private int port;
-    private boolean isRunning = false;
-    private ClientUpdateListener clientUpdateListener;
-    public ServerListener(int port){
-        this.port = port;
-    }
+    private Socket clientSocket;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
-    public void setClientUpdateListener(ClientUpdateListener listener) {
-        this.clientUpdateListener = listener;
-    }
+    private ServerMain serverMain;
 
 
-    public void start(){
-        isRunning = true;
+
+    private volatile boolean isRunning = true;
+    public ServerListener(Socket clientSocket, ServerMain serverMain){
+        this.clientSocket = clientSocket;
+        this.serverMain = serverMain;
         try{
-            System.out.println("Attempting to start the server...");
-            serverSocket = new ServerSocket(port);
-            System.out.println("Server Started on Port: " + port);
-
-            new Thread(() -> {
-                System.out.println("Server thread started. Waiting for client connections...");
-                while (isRunning) {
-                    try{
-                        Socket clientSocket = serverSocket.accept();
-                        System.out.println("Client accepted: " + clientSocket.getInetAddress());
-                        handleClientConnection(clientSocket);
-                    } catch (SocketException e) {
-                        if(isRunning){e.printStackTrace();}
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            in = new ObjectInputStream(clientSocket.getInputStream());
+            out = new ObjectOutputStream(clientSocket.getOutputStream());
         } catch (IOException e){
             e.printStackTrace();
         }
     }
-    public void handleClientConnection(Socket clientSocket){
+
+
+
+
+
+
+
+    public void stopListening(){
+        isRunning = false;
         try{
-            /*String clientID = clientSocket.getInetAddress().toString();
+            if(in != null){
+                in.close();
+            }
+            if(out != null){
+                out.close();
+            }
+            if(clientSocket!=null && !clientSocket.isClosed()){
+                clientSocket.close();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    /*
+    public void handleClientConnection(Socket clientSocket){
+        try {
+            String clientID = clientSocket.getInetAddress().toString();
 
             if(clientHandlers.stream().anyMatch(handler -> handler.getClientSocket().getInetAddress().toString().equals(clientID))){
                 System.out.print("Client Already Connected: " + clientID);
                 clientSocket.close();
                 return;
-            }*/
 
-            ClientHandler clientHandler = new ClientHandler(clientSocket, this);
-            new Thread(clientHandler).start();
-            System.out.println("New client handler started for: " + clientSocket.getInetAddress());
-            //addClient(clientHandler);
-            notifyClientOfNewConnection(clientHandler);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
+        }}
     public synchronized void addClient(ClientHandler clientHandler){
         clientHandlers.add(clientHandler);
         System.out.println("Client added: " + clientHandler.getName());
@@ -106,22 +101,7 @@ public class ServerListener {
         }
     }
     public synchronized void stop(){
-        if(serverSocket != null && !serverSocket.isClosed()) {
-            try {
-                isRunning = false;
-                serverSocket.close();
-                synchronized (clientHandlers) {
-                    for (ClientHandler handler : clientHandlers) {
-                        handler.close();
-                    }
-                    clientHandlers.clear();
-                }
-                System.out.println("Server Stopped");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            notifyClientOfHostDisconnection();
-        }
+
     }
     public synchronized void notifyClientOfHostDisconnection(){
         synchronized (clientHandlers){
@@ -131,5 +111,5 @@ public class ServerListener {
         }
     }
     public ArrayList<ClientHandler> getClientHandlers(){
-        return clientHandlers;  }
+        return clientHandlers;  }*/
 }

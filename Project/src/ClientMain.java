@@ -2,6 +2,7 @@ package Project.src;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -10,10 +11,10 @@ public class ClientMain{
 
     private ConnectPanel connectPanel;
     private WaitingForHostPanel waitingForHostPanel;
+    private CharacterSelectPanel characterSelectPanel;
     private ClientListener clientListener;
     private Socket socket;
-    private String serverAddress;
-    private String clientName;
+    private ObjectOutputStream out;
 
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {
@@ -31,12 +32,20 @@ public class ClientMain{
     public ConnectPanel getConnectPanel(){
         return connectPanel;
     }
-    public WaitingForHostPanel setWaitingForHostPanel(WaitingForHostPanel waitingForHostPanel){
+    public void setWaitingForHostPanel(WaitingForHostPanel waitingForHostPanel){
         this.waitingForHostPanel = waitingForHostPanel;
     }
     public WaitingForHostPanel getWaitingForHostPanel(){
         return waitingForHostPanel;
     }
+    public void setcharacterSelectPanel(CharacterSelectPanel characterSelectPanel){
+        this.characterSelectPanel = characterSelectPanel;
+    }
+
+    public CharacterSelectPanel getCharacterSelectPanel() {
+        return characterSelectPanel;
+    }
+
     public void connectToServer(String ipAddress, String clientName){
         if(socket != null && !socket.isClosed()){
             System.out.println("Already Connected");
@@ -44,9 +53,10 @@ public class ClientMain{
         }
         try{
             socket = new Socket(ipAddress, 12345);
+            out = new ObjectOutputStream(socket.getOutputStream());
             clientListener = new ClientListener(socket, this);
             new Thread(clientListener).start();
-            CommandFromClient.sendMessage(clientName);
+            CommandFromClient.notify_CLIENT_NAME(out, clientName);
         }catch (IOException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Failed to Connect to Server", "Connection Error",JOptionPane.ERROR_MESSAGE);
