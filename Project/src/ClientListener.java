@@ -69,9 +69,6 @@ public class ClientListener implements Runnable{
             e.printStackTrace();
         }
     }
-
-    //Fix Class, then fix the rest based on what I changed...
-
     private void processMessage(String message) {
         if (message.startsWith(HOST_NAME)) {
             handleUpdatePlayers_Host(message);
@@ -119,14 +116,17 @@ public class ClientListener implements Runnable{
         cLientMain.getWaitingForHostPanel().switchToCharacterSelectPane();
         System.out.println("Host " + hostName + " Done With Cards Selection, Please Choose Character");
     }
-    public void handle_CharacterSelection(String message){
+    public String[] handle_CharacterSelection(String message){
         String playerChoosing = message.substring(CHARACTER_SELECTION.length());
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
+        return characterChosenInfo;
     }
-    public void halfway_CHARACTER_SELECTION(String message){
-        String playerName = message.substring(CHARACTER_SELECTION.length());
-        System.out.println("Player " + playerName + " Has Finalized Character");
+    public String[] halfway_CHARACTER_SELECTION(String message){
+        String finalPlayerChoosing = message.substring(DONE_WITH_CHARACTER_SELECTION.length());
+        String[] finalCharacterChosenInfo = finalPlayerChoosing.split("-");
+        System.out.println("Player " + finalCharacterChosenInfo[0] + " Has Finalized Character " + finalCharacterChosenInfo[1]);
+        return finalCharacterChosenInfo;
     }
     public void switchingToGamePanel(String message){
         cLientMain.getCharacterSelectPanel().switchToGamePanel();

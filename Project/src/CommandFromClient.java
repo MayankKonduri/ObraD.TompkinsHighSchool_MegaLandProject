@@ -13,7 +13,6 @@ public class CommandFromClient implements Serializable {
     public static void notify_CLIENT_NAME(ObjectOutputStream out, String clientName){
         sendMessage(out, CLIENT_NAME + clientName);
     }
-
     public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED:";
     public static void notify_CLIENT_DISCONNECTED(ObjectOutputStream out, String clientName) {
         sendMessage(out, CLIENT_DISCONNECTED + clientName);
@@ -23,8 +22,8 @@ public class CommandFromClient implements Serializable {
         sendMessage(out, CHARACTER_SELECTION + playerName + "-" + characterName);
     }
     public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";
-    public static void notify_DONE_WITH_CHARACTER_SELECTION(ObjectOutputStream out, String playerName) {
-        sendMessage(out, DONE_WITH_CHARACTER_SELECTION + playerName);
+    public static void notify_DONE_WITH_CHARACTER_SELECTION(ObjectOutputStream out, String playerName, String characterName) {
+        sendMessage(out, DONE_WITH_CHARACTER_SELECTION + playerName + "-" + characterName);
     }
 
     public static void sendMessage(ObjectOutputStream out, String message) {
