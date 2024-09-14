@@ -2,6 +2,7 @@ package Project.src;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,6 +16,12 @@ public class ClientMain{
     private ClientListener clientListener;
     private Socket socket;
     private ObjectOutputStream out;
+    private ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
+    private final String clientName;
+
+    public ClientMain(String clientName){
+        this.clientName = clientName;
+    }
 
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {
@@ -56,20 +63,43 @@ public class ClientMain{
             out = new ObjectOutputStream(socket.getOutputStream());
             clientListener = new ClientListener(socket, this);
             new Thread(clientListener).start();
+            gamePlayerNames_ClientSide.add(clientName);
+            connectPanel.playerListClientSide.add(clientName);
             CommandFromClient.notify_CLIENT_NAME(out, clientName);
         }catch (IOException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Failed to Connect to Server", "Connection Error",JOptionPane.ERROR_MESSAGE);
+            connectPanel.confirmButton.setEnabled(true);
+            connectPanel.confirmButton.setBackground(null);
+            connectPanel.confirmButton.setForeground(null);
         }
     }
-    public void updatePlayerList(String playerNames){
-        if(connectPanel != null){
-            connectPanel.updatePlayerList(playerNames);
+
+    public void addClientToList(String clientName) {
+        if(!gamePlayerNames_ClientSide.contains(clientName)){
+            gamePlayerNames_ClientSide.add(clientName);
         }
+        connectPanel.playerListClientSide.add(clientName);
+        connectPanel.updatePlayerList();
     }
-    public void handlePlayerLeft(String playerNames){
-        if(connectPanel != null){
-            connectPanel.handlePlayerLeft(playerNames);
-        }
+    public void removeClientFromList(String clientName) {
+        gamePlayerNames_ClientSide.remove(clientName);
+        connectPanel.playerListClientSide.remove(clientName);
+        connectPanel.updatePlayerList();
+    }
+    public ArrayList<String> getGamePlayerNames_ClientSide(){
+        return gamePlayerNames_ClientSide;
+    }
+    public ObjectOutputStream getOut(){
+        return out;
+    }
+    public Socket getSocket(){
+        return socket;
+    }
+    public void setOut(ObjectOutputStream out){
+        this.out = out;
+    }
+    public void setSocket(Socket socket){
+        this.socket = socket;
     }
 }

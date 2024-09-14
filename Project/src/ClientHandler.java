@@ -7,8 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-public class ClientHandler implements Runnable{
-    private Socket clientSocket;
+public class ClientHandler /*implements Runnable*/{
+
+    /*private Socket clientSocket;
     private String name;
     private PrintWriter out;
     private BufferedReader in;
@@ -97,5 +98,5 @@ public class ClientHandler implements Runnable{
     }
     public Socket getClientSocket(){
         return clientSocket;
-    }
+    }*/
 }

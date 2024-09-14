@@ -16,7 +16,6 @@ public class LoadingPanel extends JPanel {
     private BufferedImage loading;
     private BufferedImage buffer;
 
-
     public LoadingPanel(JFrame frame) {
         setSize(1920, 1040);
         setLayout(null);

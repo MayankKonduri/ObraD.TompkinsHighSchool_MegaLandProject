@@ -11,6 +11,7 @@ public class ClientListener implements Runnable{
     public static final String HOST_NAME = "HOST_NAME:";
     public static final String CLIENT_NAME = "CLIENT_NAME:";
     public static final String HOST_DISCONNECTED = "HOST_DISCONNECTED:";
+    public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED:";
     public static final String START_GAME = "START_GAME:";
     public static final String DONE_WITH_CARD_SELECTION = "DONE_WITH_CARD_SELECTION:";
     public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
@@ -61,11 +62,11 @@ public class ClientListener implements Runnable{
     public void run(){
         try{
             String message;
-            while((message = in.readLine()) != null) {
+            while((message = (String) in.readObject()) != null) {
                 System.out.println("Received message from server: " + message); // Debug statement
                 processMessage(message);
             }
-        }catch(IOException e){
+        }catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }
@@ -73,9 +74,11 @@ public class ClientListener implements Runnable{
         if (message.startsWith(HOST_NAME)) {
             handleUpdatePlayers_Host(message);
         }else if (message.startsWith(CLIENT_NAME)){
-            handleUpdatePlayers_Client(message);
+            handleAddition_Players_Client(message);
         }else if (message.startsWith(HOST_DISCONNECTED)) {
             handleHostLeft(message);
+        } else if (message.startsWith(CLIENT_DISCONNECTED)) {
+            handleRemoval_Players_Client(message);
         } else if(message.startsWith(START_GAME)) {
             switchingToWaitingForHostPanel(message);
         } else if(message.startsWith(DONE_WITH_CARD_SELECTION)){
@@ -93,13 +96,19 @@ public class ClientListener implements Runnable{
     }
     public void handleUpdatePlayers_Host(String message){
         String hostName = message.substring(HOST_NAME.length());
-        cLientMain.updatePlayerList(hostName);
+        //cLientMain.updatePlayerList(hostName);
+        //TO BE DECIDED ON HOW TO HANDLE THIS CONDITION
         System.out.println("New Host Joined: " + hostName);
     }
-    public void handleUpdatePlayers_Client(String message){
+    public void handleAddition_Players_Client(String message){
             String clientName = message.substring(CLIENT_NAME.length());
-            cLientMain.updatePlayerList(clientName);
+            cLientMain.addClientToList(clientName);
             System.out.println("New Client Joined: " + clientName);
+    }
+    public void handleRemoval_Players_Client(String message){
+        String clientName = message.substring(CLIENT_DISCONNECTED.length());
+        cLientMain.removeClientFromList(clientName);
+        System.out.println("New Client Joined: " + clientName);
     }
     public void handleHostLeft(String message){
         String hostName = message.substring(HOST_DISCONNECTED.length());
@@ -108,12 +117,12 @@ public class ClientListener implements Runnable{
     }
     public void switchingToWaitingForHostPanel(String message){
         String hostName = message.substring(START_GAME.length());
-        cLientMain.getConnectPanel().switchToWaitingForHostPane();
+        cLientMain.getConnectPanel().switchToWaitingForHostPanel();
         System.out.println("Waiting for Host " + hostName + " to Select Cards");
     }
     public void switchingToCharacterSelectPanel(String message){
         String hostName = message.substring(DONE_WITH_CARD_SELECTION.length());
-        cLientMain.getWaitingForHostPanel().switchToCharacterSelectPane();
+        cLientMain.getWaitingForHostPanel().switchToCharacterSelectPanel();
         System.out.println("Host " + hostName + " Done With Cards Selection, Please Choose Character");
     }
     public String[] handle_CharacterSelection(String message){

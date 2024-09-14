@@ -51,24 +51,26 @@ public class ConnectPanel extends JPanel{
     private JTextField nameTextField = new JTextField(20);
     private JLabel ipLabel = new JLabel("IP Address: ");
     private JTextField ipTextField = new JTextField(15);
-    private JButton confirmButton = new JButton("Connect to Live Game!");
+    public JButton confirmButton = new JButton("Connect to Live Game!");
     private JButton homeButton = new JButton("Home");
     private JButton verifyNameButton = new JButton("Verify Name");
     private JTextArea playersJoined = new JTextArea();
     private JScrollPane playersScrollPane = new JScrollPane(playersJoined);
-    private HostPanel hostPanel;
     private ClientMain clientMain;
     private Socket socket;
     private ClientListener clientListener;
-    ArrayList<String> playerListClientSide;
+    public ArrayList<String> playerListClientSide;
     private ClientHandler clientHandler;
     private JFrame jFrame1;
 
     public ConnectPanel(JFrame frame){
         setSize(1920, 1040);
         setLayout(null);
-        clientMain = new ClientMain();
+        this.jFrame1 = frame;
+        this.clientMain = new ClientMain(nameTextField.getText());
         clientMain.setConnectPanel(this);
+        this.playerListClientSide = new ArrayList<>();
+
         titleLabel.setBounds(400,50,500,75);
         titleLabel.setFont(new Font("Oswald", Font.BOLD,30));
         add(titleLabel);
@@ -127,8 +129,12 @@ public class ConnectPanel extends JPanel{
         confirmButton.addActionListener(e -> {
             String clientName = nameTextField.getText();
             String ipAddress = ipTextField.getText();
-            connectToServer(ipAddress,clientName);
+            clientMain.connectToServer(ipAddress,clientName);
             System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
+            confirmButton.setEnabled(false);
+            confirmButton.setBackground(Color.lightGray);
+            confirmButton.setForeground(Color.WHITE);
+            confirmButton.setText("Connected");
         });
         add(confirmButton);
 
@@ -140,8 +146,8 @@ public class ConnectPanel extends JPanel{
                 JOptionPane.showMessageDialog(this,"Player List Not Available");
                 return;
             }
-            if(clientMain.playerNameExists(nameTextField.getText())){
-                System.out.print("Name Already Taken");
+            if(playerNameExists(nameTextField.getText())){
+                JOptionPane.showMessageDialog(this,"Name Already Taken");
             }else{
                 System.out.print("Name is Available");
             }
@@ -159,68 +165,40 @@ public class ConnectPanel extends JPanel{
 
         playersJoined.setFont(new Font("Georgia", Font.PLAIN, 20));
         playersJoined.setEditable(false);
-        playersScrollPane.setBounds(400, 300, 400, 300);
-        add(playersScrollPane);
+        playersJoined.setBounds(400, 300, 400, 300);
+        add(playersJoined);
+        //add(playersScrollPane);
 
         setVisible(true);
     }
     private boolean playerNameExists(String name){
-        for(String playerName: playerListClientSide){
-            if(playerName.equals(name)){
-                return true;
-            }
-        } return false;
+        return playerListClientSide.contains(name);
     }
     private void updateConfirmButtonState(){
         boolean isNameValid = !nameTextField.getText().trim().isEmpty();
         boolean isIPValid = !ipTextField.getText().trim().isEmpty();
         verifyNameButton.setEnabled(isNameValid && isIPValid);
     }
-
-    private void connectToServer(String ipAddress, String clientName){
-        System.out.println("Attempting to connect to server...");
-        if (socket != null && !socket.isClosed()) {
-            System.out.println("Already connected.");
-            return;
-        }
-        try{
-            socket = new Socket(ipAddress, 12345);
-            System.out.println("Connected to server at " + ipAddress + " on port 12345");
-            clientListener = new ClientListener(socket, clientMain);
-            new Thread(clientListener).start();
-            clientListener.sendMessage(clientName);
-            System.out.println("Sent client name: " + clientName);
-            confirmButton.setEnabled(false);
-            confirmButton.setBackground(Color.LIGHT_GRAY);
-            confirmButton.setForeground(Color.WHITE);
-            confirmButton.setText("Connected");
-        } catch (IOException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to Connect to Server.", "Connection Error",JOptionPane.ERROR_MESSAGE);
-            confirmButton.setEnabled(true);
-            confirmButton.setBackground(null);
-            confirmButton.setForeground(null);
-        }
-    }
     private void sendDisconnectMessage(){
-        if(clientListener!=null){
-            clientListener.sendMessage("DISCONNECT: " + nameTextField.getText());
-            clientListener.close();
+        try{
+            CommandFromClient.notify_CLIENT_DISCONNECTED(clientMain.getOut(), nameTextField.getText());
+            clientMain.getOut().close();
+            clientMain.getSocket().close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            clientMain.setSocket(null);
+            clientMain.setOut(null);
         }
     }
-
-    public void onHostDisconnected(){
-        SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(jFrame1, "Host Disconnected", "Connection Lost", JOptionPane.ERROR_MESSAGE);
-            jFrame1.setContentPane(new LoadingPanel(jFrame1));
-            jFrame1.revalidate();
-        });
+    public void switchToLoadingPanel() {
+        JOptionPane.showMessageDialog(jFrame1, "Host Disconnected", "Connection Lost", JOptionPane.ERROR_MESSAGE);
+        jFrame1.setContentPane(new LoadingPanel(jFrame1));
+        jFrame1.revalidate();
     }
-
-    public void updatePlayerList(String playerNames){
-        playerListClientSide.add(playerNames);
-
-        StringBuilder sb = new StringBuilder("Players Joined:\n");
+    public void updatePlayerList(){
+        playersJoined.setText("");
+        StringBuilder sb = new StringBuilder("Players In Game:\n");
         for(String playerName : playerListClientSide){
             sb.append(playerName).append("\n");
         }
@@ -230,5 +208,9 @@ public class ConnectPanel extends JPanel{
         String text = playersJoined.getText();
         String updatedText = text.replace(playerName + "\n","");
         playersJoined.setText(updatedText);
+    }
+    public void switchToWaitingForHostPanel() {
+        jFrame1.setContentPane(new WaitingForHostPanel(jFrame1, clientMain));
+        jFrame1.revalidate();
     }
 }

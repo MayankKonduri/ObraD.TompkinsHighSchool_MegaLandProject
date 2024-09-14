@@ -41,14 +41,22 @@ public class CardSelectPanel extends JPanel {
 
     private JButton done = new JButton ("Done");
     private JLabel error = new JLabel("");
+    private ServerMain serverMain;
+    private HostPanel hostPanel;
+    private ClientMain clientMain;
 
-    public CardSelectPanel(JFrame frame) {
+    public CardSelectPanel(JFrame frame, ServerMain serverMain) {
+        this.serverMain = serverMain;
+        this.hostPanel = new HostPanel(new JFrame());
+        //this.clientMain = ClientMain;
+
         setSize(1920, 1010);
         setLayout(null);
+
         for(int i = 0; i <17; i++) {
             buildingsSelect.add(false);
         }
-
+        this.hostPanel = new HostPanel(new JFrame()); //new
         try {
             image12 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
             image13 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
@@ -77,8 +85,10 @@ public class CardSelectPanel extends JPanel {
         done.setBounds(1770, 900, 100, 60);
         done.addActionListener(e -> {
             if(selectionCount==7) {
-                frame.setContentPane(new CharacterSelectPanel(frame));
+                serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
+                frame.setContentPane(new CharacterSelectPanel(frame, clientMain));
                 frame.revalidate();
+                //CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
             } else if(selectionCount<7){
                 error.setVisible(true);
                 int needed = 7 - selectionCount;
@@ -465,12 +475,5 @@ public class CardSelectPanel extends JPanel {
         g.drawImage(image26, 1160, 430, 180, 270, null);
         g.drawImage(image27, 1360, 430, 180, 270, null);
         g.drawImage(image28, 1560, 430, 180, 270, null);
-
-
-
-
-
-
-
     }
 }

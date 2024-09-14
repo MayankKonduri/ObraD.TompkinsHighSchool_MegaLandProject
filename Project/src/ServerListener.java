@@ -35,23 +35,17 @@ import java.net.Socket;
     }
      */
 
-        public ServerListener(Socket clientSocket, ServerMain serverMain){
+        public ServerListener(Socket clientSocket, ServerMain serverMain, ObjectInputStream in, ObjectOutputStream out) {
             this.clientSocket = clientSocket;
             this.serverMain = serverMain;
-            try{
-                out = new ObjectOutputStream(clientSocket.getOutputStream());
-                in = new ObjectInputStream(clientSocket.getInputStream());
-
-                serverMain.addClientOutputStream(out);
-            } catch (IOException e){
-                e.printStackTrace();
-            }
+            this.in = in;
+            this.out = out;
         }
         public void run(){
             try{
                 String message;
                 while(isRunning && (message = (String) in.readObject()) != null) {
-                    System.out.println("Received message from server: " + message); // Debug statement
+                    System.out.println("Received Message From Client:           " + message); // Debug statement
                     processMessage(message);
                 }
             }catch(IOException | ClassNotFoundException e){

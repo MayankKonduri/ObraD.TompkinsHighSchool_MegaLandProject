@@ -21,9 +21,14 @@ public class CharacterSelectPanel extends JPanel {
     private ArrayList<Boolean> available= new ArrayList<Boolean>();
     private JButton done = new JButton ("Done");
     private boolean isSelected = false;
-    public CharacterSelectPanel(JFrame frame) {
+    private JFrame jFrame1;
+    private ClientMain clientMain;
+    public CharacterSelectPanel(JFrame frame, ClientMain clientMain) {
         setSize(1920, 1010);
         setLayout(null);
+
+        clientMain.setcharacterSelectPanel(this);
+
 
         for(int i=0;i<=4;i++){
             available.add(false);
@@ -214,7 +219,8 @@ public class CharacterSelectPanel extends JPanel {
 
 
     }
-
-
-
+    public void switchToGamePanel() {
+        jFrame1.setContentPane(new GamePanel(jFrame1));
+        jFrame1.revalidate();
+    }
 }

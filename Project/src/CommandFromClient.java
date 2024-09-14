@@ -15,7 +15,13 @@ public class CommandFromClient implements Serializable {
     }
     public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED:";
     public static void notify_CLIENT_DISCONNECTED(ObjectOutputStream out, String clientName) {
-        sendMessage(out, CLIENT_DISCONNECTED + clientName);
+        try{
+            sendMessage(out, CLIENT_DISCONNECTED + clientName);
+            out.flush();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
     public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
     public static void notify_CHARACTER_SELECTION(ObjectOutputStream out, String playerName, String characterName){
