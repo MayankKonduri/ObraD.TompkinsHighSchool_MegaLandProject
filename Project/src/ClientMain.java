@@ -12,9 +12,11 @@ public class ClientMain
 
 
             // create a connection to server
+            System.out.println("Attempting to connect to server...");
             Socket socket = new Socket("192.168.40.54",8001);
-            ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Connected to server.");
             ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
 
 
             // determine if playing as X or O

@@ -37,6 +37,7 @@ public class HostPanel extends JPanel {
     private JPanel peoplePanel = new JPanel();
     public static JLabel test = new JLabel();
     ArrayList<Player> playerInfo = new ArrayList<>();
+    public static ArrayList<String> playerNames = new ArrayList<>();
     ObjectOutputStream os;
 
 
@@ -102,10 +103,13 @@ public class HostPanel extends JPanel {
                 setPlayerButtonsEnabled(true);
                 if(!hostName.isEmpty()){
                     updatePeopleList(new String[]{hostName});
+                    playerNames.add(nameTextField.getText());
                 }
                 clearPeopleList();
                 startButton.setVisible(true);
                 startHostingButton.setEnabled(false);
+                playerNames.add(nameTextField.getText());
+                System.out.println("Tested = " + playerNames.toString());
             } else {
                 hostName = nameTextField.getText();
                 nameTextField.setEnabled(false);
@@ -122,6 +126,8 @@ public class HostPanel extends JPanel {
                 startButton.setVisible(true);
                 updateStartButtonState();
                 startHostingButton.setEnabled(true);
+                playerNames.add(nameTextField.getText());
+                System.out.println("Tested = " + playerNames.toString());
             }
             settingsConfirmed = !settingsConfirmed;
             revalidate();
@@ -254,12 +260,15 @@ public class HostPanel extends JPanel {
     public void updatePeopleListString(String name) {
         System.out.println("Received Command = person joined is " + name);
         String snew = peopleListArea.getText();
-        snew = snew + name;
+        snew = snew + name + "\n";
         System.out.println("People Joined: " + snew);
+        playerNames.add(name);
         peopleListArea.setText(snew);
         revalidate();
         repaint();
     }
+
+
 
     public void clearPeopleList(){
         peopleListArea.setText("");

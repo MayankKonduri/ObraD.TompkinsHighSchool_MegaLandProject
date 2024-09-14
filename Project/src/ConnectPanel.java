@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-public class ConnectPanel extends JPanel{
+public class ConnectPanel extends JPanel {
     private BufferedImage loading;
     private JLabel titleLabel = new JLabel("Connect to Server:");
     private JLabel nameLabel = new JLabel("Name: ");
@@ -18,10 +18,12 @@ public class ConnectPanel extends JPanel{
     private JTextField ipTextField = new JTextField(20);
     private JButton confirmButton = new JButton("Connect to Live Game!");
     private JButton homeButton = new JButton("Home");
+    private JButton verify = new JButton("Verify");
     private boolean isConnecting = false;
+    public static boolean verified = false;
     ObjectOutputStream os;
 
-    public ConnectPanel(JFrame frame, ObjectOutputStream os){
+    public ConnectPanel(JFrame frame, ObjectOutputStream os) {
         this.os = os;
         setSize(1920, 1040);
         setLayout(null);
@@ -32,15 +34,15 @@ public class ConnectPanel extends JPanel{
             ah.printStackTrace();
             System.out.println("Error Loading Images: " + ah.getMessage());
         }
-        titleLabel.setBounds(250,380,500,75);
-        titleLabel.setFont(new Font("Oswald", Font.BOLD,40));
+        titleLabel.setBounds(250, 380, 500, 75);
+        titleLabel.setFont(new Font("Oswald", Font.BOLD, 40));
         add(titleLabel);
 
-        nameLabel.setBounds(250,450,100,30);
-        nameLabel.setFont(new Font("Georgia", Font.PLAIN,20));
+        nameLabel.setBounds(250, 450, 100, 30);
+        nameLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
         add(nameLabel);
 
-        nameTextField.setBounds(350,450,300,30);
+        nameTextField.setBounds(350, 450, 300, 30);
         nameTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -59,12 +61,12 @@ public class ConnectPanel extends JPanel{
         });
         add(nameTextField);
 
-        ipLabel.setBounds(250,500,150,30);
-        ipLabel.setFont(new Font("Georgia", Font.PLAIN,20));
+        ipLabel.setBounds(250, 500, 150, 30);
+        ipLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
         ipLabel.setVisible(true);
         add(ipLabel);
 
-        ipTextField.setBounds(400,500,250,30);
+        ipTextField.setBounds(400, 500, 250, 30);
         ipTextField.setVisible(true);
         ipTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -95,8 +97,6 @@ public class ConnectPanel extends JPanel{
                 System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
                 try {
                     os.writeObject(new CommandFromClient(CommandFromClient.CONNECT, "" + data));
-                    System.out.println("Connection sent");
-
                 }
                 catch (IOException except) {
                     throw new RuntimeException(except);
@@ -118,6 +118,17 @@ public class ConnectPanel extends JPanel{
             updateConfirmButtonState();
         });
         add(confirmButton);
+//        verify.setBounds(250, 550, 120, 30);
+//        add(verify);
+//        verify.addActionListener(e -> {
+//            System.out.println("Test1: "+HostPanel.playerNames.toString());
+//            try {
+//                String clientName = nameTextField.getText();
+//                os.writeObject(new CommandFromClient(CommandFromClient.VERIFY, "" + clientName));
+//            } catch (IOException except) {
+//                throw new RuntimeException(except);
+//            }
+//        });
 
         homeButton.setBounds(10, 10, 100, 30);
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
@@ -129,6 +140,8 @@ public class ConnectPanel extends JPanel{
 
         setVisible(true);
     }
+
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        Graphics bg = buffer.getGraphics();

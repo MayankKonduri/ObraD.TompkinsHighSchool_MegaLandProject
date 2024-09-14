@@ -86,8 +86,17 @@ public class ServerMain {
             ObjectOutputStream aos = new ObjectOutputStream(aCon.getOutputStream());
             ObjectInputStream ais = new ObjectInputStream(aCon.getInputStream());
 
-            yos.writeObject(new CommandFromServer(CommandFromServer.JOIN,null));
+            aos.writeObject(new CommandFromServer(CommandFromServer.JOIN,null));
             sl = new ServerListener(ais,aos);
+            t = new Thread(sl);
+            t.start();
+
+            Socket bCon = serverSocket.accept();
+            ObjectOutputStream bos = new ObjectOutputStream(bCon.getOutputStream());
+            ObjectInputStream bis = new ObjectInputStream(bCon.getInputStream());
+
+            bos.writeObject(new CommandFromServer(CommandFromServer.JOIN,null));
+            sl = new ServerListener(bis,bos);
             t = new Thread(sl);
             t.start();
 

@@ -33,6 +33,7 @@ public class ClientListener implements Runnable
             {
                 CommandFromServer cfs = (CommandFromServer)is.readObject();
 
+
                 if(cfs.getCommand() == CommandFromServer.CONFIRM_CONNECT) {
                     String total = cfs.getData();
                     String[] parts = total.split("\\+");

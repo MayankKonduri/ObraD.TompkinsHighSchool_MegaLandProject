@@ -32,6 +32,15 @@ public class ServerListener implements Runnable {
                     ipAddress = cfc.getData();
                     System.out.println("Test1: " + ipAddress);
                 }
+                if (cfc.getCommand() == CommandFromClient.VERIFY) {
+                    sendCommand(new CommandFromServer(CommandFromServer.VERIFY, cfc.getData()));
+                }
+                if(cfc.getCommand() == CommandFromClient.NO_VERIFY) {
+                    sendCommand(new CommandFromServer(CommandFromServer.NO_VERIFY, cfc.getData()));
+                }
+                if(cfc.getCommand() == CommandFromClient.VERIFY_CONFIRM) {
+                    sendCommand(new CommandFromServer(CommandFromServer.VERIFY_CONFIRM, cfc.getData()));
+                }
                 if(cfc.getCommand() == CommandFromClient.CONNECT) {
                     System.out.println("Connection received");
                     String total = cfc.getData();
