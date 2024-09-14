@@ -9,14 +9,20 @@ import java.net.Socket;
 public class ClientListener implements Runnable{
     private Socket socket;
     private BufferedReader in;
-    private PrintWriter out;
     private ClientMain cLientMain;
+    public static final String START_GAME = "START_GAME";
+    public static final String DONE_WITH_CARD_SELECTION = "DONE_WITH_CARD_SELECTION";
+    public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION";
+    public static final String HOST_DISCONNECTED = "HOST_DISCONNECTED";
+    public static final String HOST_NAME = "HOST_NAME:";
+    public static final String CLIENT_NAME = "CLIENT_NAME:";
+
+
     public ClientListener(Socket socket, ClientMain clientMain){
         this.socket = socket;
         this.cLientMain = clientMain;
         try{
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.out = new PrintWriter(socket.getOutputStream(), true);
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -34,38 +40,40 @@ public class ClientListener implements Runnable{
     }
 
     private void processMessage(String message) {
-        if (message.startsWith("UPDATE_PLAYERS")) {
-            String[] playerNames = message.substring("UPDATE_PLAYERS\n".length()).split("\n");
-            cLientMain.updatePlayerList(playerNames);
-            System.out.println("Updated player list received: " + String.join(", ", playerNames));
-        } else if (message.startsWith("PLAYER_LEFT")) {
-            String playerName = message.substring("PLAYER_LEFT".length());
-            cLientMain.handlePLayerLeft(playerName);
-            System.out.println("Player left received: " + playerName);
+        if (message.startsWith(HOST_NAME)) {
+            handleUpdatePlayers_Host(message);
+        }else if (message.startsWith(CLIENT_NAME)){
+            handleUpdatePlayers_Client(message);
+        }else if (message.startsWith(HOST_DISCONNECTED)) {
+            handleHostLeft();
+        } else if(message.equals(START_GAME)) {
+            switchingToWaitingForHostPane();
+        } else if(message.equals(DONE_WITH_CARD_SELECTION)){
+            switchingToCharacterSelectPane();
+        } else{
+            System.out.println("Received Message: " + message); //chat-feature
         }
     }
-
-
-    public void sendMessage(String message){
-        if(out != null){
-            System.out.println("Sending message to server: " + message); // Debug statement
-            out.println(message);
-            out.flush();
-        }
+    public void handleUpdatePlayers_Host(String message){
+        String hostName = message.substring(HOST_NAME.length());
+        cLientMain.updatePlayerList(hostName);
+        System.out.println("Updated player list received: " + hostName);
     }
-    public void close(){
-        try {
-            if (socket != null && !socket.isClosed()) {
-                socket.close();
-            }
-            if (in != null) {
-                in.close();
-            }
-            if (out != null) {
-                out.close();
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+    public void handleUpdatePlayers_Client(String message){
+            String clientName = message.substring(CLIENT_NAME.length());
+            cLientMain.updatePlayerList(clientName);
+            System.out.println("Updated player list received: " + clientName);
+    }
+    public void handleHostLeft(){
+        cLientMain.getConnectPanel().switchToLoadingPanel();
+        System.out.println("Host Disconnected");
+    }
+    public void switchingToWaitingForHostPane(){
+        cLientMain.getConnectPanel().switchToWaitingForHostPane();
+        System.out.println("Waiting for Host to Select Cards");
+    }
+    public void switchingToCharacterSelectPane(){
+        cLientMain.getWaitingForHostPanel().switchToCharacterSelectPane();
+        System.out.println("Please Select Your Character");
     }
 }

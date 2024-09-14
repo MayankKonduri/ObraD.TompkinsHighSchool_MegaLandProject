@@ -1,28 +1,36 @@
 package Project.src;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
+import java.util.List;
 
-public class CommandFromClient {
-    private PrintWriter out;
 
-    public CommandFromClient(PrintWriter out){
-        this.out = out;
+public class CommandFromClient implements Serializable {
+
+    public static final String CLIENT_NAME = "CLIENT_NAME:";
+    public static void notify_CLIENT_NAME(ObjectOutputStream out, String playerName){
+        sendMessage(out, CLIENT_NAME + playerName);
     }
 
-    public void sendStartGame(){
-        sendMessage("START_GAME");
+    public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED";
+    public static void notify_CLIENT_DISCONNECTED(ObjectOutputStream out, String message) {
+        sendMessage(out, CLIENT_DISCONNECTED);
     }
-    public void sendDoneWithCardSelection(){
-        sendMessage("DONE_WITH_CARD_SELECTION");
-    }
-    public void sendCharacterSelection(String character){
-        sendMessage("CHARACTER_SELECTION: " + character);
+    public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION";
+    public static void notify_DONE_WITH_CHARACTER_SELECTION(ObjectOutputStream out, String message) {
+        sendMessage(out, DONE_WITH_CHARACTER_SELECTION);
     }
 
-    public void sendMessage(String message){
-        if(out != null){
-            out.println(message);
-            out.flush();
+    public static void sendMessage(ObjectOutputStream out, String message) {
+        try {
+            if (out != null) {
+                out.writeObject(message);
+                out.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
