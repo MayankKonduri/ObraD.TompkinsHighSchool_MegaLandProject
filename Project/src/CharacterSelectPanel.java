@@ -298,6 +298,7 @@ public class CharacterSelectPanel extends JPanel {
         whiteB.setText("Available");
         catB.setText("Available");
         catB.setBackground(null);
+        catB.setForeground(null);
         gandalfB.setForeground(null);
         gandalfB.setBackground(null);
         indianWomanB.setForeground(null);
@@ -306,9 +307,6 @@ public class CharacterSelectPanel extends JPanel {
         whiteB.setBackground(null);
         frogB.setForeground(null);
         frogB.setBackground(null);
-        catB.setForeground(null);
-
-
     }
     public void switchToGamePanel() {
         jFrame1.setContentPane(new GamePanel(jFrame1));
@@ -347,42 +345,51 @@ public class CharacterSelectPanel extends JPanel {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
       public void updateAvailability(Object[][] FINAL_ARRAY){
             for(int i=0;i<5;i++){
-                    if(FINAL_ARRAY[i][1].equals("NotMine")){
-                        if(i==0){
-                            catB.setEnabled(false);
-                        }
-                        if(i==1){
-                            indianWomanB.setEnabled(false);
-                        }
-                        if(i==2){
-                            whiteB.setEnabled(false);
-                        }
-                        if(i==3){
-                            frogB.setEnabled(false);
-                        }
-                        if(i==4){
-                            gandalfB.setEnabled(false);
-                        }
+                if(FINAL_ARRAY[i][1].equals("NotMine")){
+                    if(i==0){
+                        catB.setEnabled(false);
                     }
-                if(FINAL_ARRAY[i][1].equals("Available")){
+                    if(i==1){
+                        indianWomanB.setEnabled(false);
+                    }
+                    if(i==2){
+                        whiteB.setEnabled(false);
+                    }
+                    if(i==3){
+                        frogB.setEnabled(false);
+                    }
+                    if(i==4){
+                        gandalfB.setEnabled(false);
+                    }
+                }
+                else if(FINAL_ARRAY[i][1].equals("Available")){
                     if(i==0){
                         catB.setEnabled(true);
+                        catB.setForeground(null);
+                        catB.setBackground(null);
                     }
                     if(i==1){
                         indianWomanB.setEnabled(true);
+                        indianWomanB.setForeground(null);
+                        indianWomanB.setBackground(null);
                     }
                     if(i==2){
                         whiteB.setEnabled(true);
+                        whiteB.setForeground(null);
+                        whiteB.setBackground(null);
                     }
                     if(i==3){
                         frogB.setEnabled(true);
+                        frogB.setForeground(null);
+                        frogB.setBackground(null);
                     }
                     if(i==4){
-                        gandalfB.setEnabled(true);
+                        frogB.setEnabled(true);
+                        frogB.setForeground(null);
+                        frogB.setBackground(null);
                     }
                 }
             }
