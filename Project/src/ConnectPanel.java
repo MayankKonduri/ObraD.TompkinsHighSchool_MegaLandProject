@@ -60,7 +60,6 @@ public class ConnectPanel extends JPanel{
     private Socket socket;
     private ClientListener clientListener;
     public ArrayList<String> playerListClientSide;
-    private ClientHandler clientHandler;
     private JFrame jFrame1;
 
     public ConnectPanel(JFrame frame){
@@ -211,7 +210,7 @@ public class ConnectPanel extends JPanel{
         playersJoined.setText(updatedText);
     }
     public void switchToWaitingForHostPanel() {
-        jFrame1.setContentPane(new WaitingForHostPanel(jFrame1, clientMain));
+        jFrame1.setContentPane(new WaitingForHostPanel(jFrame1, clientMain, this));
         jFrame1.revalidate();
     }
 }

@@ -8,10 +8,14 @@ public class WaitingForHostPanel extends JPanel {
 
     private JFrame jframe1;
     private ClientMain clientMain;
-    public WaitingForHostPanel(JFrame frame, ClientMain clientMain){
+    private ConnectPanel connectPanel;
+    public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel){
         setLayout(null);
+
         this.clientMain = clientMain;
         this.jframe1 = frame;
+        this.connectPanel = connectPanel;
+
         clientMain.setWaitingForHostPanel(this);
         JLabel waitingLabel = new JLabel("Waiting for Host to Finish Card Selection");
         waitingLabel.setFont(new Font("Georgia", Font.BOLD,20));
@@ -20,7 +24,7 @@ public class WaitingForHostPanel extends JPanel {
 
     public void switchToCharacterSelectPanel() {
 
-        jframe1.setContentPane(new CharacterSelectPanel(jframe1, clientMain, false));
+        jframe1.setContentPane(new CharacterSelectPanel(jframe1, clientMain, null, null, connectPanel,false));
         jframe1.revalidate();
     }
 }

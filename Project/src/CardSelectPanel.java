@@ -44,11 +44,12 @@ public class CardSelectPanel extends JPanel {
     private ServerMain serverMain;
     private HostPanel hostPanel;
     private ClientMain clientMain;
+    private JFrame jFrame;
 
-    public CardSelectPanel(JFrame frame, ServerMain serverMain, ClientMain clientMain) {
+    public CardSelectPanel(JFrame frame, ServerMain serverMain, HostPanel hostPanel) {
+        this.jFrame = frame;
         this.serverMain = serverMain;
-        this.hostPanel = new HostPanel(new JFrame());
-        this.clientMain = clientMain;
+        this.hostPanel = hostPanel;
 
         setSize(1920, 1010);
         setLayout(null);
@@ -85,9 +86,9 @@ public class CardSelectPanel extends JPanel {
         done.addActionListener(e -> {
             if(selectionCount==7) {
                 serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
-                //frame.setContentPane(new CharacterSelectPanel(frame, clientMain, true));
-                //frame.revalidate();
-                //CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
+                frame.setContentPane(new CharacterSelectPanel(frame, null, serverMain, hostPanel, null, true));
+                frame.revalidate();
+                CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
             } else if(selectionCount<7){
                 error.setVisible(true);
                 int needed = 7 - selectionCount;

@@ -33,13 +33,17 @@ public class CharacterSelectPanel extends JPanel {
 
     private CommandFromClient commandFromClient;
 
-    public CharacterSelectPanel(JFrame frame, ClientMain clientMain, Boolean isHost) {
+    public CharacterSelectPanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, Boolean isHost) {
         setSize(1920, 1010);
         setLayout(null);
-        this.isHost = isHost;
+
+
         this.jFrame1 = frame;
         this.clientMain = clientMain;
-        this.connectPanel = new ConnectPanel(new JFrame()); //this is wrong way
+        this.serverMain = serverMain;
+        this.hostPanel = hostPanel;
+        this.connectPanel = connectPanel;
+        this.isHost = isHost;
 
         if(clientMain != null){
             clientMain.setcharacterSelectPanel(this);
@@ -243,15 +247,15 @@ public class CharacterSelectPanel extends JPanel {
     }
     public void notifyCharacterSelection(String characterName){
         System.out.println("Got Into Character Selection");
-      if(clientMain != null){ //ClientMain is Null....
-          try{
-              ObjectOutputStream out = clientMain.getOut();
 
+          try{
               if(isHost){
                   String playerName1 = hostPanel.nameTextField.getText();
                   serverMain.broadcastMessage(6, playerName1 + "-" + characterName);
+
               }
               else{
+                  ObjectOutputStream out = clientMain.getOut();
                   String playerName1 = connectPanel.nameTextField.getText();
                   System.out.println("NotifyingCharacterSelection" + characterName);
                   CommandFromClient.notify_CHARACTER_SELECTION(out, playerName1, characterName);
@@ -260,5 +264,5 @@ public class CharacterSelectPanel extends JPanel {
               e.printStackTrace();
           }
       }
-    }
+
 }
