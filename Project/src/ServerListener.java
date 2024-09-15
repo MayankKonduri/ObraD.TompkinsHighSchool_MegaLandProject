@@ -78,11 +78,9 @@ import java.net.Socket;
             serverMain.removeClientFromList(clientName);
             System.out.println("Host " + clientName + " Disconnected");
         }
-        public String[] handle_CharacterSelection(String message){
+        public void handle_CharacterSelection(String message){
             String playerChoosing = message.substring(CHARACTER_SELECTION.length());
-            String[] characterChosenInfo = playerChoosing.split("-");
-            System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
-            return characterChosenInfo;
+            serverMain.characterTemp(playerChoosing);
         }
         public String[] halfway_CHARACTER_SELECTION(String message){
             String finalPlayerChoosing = message.substring(DONE_WITH_CHARACTER_SELECTION.length());

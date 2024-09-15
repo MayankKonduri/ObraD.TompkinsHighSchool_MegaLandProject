@@ -19,6 +19,7 @@ public class ClientMain{
     private ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
     private final String clientName;
 
+
     public ClientMain(String clientName){
         this.clientName = clientName;
     }
@@ -89,6 +90,16 @@ public class ClientMain{
         gamePlayerNames_ClientSide.remove(clientName);
         connectPanel.playerListClientSide.remove(clientName);
         connectPanel.updatePlayerList();
+    }
+    public void characterTemp1(String playerChoosing) {
+        String[] characterChosenInfo = playerChoosing.split("-");
+        System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
+
+    }
+    public void characterTemp2(String playerChoosing) {
+        String[] characterUNChosenInfo = playerChoosing.split("-");
+        System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
+
     }
     public ArrayList<String> getGamePlayerNames_ClientSide(){
         return gamePlayerNames_ClientSide;

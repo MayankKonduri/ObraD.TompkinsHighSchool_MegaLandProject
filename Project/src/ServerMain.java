@@ -84,6 +84,16 @@ public class ServerMain{
         hostPanel.playerList_serverSide.remove(clientName);
         hostPanel.updatePeopleList();
     }
+
+    public String[] characterTemp(String playerChoosing) {
+        String[] characterChosenInfo = playerChoosing.split("-");
+        System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
+        for(ObjectOutputStream clientOut : clientOutputStreams){
+            broadcastMessage(6, playerChoosing);
+        }
+        return characterChosenInfo;
+    }
+
     public synchronized void broadcastMessage(int values, String name){
         switch (values){
             case 1:
@@ -123,6 +133,13 @@ public class ServerMain{
                         CommandFromServer.notify_CHARACTER_SELECTION(out, characterCombined[0], characterCombined[1]);
                     }}
                 break;
+            case 7:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        String[] characterCombined = name.split("-");
+                        CommandFromServer.notify_UNCHARACTER_SELECTION(out, characterCombined[0], characterCombined[1]);
+                    }}
+                break;
         }
     }
     public void stopServer(){
@@ -145,7 +162,6 @@ public class ServerMain{
         broadcastMessage(3, hostName);
         hostPanel.clearPeopleList();
     }
-
     public ObjectOutputStream getOut(){
         return out;
     }
@@ -161,5 +177,6 @@ public class ServerMain{
     public ArrayList<String> getGamePlayerNames(){
         return gamePlayerNames;
     }
+
 
 }

@@ -9,6 +9,7 @@ public class WaitingForHostPanel extends JPanel {
     private JFrame jframe1;
     private ClientMain clientMain;
     private ConnectPanel connectPanel;
+    private CharacterSelectPanel characterSelectPanel;
     public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel){
         setLayout(null);
 
@@ -24,7 +25,12 @@ public class WaitingForHostPanel extends JPanel {
 
     public void switchToCharacterSelectPanel() {
 
-        jframe1.setContentPane(new CharacterSelectPanel(jframe1, clientMain, null, null, connectPanel,false));
+        characterSelectPanel = new CharacterSelectPanel(jframe1, clientMain, null, null, connectPanel,false)
+        jframe1.setContentPane(characterSelectPanel);
         jframe1.revalidate();
+    }
+
+    public CharacterSelectPanel getCharacterSelectPanel(){
+        return characterSelectPanel;
     }
 }

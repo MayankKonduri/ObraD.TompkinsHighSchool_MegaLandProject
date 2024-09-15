@@ -21,9 +21,10 @@ public class CharacterSelectPanel extends JPanel {
     private JButton indianWomanB = new JButton ("Available");
     private JButton catB = new JButton ("Available");
     private JButton frogB = new JButton ("Available");
-    private ArrayList<Boolean> available= new ArrayList<Boolean>();
+    public ArrayList<Boolean> available= new ArrayList<Boolean>();
     private JButton done = new JButton ("Done");
     private boolean isSelected = false;
+    private String characterSelected;
     private JFrame jFrame1;
     private ClientMain clientMain;
     private ServerMain serverMain;
@@ -32,11 +33,18 @@ public class CharacterSelectPanel extends JPanel {
     private ConnectPanel connectPanel;
 
     private CommandFromClient commandFromClient;
+    public Object[][] FINAL_ARRAY = new Object[5][2];
+
 
     public CharacterSelectPanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, Boolean isHost) {
         setSize(1920, 1010);
         setLayout(null);
 
+        FINAL_ARRAY[0][1] = false;
+        FINAL_ARRAY[1][1] = false;
+        FINAL_ARRAY[2][1] = false;
+        FINAL_ARRAY[3][1] = false;
+        FINAL_ARRAY[4][1] = false;
 
         this.jFrame1 = frame;
         this.clientMain = clientMain;
@@ -84,27 +92,43 @@ public class CharacterSelectPanel extends JPanel {
 
 
         catB.addActionListener(e -> {
-            if(catB.getText().equals("Available")) {
-                reset(catB);
-                catB.setText("Selected");
-                catB.setBackground(Color.GREEN);
-                catB.setForeground(Color.BLACK);
-                available.set(0,true);
-                selected.setText("Your Character is Cat");
-                isSelected = true;
-                System.out.println("Selected: Cat");
-                notifyCharacterSelection("catB");
-            } else {
-                catB.setText("Available");
-                System.out.println("Unselected: catB");
-                catB.setBackground(null);
-                catB.setForeground(null);
-                available.set(0,false);
-            }
-            System.out.println(available.toString());
+          if(catB.isEnabled()) {
+              if(isSelected)
+              {
+                  notifyCharacterUNSelection(characterSelected);
+              }
+              if (catB.getText().equals("Available")) {
+                  characterSelected = "catB";
+                  reset(catB);
+                  catB.setText("Selected");
+                  catB.setBackground(Color.GREEN);
+                  catB.setForeground(Color.BLACK);
+                  available.set(0, true);
+                  selected.setText("Your Character is Cat");
+                  isSelected = true;
+                  System.out.println("Selected: Cat");
+                  notifyCharacterSelection("catB");
+              } else {
+                  characterSelected = "";
+                  catB.setText("Available");
+                  System.out.println("Unselected: catB");
+                  isSelected = false;
+                  catB.setBackground(null);
+                  catB.setForeground(null);
+                  available.set(0, false);
+                  selected.setText("Your Character is ");
+                      notifyCharacterUNSelection("catB");
+              }
+              System.out.println(available.toString());
+          }
         });
         indianWomanB.addActionListener(e -> {
+            if(isSelected)
+            {
+                notifyCharacterUNSelection(characterSelected);
+            }
             if(indianWomanB.getText().equals("Available")) {
+                characterSelected = "indianWomanB";
                 reset(indianWomanB);
                 indianWomanB.setText("Selected");
                 indianWomanB.setBackground(Color.GREEN);
@@ -112,19 +136,28 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(1,true);
                 selected.setText("Your Character is Woman");
                 isSelected = true;
-
                 System.out.println("Selected: frogB");
+                notifyCharacterSelection("indianWomanB");
             } else {
+                characterSelected = "";
                 indianWomanB.setText("Available");
                 System.out.println("Unselected: indianWomanB");
+                isSelected = false;
                 indianWomanB.setBackground(null);
                 indianWomanB.setForeground(null);
                 available.set(1,false);
+                selected.setText("Your Character is ");
+                    notifyCharacterUNSelection("indianWomanB");
             }
             System.out.println(available.toString());
         });
         whiteB.addActionListener(e -> {
+            if(isSelected)
+            {
+                notifyCharacterUNSelection(characterSelected);
+            }
             if(whiteB.getText().equals("Available")) {
+                characterSelected = "whiteB";
                 reset(whiteB);
                 whiteB.setText("Selected");
                 whiteB.setBackground(Color.GREEN);
@@ -132,20 +165,28 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(2,true);
                 selected.setText("Your Character is White Boy");
                 isSelected = true;
-
-
                 System.out.println("Selected: whiteB");
+                notifyCharacterSelection("whiteB");
             } else {
+                characterSelected = "";
                 whiteB.setText("Available");
                 System.out.println("Unselected: whiteB");
                 whiteB.setBackground(null);
                 whiteB.setForeground(null);
                 available.set(2,false);
+                isSelected = false;
+                selected.setText("Your Character is ");
+                notifyCharacterUNSelection("whiteB");
             }
             System.out.println(available.toString());
         });
         frogB.addActionListener(e -> {
+            if(isSelected)
+            {
+                notifyCharacterUNSelection(characterSelected);
+            }
             if(frogB.getText().equals("Available")) {
+                characterSelected = "frogB";
                 reset(frogB);
                 frogB.setText("Selected");
                 frogB.setBackground(Color.GREEN);
@@ -153,19 +194,28 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(3,true);
                 selected.setText("Your Character is Froggy");
                 isSelected = true;
-
                 System.out.println("Selected: frogB");
+                notifyCharacterSelection("frogB");
             } else {
+                characterSelected = "";
                 frogB.setText("Available");
                 System.out.println("Unselected: frogB");
                 frogB.setBackground(null);
                 frogB.setForeground(null);
                 available.set(3,false);
+                isSelected = false;
+                selected.setText("Your Character is ");
+                notifyCharacterUNSelection("frogB");
             }
             System.out.println(available.toString());
         });
         gandalfB.addActionListener(e -> {
+            if(isSelected)
+            {
+                notifyCharacterUNSelection(characterSelected);
+            }
             if(gandalfB.getText().equals("Available")) {
+                characterSelected = "gandalfB";
                 reset(gandalfB);
                 gandalfB.setText("Selected");
                 gandalfB.setBackground(Color.GREEN);
@@ -173,14 +223,18 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(3,true);
                 selected.setText("Your Character is Gandalf");
                 isSelected = true;
-
                 System.out.println("Selected: gandalfB");
+                notifyCharacterSelection("gandalfB");
             } else {
+                characterSelected = "";
                 gandalfB.setText("Available");
                 System.out.println("Unselected: gandalfB");
                 gandalfB.setBackground(null);
                 gandalfB.setForeground(null);
                 available.set(4,false);
+                isSelected = false;
+                selected.setText("Your Character is ");
+                notifyCharacterUNSelection("gandalfB");
             }
             System.out.println(available.toString());
         });
@@ -246,8 +300,6 @@ public class CharacterSelectPanel extends JPanel {
         jFrame1.revalidate();
     }
     public void notifyCharacterSelection(String characterName){
-        System.out.println("Got Into Character Selection");
-
           try{
               if(isHost){
                   String playerName1 = hostPanel.nameTextField.getText();
@@ -264,5 +316,27 @@ public class CharacterSelectPanel extends JPanel {
               e.printStackTrace();
           }
       }
+    private void notifyCharacterUNSelection(String characterName) {
+        try{
+            if(isHost){
+                String playerName1 = hostPanel.nameTextField.getText();
+                serverMain.broadcastMessage(7, playerName1 + "-" + characterName);
+
+            }
+            else{
+                ObjectOutputStream out = clientMain.getOut();
+                String playerName1 = connectPanel.nameTextField.getText();
+                System.out.println("NotifyingCharacterUNSelection" + characterName);
+                CommandFromClient.notify_UNCHARACTER_SELECTION(out, playerName1, characterName);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+      public void updateAvailability(){
+
+      }
+
 
 }

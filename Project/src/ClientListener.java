@@ -15,6 +15,8 @@ public class ClientListener implements Runnable{
     public static final String START_GAME = "START_GAME:";
     public static final String DONE_WITH_CARD_SELECTION = "DONE_WITH_CARD_SELECTION:";
     public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
+    public static final String CHARACTER_UNSELECTION = "CHARACTER_UNSELECTION:";
+
     public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";
     public static final String ALL_DONE_WITH_CHARACTER_SELECTION = "ALL_DONE_WITH_CHARACTER_SELECTION:";
 
@@ -85,6 +87,8 @@ public class ClientListener implements Runnable{
             switchingToCharacterSelectPanel(message);
         } else if(message.startsWith(CHARACTER_SELECTION)){
             handle_CharacterSelection(message);
+        } else if(message.startsWith(CHARACTER_UNSELECTION)) {
+            handle_CharacterUNSelection(message);
         } else if(message.startsWith(DONE_WITH_CHARACTER_SELECTION)){
             halfway_CHARACTER_SELECTION(message);
         } else if (message.startsWith(ALL_DONE_WITH_CHARACTER_SELECTION)){
@@ -125,11 +129,13 @@ public class ClientListener implements Runnable{
         cLientMain.getWaitingForHostPanel().switchToCharacterSelectPanel();
         System.out.println("Host " + hostName + " Done With Cards Selection, Please Choose Character");
     }
-    public String[] handle_CharacterSelection(String message){
+    public void handle_CharacterSelection(String message){
         String playerChoosing = message.substring(CHARACTER_SELECTION.length());
-        String[] characterChosenInfo = playerChoosing.split("-");
-        System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
-        return characterChosenInfo;
+        cLientMain.characterTemp1(playerChoosing);
+    }
+    private void handle_CharacterUNSelection(String message) {
+        String playerChoosing = message.substring(CHARACTER_UNSELECTION.length());
+        cLientMain.characterTemp2(playerChoosing);
     }
     public String[] halfway_CHARACTER_SELECTION(String message){
         String finalPlayerChoosing = message.substring(DONE_WITH_CHARACTER_SELECTION.length());
