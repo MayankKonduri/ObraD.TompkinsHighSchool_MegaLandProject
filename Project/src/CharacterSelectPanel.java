@@ -103,7 +103,6 @@ public class CharacterSelectPanel extends JPanel {
                   notifyCharacterUNSelection(characterSelected);
               }
               if (catB.getText().equals("Available")) {
-                  characterSelected = "catB";
                   reset(catB);
                   catB.setText("Selected");
                   catB.setBackground(Color.GREEN);
@@ -113,6 +112,8 @@ public class CharacterSelectPanel extends JPanel {
                   isSelected = true;
                   System.out.println("Selected: Cat");
                   notifyCharacterSelection("catB");
+                  FINAL_ARRAY[0][1] = "Mine";
+
               } else {
                   characterSelected = "";
                   catB.setText("Available");
@@ -122,7 +123,8 @@ public class CharacterSelectPanel extends JPanel {
                   catB.setForeground(null);
                   available.set(0, false);
                   selected.setText("Your Character is ");
-                      notifyCharacterUNSelection("catB");
+                  notifyCharacterUNSelection("catB");
+                  FINAL_ARRAY[0][1] = "Available";
               }
               System.out.println(available.toString());
           }
@@ -143,6 +145,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: frogB");
                 notifyCharacterSelection("indianWomanB");
+                FINAL_ARRAY[1][1] = "Mine";
             } else {
                 characterSelected = "";
                 indianWomanB.setText("Available");
@@ -152,7 +155,8 @@ public class CharacterSelectPanel extends JPanel {
                 indianWomanB.setForeground(null);
                 available.set(1,false);
                 selected.setText("Your Character is ");
-                    notifyCharacterUNSelection("indianWomanB");
+                notifyCharacterUNSelection("indianWomanB");
+                FINAL_ARRAY[1][1] = "Available";
             }
             System.out.println(available.toString());
         });
@@ -172,6 +176,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: whiteB");
                 notifyCharacterSelection("whiteB");
+                FINAL_ARRAY[2][1] = "Mine";
             } else {
                 characterSelected = "";
                 whiteB.setText("Available");
@@ -182,6 +187,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = false;
                 selected.setText("Your Character is ");
                 notifyCharacterUNSelection("whiteB");
+                FINAL_ARRAY[2][1] = "Available";
             }
             System.out.println(available.toString());
         });
@@ -201,6 +207,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: frogB");
                 notifyCharacterSelection("frogB");
+                FINAL_ARRAY[3][1] = "Mine";
             } else {
                 characterSelected = "";
                 frogB.setText("Available");
@@ -211,6 +218,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = false;
                 selected.setText("Your Character is ");
                 notifyCharacterUNSelection("frogB");
+                FINAL_ARRAY[3][1] = "Available";
             }
             System.out.println(available.toString());
         });
@@ -230,6 +238,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: gandalfB");
                 notifyCharacterSelection("gandalfB");
+                FINAL_ARRAY[4][1] = "Mine";
             } else {
                 characterSelected = "";
                 gandalfB.setText("Available");
@@ -240,6 +249,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = false;
                 selected.setText("Your Character is ");
                 notifyCharacterUNSelection("gandalfB");
+                FINAL_ARRAY[4][1] = "Available";
             }
             System.out.println(available.toString());
         });
@@ -341,7 +351,7 @@ public class CharacterSelectPanel extends JPanel {
     }
       public void updateAvailability(Object[][] FINAL_ARRAY){
             for(int i=0;i<5;i++){
-                    if(FINAL_ARRAY[i][1].equals("NotMine"));{
+                    if(FINAL_ARRAY[i][1].equals("NotMine")){
                         if(i==0){
                             catB.setEnabled(false);
                         }
@@ -358,7 +368,7 @@ public class CharacterSelectPanel extends JPanel {
                             gandalfB.setEnabled(false);
                         }
                     }
-                if(FINAL_ARRAY[i][1].equals("Available"));{
+                if(FINAL_ARRAY[i][1].equals("Available")){
                     if(i==0){
                         catB.setEnabled(true);
                     }
