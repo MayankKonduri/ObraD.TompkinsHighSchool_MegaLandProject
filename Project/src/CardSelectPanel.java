@@ -88,21 +88,26 @@ public class CardSelectPanel extends JPanel {
         title.setFont(new Font("Georgia", Font.BOLD, 40));
         done.setBounds(1770, 900, 100, 60);
         done.addActionListener(e -> {
-            if(selectionCount==7) {
-                serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
-                frame.setContentPane(characterSelectPanel);
-                frame.revalidate();
-                CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
-            } else if(selectionCount<7){
-                error.setVisible(true);
-                int needed = 7 - selectionCount;
-                error.setText("You need to select " + needed + " more.");
-            } else {
-                error.setVisible(true);
-                int neededG = selectionCount -7;
-                error.setText("You need to deselect " + neededG + ".");
+            if(serverMain!= null) {
+                if (selectionCount == 7) {
+                    serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
+                    frame.setContentPane(characterSelectPanel);
+                    frame.revalidate();
+                    CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
+                } else if (selectionCount < 7) {
+                    error.setVisible(true);
+                    int needed = 7 - selectionCount;
+                    error.setText("You need to select " + needed + " more.");
+                } else {
+                    error.setVisible(true);
+                    int neededG = selectionCount - 7;
+                    error.setText("You need to deselect " + neededG + ".");
+                }
             }
-
+            else{
+                error.setText("ServerMain is Not Initialized");
+                error.setVisible(true);
+            }
         });
 
         select12.setBounds(60, 380, 180, 30);
@@ -479,7 +484,11 @@ public class CardSelectPanel extends JPanel {
         g.drawImage(image27, 1360, 430, 180, 270, null);
         g.drawImage(image28, 1560, 430, 180, 270, null);
     }
-    public CharacterSelectPanel getCharacterSelectPanel(){
+    public synchronized CharacterSelectPanel getCharacterSelectPanel(){
         return characterSelectPanel;
+    }
+
+    public void setServerMain(ServerMain serverMain) {
+        this.serverMain = serverMain;
     }
 }

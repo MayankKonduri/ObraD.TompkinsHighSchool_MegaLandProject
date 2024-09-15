@@ -68,7 +68,9 @@ public class ClientListener implements Runnable{
                 System.out.println("Received message from server: " + message); // Debug statement
                 processMessage(message);
             }
-        }catch(IOException | ClassNotFoundException e){
+        }catch (EOFException e){
+            System.out.println("Connected Closed by Server - Special");
+        } catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }

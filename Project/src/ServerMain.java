@@ -90,6 +90,11 @@ public class ServerMain{
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
+        for(ObjectOutputStream clientOut : clientOutputStreams){
+            //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
+            broadcastMessage(6,playerChoosing);
+            System.out.println("Sent Successfully");
+        }
         if(characterChosenInfo[1].equals("catB")) {
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
             temp[0][0] = characterChosenInfo[0];
@@ -124,6 +129,10 @@ public class ServerMain{
     public void characterTempUNChoose(String playerChoosing) {
         String[] characterUNChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
+        for(ObjectOutputStream clientOut : clientOutputStreams){
+            //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
+            broadcastMessage(7,characterUNChosenInfo[0]);
+        }
         if(characterUNChosenInfo[1].equals("catB")) {
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
             temp[0][0] = "No_Player";

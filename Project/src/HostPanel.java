@@ -47,15 +47,16 @@ public class HostPanel extends JPanel{
     private CommandFromServer commandFromServer = new CommandFromServer();
     private CharacterSelectPanel characterSelectPanel;
     private CardSelectPanel cardSelectPanel;
+    private JFrame jFrame;
 
     public HostPanel(JFrame frame) {
+        this.jFrame = frame;
+
         hostName="";
         setSize(1920, 1040);
         setLayout(null);
         this.playerList_serverSide = new ArrayList<>();
 
-        cardSelectPanel = new CardSelectPanel(frame, serverMain, this);
-        characterSelectPanel = cardSelectPanel.getCharacterSelectPanel();
 
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
@@ -261,7 +262,10 @@ public class HostPanel extends JPanel{
 
     public void startHostingServer() {
         try {
+            cardSelectPanel = new CardSelectPanel(jFrame, null, this);
             this.serverMain = new ServerMain(12345, nameTextField.getText(), this, characterSelectPanel);
+            cardSelectPanel = new CardSelectPanel(jFrame, serverMain, this);
+            characterSelectPanel = cardSelectPanel.getCharacterSelectPanel();
             new Thread(() -> serverMain.startServer()).start();
             System.out.println("Hosting Started");
         } catch (Exception e) {

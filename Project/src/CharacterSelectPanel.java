@@ -378,7 +378,7 @@ public class CharacterSelectPanel extends JPanel {
             }
             for(int i=0; i<5;i++){
                 for (int j=0;j<2;j++){
-                    System.out.println(FINAL_ARRAY[i][j] + "     ||     ");
+                    System.out.print(i+1 + ") " + FINAL_ARRAY[i][j] + "     ||     ");
                 }
             }
       }
