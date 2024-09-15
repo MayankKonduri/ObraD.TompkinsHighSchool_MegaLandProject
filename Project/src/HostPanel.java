@@ -45,15 +45,17 @@ public class HostPanel extends JPanel{
     private ServerListener serverListener;
     private ServerMain serverMain;
     private CommandFromServer commandFromServer = new CommandFromServer();
-
-    private ClientMain clientMain;
+    private CharacterSelectPanel characterSelectPanel;
+    private CardSelectPanel cardSelectPanel;
 
     public HostPanel(JFrame frame) {
         hostName="";
         setSize(1920, 1040);
         setLayout(null);
         this.playerList_serverSide = new ArrayList<>();
-        this.clientMain = clientMain;
+
+        cardSelectPanel = new CardSelectPanel(frame, serverMain, this);
+        characterSelectPanel = cardSelectPanel.getCharacterSelectPanel();
 
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
@@ -198,7 +200,7 @@ public class HostPanel extends JPanel{
             serverMain.broadcastMessage(1, nameTextField.getText());
             //commandFromServer.notify_START_GAME(serverMain.getOut(), nameTextField.getText());
             System.out.println("Game Has Started!!!");
-            frame.setContentPane(new CardSelectPanel(frame, serverMain, this));
+            frame.setContentPane(cardSelectPanel);
             frame.revalidate();
         });
         add(startButton);
@@ -259,7 +261,7 @@ public class HostPanel extends JPanel{
 
     public void startHostingServer() {
         try {
-            this.serverMain = new ServerMain(12345, nameTextField.getText(), this);
+            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, characterSelectPanel);
             new Thread(() -> serverMain.startServer()).start();
             System.out.println("Hosting Started");
         } catch (Exception e) {
@@ -287,5 +289,7 @@ public class HostPanel extends JPanel{
     public ArrayList<String> getPlayerList(){
         return playerList_serverSide;
     }
-
+    public void setCharacterSelectPanel(CharacterSelectPanel panel) {
+        this.characterSelectPanel = panel;
+    }
 }

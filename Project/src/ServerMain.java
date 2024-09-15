@@ -22,11 +22,13 @@ public class ServerMain{
     private Socket socket;
     private ObjectOutputStream out;
     private HostPanel hostPanel;
+    private CharacterSelectPanel characterSelectPanel;
 
-    public ServerMain(int port, String hostName, HostPanel hostPanel){
+    public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel){
         this.port = port;
         this.hostName = hostName;
         this.hostPanel = hostPanel;
+        this.characterSelectPanel = characterSelectPanel;
     }
     public void startServer() {
         isRunning = true;
@@ -85,13 +87,73 @@ public class ServerMain{
         hostPanel.updatePeopleList();
     }
 
-    public String[] characterTemp(String playerChoosing) {
+    public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
-        for(ObjectOutputStream clientOut : clientOutputStreams){
-            broadcastMessage(6, playerChoosing);
+        if(characterChosenInfo[1].equals("catB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[0][0] = characterChosenInfo[0];
+            temp[0][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
         }
-        return characterChosenInfo;
+        else if(characterChosenInfo[1].equals("indianWomanB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[1][0] = characterChosenInfo[0];
+            temp[1][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterChosenInfo[1].equals("whiteB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[2][0] = characterChosenInfo[0];
+            temp[2][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterChosenInfo[1].equals("frogB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[3][0] = characterChosenInfo[0];
+            temp[3][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterChosenInfo[1].equals("gandalfB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[4][0] = characterChosenInfo[0];
+            temp[4][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+    }
+    public void characterTempUNChoose(String playerChoosing) {
+        String[] characterUNChosenInfo = playerChoosing.split("-");
+        System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
+        if(characterUNChosenInfo[1].equals("catB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[0][0] = "No_Player";
+            temp[0][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("indianWomanB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[1][0] = "No_Player";
+            temp[1][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("whiteB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[2][0] = "No_Player";
+            temp[2][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("frogB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[3][0] = "No_Player";
+            temp[3][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("gandalfB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[4][0] = "No_Player";
+            temp[4][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
     }
 
     public synchronized void broadcastMessage(int values, String name){

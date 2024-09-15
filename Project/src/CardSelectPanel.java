@@ -45,11 +45,15 @@ public class CardSelectPanel extends JPanel {
     private HostPanel hostPanel;
     private ClientMain clientMain;
     private JFrame jFrame;
+    private CharacterSelectPanel characterSelectPanel;
 
     public CardSelectPanel(JFrame frame, ServerMain serverMain, HostPanel hostPanel) {
         this.jFrame = frame;
         this.serverMain = serverMain;
         this.hostPanel = hostPanel;
+
+        characterSelectPanel = new CharacterSelectPanel(frame, null, serverMain, hostPanel, null, true);
+        hostPanel.setCharacterSelectPanel(characterSelectPanel);
 
         setSize(1920, 1010);
         setLayout(null);
@@ -86,7 +90,7 @@ public class CardSelectPanel extends JPanel {
         done.addActionListener(e -> {
             if(selectionCount==7) {
                 serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
-                frame.setContentPane(new CharacterSelectPanel(frame, null, serverMain, hostPanel, null, true));
+                frame.setContentPane(characterSelectPanel);
                 frame.revalidate();
                 CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
             } else if(selectionCount<7){
@@ -474,5 +478,8 @@ public class CardSelectPanel extends JPanel {
         g.drawImage(image26, 1160, 430, 180, 270, null);
         g.drawImage(image27, 1360, 430, 180, 270, null);
         g.drawImage(image28, 1560, 430, 180, 270, null);
+    }
+    public CharacterSelectPanel getCharacterSelectPanel(){
+        return characterSelectPanel;
     }
 }

@@ -12,18 +12,17 @@ public class ClientMain{
 
     private ConnectPanel connectPanel;
     private WaitingForHostPanel waitingForHostPanel;
-    private CharacterSelectPanel characterSelectPanel;
     private ClientListener clientListener;
     private Socket socket;
     private ObjectOutputStream out;
     private ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
     private final String clientName;
-
-
-    public ClientMain(String clientName){
+    private CharacterSelectPanel characterSelectPanel;
+    public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel){
         this.clientName = clientName;
+        this.characterSelectPanel = characterSelectPanel;
     }
-
+    //Boolean temp = characterSelectPanel.available.get(0);
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Client");
@@ -36,7 +35,6 @@ public class ClientMain{
     public ClientMain getClientMain(){
         return this;
     }
-
     public void setConnectPanel(ConnectPanel connectPanel){
         this.connectPanel = connectPanel;
     }
@@ -91,15 +89,73 @@ public class ClientMain{
         connectPanel.playerListClientSide.remove(clientName);
         connectPanel.updatePlayerList();
     }
-    public void characterTemp1(String playerChoosing) {
+    public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
-
+        if(characterChosenInfo[1].equals("catB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[0][0] = characterChosenInfo[0];
+            temp[0][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterChosenInfo[1].equals("indianWomanB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[1][0] = characterChosenInfo[0];
+            temp[1][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterChosenInfo[1].equals("whiteB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[2][0] = characterChosenInfo[0];
+            temp[2][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterChosenInfo[1].equals("frogB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[3][0] = characterChosenInfo[0];
+            temp[3][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterChosenInfo[1].equals("gandalfB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[4][0] = characterChosenInfo[0];
+            temp[4][1] = "NotMine";
+            characterSelectPanel.updateAvailability(temp);
+        }
     }
-    public void characterTemp2(String playerChoosing) {
+    public void characterTempUNChoose(String playerChoosing) {
         String[] characterUNChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
-
+        if(characterUNChosenInfo[1].equals("catB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[0][0] = "No_Player";
+            temp[0][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("indianWomanB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[1][0] = "No_Player";
+            temp[1][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("whiteB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[2][0] = "No_Player";
+            temp[2][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("frogB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[3][0] = "No_Player";
+            temp[3][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
+        else if(characterUNChosenInfo[1].equals("gandalfB")) {
+            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+            temp[4][0] = "No_Player";
+            temp[4][1] = "Available";
+            characterSelectPanel.updateAvailability(temp);
+        }
     }
     public ArrayList<String> getGamePlayerNames_ClientSide(){
         return gamePlayerNames_ClientSide;

@@ -40,11 +40,16 @@ public class CharacterSelectPanel extends JPanel {
         setSize(1920, 1010);
         setLayout(null);
 
-        FINAL_ARRAY[0][1] = false;
-        FINAL_ARRAY[1][1] = false;
-        FINAL_ARRAY[2][1] = false;
-        FINAL_ARRAY[3][1] = false;
-        FINAL_ARRAY[4][1] = false;
+        FINAL_ARRAY[0][0] = "No_Player";
+        FINAL_ARRAY[1][0] = "No_Player";
+        FINAL_ARRAY[2][0] = "No_Player";
+        FINAL_ARRAY[3][0] = "No_Player";
+        FINAL_ARRAY[4][0] = "No_Player";
+        FINAL_ARRAY[0][1] = "Available";
+        FINAL_ARRAY[1][1] = "Available";
+        FINAL_ARRAY[2][1] = "Available";
+        FINAL_ARRAY[3][1] = "Available";
+        FINAL_ARRAY[4][1] = "Available";
 
         this.jFrame1 = frame;
         this.clientMain = clientMain;
@@ -334,9 +339,48 @@ public class CharacterSelectPanel extends JPanel {
         }
 
     }
-      public void updateAvailability(){
-
+      public void updateAvailability(Object[][] FINAL_ARRAY){
+            for(int i=0;i<5;i++){
+                    if(FINAL_ARRAY[i][1].equals("NotMine"));{
+                        if(i==0){
+                            catB.setEnabled(false);
+                        }
+                        if(i==1){
+                            indianWomanB.setEnabled(false);
+                        }
+                        if(i==2){
+                            whiteB.setEnabled(false);
+                        }
+                        if(i==3){
+                            frogB.setEnabled(false);
+                        }
+                        if(i==4){
+                            gandalfB.setEnabled(false);
+                        }
+                    }
+                if(FINAL_ARRAY[i][1].equals("Available"));{
+                    if(i==0){
+                        catB.setEnabled(true);
+                    }
+                    if(i==1){
+                        indianWomanB.setEnabled(true);
+                    }
+                    if(i==2){
+                        whiteB.setEnabled(true);
+                    }
+                    if(i==3){
+                        frogB.setEnabled(true);
+                    }
+                    if(i==4){
+                        gandalfB.setEnabled(true);
+                    }
+                }
+            }
+            for(int i=0; i<5;i++){
+                for (int j=0;j<2;j++){
+                    System.out.println(FINAL_ARRAY[i][j] + "     ||     ");
+                }
+            }
       }
-
 
 }

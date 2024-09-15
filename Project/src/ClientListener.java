@@ -131,11 +131,11 @@ public class ClientListener implements Runnable{
     }
     public void handle_CharacterSelection(String message){
         String playerChoosing = message.substring(CHARACTER_SELECTION.length());
-        cLientMain.characterTemp1(playerChoosing);
+        cLientMain.characterTempChoose(playerChoosing);
     }
     private void handle_CharacterUNSelection(String message) {
         String playerChoosing = message.substring(CHARACTER_UNSELECTION.length());
-        cLientMain.characterTemp2(playerChoosing);
+        cLientMain.characterTempUNChoose(playerChoosing);
     }
     public String[] halfway_CHARACTER_SELECTION(String message){
         String finalPlayerChoosing = message.substring(DONE_WITH_CHARACTER_SELECTION.length());

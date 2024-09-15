@@ -61,14 +61,21 @@ public class ConnectPanel extends JPanel{
     private ClientListener clientListener;
     public ArrayList<String> playerListClientSide;
     private JFrame jFrame1;
+    private WaitingForHostPanel waitingForHostPanel;
+    private CharacterSelectPanel characterSelectPanel;
 
     public ConnectPanel(JFrame frame){
         setSize(1920, 1040);
         setLayout(null);
         this.jFrame1 = frame;
-        this.clientMain = new ClientMain(nameTextField.getText());
+
+        clientMain = new ClientMain(nameTextField.getText(), characterSelectPanel);
+        waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this);
+        characterSelectPanel = waitingForHostPanel.getCharacterSelectPanel();
+
 
         clientMain.setConnectPanel(this);
+        clientMain.setWaitingForHostPanel(waitingForHostPanel);
         this.playerListClientSide = new ArrayList<>();
 
         titleLabel.setBounds(400,50,500,75);
@@ -210,7 +217,11 @@ public class ConnectPanel extends JPanel{
         playersJoined.setText(updatedText);
     }
     public void switchToWaitingForHostPanel() {
-        jFrame1.setContentPane(new WaitingForHostPanel(jFrame1, clientMain, this));
+        jFrame1.setContentPane(waitingForHostPanel);
         jFrame1.revalidate();
     }
+    public void setCharacterSelectPanel(CharacterSelectPanel panel) {
+        this.characterSelectPanel = panel;
+    }
+
 }

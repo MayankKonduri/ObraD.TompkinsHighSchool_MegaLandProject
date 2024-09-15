@@ -13,6 +13,7 @@ import java.net.Socket;
         public static final String CLIENT_NAME = "CLIENT_NAME:";
         public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED:";
         public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
+        public static final String CHARACTER_UNSELECTION = "CHARACTER_UNSELECTION:";
         public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";
 
     /*
@@ -61,13 +62,14 @@ import java.net.Socket;
                 handleClientLeft(message);
             } else if(message.startsWith(CHARACTER_SELECTION)){
                 handle_CharacterSelection(message);
+            } else if(message.startsWith(CHARACTER_UNSELECTION)) {
+                handle_CharacterUNSelection(message);
             } else if(message.startsWith(DONE_WITH_CHARACTER_SELECTION)) {
                 halfway_CHARACTER_SELECTION(message);
             } else{
                 System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
             }
         }
-
         public void handleUpdatePlayers_Client(String message){
             String clientName = message.substring(CLIENT_NAME.length());
             serverMain.addClientToList(clientName);
@@ -80,7 +82,11 @@ import java.net.Socket;
         }
         public void handle_CharacterSelection(String message){
             String playerChoosing = message.substring(CHARACTER_SELECTION.length());
-            serverMain.characterTemp(playerChoosing);
+            serverMain.characterTempChoose(playerChoosing);
+        }
+        private void handle_CharacterUNSelection(String message) {
+            String playerChoosing = message.substring(CHARACTER_UNSELECTION.length());
+            serverMain.characterTempUNChoose(playerChoosing);
         }
         public String[] halfway_CHARACTER_SELECTION(String message){
             String finalPlayerChoosing = message.substring(DONE_WITH_CHARACTER_SELECTION.length());
