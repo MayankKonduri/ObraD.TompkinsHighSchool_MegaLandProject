@@ -19,7 +19,8 @@ public class WaitingForHostPanel extends JPanel {
     }
 
     public void switchToCharacterSelectPanel() {
-        jframe1.setContentPane(new CharacterSelectPanel(jframe1, clientMain));
+
+        jframe1.setContentPane(new CharacterSelectPanel(jframe1, clientMain, false));
         jframe1.revalidate();
     }
 }

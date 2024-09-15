@@ -48,7 +48,7 @@ public class ConnectPanel extends JPanel{
 
     private JLabel titleLabel = new JLabel("Connecting to Game Server");
     private JLabel nameLabel = new JLabel("Name: ");
-    private JTextField nameTextField = new JTextField(20);
+    public JTextField nameTextField = new JTextField(20);
     private JLabel ipLabel = new JLabel("IP Address: ");
     private JTextField ipTextField = new JTextField(15);
     public JButton confirmButton = new JButton("Connect to Live Game!");
@@ -68,6 +68,7 @@ public class ConnectPanel extends JPanel{
         setLayout(null);
         this.jFrame1 = frame;
         this.clientMain = new ClientMain(nameTextField.getText());
+
         clientMain.setConnectPanel(this);
         this.playerListClientSide = new ArrayList<>();
 

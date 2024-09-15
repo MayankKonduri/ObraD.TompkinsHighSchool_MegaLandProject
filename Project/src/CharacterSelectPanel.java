@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.*;
@@ -26,12 +27,19 @@ public class CharacterSelectPanel extends JPanel {
     private JFrame jFrame1;
     private ClientMain clientMain;
     private ServerMain serverMain;
-    public CharacterSelectPanel(JFrame frame, ClientMain clientMain) {
+    private Boolean isHost;
+    private HostPanel hostPanel;
+    private ConnectPanel connectPanel;
+
+    private CommandFromClient commandFromClient;
+
+    public CharacterSelectPanel(JFrame frame, ClientMain clientMain, Boolean isHost) {
         setSize(1920, 1010);
         setLayout(null);
-
+        this.isHost = isHost;
         this.jFrame1 = frame;
         this.clientMain = clientMain;
+        this.connectPanel = new ConnectPanel(new JFrame()); //this is wrong way
 
         if(clientMain != null){
             clientMain.setcharacterSelectPanel(this);
@@ -75,13 +83,13 @@ public class CharacterSelectPanel extends JPanel {
             if(catB.getText().equals("Available")) {
                 reset(catB);
                 catB.setText("Selected");
-                catB.setBackground(Color.BLACK);
-                catB.setForeground(Color.WHITE);
+                catB.setBackground(Color.GREEN);
+                catB.setForeground(Color.BLACK);
                 available.set(0,true);
-
                 selected.setText("Your Character is Cat");
                 isSelected = true;
                 System.out.println("Selected: Cat");
+                notifyCharacterSelection("catB");
             } else {
                 catB.setText("Available");
                 System.out.println("Unselected: catB");
@@ -95,8 +103,8 @@ public class CharacterSelectPanel extends JPanel {
             if(indianWomanB.getText().equals("Available")) {
                 reset(indianWomanB);
                 indianWomanB.setText("Selected");
-                indianWomanB.setBackground(Color.BLACK);
-                indianWomanB.setForeground(Color.WHITE);
+                indianWomanB.setBackground(Color.GREEN);
+                indianWomanB.setForeground(Color.BLACK);
                 available.set(1,true);
                 selected.setText("Your Character is Woman");
                 isSelected = true;
@@ -115,8 +123,8 @@ public class CharacterSelectPanel extends JPanel {
             if(whiteB.getText().equals("Available")) {
                 reset(whiteB);
                 whiteB.setText("Selected");
-                whiteB.setBackground(Color.BLACK);
-                whiteB.setForeground(Color.WHITE);
+                whiteB.setBackground(Color.GREEN);
+                whiteB.setForeground(Color.BLACK);
                 available.set(2,true);
                 selected.setText("Your Character is White Boy");
                 isSelected = true;
@@ -136,8 +144,8 @@ public class CharacterSelectPanel extends JPanel {
             if(frogB.getText().equals("Available")) {
                 reset(frogB);
                 frogB.setText("Selected");
-                frogB.setBackground(Color.BLACK);
-                frogB.setForeground(Color.WHITE);
+                frogB.setBackground(Color.GREEN);
+                frogB.setForeground(Color.BLACK);
                 available.set(3,true);
                 selected.setText("Your Character is Froggy");
                 isSelected = true;
@@ -156,8 +164,8 @@ public class CharacterSelectPanel extends JPanel {
             if(gandalfB.getText().equals("Available")) {
                 reset(gandalfB);
                 gandalfB.setText("Selected");
-                gandalfB.setBackground(Color.BLACK);
-                gandalfB.setForeground(Color.WHITE);
+                gandalfB.setBackground(Color.GREEN);
+                gandalfB.setForeground(Color.BLACK);
                 available.set(3,true);
                 selected.setText("Your Character is Gandalf");
                 isSelected = true;
@@ -233,12 +241,24 @@ public class CharacterSelectPanel extends JPanel {
         jFrame1.setContentPane(new GamePanel(jFrame1));
         jFrame1.revalidate();
     }
-    /*public void notifyCharacterSelection(String characterName){
-      if(clientMain != null){
+    public void notifyCharacterSelection(String characterName){
+        System.out.println("Got Into Character Selection");
+      if(clientMain != null){ //ClientMain is Null....
           try{
               ObjectOutputStream out = clientMain.getOut();
-              serverMain.broadcastMessage(6, );
+
+              if(isHost){
+                  String playerName1 = hostPanel.nameTextField.getText();
+                  serverMain.broadcastMessage(6, playerName1 + "-" + characterName);
+              }
+              else{
+                  String playerName1 = connectPanel.nameTextField.getText();
+                  System.out.println("NotifyingCharacterSelection" + characterName);
+                  CommandFromClient.notify_CHARACTER_SELECTION(out, playerName1, characterName);
+              }
+          }catch (Exception e){
+              e.printStackTrace();
           }
       }
-    }*/
+    }
 }

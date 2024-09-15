@@ -85,14 +85,13 @@ public class CardSelectPanel extends JPanel {
         done.addActionListener(e -> {
             if(selectionCount==7) {
                 serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
-                frame.setContentPane(new CharacterSelectPanel(frame, clientMain));
-                frame.revalidate();
+                //frame.setContentPane(new CharacterSelectPanel(frame, clientMain, true));
+                //frame.revalidate();
                 //CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
             } else if(selectionCount<7){
                 error.setVisible(true);
                 int needed = 7 - selectionCount;
                 error.setText("You need to select " + needed + " more.");
-
             } else {
                 error.setVisible(true);
                 int neededG = selectionCount -7;

@@ -52,9 +52,8 @@ public class HostPanel extends JPanel{
         hostName="";
         setSize(1920, 1040);
         setLayout(null);
-        this.clientMain = clientMain;
-
         this.playerList_serverSide = new ArrayList<>();
+        this.clientMain = clientMain;
 
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();

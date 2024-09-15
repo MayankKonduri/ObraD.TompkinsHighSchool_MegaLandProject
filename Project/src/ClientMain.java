@@ -32,6 +32,9 @@ public class ClientMain{
             frame.setVisible(true);
         });
     }
+    public ClientMain getClientMain(){
+        return this;
+    }
 
     public void setConnectPanel(ConnectPanel connectPanel){
         this.connectPanel = connectPanel;

@@ -116,6 +116,13 @@ public class ServerMain{
                         CommandFromServer.notify_CLIENT_DISCONNECTED(out, name);
                     }}
                 break;
+            case 6:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        String[] characterCombined = name.split("-");
+                        CommandFromServer.notify_CHARACTER_SELECTION(out, characterCombined[0], characterCombined[1]);
+                    }}
+                break;
         }
     }
     public void stopServer(){
