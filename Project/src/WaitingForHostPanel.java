@@ -32,10 +32,10 @@ public class WaitingForHostPanel extends JPanel {
             System.out.println("Special Case, Don't Try Test Case Pls");
         }));
 
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
+        jframe1.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        jframe1.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-
+                //
             }
         });
 
