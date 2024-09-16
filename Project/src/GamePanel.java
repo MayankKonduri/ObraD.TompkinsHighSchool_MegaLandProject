@@ -20,10 +20,17 @@ public class GamePanel extends JPanel {
     private CardSelectPanel cardSelectPanel;
     private CharacterSelectPanel characterSelectPanel;
     private Boolean isHost1;
+    private BufferedImage playerCard, heartCard, starCardBackground, sandwichStand, cafe, arcade, bazaarOfOddities, hotel, buildingCardBackground, reptileStable, herbHut, ostrichRanch, playerLevelCard;
+
 
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost) {
         setSize(1920, 1010);
         setLayout(null);
+        try {
+            playerLevelCard = ImageIO.read((new File("Project\\src\\Images\\MegaLand_PlayerCard.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.jFrame = frame;
         this.clientMain = clientMain;
@@ -45,4 +52,13 @@ public class GamePanel extends JPanel {
             System.out.println("Connected Players: " + clientMain.gamePlayerNames_ClientSide);
         }
     }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        Graphics bg = buffer.getGraphics();
+        g.drawImage(playerLevelCard, 0, 0, 1920, 1010, null);
+//        g.drawImage(buffer, 0, 0, null);
+    }
+
+
 }
