@@ -36,7 +36,7 @@ public class CardSelectPanel extends JPanel {
     private JButton select27 = new JButton("Select");
     private JButton select28 = new JButton("Select");
     private int selectionCount = 0;
-    private ArrayList<Boolean> buildingsSelect = new ArrayList<>(17);
+    public ArrayList<Boolean> buildingsSelect = new ArrayList<>(17);
     private JLabel buildingLabel= new JLabel("You have selected 0/7 buildings");
     private JLabel randomLabel = new JLabel("Press to Select Random Buildings");
     private JButton random = new JButton("Random");
@@ -327,6 +327,10 @@ public class CardSelectPanel extends JPanel {
                 }
             }
         });
+    }
+
+    public ArrayList<Boolean> getBuildingsSelect() {
+        return buildingsSelect;
     }
 
     public void randomSelectedColor(JButton button) {

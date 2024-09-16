@@ -20,7 +20,15 @@ public class GamePanel extends JPanel {
     private CardSelectPanel cardSelectPanel;
     private CharacterSelectPanel characterSelectPanel;
     private Boolean isHost1;
-    private BufferedImage playerCard, heartCard, starCardBackground, sandwichStand, cafe, arcade, bazaarOfOddities, hotel, buildingCardBackground, reptileStable, herbHut, ostrichRanch, playerLevelCard;
+    //missing one\
+    //skip 25 its a repeat
+    private BufferedImage playerCard, heartCard, starCardBackground,
+            sandwichStand, cafe, arcade, bazaarOfOddities, hotel,
+            buildingCardBackground, reptileStable, herbHut, ostrichRanch, gym, hospital, laboratory, fishingPond, bowlingAlley, smithy, fishVendor, tollBooth,
+            soapMakers, hallOfElders, lodge, rootMarket, endlessMine, arena,
+            backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
+            treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
+            coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
 
 
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost) {
@@ -47,16 +55,22 @@ public class GamePanel extends JPanel {
 
         System.out.println(isHost1);
         if(isHost1) {
-            System.out.println("Connected Players: " + serverMain.gamePlayerNames);
+            System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
         }else {
-            System.out.println("Connected Players: " + clientMain.gamePlayerNames_ClientSide);
+            System.out.println("Connected Players (C): " + clientMain.gamePlayerNames_ClientSide);
         }
+
+//        System.out.println("List of Selected Buildings: " + cardSelectPanel.buildingsSelect);
+
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        Graphics bg = buffer.getGraphics();
-        g.drawImage(playerLevelCard, 0, 0, 1920, 1010, null);
+//        if(cardSelectPanel.buildingsSelect.get(0) == true) {
+//            g.drawImage(playerLevelCard, 0, 0, 1920, 1010, null);
+//
+//        }
 //        g.drawImage(buffer, 0, 0, null);
     }
 
