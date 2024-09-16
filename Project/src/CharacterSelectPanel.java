@@ -316,13 +316,9 @@ public class CharacterSelectPanel extends JPanel {
         done.setBounds(1770, 900, 100, 60);
         done.setEnabled(false);
         done.addActionListener(e -> {
-            if(isSelected) {
                 frame.setContentPane(new GamePanel(frame));
                 frame.revalidate();
-            } else{
-                selected.setText("You need to select a character.");
-            }
-
+                serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
         });
 
 

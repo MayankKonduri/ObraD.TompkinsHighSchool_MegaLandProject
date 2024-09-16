@@ -222,6 +222,13 @@ public class ServerMain{
                         CommandFromServer.notify_HOST_NAME(out, name);
                     }
                 break;
+            case 9:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_ALL_DONE_WITH_CHARACTER_SELECTION(out);
+                    }
+                }
+                break;
         }
     }
     public void stopServer(){

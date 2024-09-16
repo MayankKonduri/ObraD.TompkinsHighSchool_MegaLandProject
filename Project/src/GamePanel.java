@@ -10,8 +10,14 @@ import java.lang.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
+
+    private JLabel WelcomeLabel = new JLabel("IT'S GAME TIME!");
+
     public GamePanel(JFrame frame) {
         setSize(1920, 1010);
         setLayout(null);
+
+        WelcomeLabel.setBounds(400,400,1000,400);
+        add(WelcomeLabel);
     }
 }
