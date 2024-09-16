@@ -16,37 +16,32 @@ import java.nio.Buffer;
 import java.util.ArrayList;
 
 public class ConnectPanel extends JPanel{
-  /*  private BufferedImage loading;
-    private JLabel hostLabel = new JLabel("Connect");
-    private JLabel ipLabel = new JLabel("IP Address: ");
-    private JTextArea playersJoined = new JTextArea("Players Joined:\n");
+    private BufferedImage loading;
+//    private JLabel hostLabel = new JLabel("Connect");
+//    private JLabel ipLabel = new JLabel("IP Address: ");
+//    private JTextArea playersJoined = new JTextArea("Players Joined:\n");
+//
+//    public ConnectPanel(JFrame frame) {
+//        setSize(1920, 1040);
+//        setLayout(null);
+//
+//        try {
+//            loading = ImageIO.read((new File("Project\\src\\Images\\megaland_banner_1.png")));
+//
+//        } catch (Exception ah) {
+//            ah.printStackTrace();
+//            System.out.println("Error Loading Images: " + ah.getMessage());
+//        }
+//
+//        hostLabel.setBounds(400, 450, 400, 75);
+//        hostLabel.setFont(new Font("Oswald", Font.BOLD, 30));
+//        add(hostLabel);
+//        setVisible(true);
+//    }
 
-    public ConnectPanel(JFrame frame) {
-        setSize(1920, 1040);
-        setLayout(null);
 
-        try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\megaland_banner_1.png")));
 
-        } catch (Exception ah) {
-            ah.printStackTrace();
-            System.out.println("Error Loading Images: " + ah.getMessage());
-        }
 
-        hostLabel.setBounds(400, 450, 400, 75);
-        hostLabel.setFont(new Font("Oswald", Font.BOLD, 30));
-        add(hostLabel);
-        setVisible(true);
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-//        Graphics bg = buffer.getGraphics();
-        g.drawImage(loading, 0, 0, 1920, 1040, null);
-//        g.drawImage(buffer, 0, 0, null);
-    }
-
-*/
 
     private JLabel titleLabel = new JLabel("Connecting to Game Server");
     private JLabel nameLabel = new JLabel("Name: ");
@@ -72,6 +67,12 @@ public class ConnectPanel extends JPanel{
         setLayout(null);
         this.jFrame1 = frame;
 
+        try{
+            loading = ImageIO.read(new File("Project\\src\\Images\\megaland_banner_1.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         clientMain = new ClientMain(nameTextField.getText(), characterSelectPanel);
         waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this);
         characterSelectPanel = waitingForHostPanel.getCharacterSelectPanel();
@@ -81,15 +82,15 @@ public class ConnectPanel extends JPanel{
         clientMain.setWaitingForHostPanel(waitingForHostPanel);
         this.playerListClientSide = new ArrayList<>();
 
-        titleLabel.setBounds(400,50,500,75);
-        titleLabel.setFont(new Font("Oswald", Font.BOLD,30));
+        titleLabel.setBounds(250,380,600,75);
+        titleLabel.setFont(new Font("Oswald", Font.BOLD,40));
         add(titleLabel);
 
-        nameLabel.setBounds(400,150,100,30);
+        nameLabel.setBounds(250,450,100,30);
         nameLabel.setFont(new Font("Georgia", Font.PLAIN,20));
         add(nameLabel);
 
-        nameTextField.setBounds(470,150,330,30);
+        nameTextField.setBounds(350,450,300,30);
         nameTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -108,12 +109,12 @@ public class ConnectPanel extends JPanel{
         });
         add(nameTextField);
 
-        ipLabel.setBounds(400,200,150,30);
+        ipLabel.setBounds(250,500,150,30);
         ipLabel.setFont(new Font("Georgia", Font.PLAIN,20));
         ipLabel.setVisible(true);
         add(ipLabel);
 
-        ipTextField.setBounds(520,200,280,30);
+        ipTextField.setBounds(400,500,250,30);
         ipTextField.setVisible(true);
         ipTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -133,7 +134,7 @@ public class ConnectPanel extends JPanel{
         });
         add(ipTextField);
 
-        confirmButton.setBounds(570,250,230,30);
+        confirmButton.setBounds(400,550,250,30);
         confirmButton.setFont(new Font("Georgia",Font.BOLD,15));
         confirmButton.setEnabled(false);
         confirmButton.addActionListener(e -> {
@@ -151,7 +152,7 @@ public class ConnectPanel extends JPanel{
         });
         add(confirmButton);
 
-        verifyNameButton.setBounds(400, 250, 160, 30);
+        verifyNameButton.setBounds(200, 550, 160, 30);
         verifyNameButton.setFont(new Font("Georgia",Font.BOLD,15));
         verifyNameButton.setEnabled(false);
         verifyNameButton.addActionListener(e -> {
@@ -171,9 +172,9 @@ public class ConnectPanel extends JPanel{
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
         homeButton.addActionListener(e -> {
             if(clientMain.getOut() != null){
-            sendDisconnectMessage();
-            frame.setContentPane(new LoadingPanel(frame));
-            frame.revalidate();
+                sendDisconnectMessage();
+                frame.setContentPane(new LoadingPanel(frame));
+                frame.revalidate();
             }
             else{
                 frame.setContentPane(new LoadingPanel(frame));
@@ -184,7 +185,7 @@ public class ConnectPanel extends JPanel{
 
         playersJoined.setFont(new Font("Georgia", Font.PLAIN, 20));
         playersJoined.setEditable(false);
-        playersJoined.setBounds(400, 300, 400, 300);
+        playersJoined.setBounds(250, 600, 400, 300);
         add(playersJoined);
         //add(playersScrollPane);
 
@@ -261,15 +262,22 @@ public class ConnectPanel extends JPanel{
     public void verifyName() {
         for(int i=0;i<playerListClientSide.size()-1;i++){
             System.out.println("Entered Search!");
-        if(nameTextField.getText().equals(playerListClientSide.get(i))){
-            JOptionPane.showMessageDialog(this, "Found Match!");
-            connectPanel1 = new ConnectPanel(new JFrame());
-            connectPanel1.ipTextField.setText(this.ipTextField.getText());
-            System.out.println("Please Join Game Again with Valid Name");
-            sendDisconnectMessage();
-            jFrame1.setContentPane(connectPanel1);
-            jFrame1.revalidate();
-        }
+            if(nameTextField.getText().equals(playerListClientSide.get(i))){
+                JOptionPane.showMessageDialog(this, "Found Match!");
+                connectPanel1 = new ConnectPanel(new JFrame());
+                connectPanel1.ipTextField.setText(this.ipTextField.getText());
+                System.out.println("Please Join Game Again with Valid Name");
+                sendDisconnectMessage();
+                jFrame1.setContentPane(connectPanel1);
+                jFrame1.revalidate();
+            }
         }
     }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        Graphics bg = buffer.getGraphics();
+        g.drawImage(loading, 0, 0, 1920, 1010, null);
+//        g.drawImage(buffer, 0, 0, null);
+    }
+
 }
