@@ -26,18 +26,18 @@ public class WaitingForHostPanel extends JPanel {
         add(waitingLabel);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            /*if(clientMain != null && clientMain.getOut()!=null) {
-                sendDisconnectMessage();
-            }*/
-            System.out.println("Special Case, Don't Try Test Case Pls");
+            if(clientMain != null && clientMain.getOut()!=null) {
+                //sendDisconnectMessage();
+            }
         }));
 
-        jframe1.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        jframe1.addWindowListener(new WindowAdapter() {
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                //
+                System.out.println("No Can Do");
             }
         });
+
 
     }
 
