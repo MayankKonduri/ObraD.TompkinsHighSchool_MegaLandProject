@@ -32,7 +32,7 @@ public class HostPanel extends JPanel{
     private BufferedImage loading;
     private String ipAddress;
     public String hostName;
-    private final int[] selectedNumberOfPlayers = {2};
+    public final int[] selectedNumberOfPlayers = {2};
     private JLabel peopleInGameLabel = new JLabel("People in Game Server: ");
     private JTextArea peopleListArea = new JTextArea();
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);

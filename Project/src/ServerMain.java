@@ -75,7 +75,7 @@ public class ServerMain{
         hostPanel.playerList_serverSide.add(clientName);
         hostPanel.updatePeopleList();
         System.out.println(gamePlayerNames);
-        hostPanel.verifyName();
+        //hostPanel.verifyName();
     }
 
     public void removeClientFromList(String clientName) {

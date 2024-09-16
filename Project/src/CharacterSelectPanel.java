@@ -136,6 +136,7 @@ public class CharacterSelectPanel extends JPanel {
                       FINAL_ARRAY[0][0] = connectPanel.nameTextField.getText();
                   }
                   FINAL_ARRAY[0][1] = "Mine";
+                  updateAvailability(FINAL_ARRAY);
               } else {
                   characterSelected = "";
                   catB.setText("Available");
@@ -174,6 +175,8 @@ public class CharacterSelectPanel extends JPanel {
                     FINAL_ARRAY[1][0] = connectPanel.nameTextField.getText();
                 }
                 FINAL_ARRAY[1][1] = "Mine";
+                updateAvailability(FINAL_ARRAY);
+
             } else {
                 characterSelected = "";
                 indianWomanB.setText("Available");
@@ -211,6 +214,7 @@ public class CharacterSelectPanel extends JPanel {
                     FINAL_ARRAY[2][0] = connectPanel.nameTextField.getText();
                 }
                 FINAL_ARRAY[2][1] = "Mine";
+                updateAvailability(FINAL_ARRAY);
             } else {
                 characterSelected = "";
                 whiteB.setText("Available");
@@ -248,6 +252,7 @@ public class CharacterSelectPanel extends JPanel {
                         FINAL_ARRAY[3][0] = connectPanel.nameTextField.getText();
                     }
                     FINAL_ARRAY[3][1] = "Mine";
+                    updateAvailability(FINAL_ARRAY);
                 } else {
                     characterSelected = "";
                     frogB.setText("Available");
@@ -286,6 +291,7 @@ public class CharacterSelectPanel extends JPanel {
                     FINAL_ARRAY[4][0] = connectPanel.nameTextField.getText();
                 }
                 FINAL_ARRAY[4][1] = "Mine";
+                updateAvailability(FINAL_ARRAY);
             } else {
                 characterSelected = "";
                 gandalfB.setText("Available");
@@ -465,6 +471,19 @@ public class CharacterSelectPanel extends JPanel {
                     System.out.print(i+1 + ") " + FINAL_ARRAY[i][j] + "     ||     ");
                 }
             }
+          if(isHost){
+              int NumTemp = hostPanel.selectedNumberOfPlayers[0];
+              int temp = 0;
+              for(int i=0;i<5;i++){
+                  if((FINAL_ARRAYS[i][1] == "Mine") || (FINAL_ARRAYS[i][1] == "NotMine")){
+                      temp++;
+                  }
+              }
+              if(temp == NumTemp){
+                  done.setEnabled(true);
+              }
+          }
+
       }
 
 }
