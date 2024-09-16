@@ -33,12 +33,13 @@ public class CharacterSelectPanel extends JPanel {
     private Boolean isHost;
     private HostPanel hostPanel;
     private ConnectPanel connectPanel;
+    private CardSelectPanel cardSelectPanel;
 
     private CommandFromClient commandFromClient;
     public Object[][] FINAL_ARRAY = new Object[5][2];
 
 
-    public CharacterSelectPanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, Boolean isHost) {
+    public CharacterSelectPanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, Boolean isHost, CardSelectPanel cardSelectPanel) {
         setSize(1920, 1010);
         setLayout(null);
 
@@ -59,6 +60,7 @@ public class CharacterSelectPanel extends JPanel {
         this.hostPanel = hostPanel;
         this.connectPanel = connectPanel;
         this.isHost = isHost;
+        this.cardSelectPanel = cardSelectPanel;
 
         if(clientMain != null){
             clientMain.setcharacterSelectPanel(this);
@@ -316,7 +318,7 @@ public class CharacterSelectPanel extends JPanel {
         done.setBounds(1770, 900, 100, 60);
         done.setEnabled(false);
         done.addActionListener(e -> {
-                frame.setContentPane(new GamePanel(frame));
+                frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, isHost));
                 frame.revalidate();
                 serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
         });
@@ -385,7 +387,7 @@ public class CharacterSelectPanel extends JPanel {
 
     }
     public void switchToGamePanel() {
-        jFrame1.setContentPane(new GamePanel(jFrame1));
+        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, cardSelectPanel, this, isHost));
         jFrame1.revalidate();
     }
     public void notifyCharacterSelection(String characterName){

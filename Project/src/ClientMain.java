@@ -15,7 +15,7 @@ public class ClientMain{
     private ClientListener clientListener;
     private Socket socket;
     private ObjectOutputStream out;
-    private ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
+    public ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
     private final String clientName;
     private CharacterSelectPanel characterSelectPanel;
     public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel){

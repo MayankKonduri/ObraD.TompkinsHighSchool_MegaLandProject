@@ -54,7 +54,7 @@ public class CardSelectPanel extends JPanel {
         this.serverMain = serverMain;
         this.hostPanel = hostPanel;
 
-        characterSelectPanel = new CharacterSelectPanel(frame, null, serverMain, hostPanel, null, true);
+        characterSelectPanel = new CharacterSelectPanel(frame, null, serverMain, hostPanel, null, true, this);
         hostPanel.setCharacterSelectPanel(characterSelectPanel);
 
         setSize(1920, 1010);

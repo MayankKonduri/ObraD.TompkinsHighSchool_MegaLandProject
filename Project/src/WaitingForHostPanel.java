@@ -43,7 +43,7 @@ public class WaitingForHostPanel extends JPanel {
 
     public void switchToCharacterSelectPanel() {
 
-        characterSelectPanel = new CharacterSelectPanel(jframe1, clientMain, null, null, connectPanel,false);
+        characterSelectPanel = new CharacterSelectPanel(jframe1, clientMain, null, null, connectPanel,false, null);
         connectPanel.setCharacterSelectPanel(characterSelectPanel);
         jframe1.setContentPane(characterSelectPanel);
         jframe1.revalidate();

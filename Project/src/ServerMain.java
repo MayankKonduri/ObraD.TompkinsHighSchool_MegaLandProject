@@ -15,7 +15,7 @@ public class ServerMain{
     private ServerSocket serverSocket;
     private final ArrayList<ServerListener> clientListeners = new ArrayList<>();
     public final ArrayList<ObjectOutputStream> clientOutputStreams = new ArrayList<>();
-    private final ArrayList<String> gamePlayerNames = new ArrayList<>();
+    public final ArrayList<String> gamePlayerNames = new ArrayList<>();
     private final String hostName;
     int port;
     private boolean isRunning = false;
