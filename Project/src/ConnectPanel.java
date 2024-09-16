@@ -6,6 +6,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.*;
@@ -183,6 +185,28 @@ public class ConnectPanel extends JPanel{
         //add(playersScrollPane);
 
         setVisible(true);
+
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if(clientMain != null && clientMain.getOut()!=null) {
+                sendDisconnectMessage();
+            }
+        }));
+
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                if(clientMain != null && clientMain.getOut()!=null) {
+                    sendDisconnectMessage();
+                    frame.setContentPane(new LoadingPanel(frame));
+                    frame.revalidate();
+                }
+                frame.setContentPane(new LoadingPanel(frame));
+                frame.revalidate();
+            }
+        });
+
+
     }
     private boolean playerNameExists(String name){
         return playerListClientSide.contains(name);
