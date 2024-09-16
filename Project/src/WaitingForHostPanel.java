@@ -2,6 +2,8 @@ package Project.src;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.ref.Cleaner;
 
 public class WaitingForHostPanel extends JPanel {
@@ -22,6 +24,20 @@ public class WaitingForHostPanel extends JPanel {
         waitingLabel.setBounds(600,600,600,600);
         waitingLabel.setFont(new Font("Georgia", Font.BOLD,20));
         add(waitingLabel);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            /*if(clientMain != null && clientMain.getOut()!=null) {
+                sendDisconnectMessage();
+            }*/
+            System.out.println("Special Case, Don't Try Test Case Pls");
+        }));
+
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+
+            }
+        });
 
     }
 
