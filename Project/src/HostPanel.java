@@ -26,7 +26,6 @@ public class HostPanel extends JPanel{
     private JLabel ipLabel = new JLabel("Hosting IP Address: ");
     private JLabel ipPlaceHolderLabel = new JLabel("Waiting for game settings...");
     private JButton homeButton = new JButton("Home");
-    private JButton changeSettings = new JButton("Change Settings: ");
     private JButton startHostingButton = new JButton("Start Hosting");
     private JButton startButton = new JButton("Start Game");
     private boolean settingsConfirmed = false;
@@ -111,11 +110,10 @@ public class HostPanel extends JPanel{
                 confirmSettings.setText("Confirm Settings");
                 ipLabel.setVisible(false);
                 ipPlaceHolderLabel.setVisible(false);
-                changeSettings.setVisible(false);
                 setPlayerButtonsEnabled(true);
                 peoplePanel.setVisible(true);
-                stopHosting();
                 resetStartHostingButton();
+                clearPeopleList();
                 clearPeopleList();
             } else {
                 hostName = nameTextField.getText();
@@ -124,7 +122,6 @@ public class HostPanel extends JPanel{
                 ipLabel.setVisible(true);
                 ipPlaceHolderLabel.setVisible(true);
                 ipPlaceHolderLabel.setText(ipAddress);
-                changeSettings.setVisible(true);
                 setPlayerButtonsEnabled(false);
                 peoplePanel.setVisible(true);
                 startButton.setVisible(true);
@@ -189,6 +186,7 @@ public class HostPanel extends JPanel{
             startHostingButton.setBackground(Color.LIGHT_GRAY);
             startHostingButton.setForeground(Color.WHITE);
             startHostingButton.setText("Hosting in Progress");
+            confirmSettings.setEnabled(false);
             updatePeopleList();
         });
         add(startHostingButton);
@@ -280,10 +278,6 @@ public class HostPanel extends JPanel{
         for(String playerName : playerList_serverSide){
             System.out.println(playerName);
         }
-    }
-    public synchronized void stopHosting(){
-        serverMain.stopServer();
-        System.out.print("Hosting Stopped!");
     }
     private void resetStartHostingButton(){
         startHostingButton.setEnabled(false);
