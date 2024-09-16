@@ -149,6 +149,8 @@ public class CharacterSelectPanel extends JPanel {
                   notifyCharacterUNSelection("catB");
                   FINAL_ARRAY[0][0] = "No_Player";
                   FINAL_ARRAY[0][1] = "Available";
+                  updateAvailability(FINAL_ARRAY);
+
               }
               System.out.println(available.toString());
           }
@@ -189,6 +191,7 @@ public class CharacterSelectPanel extends JPanel {
                 notifyCharacterUNSelection("indianWomanB");
                 FINAL_ARRAY[1][0] = "No_Player";
                 FINAL_ARRAY[1][1] = "Available";
+                updateAvailability(FINAL_ARRAY);
             }
             System.out.println(available.toString());
         });
@@ -227,6 +230,7 @@ public class CharacterSelectPanel extends JPanel {
                 notifyCharacterUNSelection("whiteB");
                 FINAL_ARRAY[2][0] = "No_Player";
                 FINAL_ARRAY[2][1] = "Available";
+                updateAvailability(FINAL_ARRAY);
             }
             System.out.println(available.toString());
         });
@@ -265,6 +269,7 @@ public class CharacterSelectPanel extends JPanel {
                     notifyCharacterUNSelection("frogB");
                     FINAL_ARRAY[3][0] = "No_Player";
                     FINAL_ARRAY[3][1] = "Available";
+                    updateAvailability(FINAL_ARRAY);
                 }
                 System.out.println(available.toString());
             }
@@ -304,6 +309,7 @@ public class CharacterSelectPanel extends JPanel {
                 notifyCharacterUNSelection("gandalfB");
                 FINAL_ARRAY[4][0] = "No_Player";
                 FINAL_ARRAY[4][1] = "Available";
+                updateAvailability(FINAL_ARRAY);
             }
             System.out.println(available.toString());
         });
@@ -484,6 +490,9 @@ public class CharacterSelectPanel extends JPanel {
               }
               if(temp == NumTemp){
                   done.setEnabled(true);
+              }
+              else{
+                  done.setEnabled(false);
               }
           }
 
