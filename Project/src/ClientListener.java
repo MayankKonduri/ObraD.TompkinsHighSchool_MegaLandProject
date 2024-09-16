@@ -102,7 +102,7 @@ public class ClientListener implements Runnable{
     }
     public void handleUpdatePlayers_Host(String message){
         String hostName = message.substring(HOST_NAME.length());
-        //cLientMain.updatePlayerList(hostName);
+        cLientMain.addHostToList(hostName);
         //TO BE DECIDED ON HOW TO HANDLE THIS CONDITION
         System.out.println("New Host Joined: " + hostName);
     }

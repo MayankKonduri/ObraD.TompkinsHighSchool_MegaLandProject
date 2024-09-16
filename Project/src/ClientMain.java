@@ -77,7 +77,13 @@ public class ClientMain{
             return false;
         }
     }
-
+    public void addHostToList(String hostName) {
+        if(!gamePlayerNames_ClientSide.contains(clientName)){
+            gamePlayerNames_ClientSide.add(0,clientName);
+        }
+        connectPanel.playerListClientSide.add(0,clientName);
+        connectPanel.updatePlayerList();
+    }
     public void addClientToList(String clientName) {
         if(!gamePlayerNames_ClientSide.contains(clientName)){
             gamePlayerNames_ClientSide.add(clientName);
