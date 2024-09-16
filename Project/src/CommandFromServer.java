@@ -22,7 +22,7 @@ public class CommandFromServer implements Serializable
     sendMessage(out, CHARACTER_SELECTION + playerName + "-" + characterName);
 }
     public static final String CHARACTER_UNSELECTION = "CHARACTER_UNSELECTION:";
-    public static void notify_UNCHARACTER_SELECTION(ObjectOutputStream out, String playerName, String characterName){
+    public static void notify_CHARACTER_UNSELECTION(ObjectOutputStream out, String playerName, String characterName){
         sendMessage(out, CHARACTER_UNSELECTION + playerName + "-" + characterName);
     }
     public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";

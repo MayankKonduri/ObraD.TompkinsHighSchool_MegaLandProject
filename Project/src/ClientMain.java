@@ -92,7 +92,7 @@ public class ClientMain{
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
-        if(!(characterChosenInfo[0].equals(clientName))){
+        if(!(characterChosenInfo[0].equals(connectPanel.nameTextField.getText()))){
         if(characterChosenInfo[1].equals("catB")) {
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
             temp[0][0] = characterChosenInfo[0];
@@ -127,7 +127,8 @@ public class ClientMain{
     public void characterTempUNChoose(String playerChoosing) {
         String[] characterUNChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
-        if(!(characterUNChosenInfo[0].equals(clientName))){
+        if(!(characterUNChosenInfo[0].equals(connectPanel.nameTextField.getText()))){
+            System.out.println("RUNNING THIS NOOOO!");
         if(characterUNChosenInfo[1].equals("catB")) {
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
             temp[0][0] = "No_Player";
@@ -157,7 +158,9 @@ public class ClientMain{
             temp[4][0] = "No_Player";
             temp[4][1] = "Available";
             characterSelectPanel.updateAvailability(temp);
-        }}
+        }} else{
+            System.out.println("BYPASSED BECAUSE CLIENT RECEIVING SAME");
+        }
     }
     public ArrayList<String> getGamePlayerNames_ClientSide(){
         return gamePlayerNames_ClientSide;

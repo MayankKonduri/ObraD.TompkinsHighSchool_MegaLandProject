@@ -131,7 +131,8 @@ public class ServerMain{
         System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
         for(ObjectOutputStream clientOut : clientOutputStreams){
             //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
-            broadcastMessage(7,characterUNChosenInfo[0]);
+            broadcastMessage(7, playerChoosing);// I fixed now...
+            System.out.println("DEBUGCASE");
         }
         if(characterUNChosenInfo[1].equals("catB")) {
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
@@ -208,7 +209,7 @@ public class ServerMain{
                 synchronized (clientOutputStreams){
                     for(ObjectOutputStream out: clientOutputStreams){
                         String[] characterCombined = name.split("-");
-                        CommandFromServer.notify_UNCHARACTER_SELECTION(out, characterCombined[0], characterCombined[1]);
+                        CommandFromServer.notify_CHARACTER_UNSELECTION(out, characterCombined[0], characterCombined[1]);
                     }}
                 break;
         }

@@ -103,6 +103,7 @@ public class CharacterSelectPanel extends JPanel {
                   notifyCharacterUNSelection(characterSelected);
               }
               if (catB.getText().equals("Available")) {
+                  characterSelected = "catB";
                   reset(catB);
                   catB.setText("Selected");
                   catB.setBackground(Color.GREEN);
