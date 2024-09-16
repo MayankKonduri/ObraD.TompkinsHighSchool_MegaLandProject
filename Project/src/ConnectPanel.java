@@ -134,16 +134,19 @@ public class ConnectPanel extends JPanel{
 
         confirmButton.setBounds(570,250,230,30);
         confirmButton.setFont(new Font("Georgia",Font.BOLD,15));
-        confirmButton.setEnabled(true);
+        confirmButton.setEnabled(false);
         confirmButton.addActionListener(e -> {
             String clientName = nameTextField.getText();
             String ipAddress = ipTextField.getText();
-            clientMain.connectToServer(ipAddress,clientName);
-            System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
-            confirmButton.setEnabled(false);
-            confirmButton.setBackground(Color.lightGray);
-            confirmButton.setForeground(Color.WHITE);
-            confirmButton.setText("Connected");
+            boolean temp = clientMain.connectToServer(ipAddress,clientName);
+            if(temp) {
+                System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
+                confirmButton.setEnabled(false);
+                confirmButton.setBackground(Color.lightGray);
+                confirmButton.setForeground(Color.WHITE);
+                confirmButton.setText("Connected");
+                verifyNameButton.setEnabled(true);
+            }
         });
         add(confirmButton);
 
@@ -214,7 +217,7 @@ public class ConnectPanel extends JPanel{
     private void updateConfirmButtonState(){
         boolean isNameValid = !nameTextField.getText().trim().isEmpty();
         boolean isIPValid = !ipTextField.getText().trim().isEmpty();
-        verifyNameButton.setEnabled(isNameValid && isIPValid);
+        confirmButton.setEnabled(isNameValid && isIPValid);
     }
     private void sendDisconnectMessage(){
         try{

@@ -55,10 +55,9 @@ public class ClientMain{
         return characterSelectPanel;
     }
 
-    public void connectToServer(String ipAddress, String clientName){
+    public boolean connectToServer(String ipAddress, String clientName){
         if(socket != null && !socket.isClosed()){
             System.out.println("Already Connected");
-            return;
         }
         try{
             socket = new Socket(ipAddress, 12345);
@@ -68,12 +67,14 @@ public class ClientMain{
             gamePlayerNames_ClientSide.add(clientName);
             connectPanel.playerListClientSide.add(clientName);
             CommandFromClient.notify_CLIENT_NAME(out, clientName);
+            return true;
         }catch (IOException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Failed to Connect to Server", "Connection Error",JOptionPane.ERROR_MESSAGE);
             connectPanel.confirmButton.setEnabled(true);
             connectPanel.confirmButton.setBackground(null);
             connectPanel.confirmButton.setForeground(null);
+            return false;
         }
     }
 
