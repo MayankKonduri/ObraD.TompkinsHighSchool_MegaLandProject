@@ -65,18 +65,23 @@ public class ServerMain{
     public void addClientToList(String clientName) {
         if(!gamePlayerNames.contains(clientName)){
             gamePlayerNames.add(clientName);
-            broadcastMessage(4,clientName);
+            for(ObjectOutputStream clientOut : clientOutputStreams){
+                //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
+                broadcastMessage(4,clientName);
+            }
             System.out.println("New Client Joined: " + clientName);
         }
         hostPanel.playerList_serverSide.add(clientName);
         hostPanel.updatePeopleList();
-        broadcastMessage(8, hostName);
     }
 
     public void removeClientFromList(String clientName) {
-        if(gamePlayerNames.remove(clientName)){
+        if(gamePlayerNames.remove(clientName)) {
+            for (ObjectOutputStream clientOut : clientOutputStreams) {
+                //CommandFromServer.notify_CLIENT_DISCONNECTED(clientOut, clientName);
                 broadcastMessage(5, clientName);
             }
+        }
         hostPanel.playerList_serverSide.remove(clientName);
         hostPanel.updatePeopleList();
     }
