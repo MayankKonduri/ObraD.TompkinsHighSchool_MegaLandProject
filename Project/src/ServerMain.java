@@ -99,6 +99,7 @@ public class ServerMain{
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
             temp[0][0] = characterChosenInfo[0];
             temp[0][1] = "NotMine";
+            System.out.println("About to be Updated....");
             characterSelectPanel.updateAvailability(temp);
         }
         else if(characterChosenInfo[1].equals("indianWomanB")) {
@@ -248,6 +249,9 @@ public class ServerMain{
     }
     public ArrayList<String> getGamePlayerNames(){
         return gamePlayerNames;
+    }
+    public void setCharacterSelectPanel(CharacterSelectPanel characterSelectPanel){
+        this.characterSelectPanel = characterSelectPanel;
     }
 
 

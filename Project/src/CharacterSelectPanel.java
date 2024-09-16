@@ -95,6 +95,21 @@ public class CharacterSelectPanel extends JPanel {
         selected.setBounds(680, 900, 700, 70);
         selected.setFont(new Font("Georgia", Font.BOLD, 40));
 
+        /*JLabel test;
+        test = new JLabel("isHost");
+        if(isHost) {
+            test = new JLabel("isHostSquared");
+            test.setBounds(600,900,700,70);
+            add(test);
+            gandalfB.setEnabled(false);
+        }
+        if(isHost == false){
+            test = new JLabel("isClient");
+            test.setBounds(600,900,700,70);
+            add(test);
+            gandalfB.setEnabled(true);
+        }*/
+
 
         catB.addActionListener(e -> {
           if(catB.isEnabled()) {
@@ -347,9 +362,10 @@ public class CharacterSelectPanel extends JPanel {
             e.printStackTrace();
         }
     }
-      public void updateAvailability(Object[][] FINAL_ARRAY){
+      public void updateAvailability(Object[][] FINAL_ARRAYS){
+        System.out.println("Received Message");
             for(int i=0;i<5;i++){
-                if(FINAL_ARRAY[i][1].equals("NotMine")){
+                if(FINAL_ARRAYS[i][1].equals("NotMine")){
                     if(i==0){
                         catB.setEnabled(false);
                     }
@@ -366,7 +382,7 @@ public class CharacterSelectPanel extends JPanel {
                         gandalfB.setEnabled(false);
                     }
                 }
-                else if(FINAL_ARRAY[i][1].equals("Available")){
+                else if(FINAL_ARRAYS[i][1].equals("Available")){
                     if(i==0){
                         catB.setEnabled(true);
                         catB.setForeground(null);
