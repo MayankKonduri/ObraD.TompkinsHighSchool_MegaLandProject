@@ -40,9 +40,9 @@ public class GamePanel extends JPanel {
 
         System.out.println(isHost1);
         if(isHost1) {
-            System.out.println("Connected Players: " + serverMain.gamePlayerNames);
+            System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
         }else {
-            System.out.println("Connected Players: " + clientMain.gamePlayerNames_ClientSide);
+            System.out.println("Connected Players (C): " + clientMain.gamePlayerNames_ClientSide);
         }
     }
 }
