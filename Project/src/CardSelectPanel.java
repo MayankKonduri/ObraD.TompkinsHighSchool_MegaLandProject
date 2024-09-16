@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -308,6 +310,23 @@ public class CardSelectPanel extends JPanel {
         add(randomLabel);
         add(error);
         setVisible(true);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if(serverMain != null) {
+                serverMain.broadcastMessage(3, hostPanel.nameTextField.getText());
+                serverMain.stopServer();
+            }
+        }));
+
+        jFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        jFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                if(serverMain != null) {
+                    serverMain.broadcastMessage(3, hostPanel.nameTextField.getText());
+                    serverMain.stopServer();
+                }
+            }
+        });
     }
 
     public void randomSelectedColor(JButton button) {
@@ -491,4 +510,6 @@ public class CardSelectPanel extends JPanel {
     public void setServerMain(ServerMain serverMain) {
         this.serverMain = serverMain;
     }
+
+    //serverMain.broadcastMessage(3, nameTextField.getText());
 }

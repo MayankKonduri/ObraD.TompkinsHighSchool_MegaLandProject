@@ -216,6 +216,23 @@ public class HostPanel extends JPanel{
         });
         add(homeButton);
 
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if(serverMain != null) {
+                serverMain.broadcastMessage(3, nameTextField.getText());
+                serverMain.stopServer();
+            }
+        }));
+
+        jFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        jFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                if(serverMain != null) {
+                    serverMain.broadcastMessage(3, nameTextField.getText());
+                    serverMain.stopServer();
+                }
+            }
+        });
+
         setVisible(true);
     }
     public void paintComponent(Graphics g) {
