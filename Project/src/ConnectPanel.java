@@ -65,6 +65,7 @@ public class ConnectPanel extends JPanel{
     private JFrame jFrame1;
     private WaitingForHostPanel waitingForHostPanel;
     private CharacterSelectPanel characterSelectPanel;
+    private ConnectPanel connectPanel1;
 
     public ConnectPanel(JFrame frame){
         setSize(1920, 1040);
@@ -257,4 +258,18 @@ public class ConnectPanel extends JPanel{
         this.characterSelectPanel = panel;
     }
 
+    public void verifyName() {
+        for(int i=0;i<playerListClientSide.size()-1;i++){
+            System.out.println("Entered Search!");
+        if(nameTextField.getText().equals(playerListClientSide.get(i))){
+            JOptionPane.showMessageDialog(this, "Found Match!");
+            connectPanel1 = new ConnectPanel(new JFrame());
+            connectPanel1.ipTextField.setText(this.ipTextField.getText());
+            System.out.println("Please Join Game Again with Valid Name");
+            sendDisconnectMessage();
+            jFrame1.setContentPane(connectPanel1);
+            jFrame1.revalidate();
+        }
+        }
+    }
 }

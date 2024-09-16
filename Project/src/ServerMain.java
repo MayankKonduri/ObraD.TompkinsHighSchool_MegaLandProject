@@ -74,6 +74,8 @@ public class ServerMain{
         }
         hostPanel.playerList_serverSide.add(clientName);
         hostPanel.updatePeopleList();
+        System.out.println(gamePlayerNames);
+        hostPanel.verifyName();
     }
 
     public void removeClientFromList(String clientName) {
@@ -85,6 +87,7 @@ public class ServerMain{
         }
         hostPanel.playerList_serverSide.remove(clientName);
         hostPanel.updatePeopleList();
+        System.out.println(gamePlayerNames);
     }
 
     public void characterTempChoose(String playerChoosing) {

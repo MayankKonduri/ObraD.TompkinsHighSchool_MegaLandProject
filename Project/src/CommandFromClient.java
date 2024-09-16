@@ -23,6 +23,10 @@ public class CommandFromClient implements Serializable {
         }
 
     }
+    public static final String VERIFY_NAME = "VERIFY_NAME:";
+    public static void notify_VERIFY_NAME(ObjectOutputStream out, String clientName){
+        sendMessage(out, VERIFY_NAME + clientName);
+    }
     public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
     public static void notify_CHARACTER_SELECTION(ObjectOutputStream out, String playerName, String characterName){
         sendMessage(out, CHARACTER_SELECTION + playerName + "-" + characterName);

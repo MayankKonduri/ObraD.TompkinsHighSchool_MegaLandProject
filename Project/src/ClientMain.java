@@ -79,12 +79,13 @@ public class ClientMain{
     }
     public void addHostToList(String hostName){
         if(!gamePlayerNames_ClientSide.contains(hostName)){
-            gamePlayerNames_ClientSide.add(0,clientName);
+            gamePlayerNames_ClientSide.add(0,hostName);
         }
         if(!connectPanel.playerListClientSide.contains(hostName)){
             connectPanel.playerListClientSide.add(0,hostName);
             connectPanel.updatePlayerList();
         }
+        System.out.println(gamePlayerNames_ClientSide);
     }
     public void addClientToList(String clientName) {
         if(!gamePlayerNames_ClientSide.contains(clientName)){
@@ -94,11 +95,14 @@ public class ClientMain{
             connectPanel.playerListClientSide.add(clientName);
             connectPanel.updatePlayerList();
         }
+        System.out.println(gamePlayerNames_ClientSide);
+        //connectPanel.verifyName();
     }
     public void removeClientFromList(String clientName) {
         gamePlayerNames_ClientSide.remove(clientName);
         connectPanel.playerListClientSide.remove(clientName);
         connectPanel.updatePlayerList();
+        System.out.println(gamePlayerNames_ClientSide);
     }
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
