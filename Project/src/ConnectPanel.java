@@ -164,9 +164,15 @@ public class ConnectPanel extends JPanel{
         homeButton.setBounds(10, 10, 100, 30);
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
         homeButton.addActionListener(e -> {
+            if(!confirmButton.isEnabled()){
             sendDisconnectMessage();
             frame.setContentPane(new LoadingPanel(frame));
             frame.revalidate();
+            }
+            else{
+                frame.setContentPane(new LoadingPanel(frame));
+                frame.revalidate();
+            }
         });
         add(homeButton);
 

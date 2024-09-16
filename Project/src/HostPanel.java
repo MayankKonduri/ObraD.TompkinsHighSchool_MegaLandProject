@@ -230,6 +230,8 @@ public class HostPanel extends JPanel{
                     serverMain.broadcastMessage(3, nameTextField.getText());
                     serverMain.stopServer();
                 }
+                frame.setContentPane(new LoadingPanel(frame));
+                frame.revalidate();
             }
         });
 
