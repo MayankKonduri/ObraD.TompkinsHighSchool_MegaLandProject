@@ -126,10 +126,14 @@ public class CharacterSelectPanel extends JPanel {
                   available.set(0, true);
                   selected.setText("Your Character is Cat");
                   isSelected = true;
-                  System.out.println("Selected: Cat");
+                  System.out.println("Selected: catB");
                   notifyCharacterSelection("catB");
+                  if(isHost){
+                      FINAL_ARRAY[0][0] = hostPanel.nameTextField.getText();
+                  } else {
+                      FINAL_ARRAY[0][0] = connectPanel.nameTextField.getText();
+                  }
                   FINAL_ARRAY[0][1] = "Mine";
-
               } else {
                   characterSelected = "";
                   catB.setText("Available");
@@ -140,6 +144,7 @@ public class CharacterSelectPanel extends JPanel {
                   available.set(0, false);
                   selected.setText("Your Character is ");
                   notifyCharacterUNSelection("catB");
+                  FINAL_ARRAY[0][0] = "No_Player";
                   FINAL_ARRAY[0][1] = "Available";
               }
               System.out.println(available.toString());
@@ -159,8 +164,13 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(1,true);
                 selected.setText("Your Character is Woman");
                 isSelected = true;
-                System.out.println("Selected: frogB");
+                System.out.println("Selected: indianwomanB");
                 notifyCharacterSelection("indianWomanB");
+                if(isHost){
+                    FINAL_ARRAY[1][0] = hostPanel.nameTextField.getText();
+                } else {
+                    FINAL_ARRAY[1][0] = connectPanel.nameTextField.getText();
+                }
                 FINAL_ARRAY[1][1] = "Mine";
             } else {
                 characterSelected = "";
@@ -172,6 +182,7 @@ public class CharacterSelectPanel extends JPanel {
                 available.set(1,false);
                 selected.setText("Your Character is ");
                 notifyCharacterUNSelection("indianWomanB");
+                FINAL_ARRAY[1][0] = "No_Player";
                 FINAL_ARRAY[1][1] = "Available";
             }
             System.out.println(available.toString());
@@ -192,6 +203,11 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: whiteB");
                 notifyCharacterSelection("whiteB");
+                if(isHost){
+                    FINAL_ARRAY[2][0] = hostPanel.nameTextField.getText();
+                } else {
+                    FINAL_ARRAY[2][0] = connectPanel.nameTextField.getText();
+                }
                 FINAL_ARRAY[2][1] = "Mine";
             } else {
                 characterSelected = "";
@@ -203,40 +219,48 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = false;
                 selected.setText("Your Character is ");
                 notifyCharacterUNSelection("whiteB");
+                FINAL_ARRAY[2][0] = "No_Player";
                 FINAL_ARRAY[2][1] = "Available";
             }
             System.out.println(available.toString());
         });
         frogB.addActionListener(e -> {
-            if(isSelected)
-            {
-                notifyCharacterUNSelection(characterSelected);
+            if(frogB.isEnabled()) {
+                if (isSelected) {
+                    notifyCharacterUNSelection(characterSelected);
+                }
+                if (frogB.getText().equals("Available")) {
+                    characterSelected = "frogB";
+                    reset(frogB);
+                    frogB.setText("Selected");
+                    frogB.setBackground(Color.GREEN);
+                    frogB.setForeground(Color.BLACK);
+                    available.set(3, true);
+                    selected.setText("Your Character is Froggy");
+                    isSelected = true;
+                    System.out.println("Selected: frogB");
+                    notifyCharacterSelection("frogB");
+                    if (isHost) {
+                        FINAL_ARRAY[3][0] = hostPanel.nameTextField.getText();
+                    } else {
+                        FINAL_ARRAY[3][0] = connectPanel.nameTextField.getText();
+                    }
+                    FINAL_ARRAY[3][1] = "Mine";
+                } else {
+                    characterSelected = "";
+                    frogB.setText("Available");
+                    System.out.println("Unselected: frogB");
+                    isSelected = false;
+                    frogB.setBackground(null);
+                    frogB.setForeground(null);
+                    available.set(3, false);
+                    selected.setText("Your Character is ");
+                    notifyCharacterUNSelection("frogB");
+                    FINAL_ARRAY[3][0] = "No_Player";
+                    FINAL_ARRAY[3][1] = "Available";
+                }
+                System.out.println(available.toString());
             }
-            if(frogB.getText().equals("Available")) {
-                characterSelected = "frogB";
-                reset(frogB);
-                frogB.setText("Selected");
-                frogB.setBackground(Color.GREEN);
-                frogB.setForeground(Color.BLACK);
-                available.set(3,true);
-                selected.setText("Your Character is Froggy");
-                isSelected = true;
-                System.out.println("Selected: frogB");
-                notifyCharacterSelection("frogB");
-                FINAL_ARRAY[3][1] = "Mine";
-            } else {
-                characterSelected = "";
-                frogB.setText("Available");
-                System.out.println("Unselected: frogB");
-                frogB.setBackground(null);
-                frogB.setForeground(null);
-                available.set(3,false);
-                isSelected = false;
-                selected.setText("Your Character is ");
-                notifyCharacterUNSelection("frogB");
-                FINAL_ARRAY[3][1] = "Available";
-            }
-            System.out.println(available.toString());
         });
         gandalfB.addActionListener(e -> {
             if(isSelected)
@@ -254,6 +278,11 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: gandalfB");
                 notifyCharacterSelection("gandalfB");
+                if(isHost){
+                    FINAL_ARRAY[4][0] = hostPanel.nameTextField.getText();
+                } else {
+                    FINAL_ARRAY[4][0] = connectPanel.nameTextField.getText();
+                }
                 FINAL_ARRAY[4][1] = "Mine";
             } else {
                 characterSelected = "";
@@ -265,6 +294,7 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = false;
                 selected.setText("Your Character is ");
                 notifyCharacterUNSelection("gandalfB");
+                FINAL_ARRAY[4][0] = "No_Player";
                 FINAL_ARRAY[4][1] = "Available";
             }
             System.out.println(available.toString());
@@ -311,6 +341,8 @@ public class CharacterSelectPanel extends JPanel {
         gandalfB.setText("Available");
         indianWomanB.setText("Available");
         frogB.setText("Available");
+        frogB.setForeground(null);
+        frogB.setBackground(null);
         whiteB.setText("Available");
         catB.setText("Available");
         catB.setBackground(null);
@@ -321,8 +353,7 @@ public class CharacterSelectPanel extends JPanel {
         indianWomanB.setBackground(null);
         whiteB.setForeground(null);
         whiteB.setBackground(null);
-        frogB.setForeground(null);
-        frogB.setBackground(null);
+
     }
     public void switchToGamePanel() {
         jFrame1.setContentPane(new GamePanel(jFrame1));
@@ -369,44 +400,45 @@ public class CharacterSelectPanel extends JPanel {
                     if(i==0){
                         catB.setEnabled(false);
                     }
-                    if(i==1){
+                    else if(i==1){
                         indianWomanB.setEnabled(false);
                     }
-                    if(i==2){
+                    else if(i==2){
                         whiteB.setEnabled(false);
                     }
-                    if(i==3){
+                    else if(i==3){
                         frogB.setEnabled(false);
                     }
-                    if(i==4){
+                    else if(i==4){
                         gandalfB.setEnabled(false);
+
                     }
                 }
-                else if(FINAL_ARRAYS[i][1].equals("Available")){
+                 if(FINAL_ARRAYS[i][1].equals("Available")){
                     if(i==0){
                         catB.setEnabled(true);
                         catB.setForeground(null);
                         catB.setBackground(null);
                     }
-                    if(i==1){
+                    else if(i==1){
                         indianWomanB.setEnabled(true);
                         indianWomanB.setForeground(null);
                         indianWomanB.setBackground(null);
                     }
-                    if(i==2){
+                    else if(i==2){
                         whiteB.setEnabled(true);
                         whiteB.setForeground(null);
                         whiteB.setBackground(null);
                     }
-                    if(i==3){
+                    else if(i==3){
                         frogB.setEnabled(true);
                         frogB.setForeground(null);
                         frogB.setBackground(null);
                     }
-                    if(i==4){
-                        frogB.setEnabled(true);
-                        frogB.setForeground(null);
-                        frogB.setBackground(null);
+                    else if(i==4){
+                        gandalfB.setEnabled(true);
+                        gandalfB.setForeground(null);
+                        gandalfB.setBackground(null);
                     }
                 }
             }
