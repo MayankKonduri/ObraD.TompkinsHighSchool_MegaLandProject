@@ -263,9 +263,10 @@ public class HostPanel extends JPanel{
     public void startHostingServer() {
         try {
             cardSelectPanel = new CardSelectPanel(jFrame, null, this);
-            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, characterSelectPanel);
+            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, cardSelectPanel.getCharacterSelectPanel());
             cardSelectPanel = new CardSelectPanel(jFrame, serverMain, this);
             characterSelectPanel = cardSelectPanel.getCharacterSelectPanel();
+            serverMain.setCharacterSelectPanel(characterSelectPanel);
             new Thread(() -> serverMain.startServer()).start();
             System.out.println("Hosting Started");
         } catch (Exception e) {
