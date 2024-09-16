@@ -19,7 +19,7 @@ public class GamePanel extends JPanel {
     private ConnectPanel connectPanel;
     private CardSelectPanel cardSelectPanel;
     private CharacterSelectPanel characterSelectPanel;
-    private Boolean isHost;
+    private Boolean isHost1;
 
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost) {
         setSize(1920, 1010);
@@ -32,13 +32,13 @@ public class GamePanel extends JPanel {
         this.connectPanel = connectPanel;
         this.cardSelectPanel = cardSelectPanel;
         this.characterSelectPanel = characterSelectPanel;
-        this.isHost = isHost;
+        this.isHost1 = isHost;
 
 
         WelcomeLabel.setBounds(400,400,1000,400);
         add(WelcomeLabel);
 
-        if(isHost) {
+        if(isHost1) {
             System.out.println("Connected Players: " + serverMain.gamePlayerNames);
         }else {
             System.out.println("Connected Players: " + clientMain.gamePlayerNames_ClientSide);
