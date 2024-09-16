@@ -308,6 +308,7 @@ public class CharacterSelectPanel extends JPanel {
             System.out.println(available.toString());
         });
         done.setBounds(1770, 900, 100, 60);
+        done.setEnabled(false);
         done.addActionListener(e -> {
             if(isSelected) {
                 frame.setContentPane(new GamePanel(frame));
@@ -353,7 +354,9 @@ public class CharacterSelectPanel extends JPanel {
         add(frogB);
         add(whiteB);
         add(catB);
-        add(done);
+        if(isHost) {
+            add(done);
+        }
         setVisible(true);
     }
 
