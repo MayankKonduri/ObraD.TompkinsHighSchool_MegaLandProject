@@ -38,6 +38,7 @@ public class GamePanel extends JPanel {
         WelcomeLabel.setBounds(400,400,1000,400);
         add(WelcomeLabel);
 
+        System.out.println(isHost1);
         if(isHost1) {
             System.out.println("Connected Players: " + serverMain.gamePlayerNames);
         }else {
