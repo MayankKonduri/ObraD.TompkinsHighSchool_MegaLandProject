@@ -77,12 +77,23 @@ public class ClientMain{
             return false;
         }
     }
+    public void addHostToList(String hostName){
+        if(!gamePlayerNames_ClientSide.contains(hostName)){
+            gamePlayerNames_ClientSide.add(0,clientName);
+        }
+        if(!connectPanel.playerListClientSide.contains(hostName)){
+            connectPanel.playerListClientSide.add(0,hostName);
+            connectPanel.updatePlayerList();
+        }
+    }
     public void addClientToList(String clientName) {
         if(!gamePlayerNames_ClientSide.contains(clientName)){
             gamePlayerNames_ClientSide.add(clientName);
         }
-        connectPanel.playerListClientSide.add(clientName);
-        connectPanel.updatePlayerList();
+        if(!connectPanel.playerListClientSide.contains(clientName)){
+            connectPanel.playerListClientSide.add(clientName);
+            connectPanel.updatePlayerList();
+        }
     }
     public void removeClientFromList(String clientName) {
         gamePlayerNames_ClientSide.remove(clientName);

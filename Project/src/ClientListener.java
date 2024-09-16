@@ -101,10 +101,10 @@ public class ClientListener implements Runnable{
         }
     }
     public void handleUpdatePlayers_Host(String message){
-        //String hostName = message.substring(HOST_NAME.length());
-        //cLientMain.addHostToList(hostName);
+        String hostName = message.substring(HOST_NAME.length());
+        cLientMain.addHostToList(hostName);
         //TO BE DECIDED ON HOW TO HANDLE THIS CONDITION
-        //System.out.println("New Host Joined: " + hostName);
+        System.out.println("THE Host Name: " + hostName);
     }
     public void handleAddition_Players_Client(String message){
             String clientName = message.substring(CLIENT_NAME.length());

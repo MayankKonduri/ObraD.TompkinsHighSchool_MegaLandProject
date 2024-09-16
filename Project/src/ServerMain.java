@@ -68,6 +68,7 @@ public class ServerMain{
             for(ObjectOutputStream clientOut : clientOutputStreams){
                 //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
                 broadcastMessage(4,clientName);
+                broadcastMessage(8, hostName);
             }
             System.out.println("New Client Joined: " + clientName);
         }
