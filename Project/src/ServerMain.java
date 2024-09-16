@@ -92,7 +92,7 @@ public class ServerMain{
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
         for(ObjectOutputStream clientOut : clientOutputStreams){
             //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
-            broadcastMessage(6,playerChoosing);
+            broadcastMessage(6, playerChoosing);
             System.out.println("Sent Successfully");
         }
         if(characterChosenInfo[1].equals("catB")) {

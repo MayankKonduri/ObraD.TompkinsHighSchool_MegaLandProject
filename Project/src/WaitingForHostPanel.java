@@ -19,8 +19,10 @@ public class WaitingForHostPanel extends JPanel {
 
         clientMain.setWaitingForHostPanel(this);
         JLabel waitingLabel = new JLabel("Waiting for Host to Finish Card Selection");
+        waitingLabel.setBounds(600,600,600,600);
         waitingLabel.setFont(new Font("Georgia", Font.BOLD,20));
         add(waitingLabel);
+
     }
 
     public void switchToCharacterSelectPanel() {

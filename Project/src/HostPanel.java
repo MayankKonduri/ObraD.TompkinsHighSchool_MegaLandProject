@@ -207,7 +207,10 @@ public class HostPanel extends JPanel{
         homeButton.setBounds(10, 10, 100, 30);
         homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
         homeButton.addActionListener(e -> {
-            serverMain.stopServer();
+            if(serverMain != null) {
+                serverMain.broadcastMessage(3, nameTextField.getText());
+                serverMain.stopServer();
+            }
             frame.setContentPane(new LoadingPanel(frame));
             frame.revalidate();
         });
