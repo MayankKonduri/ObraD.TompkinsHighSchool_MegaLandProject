@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GamePanel extends JPanel {
 
@@ -21,6 +22,13 @@ public class GamePanel extends JPanel {
     private CharacterSelectPanel characterSelectPanel;
     private Boolean isHost1;
     private String stringCardPanel;
+    private String trimmed_stringCardPanel;
+    private String[] array_trimmed_stringCardPanel;
+    private Boolean booleanValue;
+    private ArrayList<Boolean> cardSelectedList_g_client = new ArrayList<Boolean>();
+
+
+
     //missing one\
     //skip 25 its a repeat
     private BufferedImage personalCard, heartCard, starCardBackground,
@@ -49,6 +57,54 @@ public class GamePanel extends JPanel {
             reptileStable = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
             herbHut = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
             ostrichRanch = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0014.jpg")));
+            gym = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0015.jpg")));
+            hospital = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0016.jpg")));
+            laboratory = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0017.jpg")));
+            fishingPond = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0018.jpg")));
+            bowlingAlley = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0019.jpg")));
+            smithy = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0020.jpg")));
+            fishVendor = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0021.jpg")));
+            tollBooth = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0022.jpg")));
+            soapMakers = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0023.jpg")));
+            hallOfElders = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0024.jpg")));
+            //skip 25
+            lodge = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0026.jpg")));
+            rootMarket = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0027.jpg")));
+            endlessMine = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0028.jpg")));
+            arena = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0029.jpg")));
+            backOfLevelCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0030.jpg")));
+            levelCard31 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0031.jpg")));
+            levelCard32 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0032.jpg")));
+            levelCard33 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0033.jpg")));
+            levelCard34 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0034.jpg")));
+            levelCard35 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0035.jpg")));
+            levelCard36 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0036.jpg")));
+            levelCard37 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0037.jpg")));
+            levelCard38 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0038.jpg")));
+            levelCard39 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0039.jpg")));
+            levelCard40 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0040.jpg")));
+
+            treasureCardBackground = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0041.jpg")));
+            gear = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0042.jpg")));
+            cube = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0043.jpg")));
+            egg = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0044.jpg")));
+            carrot = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0045.jpg")));
+            mineral = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0046.jpg")));
+            fish = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0047.jpg")));
+
+            coin1 = ImageIO.read((new File("Project\\src\\Images\\MegaLand_1_Coin.png")));
+            coin5 = ImageIO.read((new File("Project\\src\\Images\\MegaLand_5_Coin.png")));
+            coin10 = ImageIO.read((new File("Project\\src\\Images\\MegaLand_10_Coin.png")));
+            firstPlayerToken = ImageIO.read((new File("Project\\src\\Images\\MegaLand_1stPlayerToken.png")));
+            heart = ImageIO.read((new File("Project\\src\\Images\\MegaLand_HeartToken.png")));
+            jump = ImageIO.read((new File("Project\\src\\Images\\MegaLand_JumpToken.png")));
+
+            indianWoman = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player1.png")));
+            gandalf = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player2.png")));
+            cat = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player3.png")));
+            frog = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player4.png")));
+            white = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player5.png")));
+
             playerLevelCard = ImageIO.read((new File("Project\\src\\Images\\MegaLand_PlayerCard.png")));
 
         } catch (Exception e) {
@@ -70,10 +126,18 @@ public class GamePanel extends JPanel {
         System.out.println(isHost1);
         if(isHost1) {
             System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
+            System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
+
         }else {
             System.out.println("Connected Players (C): " + clientMain.gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
-            System.out.println("CardList Client Side: " + stringCardPanel);
+            trimmed_stringCardPanel = stringCardPanel.substring(1, stringCardPanel.length()-1);
+            array_trimmed_stringCardPanel = trimmed_stringCardPanel.split(",");
+            for(String element: array_trimmed_stringCardPanel){
+                booleanValue = Boolean.parseBoolean(element.trim());
+                cardSelectedList_g_client.add(booleanValue);
+            }
+            System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
         }
 
 //        System.out.println("List of Selected Buildings: " + cardSelectPanel.buildingsSelect);
@@ -82,6 +146,16 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if(isHost1) {
+            if(cardSelectPanel.buildingsSelect.get(0) == true) {
+                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
+            }
+        } else {
+            if(cardSelectedList_g_client.get(0) == true) {
+                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
+            }
+
+        }
 //        Graphics bg = buffer.getGraphics();
 //        if(cardSelectPanel.buildingsSelect.get(0) == true) {
 //            g.drawImage(playerLevelCard, 0, 0, 1920, 1010, null);
