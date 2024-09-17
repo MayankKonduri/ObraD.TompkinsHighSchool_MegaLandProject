@@ -229,6 +229,13 @@ public class ServerMain{
                     }
                 }
                 break;
+            case 10:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_CARDPANEL_TOSTRING(out, name);
+                    }
+                }
+                break;
         }
     }
     public void stopServer(){

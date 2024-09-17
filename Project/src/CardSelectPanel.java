@@ -95,8 +95,9 @@ public class CardSelectPanel extends JPanel {
                     serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
                     frame.setContentPane(characterSelectPanel);
                     frame.revalidate();
-                    CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
-                    CommandFromServer.notify_CARDPANEL_TOSTRING(serverMain.getOut(), buildingsSelect.toString());
+                    //CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
+                    //CommandFromServer.notify_CARDPANEL_TOSTRING(serverMain.getOut(), buildingsSelect.toString());
+                    serverMain.broadcastMessage(10, buildingsSelect.toString());
                 } else if (selectionCount < 7) {
                     error.setVisible(true);
                     int needed = 7 - selectionCount;
