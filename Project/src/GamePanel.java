@@ -38,8 +38,12 @@ public class GamePanel extends JPanel {
 
         if(isHost1) {
             chatPanel = new ChatPanel(frame, null, serverMain, hostPanel,null, characterSelectPanel, true );
+            jFrame.setContentPane(chatPanel);
+            jFrame.revalidate();
         }else{
             chatPanel = new ChatPanel(frame, clientMain, null,null,connectPanel, characterSelectPanel, false);
+            jFrame.setContentPane(chatPanel);
+            jFrame.revalidate();
         }
         WelcomeLabel.setBounds(400,400,1000,400);
         add(WelcomeLabel);

@@ -15,6 +15,7 @@ public class ChatPanel extends JPanel{
     public ChatPanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost){
         setSize(400,400);
         setLayout(null);
+
         this.frame1 = frame;
         this.clientMain = clientMain;
         this.serverMain = serverMain;
