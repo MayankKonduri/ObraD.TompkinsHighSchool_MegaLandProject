@@ -49,6 +49,10 @@ public class CommandFromServer implements Serializable
     public static void notify_CLIENT_DISCONNECTED(ObjectOutputStream out, String clientName) {
         sendMessage(out, CLIENT_DISCONNECTED + clientName);
     }
+    public static final String CARDPANEL_TOSTRING = "CARDPANEL_TOSTRING:";
+    public static void notify_CARDPANEL_TOSTRING(ObjectOutputStream out, String arrayListCardPanel) {
+        sendMessage(out, CARDPANEL_TOSTRING + arrayListCardPanel);
+    }
 
 
     public static void sendMessage(ObjectOutputStream out, String message) {
@@ -61,4 +65,5 @@ public class CommandFromServer implements Serializable
             e.printStackTrace();
         }
     }
+
 }

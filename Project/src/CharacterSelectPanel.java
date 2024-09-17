@@ -387,7 +387,7 @@ public class CharacterSelectPanel extends JPanel {
 
     }
     public void switchToGamePanel() {
-        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, cardSelectPanel, this, false));
+        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, null, this, false));
         jFrame1.revalidate();
     }
     public void notifyCharacterSelection(String characterName){

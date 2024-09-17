@@ -19,6 +19,7 @@ public class ClientListener implements Runnable{
 
     public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";
     public static final String ALL_DONE_WITH_CHARACTER_SELECTION = "ALL_DONE_WITH_CHARACTER_SELECTION:";
+    public static final String CARDPANEL_TOSTRING = "CARDPANEL_TOSTRING:";
 
 
     /*
@@ -95,11 +96,19 @@ public class ClientListener implements Runnable{
             halfway_CHARACTER_SELECTION(message);
         } else if (message.startsWith(ALL_DONE_WITH_CHARACTER_SELECTION)){
             switchingToGamePanel(message);
+        } else if(message.startsWith(CARDPANEL_TOSTRING)){
+            receivedCardPanel(message);
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
     }
+
+    private void receivedCardPanel(String message) {
+        String arrayListCardPanel = message.substring(CARDPANEL_TOSTRING.length());
+        cLientMain.makeCardChosenAccessible(arrayListCardPanel);
+    }
+
     public void handleUpdatePlayers_Host(String message){
         String hostName = message.substring(HOST_NAME.length());
         cLientMain.addHostToList(hostName);

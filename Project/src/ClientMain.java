@@ -18,6 +18,8 @@ public class ClientMain{
     public ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
     private final String clientName;
     private CharacterSelectPanel characterSelectPanel;
+    public String cardPanel_Client_Side;
+
     public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel){
         this.clientName = clientName;
         this.characterSelectPanel = characterSelectPanel;
@@ -177,6 +179,10 @@ public class ClientMain{
             System.out.println("BYPASSED BECAUSE CLIENT RECEIVING SAME");
         }
     }
+    public void makeCardChosenAccessible(String arrayListCardPanel) {
+        cardPanel_Client_Side = arrayListCardPanel;
+    }
+
     public ArrayList<String> getGamePlayerNames_ClientSide(){
         return gamePlayerNames_ClientSide;
     }
@@ -192,4 +198,5 @@ public class ClientMain{
     public void setSocket(Socket socket){
         this.socket = socket;
     }
+
 }
