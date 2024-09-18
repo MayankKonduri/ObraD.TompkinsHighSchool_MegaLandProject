@@ -318,7 +318,7 @@ public class CharacterSelectPanel extends JPanel {
         done.setBounds(1770, 900, 100, 60);
         done.setEnabled(false);
         done.addActionListener(e -> {
-                frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true));
+                frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null));
                 frame.revalidate();
                 serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
         });
@@ -387,7 +387,7 @@ public class CharacterSelectPanel extends JPanel {
 
     }
     public void switchToGamePanel() {
-        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, null, this, false));
+        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, null, this, false, null));
         jFrame1.revalidate();
     }
     public void notifyCharacterSelection(String characterName){

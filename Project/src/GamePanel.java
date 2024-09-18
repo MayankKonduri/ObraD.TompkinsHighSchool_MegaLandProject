@@ -26,7 +26,8 @@ public class GamePanel extends JPanel {
     private String[] array_trimmed_stringCardPanel;
     private Boolean booleanValue;
     private ArrayList<Boolean> cardSelectedList_g_client = new ArrayList<Boolean>();
-
+    private ChatPanel chatPanel1;
+    private JButton chatButton;
 
 
     //missing one\
@@ -40,9 +41,28 @@ public class GamePanel extends JPanel {
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
 
 
-    public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost) {
+    public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, ChatPanel chatPanel) {
+        this.chatPanel1 = chatPanel;
         setSize(1920, 1010);
         setLayout(null);
+
+        chatButton = new JButton("Chat");
+        chatButton.setBounds(700,20,100,30);
+        chatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleChatPanel();
+            }
+        });
+        add(chatButton);
+        chatPanel1 = new ChatPanel(frame, chatButton, clientMain, serverMain, hostPanel, connectPanel, cardSelectPanel, characterSelectPanel, isHost, this);
+        chatPanel1.setBounds(550,60,250,220);
+        chatPanel1.setVisible(false);
+        add(chatPanel1);
+
+        ;
+
+
         try {
             personalCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0002.jpg")));
             heartCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0003.jpg")));
@@ -142,6 +162,17 @@ public class GamePanel extends JPanel {
 
 //        System.out.println("List of Selected Buildings: " + cardSelectPanel.buildingsSelect);
 
+    }
+
+    private void toggleChatPanel() {
+        if(chatPanel1.isVisible()){
+            chatPanel1.closeChat();
+        }else{
+            chatPanel1.openChat();
+        }
+    }
+    public void receiveMessageFromServer(String playerName, String message) {
+        chatPanel1.handleIncomingMessage(playerName, message);
     }
 
     public void paintComponent(Graphics g) {
