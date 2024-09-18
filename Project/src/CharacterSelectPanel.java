@@ -386,10 +386,11 @@ public class CharacterSelectPanel extends JPanel {
         whiteB.setBackground(null);
 
     }
+    //h
     public void switchToGamePanel() {
         jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, cardSelectPanel, this, false));
         jFrame1.revalidate();
-    }
+
     public void notifyCharacterSelection(String characterName){
           try{
               if(isHost){
