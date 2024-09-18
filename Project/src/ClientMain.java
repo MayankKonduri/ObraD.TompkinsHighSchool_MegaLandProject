@@ -19,10 +19,12 @@ public class ClientMain{
     private final String clientName;
     private CharacterSelectPanel characterSelectPanel;
     public String cardPanel_Client_Side;
+    private ChatPanel chatPanel;
 
-    public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel){
+    public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
         this.clientName = clientName;
         this.characterSelectPanel = characterSelectPanel;
+        this.chatPanel = chatPanel;
     }
     //Boolean temp = characterSelectPanel.available.get(0);
     public static void main(String[] args){
@@ -52,10 +54,14 @@ public class ClientMain{
     public void setcharacterSelectPanel(CharacterSelectPanel characterSelectPanel){
         this.characterSelectPanel = characterSelectPanel;
     }
+    public void setChatPanel(ChatPanel chatPanel){
+        this.chatPanel = chatPanel;
+    }
 
     public CharacterSelectPanel getCharacterSelectPanel() {
         return characterSelectPanel;
     }
+    public ChatPanel getChatPanel(){ return chatPanel; }
 
     public boolean connectToServer(String ipAddress, String clientName){
         if(socket != null && !socket.isClosed()){
@@ -106,6 +112,12 @@ public class ClientMain{
         connectPanel.updatePlayerList();
         System.out.println(gamePlayerNames_ClientSide);
     }
+    public void tempFinalAndMessage(String nameAndMessage) {
+        String[] finalNameAndMessage = nameAndMessage.split("-");
+        System.out.println("Player " + finalNameAndMessage[0] + " Has Sent Message: " + finalNameAndMessage[1]);
+        chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
+    }
+
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);

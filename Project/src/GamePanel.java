@@ -171,9 +171,6 @@ public class GamePanel extends JPanel {
             chatPanel1.openChat();
         }
     }
-    public void receiveMessageFromServer(String playerName, String message) {
-        chatPanel1.handleIncomingMessage(playerName, message);
-    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -196,4 +193,7 @@ public class GamePanel extends JPanel {
     }
 
 
+    public ChatPanel getChatPanel() {
+        return chatPanel1;
+    }
 }

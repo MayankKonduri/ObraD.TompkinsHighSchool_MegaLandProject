@@ -39,6 +39,10 @@ public class CommandFromClient implements Serializable {
     public static void notify_DONE_WITH_CHARACTER_SELECTION(ObjectOutputStream out, String playerName, String characterName) {
         sendMessage(out, DONE_WITH_CHARACTER_SELECTION + playerName + "-" + characterName);
     }
+    public static final String CLIENT_MESSAGE = "CLIENT_MESSAGE:";
+    public static void notify_CLIENT_MESSAGE(ObjectOutputStream out, String playerName, String message) {
+        sendMessage(out, playerName + "-" + message);
+    }
 
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
@@ -50,4 +54,6 @@ public class CommandFromClient implements Serializable {
             e.printStackTrace();
         }
     }
+
+
 }

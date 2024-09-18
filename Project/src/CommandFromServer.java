@@ -1,5 +1,6 @@
 package Project.src;
 
+import javax.swing.plaf.PanelUI;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
@@ -53,7 +54,10 @@ public class CommandFromServer implements Serializable
     public static void notify_CARDPANEL_TOSTRING(ObjectOutputStream out, String arrayListCardPanel) {
         sendMessage(out, CARDPANEL_TOSTRING + arrayListCardPanel);
     }
-
+    public static final String CHAT_MESSAGE_HOST = "CHAT_MESSAGE_HOST:";
+    public static void notify_CHAT_MESSAGE_HOST(ObjectOutputStream out, String name, String message){
+        sendMessage(out, CHAT_MESSAGE_HOST + name + "-" + message);
+    }
 
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {

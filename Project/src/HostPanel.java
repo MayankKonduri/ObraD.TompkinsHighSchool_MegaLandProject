@@ -47,6 +47,8 @@ public class HostPanel extends JPanel{
     private CharacterSelectPanel characterSelectPanel;
     private CardSelectPanel cardSelectPanel;
     private JFrame jFrame;
+    private GamePanel gamePanel;
+    private ChatPanel chatPanel;
 
     public HostPanel(JFrame frame) {
         this.jFrame = frame;
@@ -283,10 +285,14 @@ public class HostPanel extends JPanel{
     public void startHostingServer() {
         try {
             cardSelectPanel = new CardSelectPanel(jFrame, null, this);
-            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, cardSelectPanel.getCharacterSelectPanel());
+            gamePanel = new GamePanel(jFrame, null, null, this, null, null, null, true, null);
+            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, cardSelectPanel.getCharacterSelectPanel(), gamePanel.getChatPanel());
             cardSelectPanel = new CardSelectPanel(jFrame, serverMain, this);
+            gamePanel = new GamePanel(jFrame, null, serverMain, this, null, null, null, true, null);
             characterSelectPanel = cardSelectPanel.getCharacterSelectPanel();
+            chatPanel = gamePanel.getChatPanel();
             serverMain.setCharacterSelectPanel(characterSelectPanel);
+            serverMain.setChatPanel(chatPanel);
             new Thread(() -> serverMain.startServer()).start();
             System.out.println("Hosting Started");
         } catch (Exception e) {

@@ -15,6 +15,7 @@ import java.net.Socket;
         public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
         public static final String CHARACTER_UNSELECTION = "CHARACTER_UNSELECTION:";
         public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";
+        public static final String CLIENT_MESSAGE = "CLIENT_MESSAGE:";
 
     /*
     public static final String CLIENT_NAME = "CLIENT_NAME:";
@@ -66,10 +67,19 @@ import java.net.Socket;
                 handle_CharacterUNSelection(message);
             } else if(message.startsWith(DONE_WITH_CHARACTER_SELECTION)) {
                 halfway_CHARACTER_SELECTION(message);
-            } else{
+            } else if(message.startsWith(CLIENT_MESSAGE)){
+                send_Message_To_All(message);
+            }
+            else{
                 System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
             }
         }
+
+        private void send_Message_To_All(String message) {
+            String nameAndMessage = message.substring(CLIENT_MESSAGE.length());
+            serverMain.tempFinalAndMessage(nameAndMessage);
+        }
+
         public void handleUpdatePlayers_Client(String message){
             String clientName = message.substring(CLIENT_NAME.length());
             serverMain.addClientToList(clientName);

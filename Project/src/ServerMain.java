@@ -23,13 +23,21 @@ public class ServerMain{
     private ObjectOutputStream out;
     private HostPanel hostPanel;
     private CharacterSelectPanel characterSelectPanel;
+    private ChatPanel chatPanel;
 
-    public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel){
+    public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
         this.port = port;
         this.hostName = hostName;
         this.hostPanel = hostPanel;
         this.characterSelectPanel = characterSelectPanel;
+        this.chatPanel = chatPanel;
     }
+
+    public void setChatPanel(ChatPanel chatPanel){
+        this.chatPanel = chatPanel;
+    }
+    public ChatPanel getChatPanel(){ return chatPanel; }
+
     public void startServer() {
         isRunning = true;
         try {
@@ -88,6 +96,15 @@ public class ServerMain{
         hostPanel.playerList_serverSide.remove(clientName);
         hostPanel.updatePeopleList();
         System.out.println(gamePlayerNames);
+    }
+    public void tempFinalAndMessage(String nameAndMessage) {
+        String[] finalNameAndMessage = nameAndMessage.split("-");
+        System.out.println("Player " + finalNameAndMessage[0] + " Has Sent Message: " + finalNameAndMessage[1]);
+        chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
+        for(ObjectOutputStream clientOut : clientOutputStreams){
+            //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
+            broadcastMessage(11, nameAndMessage);
+        }
     }
 
     public void characterTempChoose(String playerChoosing) {
@@ -236,6 +253,13 @@ public class ServerMain{
                     }
                 }
                 break;
+            case 11:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        String[] messageAndName = name.split("-");
+                        CommandFromServer.notify_CHAT_MESSAGE_HOST(out, messageAndName[0], messageAndName[1]);
+                    }}
+                break;
         }
     }
     public void stopServer(){
@@ -276,6 +300,4 @@ public class ServerMain{
     public void setCharacterSelectPanel(CharacterSelectPanel characterSelectPanel){
         this.characterSelectPanel = characterSelectPanel;
     }
-
-
 }

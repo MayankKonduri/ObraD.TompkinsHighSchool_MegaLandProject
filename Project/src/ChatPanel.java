@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.ObjectOutputStream;
 
 public class ChatPanel extends JPanel{
 
@@ -38,6 +39,12 @@ public class ChatPanel extends JPanel{
         this.isHost1 = isHost;
         this.gamePanel1 = gamePanel;
         this.chatButton1 = chatButton1;
+
+        if(clientMain != null){
+            clientMain.setChatPanel(this);
+        } else{
+            System.err.println("ClientMain is not Init.");
+        }
 
         setLayout(null);
         setOpaque(false);
@@ -163,9 +170,10 @@ public class ChatPanel extends JPanel{
     }
     private void sendMessageToPlayers(String message){
         if(isHost1){
-
+            serverMain1.broadcastMessage(11, hostPanel1.nameTextField.getText() + "-" + message);
         }else{
-            
+            ObjectOutputStream out = clientMain1.getOut();
+            CommandFromClient.notify_CLIENT_MESSAGE(out, connectPanel1.nameTextField.getText() , message);
         }
     }
     public void handleIncomingMessage(String playerName, String message){
