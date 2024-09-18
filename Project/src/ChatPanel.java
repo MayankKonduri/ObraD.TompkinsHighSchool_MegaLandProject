@@ -162,7 +162,11 @@ public class ChatPanel extends JPanel{
         repaint();
     }
     private void sendMessageToPlayers(String message){
+        if(isHost1){
 
+        }else{
+            
+        }
     }
     public void handleIncomingMessage(String playerName, String message){
         addMessage(playerName,message);
