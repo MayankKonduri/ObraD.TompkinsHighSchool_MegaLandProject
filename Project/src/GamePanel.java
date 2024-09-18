@@ -26,6 +26,7 @@ public class GamePanel extends JPanel {
     private String[] array_trimmed_stringCardPanel;
     private Boolean booleanValue;
     private ArrayList<Boolean> cardSelectedList_g_client = new ArrayList<Boolean>();
+    public ArrayList<BufferedImage> buildingNames = new ArrayList<>();
 
 
 
@@ -111,6 +112,27 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
 
+        buildingNames.add(reptileStable);
+        buildingNames.add(herbHut);
+        buildingNames.add(ostrichRanch);
+        buildingNames.add(gym);
+        buildingNames.add(hospital);
+        buildingNames.add(laboratory);
+        buildingNames.add(fishingPond);
+        buildingNames.add(bowlingAlley);
+        buildingNames.add(smithy);
+        buildingNames.add(fishVendor);
+        buildingNames.add(tollBooth);
+        buildingNames.add(soapMakers);
+        buildingNames.add(hallOfElders);
+        buildingNames.add(lodge);
+        buildingNames.add(rootMarket);
+        buildingNames.add(endlessMine);
+        buildingNames.add(arena);
+
+
+
+
         this.jFrame = frame;
         this.clientMain = clientMain;
         this.serverMain = serverMain;
@@ -147,21 +169,34 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if(isHost1) {
-            if(cardSelectPanel.buildingsSelect.get(0) == true) {
-                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
+            int j = 0;
+            for(int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
+                boolean selected = false;
+                if(cardSelectPanel.buildingsSelect.get(i) == true) {
+                    selected = true;
+                    g.drawImage(buildingNames.get(i), 40+ (j*140), 40, 120, 200, null);
+
+                }
+                if(selected) {
+                    j++;
+                }
             }
         } else {
-            if(cardSelectedList_g_client.get(0) == true) {
-                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
+            int x = 0;
+            for(int i = 0; i < cardSelectedList_g_client.size(); i++) {
+                boolean selected = false;
+                if(cardSelectedList_g_client.get(i) == true) {
+                    selected = true;
+                    g.drawImage(buildingNames.get(i), 40+ (x*140), 40, 120, 180, null);
+                }
+                if(selected) {
+                    x++;
+                }
             }
 
+
         }
-//        Graphics bg = buffer.getGraphics();
-//        if(cardSelectPanel.buildingsSelect.get(0) == true) {
-//            g.drawImage(playerLevelCard, 0, 0, 1920, 1010, null);
-//
-//        }
-//        g.drawImage(buffer, 0, 0, null);
+
     }
 
 
