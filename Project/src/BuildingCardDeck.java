@@ -1,37 +1,13 @@
 package Project.src;
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
-public class GamePanel extends JPanel {
+public class BuildingCardDeck {
 
-    private JLabel WelcomeLabel = new JLabel("IT'S GAME TIME!");
-    private JFrame jFrame;
-    private ClientMain clientMain;
-    private ServerMain serverMain;
-    private HostPanel hostPanel;
-    private ConnectPanel connectPanel;
-    private CardSelectPanel cardSelectPanel;
-    private CharacterSelectPanel characterSelectPanel;
-    private Boolean isHost1;
-    private String stringCardPanel;
-    private String trimmed_stringCardPanel;
-    private String[] array_trimmed_stringCardPanel;
-    private Boolean booleanValue;
-    private ArrayList<Boolean> cardSelectedList_g_client = new ArrayList<Boolean>();
-    private BuildingCardDeck buildingCardDeck;
-
-
-
-    //missing one\
-    //skip 25 its a repeat
+    public static ArrayList<BuildingCards> buildingDeck = new ArrayList<BuildingCards>();
     private BufferedImage personalCard, heartCard, starCardBackground,
             sandwichStand, cafe, arcade, bazaarOfOddities, hotel, templeOfZoz,
             buildingCardBackground, reptileStable, herbHut, ostrichRanch, gym, hospital, laboratory, fishingPond, bowlingAlley, smithy, fishVendor, tollBooth,
@@ -40,10 +16,8 @@ public class GamePanel extends JPanel {
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
 
+    public BuildingCardDeck(){
 
-    public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost) {
-        setSize(1920, 1010);
-        setLayout(null);
         try {
             personalCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0002.jpg")));
             heartCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0003.jpg")));
@@ -112,61 +86,41 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
 
-        this.jFrame = frame;
-        this.clientMain = clientMain;
-        this.serverMain = serverMain;
-        this.hostPanel = hostPanel;
-        this.connectPanel = connectPanel;
-        this.cardSelectPanel = cardSelectPanel;
-        this.characterSelectPanel = characterSelectPanel;
-        this.isHost1 = isHost;
-        //this.buildingCardDeck = buildingCardDeck;
-
-        WelcomeLabel.setBounds(400,400,1000,400);
-        add(WelcomeLabel);
-
-        System.out.println(isHost1);
-        if(isHost1) {
-            System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
-            System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
-
-        }else {
-            System.out.println("Connected Players (C): " + clientMain.gamePlayerNames_ClientSide);
-            stringCardPanel = clientMain.cardPanel_Client_Side;
-            trimmed_stringCardPanel = stringCardPanel.substring(1, stringCardPanel.length()-1);
-            array_trimmed_stringCardPanel = trimmed_stringCardPanel.split(",");
-            for(String element: array_trimmed_stringCardPanel){
-                booleanValue = Boolean.parseBoolean(element.trim());
-                cardSelectedList_g_client.add(booleanValue);
-            }
-            System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
-        }
-
-//        System.out.println("List of Selected Buildings: " + cardSelectPanel.buildingsSelect);
+        buildingDeck.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
+        buildingDeck.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
+        buildingDeck.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
+        buildingDeck.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
+        buildingDeck.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
+        buildingDeck.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
+        buildingDeck.add(new BuildingCards(7, "Reptile Stable", 1, true, false, reptileStable, 4));
+        buildingDeck.add(new BuildingCards(8, "Herb Hut", 1, false, false, herbHut, 4));
+        buildingDeck.add(new BuildingCards(9, "Ostrich Ranch", 2, false, false, ostrichRanch, 4));
+        buildingDeck.add(new BuildingCards(10, "Gym", 2, false, false, gym, 4));
+        buildingDeck.add(new BuildingCards(11, "Hospital", 2, false, false, hospital, 4));
+        buildingDeck.add(new BuildingCards(12, "Laboratory", 3, false, false, laboratory, 4));
+        buildingDeck.add(new BuildingCards(13, "Fishing Pond", 3, false, true, fishingPond, 4));
+        buildingDeck.add(new BuildingCards(14, "Bowling Alley", 3, false, true, bowlingAlley, 4));
+        buildingDeck.add(new BuildingCards(15, "Smithy", 3, false, false, smithy, 4));
+        buildingDeck.add(new BuildingCards(16, "Fish Vendor", 3, false, false, fishVendor, 4));
+        buildingDeck.add(new BuildingCards(17, "Toll Booth", 3, false, false, tollBooth, 4));
+        buildingDeck.add(new BuildingCards(18, "Soap Makers", 3, false, false, soapMakers, 4));
+        buildingDeck.add(new BuildingCards(19, "Hall of Elders", 3, false, false, hallOfElders, 4));
+        buildingDeck.add(new BuildingCards(20, "Lodge", 4, false, true, lodge, 4));
+        buildingDeck.add(new BuildingCards(21, "Root Market", 4, false, false, rootMarket, 4));
+        buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, endlessMine, 4));
+        buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, arena, 4));
 
     }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if(isHost1) {
-            if(cardSelectPanel.buildingsSelect.get(0) == true) {
-                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
-                BuildingCardDeck.getBuildingDeck();
-                System.out.println(BuildingCardDeck.getBuildingDeck().toString());
-            }
-        } else {
-            if(cardSelectedList_g_client.get(0) == true) {
-                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
-            }
-
-        }
-//        Graphics bg = buffer.getGraphics();
-//        if(cardSelectPanel.buildingsSelect.get(0) == true) {
-//            g.drawImage(playerLevelCard, 0, 0, 1920, 1010, null);
-//
-//        }
-//        g.drawImage(buffer, 0, 0, null);
+    public BuildingCardDeck getBuildingCardDeck(){
+        return this;
     }
 
-
+    public String toString(){
+        return buildingDeck.toString();
+    }
+    public static ArrayList<BuildingCards> getBuildingDeck() {
+        return buildingDeck;
+    }
 }
+
+
