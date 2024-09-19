@@ -41,7 +41,7 @@ public class CommandFromClient implements Serializable {
     }
     public static final String CLIENT_MESSAGE = "CLIENT_MESSAGE:";
     public static void notify_CLIENT_MESSAGE(ObjectOutputStream out, String playerName, String message) {
-        sendMessage(out, playerName + "-" + message);
+        sendMessage(out, CLIENT_MESSAGE + playerName + "-" + message);
     }
 
     public static void sendMessage(ObjectOutputStream out, String message) {

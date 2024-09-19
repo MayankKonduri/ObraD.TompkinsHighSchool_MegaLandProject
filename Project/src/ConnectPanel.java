@@ -73,7 +73,7 @@ public class ConnectPanel extends JPanel{
             e.printStackTrace();
         }
 
-        clientMain = new ClientMain(nameTextField.getText(), characterSelectPanel);
+        clientMain = new ClientMain(nameTextField.getText(), characterSelectPanel, null);
         waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this);
         characterSelectPanel = waitingForHostPanel.getCharacterSelectPanel();
 

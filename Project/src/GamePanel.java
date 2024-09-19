@@ -60,7 +60,12 @@ public class GamePanel extends JPanel {
         chatPanel1.setVisible(false);
         add(chatPanel1);
 
-        ;
+        if(isHost){
+            serverMain.setChatPanel(this.chatPanel1);
+        }
+        else{
+            clientMain.setChatPanel(this.chatPanel1);
+        }
 
 
         try {

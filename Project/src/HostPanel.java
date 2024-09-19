@@ -285,14 +285,10 @@ public class HostPanel extends JPanel{
     public void startHostingServer() {
         try {
             cardSelectPanel = new CardSelectPanel(jFrame, null, this);
-            gamePanel = new GamePanel(jFrame, null, null, this, null, null, null, true, null);
-            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, cardSelectPanel.getCharacterSelectPanel(), gamePanel.getChatPanel());
+            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, cardSelectPanel.getCharacterSelectPanel(), null);
             cardSelectPanel = new CardSelectPanel(jFrame, serverMain, this);
-            gamePanel = new GamePanel(jFrame, null, serverMain, this, null, null, null, true, null);
             characterSelectPanel = cardSelectPanel.getCharacterSelectPanel();
-            chatPanel = gamePanel.getChatPanel();
             serverMain.setCharacterSelectPanel(characterSelectPanel);
-            serverMain.setChatPanel(chatPanel);
             new Thread(() -> serverMain.startServer()).start();
             System.out.println("Hosting Started");
         } catch (Exception e) {
@@ -319,4 +315,5 @@ public class HostPanel extends JPanel{
     public void setCharacterSelectPanel(CharacterSelectPanel panel) {
         this.characterSelectPanel = panel;
     }
+    public void setChatPanel(ChatPanel chatPanel) { this.chatPanel = chatPanel; }
 }

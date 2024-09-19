@@ -318,8 +318,11 @@ public class CharacterSelectPanel extends JPanel {
         done.setBounds(1770, 900, 100, 60);
         done.setEnabled(false);
         done.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> {
                 frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null));
                 frame.revalidate();
+                frame.repaint();
+            });
                 serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
         });
 

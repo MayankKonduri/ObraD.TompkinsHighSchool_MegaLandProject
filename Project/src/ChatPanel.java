@@ -81,7 +81,11 @@ public class ChatPanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 String message = messageField.getText().trim();
                 if(!message.isEmpty()){
-                    addMessage("PlayerName", message);
+                    if(isHost) {
+                        addMessage(hostPanel.nameTextField.getText(), message);
+                    }else{
+                        addMessage(connectPanel.nameTextField.getText(), message);
+                    }
                     messageField.setText("");
                     sendMessageToPlayers(message);
                 }
@@ -112,7 +116,7 @@ public class ChatPanel extends JPanel{
     }
 
     private void addMessage(String playerName, String message) {
-        chatArea.append("<b>" + playerName + "<b>:" + message + "\n");
+        chatArea.append(playerName + ": " + message + "\n");
         chatArea.setCaretPosition(chatArea.getDocument().getLength());
 
         if(!isChatVisible){

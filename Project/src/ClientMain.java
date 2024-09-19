@@ -115,7 +115,9 @@ public class ClientMain{
     public void tempFinalAndMessage(String nameAndMessage) {
         String[] finalNameAndMessage = nameAndMessage.split("-");
         System.out.println("Player " + finalNameAndMessage[0] + " Has Sent Message: " + finalNameAndMessage[1]);
-        chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
+        if(!(finalNameAndMessage[0].equals(connectPanel.nameTextField.getText()))) {
+            chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
+        }
     }
 
     public void characterTempChoose(String playerChoosing) {
