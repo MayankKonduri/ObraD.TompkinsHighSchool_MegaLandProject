@@ -26,7 +26,9 @@ public class ChatPanel extends JPanel{
     private Timer fadeTimer;
     private Timer inactivityTimer;
     private boolean isChatVisible = false;
-    private boolean hasNewMessage = false;;
+    private boolean hasNewMessage = false;
+    private JLabel headerLabel;
+    private JButton closeButton;
 
     public ChatPanel(JFrame frame, JButton chatButton1, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, GamePanel gamePanel){
         this.jFrame1 = frame;
@@ -54,7 +56,17 @@ public class ChatPanel extends JPanel{
         headerPanel.setBackground(new Color(150,150,150));
         headerPanel.setBorder(new EmptyBorder(5,10,5,10));
 
-        JLabel headerLabel = new JLabel("Game Chat with:" /* Player Names */);
+        closeButton = new JButton("X");
+        closeButton.setBounds(220, 5, 25, 20);
+        closeButton.addActionListener(e -> closeChat());
+        headerPanel.add(closeButton);
+
+        if(isHost1) {
+            headerLabel = new JLabel("Game Chat with:" + serverMain.gamePlayerNames);
+        }
+        else{
+            headerLabel = new JLabel("Game Chat with:" + clientMain1.gamePlayerNames_ClientSide);
+        }
         headerLabel.setForeground(Color.WHITE);
         headerLabel.setBounds(10, 5, 200, 20);
         headerPanel.add(headerLabel);
