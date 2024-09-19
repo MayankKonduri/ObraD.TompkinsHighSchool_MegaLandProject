@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
         int i=100;
 
         chatButton = new JButton("Chat");
-        chatButton.setBounds(180,20,100,30);
+        chatButton.setBounds(10,950,100,30);
         chatButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
