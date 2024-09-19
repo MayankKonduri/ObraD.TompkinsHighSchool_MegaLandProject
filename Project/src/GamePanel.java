@@ -14,7 +14,6 @@ import java.util.Arrays;
 
 public class GamePanel extends JPanel {
 
-    private JLabel WelcomeLabel = new JLabel("IT'S GAME TIME!");
     private JFrame jFrame;
     private ClientMain clientMain;
     private ServerMain serverMain;
@@ -147,9 +146,7 @@ public class GamePanel extends JPanel {
         this.cardSelectPanel = cardSelectPanel;
         this.characterSelectPanel = characterSelectPanel;
         this.isHost1 = isHost;
-
-        WelcomeLabel.setBounds(400,400,1000,400);
-        add(WelcomeLabel);
+        
 
         createImageButtons();
 
@@ -167,6 +164,7 @@ public class GamePanel extends JPanel {
                 booleanValue = Boolean.parseBoolean(element.trim());
                 cardSelectedList_g_client.add(booleanValue);
             }
+            createImageButtonsClient();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
         }
 
@@ -212,6 +210,45 @@ public class GamePanel extends JPanel {
                     x = 400;
                     y += height + gap;
                 }
+            }
+        }
+    }
+
+    public void createImageButtonsClient() {
+
+        System.out.println(cardSelectedList_g_client.size());
+        System.out.println(cardSelectedList_g_client);
+        System.out.println(buildingSelected);
+        System.out.println(buildingNames);
+        for (int i = 0; i < cardSelectedList_g_client.size(); i++) {
+            if (cardSelectedList_g_client.get(i) == true) {
+                buildingSelected.add(buildingNames.get(i));
+            }
+        }
+        System.out.println(buildingSelected);
+        int x = 480;
+        int y = 30;
+        int width = 140;
+        int height = 210;
+        int gap = 20;
+        boolean row1 = true;
+        for (BufferedImage image : buildingSelected) {
+            JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
+            button.setBounds(x, y, width, height);
+            button.setContentAreaFilled(false);
+            button.setFocusPainted(false);
+            button.setBorderPainted(false);
+            button.addActionListener(e -> {
+                System.out.println("Button clicked");
+            });
+            add(button);
+            imageButtons.add(button);
+            x += width + gap;
+
+            if(x > 1281 && row1) {
+                row1 = false;
+                x = 400;
+                y += height + gap;
             }
         }
     }
