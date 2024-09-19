@@ -8,6 +8,7 @@ import java.util.*;
 public class BuildingCardDeck {
 
     public static ArrayList<BuildingCards> buildingDeck = new ArrayList<BuildingCards>();
+
     private BufferedImage personalCard, heartCard, starCardBackground,
             sandwichStand, cafe, arcade, bazaarOfOddities, hotel, templeOfZoz,
             buildingCardBackground, reptileStable, herbHut, ostrichRanch, gym, hospital, laboratory, fishingPond, bowlingAlley, smithy, fishVendor, tollBooth,
@@ -110,9 +111,8 @@ public class BuildingCardDeck {
         buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, endlessMine, 4));
         buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, arena, 4));
 
-    }
-    public BuildingCardDeck getBuildingCardDeck(){
-        return this;
+
+
     }
 
     public String toString(){

@@ -5,6 +5,7 @@ public class LevelCards {
     public boolean isTreasureChest = false;
     public int numberSkulls = 0;
     public boolean isJumpAble = false;
+    public boolean playerDrew = false;
 
 
 
@@ -14,5 +15,15 @@ public class LevelCards {
         this.isTreasureChest = isTreasureChest;
         this.numberSkulls = numberSkulls;
         this.isJumpAble = isJumpAble;
+    }
+
+    public boolean playerDrawn(int playerTurn){
+        return playerDrew;
+    }
+    public void setPlayerHearts(int numberSkulls){
+        this.numberSkulls = numberSkulls;
+    }
+    public boolean drawnTreasureLevel(){
+        return
     }
 }
