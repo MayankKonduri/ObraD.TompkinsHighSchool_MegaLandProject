@@ -28,6 +28,9 @@ public class GamePanel extends JPanel {
     private ArrayList<Boolean> cardSelectedList_g_client = new ArrayList<Boolean>();
     private ChatPanel chatPanel1;
     private JButton chatButton;
+    public ArrayList<BufferedImage> buildingNames = new ArrayList<>();
+    public ArrayList<BufferedImage> buildingSelected = new ArrayList<>();
+    private ArrayList<JButton> imageButtons = new ArrayList<>();
 
 
     //missing one\
@@ -138,6 +141,24 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
 
+        buildingNames.add(reptileStable);
+        buildingNames.add(herbHut);
+        buildingNames.add(ostrichRanch);
+        buildingNames.add(gym);
+        buildingNames.add(hospital);
+        buildingNames.add(laboratory);
+        buildingNames.add(fishingPond);
+        buildingNames.add(bowlingAlley);
+        buildingNames.add(smithy);
+        buildingNames.add(fishVendor);
+        buildingNames.add(tollBooth);
+        buildingNames.add(soapMakers);
+        buildingNames.add(hallOfElders);
+        buildingNames.add(lodge);
+        buildingNames.add(rootMarket);
+        buildingNames.add(endlessMine);
+        buildingNames.add(arena);
+
         this.jFrame = frame;
         this.clientMain = clientMain;
         this.serverMain = serverMain;
@@ -146,9 +167,7 @@ public class GamePanel extends JPanel {
         this.cardSelectPanel = cardSelectPanel;
         this.characterSelectPanel = characterSelectPanel;
         this.isHost1 = isHost;
-
-        WelcomeLabel.setBounds(400,400,1000,400);
-        add(WelcomeLabel);
+        createImageButtons();
 
         System.out.println(isHost1);
         if(isHost1) {
@@ -164,6 +183,7 @@ public class GamePanel extends JPanel {
                 booleanValue = Boolean.parseBoolean(element.trim());
                 cardSelectedList_g_client.add(booleanValue);
             }
+            createImageButtonsClient();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
         }
 
@@ -179,25 +199,132 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void createImageButtons() {
+        buildingSelected.add(sandwichStand);
+        buildingSelected.add(cafe);
+        buildingSelected.add(arcade);
+        buildingSelected.add(bazaarOfOddities);
+        buildingSelected.add(hotel);
+        buildingSelected.add(templeOfZoz);
         if(isHost1) {
-            if(cardSelectPanel.buildingsSelect.get(0) == true) {
-                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
-            }
-        } else {
-            if(cardSelectedList_g_client.get(0) == true) {
-                g.drawImage(playerLevelCard, 40, 40, 100, 100, null);
+            for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
+                if (cardSelectPanel.buildingsSelect.get(i) == true) {
+                    buildingSelected.add(buildingNames.get(i));
+                }
             }
 
+            int x = 480;
+            int y = 30;
+            int width = 140;
+            int height = 210;
+            int gap = 20;
+            boolean row1 = true;
+            for (BufferedImage image : buildingSelected) {
+                JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
+                button.setBounds(x, y, width, height);
+                button.setContentAreaFilled(false);
+                button.setFocusPainted(false);
+                button.setBorderPainted(false);
+                button.addActionListener(e -> {
+                    System.out.println("Button clicked");
+                });
+                add(button);
+                imageButtons.add(button);
+                x += width + gap;
+
+                if(x > 1281 && row1) {
+                    row1 = false;
+                    x = 400;
+                    y += height + gap;
+                }
+            }
         }
-//        Graphics bg = buffer.getGraphics();
-//        if(cardSelectPanel.buildingsSelect.get(0) == true) {
-//            g.drawImage(playerLevelCard, 0, 0, 1920, 1010, null);
+    }
+
+    public void createImageButtonsClient() {
+
+        System.out.println(cardSelectedList_g_client.size());
+        System.out.println(cardSelectedList_g_client);
+        System.out.println(buildingSelected);
+        System.out.println(buildingNames);
+        for (int i = 0; i < cardSelectedList_g_client.size(); i++) {
+            if (cardSelectedList_g_client.get(i) == true) {
+                buildingSelected.add(buildingNames.get(i));
+            }
+        }
+        System.out.println(buildingSelected);
+        int x = 480;
+        int y = 30;
+        int width = 140;
+        int height = 210;
+        int gap = 20;
+        boolean row1 = true;
+        for (BufferedImage image : buildingSelected) {
+            JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
+            button.setBounds(x, y, width, height);
+            button.setContentAreaFilled(false);
+            button.setFocusPainted(false);
+            button.setBorderPainted(false);
+            button.addActionListener(e -> {
+                System.out.println("Button clicked");
+            });
+            add(button);
+            imageButtons.add(button);
+            x += width + gap;
+
+            if(x > 1281 && row1) {
+                row1 = false;
+                x = 400;
+                y += height + gap;
+            }
+        }
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        if(isHost1) {
+//            int j = 0;
+//            g.drawImage(sandwichStand, 480, 30, 140, 210, null);
+//            g.drawImage(cafe, 640, 30, 140, 210, null);
+//            g.drawImage(arcade, 800, 30, 140, 210, null);
+//            g.drawImage(bazaarOfOddities, 960, 30, 140, 210, null);
+//            g.drawImage(hotel, 1120, 30, 140, 210, null);
+//            g.drawImage(templeOfZoz, 1280, 30, 140, 210, null);
+//            for(int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
+//                boolean selected = false;
+//                if(cardSelectPanel.buildingsSelect.get(i) == true) {
+//                    selected = true;
+//                    g.drawImage(buildingNames.get(i), 400+ (j*160), 260, 140, 210, null);
+//
+//                }
+//                if(selected) {
+//                    j++;
+//                }
+//            }
+//        } else {
+//            int x = 0;
+//            g.drawImage(sandwichStand, 540, 40, 140, 210, null);
+//            g.drawImage(cafe, 680, 40, 140, 210, null);
+//            g.drawImage(arcade, 820, 40, 140, 210, null);
+//            g.drawImage(bazaarOfOddities, 960, 140, 120, 210, null);
+//            g.drawImage(hotel, 1100, 40, 140, 210, null);
+//            g.drawImage(templeOfZoz, 1240, 40, 140, 210, null);
+//            for(int i = 0; i < cardSelectedList_g_client.size(); i++) {
+//                boolean selected = false;
+//                if(cardSelectedList_g_client.get(i) == true) {
+//                    selected = true;
+//                    g.drawImage(buildingNames.get(i), 400+ (x*160), 260, 140, 210, null);
+//                }
+//                if(selected) {
+//                    x++;
+//                }
+//            }
+//
 //
 //        }
-//        g.drawImage(buffer, 0, 0, null);
+
     }
+
 
 
     public ChatPanel getChatPanel() {
