@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.*;
@@ -27,6 +29,9 @@ public class GamePanel extends JPanel {
     private Boolean booleanValue;
     private ArrayList<Boolean> cardSelectedList_g_client = new ArrayList<Boolean>();
     public ArrayList<BufferedImage> buildingNames = new ArrayList<>();
+    public ArrayList<BufferedImage> buildingSelected = new ArrayList<>();
+    private ArrayList<JButton> imageButtons = new ArrayList<>();
+
 
 
 
@@ -39,6 +44,7 @@ public class GamePanel extends JPanel {
             backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
+
 
 
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost) {
@@ -145,6 +151,8 @@ public class GamePanel extends JPanel {
         WelcomeLabel.setBounds(400,400,1000,400);
         add(WelcomeLabel);
 
+        createImageButtons();
+
         System.out.println(isHost1);
         if(isHost1) {
             System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
@@ -166,36 +174,90 @@ public class GamePanel extends JPanel {
 
     }
 
+    public void createImageButtons() {
+        buildingSelected.add(sandwichStand);
+        buildingSelected.add(cafe);
+        buildingSelected.add(arcade);
+        buildingSelected.add(bazaarOfOddities);
+        buildingSelected.add(hotel);
+        buildingSelected.add(templeOfZoz);
+        if(isHost1) {
+            for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
+                if (cardSelectPanel.buildingsSelect.get(i) == true) {
+                    buildingSelected.add(buildingNames.get(i));
+                }
+            }
+
+            int x = 480;
+            int y = 30;
+            int width = 140;
+            int height = 210;
+            int gap = 20;
+            boolean row1 = true;
+            for (BufferedImage image : buildingSelected) {
+                JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
+                button.setBounds(x, y, width, height);
+                button.setContentAreaFilled(false);
+                button.setFocusPainted(false);
+                button.setBorderPainted(false);
+                button.addActionListener(e -> {
+                    System.out.println("Button clicked");
+                });
+                add(button);
+                imageButtons.add(button);
+                x += width + gap;
+
+                if(x > 1281 && row1) {
+                    row1 = false;
+                    x = 400;
+                    y += height + gap;
+                }
+            }
+        }
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(isHost1) {
-            int j = 0;
-            for(int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
-                boolean selected = false;
-                if(cardSelectPanel.buildingsSelect.get(i) == true) {
-                    selected = true;
-                    g.drawImage(buildingNames.get(i), 40+ (j*140), 40, 120, 200, null);
-
-                }
-                if(selected) {
-                    j++;
-                }
-            }
-        } else {
-            int x = 0;
-            for(int i = 0; i < cardSelectedList_g_client.size(); i++) {
-                boolean selected = false;
-                if(cardSelectedList_g_client.get(i) == true) {
-                    selected = true;
-                    g.drawImage(buildingNames.get(i), 40+ (x*140), 40, 120, 180, null);
-                }
-                if(selected) {
-                    x++;
-                }
-            }
-
-
-        }
+//        if(isHost1) {
+//            int j = 0;
+//            g.drawImage(sandwichStand, 480, 30, 140, 210, null);
+//            g.drawImage(cafe, 640, 30, 140, 210, null);
+//            g.drawImage(arcade, 800, 30, 140, 210, null);
+//            g.drawImage(bazaarOfOddities, 960, 30, 140, 210, null);
+//            g.drawImage(hotel, 1120, 30, 140, 210, null);
+//            g.drawImage(templeOfZoz, 1280, 30, 140, 210, null);
+//            for(int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
+//                boolean selected = false;
+//                if(cardSelectPanel.buildingsSelect.get(i) == true) {
+//                    selected = true;
+//                    g.drawImage(buildingNames.get(i), 400+ (j*160), 260, 140, 210, null);
+//
+//                }
+//                if(selected) {
+//                    j++;
+//                }
+//            }
+//        } else {
+//            int x = 0;
+//            g.drawImage(sandwichStand, 540, 40, 140, 210, null);
+//            g.drawImage(cafe, 680, 40, 140, 210, null);
+//            g.drawImage(arcade, 820, 40, 140, 210, null);
+//            g.drawImage(bazaarOfOddities, 960, 140, 120, 210, null);
+//            g.drawImage(hotel, 1100, 40, 140, 210, null);
+//            g.drawImage(templeOfZoz, 1240, 40, 140, 210, null);
+//            for(int i = 0; i < cardSelectedList_g_client.size(); i++) {
+//                boolean selected = false;
+//                if(cardSelectedList_g_client.get(i) == true) {
+//                    selected = true;
+//                    g.drawImage(buildingNames.get(i), 400+ (x*160), 260, 140, 210, null);
+//                }
+//                if(selected) {
+//                    x++;
+//                }
+//            }
+//
+//
+//        }
 
     }
 
