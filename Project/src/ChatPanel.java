@@ -57,7 +57,7 @@ public class ChatPanel extends JPanel{
         headerPanel.setBorder(new EmptyBorder(5,10,5,10));
 
         closeButton = new JButton("X");
-        closeButton.setBounds(220, 5, 25, 20);
+        closeButton.setBounds(220, 5, 50, 20);
         closeButton.addActionListener(e -> closeChat());
         headerPanel.add(closeButton);
 
@@ -116,7 +116,7 @@ public class ChatPanel extends JPanel{
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                resetInactivityTimer();
+                //resetInactivityTimer();
             }
         });
         messageField.addKeyListener(new KeyAdapter() {
@@ -136,6 +136,7 @@ public class ChatPanel extends JPanel{
             chatButton1.setBorder(new LineBorder(Color.BLUE,3));
         }
         resetInactivityTimer();
+        fadeTimer.start();
     }
     public void openChat(){
         isChatVisible = true;
@@ -144,10 +145,13 @@ public class ChatPanel extends JPanel{
         chatButton1.setBorder(null);
         hasNewMessage = true;
         resetInactivityTimer();
+        chatButton1.setVisible(false);
     }
     public void closeChat(){
         isChatVisible = false;
-        fadeTimer.start();
+        setVisible(false);
+        chatButton1.setVisible(true);
+        chatButton1.setEnabled(true);
     }
     private void createFadeTimer(){
         fadeTimer = new Timer(100, new ActionListener() {
@@ -160,13 +164,13 @@ public class ChatPanel extends JPanel{
                     setVisible(false);
                     chatButton1.setEnabled(true);
                 }
-                setBackground(new Color(0.8f, 0.8f, 0.8f, opacity));
+                setBackground(new Color(0.8f, 0.8f, 0.8f, (int) (opacity *255)));
                 repaint();
             }
         });
     }
     private void createInactivityTimer(){
-        inactivityTimer = new Timer(10000, new ActionListener() {
+        inactivityTimer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!isChatVisible){
