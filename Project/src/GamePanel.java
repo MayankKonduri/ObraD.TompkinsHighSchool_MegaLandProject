@@ -45,9 +45,10 @@ public class GamePanel extends JPanel {
         this.chatPanel1 = chatPanel;
         setSize(1920, 1010);
         setLayout(null);
+        int i=100;
 
         chatButton = new JButton("Chat");
-        chatButton.setBounds(700,20,100,30);
+        chatButton.setBounds(180,20,100,30);
         chatButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,9 +57,10 @@ public class GamePanel extends JPanel {
         });
         add(chatButton);
         chatPanel1 = new ChatPanel(frame, chatButton, clientMain, serverMain, hostPanel, connectPanel, cardSelectPanel, characterSelectPanel, isHost, this);
-        chatPanel1.setBounds(550,60,250,220);
+        chatPanel1.setBounds(100,60,700,600);
         chatPanel1.setVisible(false);
         add(chatPanel1);
+        chatPanel1.setForeground(Color.YELLOW);
 
         if(isHost){
             serverMain.setChatPanel(this.chatPanel1);

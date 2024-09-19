@@ -41,6 +41,7 @@ public class ChatPanel extends JPanel{
         this.isHost1 = isHost;
         this.gamePanel1 = gamePanel;
         this.chatButton1 = chatButton1;
+        int i=0;
 
         if(clientMain != null){
             clientMain.setChatPanel(this);
@@ -52,23 +53,23 @@ public class ChatPanel extends JPanel{
         setOpaque(false);
 
         JPanel headerPanel = new JPanel(null);
-        headerPanel.setBounds(0,0,250,30);
+        headerPanel.setBounds(10-i,0,230,30);
         headerPanel.setBackground(new Color(150,150,150));
         headerPanel.setBorder(new EmptyBorder(5,10,5,10));
 
         closeButton = new JButton("X");
-        closeButton.setBounds(220, 5, 50, 20);
+        closeButton.setBounds(180-i, 5, 45, 20);
         closeButton.addActionListener(e -> closeChat());
         headerPanel.add(closeButton);
 
         if(isHost1) {
-            headerLabel = new JLabel("Game Chat with:" + serverMain.gamePlayerNames);
+            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ serverMain.gamePlayerNames*/);
         }
         else{
-            headerLabel = new JLabel("Game Chat with:" + clientMain1.gamePlayerNames_ClientSide);
+            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ clientMain1.gamePlayerNames_ClientSide*/);
         }
         headerLabel.setForeground(Color.WHITE);
-        headerLabel.setBounds(10, 5, 200, 20);
+        headerLabel.setBounds(10-i, 5, 230, 20);
         headerPanel.add(headerLabel);
         add(headerPanel);
 
@@ -79,15 +80,15 @@ public class ChatPanel extends JPanel{
         chatArea.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JScrollPane scrollPane = new JScrollPane(chatArea);
-        scrollPane.setBounds(10, 40, 230, 130); // Position and size
+        scrollPane.setBounds(10-i, 40, 230, 130); // Position and size
         add(scrollPane);
 
         messageField = new JTextField();
-        messageField.setBounds(10,180,150,30);
+        messageField.setBounds(10-i,180,150,30);
         add(messageField);
 
         JButton sendButton = new JButton("Send");
-        sendButton.setBounds(170, 180, 70, 30);
+        sendButton.setBounds(170-i, 180, 70, 30);
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
