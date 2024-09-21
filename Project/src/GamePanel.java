@@ -27,10 +27,12 @@ public class GamePanel extends JPanel {
     private Boolean booleanValue;
     private ArrayList<Boolean> cardSelectedList_g_client = new ArrayList<Boolean>();
     private ChatPanel chatPanel1;
+    private InGameRulesPanel inGameRulesPanel1;
     private JButton chatButton;
     public ArrayList<BufferedImage> buildingNames = new ArrayList<>();
     public ArrayList<BufferedImage> buildingSelected = new ArrayList<>();
     private ArrayList<JButton> imageButtons = new ArrayList<>();
+    private JButton rules = new JButton("Rules");
 
 
     //missing one\
@@ -44,26 +46,40 @@ public class GamePanel extends JPanel {
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
 
 
-    public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, ChatPanel chatPanel) {
+    public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, ChatPanel chatPanel, InGameRulesPanel inGameRulesPanel) {
         this.chatPanel1 = chatPanel;
+        this.inGameRulesPanel1 = inGameRulesPanel;
         setSize(1920, 1010);
         setLayout(null);
         int i=100;
 
-        chatButton = new JButton("Chat");
-        chatButton.setBounds(10,950,100,30);
-        chatButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleChatPanel();
-            }
-        });
-        add(chatButton);
+//        chatButton = new JButton("Chat");
+//        chatButton.setBounds(10,950,100,30);
+//        chatButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                toggleChatPanel();
+//            }
+//        });
+//        add(chatButton);
         chatPanel1 = new ChatPanel(frame, chatButton, clientMain, serverMain, hostPanel, connectPanel, cardSelectPanel, characterSelectPanel, isHost, this);
-        chatPanel1.setBounds(100,60,700,600);
+        chatPanel1.setBounds(20,760,700,600);
         chatPanel1.setVisible(false);
         add(chatPanel1);
+        toggleChatPanel();
+
         chatPanel1.setForeground(Color.YELLOW);
+
+        rules.setBounds(1830, 20, 70, 30);
+        rules.addActionListener(e -> {
+            toggleInGameRulesPanel();
+        });
+        add(rules);
+
+        inGameRulesPanel1 = new InGameRulesPanel(frame, this);
+        inGameRulesPanel1.setBounds(0, 0, 1920, 1010);
+        inGameRulesPanel1.setVisible(false);
+        add(inGameRulesPanel1);
 
         if(isHost){
             serverMain.setChatPanel(this.chatPanel1);
@@ -199,6 +215,24 @@ public class GamePanel extends JPanel {
         }
     }
 
+
+    private void toggleInGameRulesPanel() {
+        if (inGameRulesPanel1.isVisible()) {
+            inGameRulesPanel1.closeRules();
+            chatPanel1.openChat();
+            rules.setVisible(true);
+
+
+        } else {
+            inGameRulesPanel1.openRules();
+            chatPanel1.closeChat();
+            rules.setVisible(false);
+        }
+    }
+    public void openGame(){
+        setVisible(true);
+    }
+
     public void createImageButtons() {
         buildingSelected.add(sandwichStand);
         buildingSelected.add(cafe);
@@ -329,5 +363,8 @@ public class GamePanel extends JPanel {
 
     public ChatPanel getChatPanel() {
         return chatPanel1;
+    }
+    public InGameRulesPanel getinGameRulesPanel() {
+        return inGameRulesPanel1;
     }
 }

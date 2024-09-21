@@ -52,26 +52,26 @@ public class ChatPanel extends JPanel{
         setLayout(null);
         setOpaque(false);
 
-        JPanel headerPanel = new JPanel(null);
-        headerPanel.setBounds(10-i,0,230,30);
-        headerPanel.setBackground(new Color(150,150,150));
-        headerPanel.setBorder(new EmptyBorder(5,10,5,10));
-
-        closeButton = new JButton("X");
-        closeButton.setBounds(180-i, 5, 45, 20);
-        closeButton.addActionListener(e -> closeChat());
-        headerPanel.add(closeButton);
-
-        if(isHost1) {
-            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ serverMain.gamePlayerNames*/);
-        }
-        else{
-            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ clientMain1.gamePlayerNames_ClientSide*/);
-        }
-        headerLabel.setForeground(Color.WHITE);
-        headerLabel.setBounds(10-i, 5, 230, 20);
-        headerPanel.add(headerLabel);
-        add(headerPanel);
+//        JPanel headerPanel = new JPanel(null);
+//        headerPanel.setBounds(10-i,0,230,30);
+//        headerPanel.setBackground(new Color(150,150,150));
+//        headerPanel.setBorder(new EmptyBorder(5,10,5,10));
+//
+//        closeButton = new JButton("X");
+//        closeButton.setBounds(180-i, 5, 45, 20);
+//        closeButton.addActionListener(e -> closeChat());
+//        headerPanel.add(closeButton);
+//
+//        if(isHost1) {
+//            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ serverMain.gamePlayerNames*/);
+//        }
+//        else{
+//            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ clientMain1.gamePlayerNames_ClientSide*/);
+//        }
+//        headerLabel.setForeground(Color.WHITE);
+//        headerLabel.setBounds(10-i, 5, 230, 20);
+//        headerPanel.add(headerLabel);
+//        add(headerPanel);
 
         chatArea = new JTextArea();
         chatArea.setEditable(false);
@@ -134,7 +134,7 @@ public class ChatPanel extends JPanel{
 
         if(!isChatVisible){
             hasNewMessage = true;
-            chatButton1.setBorder(new LineBorder(Color.BLUE,3));
+//            chatButton1.setBorder(new LineBorder(Color.BLUE,3));
         }
         resetInactivityTimer();
         fadeTimer.start();
@@ -142,17 +142,17 @@ public class ChatPanel extends JPanel{
     public void openChat(){
         isChatVisible = true;
         setVisible(true);
-        chatButton1.setEnabled(false);
-        chatButton1.setBorder(null);
+//        chatButton1.setEnabled(false);
+//        chatButton1.setBorder(null);
         hasNewMessage = true;
         resetInactivityTimer();
-        chatButton1.setVisible(false);
+//        chatButton1.setVisible(false);
     }
     public void closeChat(){
         isChatVisible = false;
         setVisible(false);
-        chatButton1.setVisible(true);
-        chatButton1.setEnabled(true);
+//        chatButton1.setVisible(true);
+//        chatButton1.setEnabled(true);
     }
     private void createFadeTimer(){
         fadeTimer = new Timer(100, new ActionListener() {
@@ -163,7 +163,7 @@ public class ChatPanel extends JPanel{
                 if(opacity <=0){
                     fadeTimer.stop();
                     setVisible(false);
-                    chatButton1.setEnabled(true);
+//                    chatButton1.setEnabled(true);
                 }
                 setBackground(new Color(0.8f, 0.8f, 0.8f, (int) (opacity *255)));
                 repaint();
@@ -201,7 +201,7 @@ public class ChatPanel extends JPanel{
         addMessage(playerName,message);
         if(!isChatVisible){
             hasNewMessage = true;
-            chatButton1.setBorder(new LineBorder(Color.BLUE,3));
+//            chatButton1.setBorder(new LineBorder(Color.BLUE,3));
         }
     }
 }

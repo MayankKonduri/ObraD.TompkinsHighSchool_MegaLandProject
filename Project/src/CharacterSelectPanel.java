@@ -319,7 +319,7 @@ public class CharacterSelectPanel extends JPanel {
         done.setEnabled(false);
         done.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> {
-                frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null));
+                frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null, null));
                 frame.revalidate();
                 frame.repaint();
             });
@@ -390,7 +390,7 @@ public class CharacterSelectPanel extends JPanel {
 
     }
     public void switchToGamePanel() {
-        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, null, this, false, null));
+        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, null, this, false, null, null));
         jFrame1.revalidate();
     }
     public void notifyCharacterSelection(String characterName){
