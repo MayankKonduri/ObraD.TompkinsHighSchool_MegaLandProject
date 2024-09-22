@@ -33,6 +33,10 @@ public class GamePanel extends JPanel {
     public ArrayList<BufferedImage> buildingSelected = new ArrayList<>();
     private ArrayList<JButton> imageButtons = new ArrayList<>();
     private JButton rules = new JButton("Rules");
+    public ArrayList<BuildingCards> buildingDeck = new ArrayList<>();
+    public ArrayList<BuildingCards> buildingDeck1 = new ArrayList<>();
+
+
 
 
     //missing one\
@@ -67,6 +71,7 @@ public class GamePanel extends JPanel {
         chatPanel1.setVisible(false);
         add(chatPanel1);
         toggleChatPanel();
+        buildingCardsInstantiate();
 
         chatPanel1.setForeground(Color.YELLOW);
 
@@ -207,6 +212,53 @@ public class GamePanel extends JPanel {
 
     }
 
+    public void buildingCardsInstantiate() {
+        buildingDeck.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
+        buildingDeck.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
+        buildingDeck.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
+        buildingDeck.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
+        buildingDeck.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
+        buildingDeck.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
+        buildingDeck.add(new BuildingCards(7, "Reptile Stable", 1, true, false, reptileStable, 4));
+        buildingDeck.add(new BuildingCards(8, "Herb Hut", 1, false, false, herbHut, 4));
+        buildingDeck.add(new BuildingCards(9, "Ostrich Ranch", 2, false, false, ostrichRanch, 4));
+        buildingDeck.add(new BuildingCards(10, "Gym", 2, false, false, gym, 4));
+        buildingDeck.add(new BuildingCards(11, "Hospital", 2, false, false, hospital, 4));
+        buildingDeck.add(new BuildingCards(12, "Laboratory", 3, false, false, laboratory, 4));
+        buildingDeck.add(new BuildingCards(13, "Fishing Pond", 3, false, true, fishingPond, 4));
+        buildingDeck.add(new BuildingCards(14, "Bowling Alley", 3, false, true, bowlingAlley, 4));
+        buildingDeck.add(new BuildingCards(15, "Smithy", 3, false, false, smithy, 4));
+        buildingDeck.add(new BuildingCards(16, "Fish Vendor", 3, false, false, fishVendor, 4));
+        buildingDeck.add(new BuildingCards(17, "Toll Booth", 3, false, false, tollBooth, 4));
+        buildingDeck.add(new BuildingCards(18, "Soap Makers", 3, false, false, soapMakers, 4));
+        buildingDeck.add(new BuildingCards(19, "Hall of Elders", 3, false, false, hallOfElders, 4));
+        buildingDeck.add(new BuildingCards(20, "Lodge", 4, false, true, lodge, 4));
+        buildingDeck.add(new BuildingCards(21, "Root Market", 4, false, false, rootMarket, 4));
+        buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, endlessMine, 4));
+        buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, arena, 4));
+
+//        buildingDeck1.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
+//        buildingDeck1.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
+//        buildingDeck1.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
+//        buildingDeck1.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
+//        buildingDeck1.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
+//        buildingDeck1.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
+//        if(isHost1) {
+//            for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
+//                if (cardSelectPanel.buildingsSelect.get(i) == true) {
+//                    buildingDeck1.add(buildingDeck.get(i+5));
+//                }
+//            }
+//        } else {
+//            for (int i = 0; i < cardSelectedList_g_client.size(); i++) {
+//                if (cardSelectedList_g_client.get(i) == true) {
+//                    buildingDeck1.add(buildingDeck.get(i+5));
+//                }
+//            }
+//        }
+
+    }
+
     private void toggleChatPanel() {
         if(chatPanel1.isVisible()){
             chatPanel1.closeChat();
@@ -240,10 +292,17 @@ public class GamePanel extends JPanel {
         buildingSelected.add(bazaarOfOddities);
         buildingSelected.add(hotel);
         buildingSelected.add(templeOfZoz);
+        buildingDeck1.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
+        buildingDeck1.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
+        buildingDeck1.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
+        buildingDeck1.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
+        buildingDeck1.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
+        buildingDeck1.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
         if(isHost1) {
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
                 if (cardSelectPanel.buildingsSelect.get(i) == true) {
                     buildingSelected.add(buildingNames.get(i));
+                    buildingDeck1.add(buildingDeck.get(i+6));
                 }
             }
 
@@ -253,14 +312,24 @@ public class GamePanel extends JPanel {
             int height = 210;
             int gap = 20;
             boolean row1 = true;
-            for (BufferedImage image : buildingSelected) {
+            int index = 0;
+            for(int j = 0; j < buildingSelected.size(); j++) {
+                BufferedImage image = buildingSelected.get(j);
                 JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
                 button.setBounds(x, y, width, height);
                 button.setContentAreaFilled(false);
                 button.setFocusPainted(false);
                 button.setBorderPainted(false);
+                index++;
+                int finalJ = j;
                 button.addActionListener(e -> {
-                    System.out.println("Button clicked");
+                    System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
+                    buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
+                    System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+                    BufferedImage image1 = buildingSelected.get(finalJ);
+                    JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+                    button1.setBounds(900, 600, 140, 210);
+                    add(button1);
                 });
                 add(button);
                 imageButtons.add(button);
@@ -284,6 +353,7 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < cardSelectedList_g_client.size(); i++) {
             if (cardSelectedList_g_client.get(i) == true) {
                 buildingSelected.add(buildingNames.get(i));
+                buildingDeck1.add(buildingDeck.get(i+6));
             }
         }
         System.out.println(buildingSelected);
@@ -293,14 +363,23 @@ public class GamePanel extends JPanel {
         int height = 210;
         int gap = 20;
         boolean row1 = true;
-        for (BufferedImage image : buildingSelected) {
+//        for (BufferedImage image : buildingSelected) {
+        for(int j = 0; j < buildingSelected.size(); j++) {
+            BufferedImage image = buildingSelected.get(j);
             JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
             button.setBounds(x, y, width, height);
             button.setContentAreaFilled(false);
             button.setFocusPainted(false);
             button.setBorderPainted(false);
+            int finalJ = j;
             button.addActionListener(e -> {
-                System.out.println("Button clicked");
+                System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
+                buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
+                System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+                BufferedImage image1 = buildingSelected.get(finalJ);
+                JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+                button1.setBounds(900, 600, 140, 210);
+                add(button1);
             });
             add(button);
             imageButtons.add(button);
