@@ -283,6 +283,8 @@ public class GamePanel extends JPanel {
     }
     public void openGame(){
         setVisible(true);
+        toggleChatPanel();
+        rules.setVisible(true);
     }
 
     public void createImageButtons() {
@@ -318,18 +320,19 @@ public class GamePanel extends JPanel {
                 JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
                 button.setBounds(x, y, width, height);
                 button.setContentAreaFilled(false);
-                button.setFocusPainted(false);
-                button.setBorderPainted(false);
                 index++;
                 int finalJ = j;
                 button.addActionListener(e -> {
+                    int x1 = 0;
                     System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                     BufferedImage image1 = buildingSelected.get(finalJ);
                     JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-                    button1.setBounds(900, 600, 140, 210);
+                    button1.setBounds(900 + x1, 600, 140, 210);
                     add(button1);
+                    x1 = x1+160;
+
                 });
                 add(button);
                 imageButtons.add(button);
@@ -369,9 +372,8 @@ public class GamePanel extends JPanel {
             JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
             button.setBounds(x, y, width, height);
             button.setContentAreaFilled(false);
-            button.setFocusPainted(false);
-            button.setBorderPainted(false);
             int finalJ = j;
+            int x1 = 0;
             button.addActionListener(e -> {
                 System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                 buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
@@ -380,6 +382,8 @@ public class GamePanel extends JPanel {
                 JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
                 button1.setBounds(900, 600, 140, 210);
                 add(button1);
+
+
             });
             add(button);
             imageButtons.add(button);
