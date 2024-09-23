@@ -36,10 +36,11 @@ public class GamePanel extends JPanel {
     public ArrayList<BuildingCards> buildingDeck = new ArrayList<>();
     public ArrayList<BuildingCards> buildingDeck1 = new ArrayList<>();
     public ArrayList<BuildingCards> playerBuildings = new ArrayList<>();
+    public ArrayList<TreasureCard> unshuffledDeck = new ArrayList<>();
+    public ArrayList<TreasureCard> shuffledDeck = new ArrayList<>();
 
-
-
-
+    public ArrayList<TreasureCard> usedTreasureCard = new ArrayList();
+    public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
 
     //missing one\
     //skip 25 its a repeat
