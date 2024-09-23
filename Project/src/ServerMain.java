@@ -101,10 +101,10 @@ public class ServerMain{
         String[] finalNameAndMessage = nameAndMessage.split("-");
         System.out.println("Player " + finalNameAndMessage[0] + " Has Sent Message: " + finalNameAndMessage[1]);
         chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
-        for(ObjectOutputStream clientOut : clientOutputStreams){
+        /*for(ObjectOutputStream clientOut : clientOutputStreams){
             //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
             broadcastMessage(11, nameAndMessage);
-        }
+        }*/
     }
 
     public void characterTempChoose(String playerChoosing) {
