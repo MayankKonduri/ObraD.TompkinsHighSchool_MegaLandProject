@@ -161,6 +161,7 @@ public class ClientListener implements Runnable{
     public void send_Message_Clients(String message){
         String nameAndMessage = message.substring(CHAT_MESSAGE_HOST.length());
         cLientMain.tempFinalAndMessage(nameAndMessage);
+        System.out.println("Recieved Message From Host - 9/23");
     }
 
     public void switchingToGamePanel(String message){
