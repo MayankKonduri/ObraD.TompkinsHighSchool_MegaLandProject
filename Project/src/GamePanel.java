@@ -39,6 +39,7 @@ public class GamePanel extends JPanel {
 
 
 
+
     //missing one\
     //skip 25 its a repeat
     private BufferedImage personalCard, heartCard, starCardBackground,
@@ -323,15 +324,15 @@ public class GamePanel extends JPanel {
                 button.setContentAreaFilled(false);
                 index++;
                 int finalJ = j;
-                int finalx1 = x1;
 
                 button.addActionListener(e -> {
                     System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+
                     BufferedImage image1 = buildingSelected.get(finalJ);
                     JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-                    button1.setBounds(900 + finalx1, 600, 140, 210);
+                    button1.setBounds(900, 600, 140, 210);
                     add(button1);
 
                     revalidate();
@@ -347,7 +348,6 @@ public class GamePanel extends JPanel {
                     x = 400;
                     y += height + gap;
                 }
-                x1 = x1+160;
             }
         }
     }
