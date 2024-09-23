@@ -332,6 +332,8 @@ public class GamePanel extends JPanel {
                     button1.setBounds(900 + x1, 600, 140, 210);
                     add(button1);
                     x1 = x1+160;
+                    revalidate();
+                    repaint();
 
                 });
                 add(button);
@@ -382,6 +384,8 @@ public class GamePanel extends JPanel {
                 JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
                 button1.setBounds(900, 600, 140, 210);
                 add(button1);
+                revalidate();
+                repaint();
 
 
             });
