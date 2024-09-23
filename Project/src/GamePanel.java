@@ -35,6 +35,7 @@ public class GamePanel extends JPanel {
     private JButton rules = new JButton("Rules");
     public ArrayList<BuildingCards> buildingDeck = new ArrayList<>();
     public ArrayList<BuildingCards> buildingDeck1 = new ArrayList<>();
+    public ArrayList<BuildingCards> playerBuildings = new ArrayList<>();
 
 
 
@@ -238,25 +239,7 @@ public class GamePanel extends JPanel {
         buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, endlessMine, 4));
         buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, arena, 4));
 
-//        buildingDeck1.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
-//        buildingDeck1.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
-//        buildingDeck1.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
-//        buildingDeck1.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
-//        buildingDeck1.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
-//        buildingDeck1.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
-//        if(isHost1) {
-//            for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
-//                if (cardSelectPanel.buildingsSelect.get(i) == true) {
-//                    buildingDeck1.add(buildingDeck.get(i+5));
-//                }
-//            }
-//        } else {
-//            for (int i = 0; i < cardSelectedList_g_client.size(); i++) {
-//                if (cardSelectedList_g_client.get(i) == true) {
-//                    buildingDeck1.add(buildingDeck.get(i+5));
-//                }
-//            }
-//        }
+
 
     }
 
@@ -329,14 +312,17 @@ public class GamePanel extends JPanel {
                     System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+                    playerBuildings.add(buildingDeck.get(finalJ));
+                    System.out.println("Index added: " + finalJ);
+                    hostOwnedCardsDisplay();
 
-                    BufferedImage image1 = buildingSelected.get(finalJ);
-                    JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-                    button1.setBounds(900, 600, 140, 210);
-                    add(button1);
-
-                    revalidate();
-                    repaint();
+//                    BufferedImage image1 = buildingSelected.get(finalJ);
+//                    JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+//                    button1.setBounds(900, 600, 140, 210);
+//                    add(button1);
+//
+//                    revalidate();
+//                    repaint();
 
                 });
                 add(button);
@@ -349,7 +335,20 @@ public class GamePanel extends JPanel {
                     y += height + gap;
                 }
             }
+
         }
+    }
+    public void hostOwnedCardsDisplay() {
+        System.out.println("Player Building Size: " + playerBuildings.size());
+        for(int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+            button1.setBounds(900 + 160*i, 600, 140, 210);
+
+            add(button1);
+        }
+        revalidate();
+        repaint();
     }
 
     public void createImageButtonsClient() {
@@ -383,12 +382,14 @@ public class GamePanel extends JPanel {
                 System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                 buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                 System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
-                BufferedImage image1 = buildingSelected.get(finalJ);
-                JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-                button1.setBounds(900, 600, 140, 210);
-                add(button1);
-                revalidate();
-                repaint();
+                playerBuildings.add(buildingDeck.get(finalJ));
+                clientOwnedCardsDisplay();
+//                BufferedImage image1 = buildingSelected.get(finalJ);
+//                JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+//                button1.setBounds(900, 600, 140, 210);
+//                add(button1);
+//                revalidate();
+//                repaint();
 
 
             });
@@ -402,6 +403,26 @@ public class GamePanel extends JPanel {
                 y += height + gap;
             }
         }
+//        for(int i = 0; i < playerBuildings.size(); i++) {
+//            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
+//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+//            button1.setBounds(900 + 160*i, 600, 140, 210);
+//
+//            add(button1);
+//        }
+    }
+
+    public void clientOwnedCardsDisplay() {
+        System.out.println("Player Building Size: " + playerBuildings.size());
+        for(int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+            button1.setBounds(900 + 160*i, 600, 140, 210);
+
+            add(button1);
+        }
+        revalidate();
+        repaint();
     }
 
     public void paintComponent(Graphics g) {
