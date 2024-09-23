@@ -102,7 +102,7 @@ public class ServerMain{
         System.out.println("Player " + finalNameAndMessage[0] + " Has Sent Message: " + finalNameAndMessage[1]);
         chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
             //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
-            broadcastMessage(11, nameAndMessage);
+        broadcastMessage(11, nameAndMessage);
     }
 
     public void characterTempChoose(String playerChoosing) {
@@ -256,6 +256,7 @@ public class ServerMain{
                     for(ObjectOutputStream out: clientOutputStreams){
                         String[] messageAndName = name.split("-");
                         CommandFromServer.notify_CHAT_MESSAGE_HOST(out, messageAndName[0], messageAndName[1]);
+                        System.out.println("Sent To Client" + messageAndName[1]);
                     }}
                 break;
         }
