@@ -1,15 +1,23 @@
 package Project.src;
 
+import java.awt.image.BufferedImage;
+
 public class TreasureCard {
     public int treasureID = 0;
     public String treasureName = null;
     public boolean isSafe = false;
+    public BufferedImage image;
 
 
-    public TreasureCard(int treasureID, String treasureName, boolean isSafe) {
+    public TreasureCard(int treasureID, String treasureName, boolean isSafe, BufferedImage image) {
         this.treasureID = treasureID;
         this.treasureName = treasureName;
         this.isSafe = isSafe;
+        this.image = image;
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 
     public int getTreasureID() {

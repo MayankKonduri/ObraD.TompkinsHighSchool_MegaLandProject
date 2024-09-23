@@ -9,6 +9,7 @@ import java.io.File;
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class GamePanel extends JPanel {
 
@@ -182,6 +183,10 @@ public class GamePanel extends JPanel {
         buildingNames.add(rootMarket);
         buildingNames.add(endlessMine);
         buildingNames.add(arena);
+        createDeck();
+
+
+
 
         this.jFrame = frame;
         this.clientMain = clientMain;
@@ -212,6 +217,31 @@ public class GamePanel extends JPanel {
         }
 
 //        System.out.println("List of Selected Buildings: " + cardSelectPanel.buildingsSelect);
+
+    }
+
+    public void createDeck() {
+        for(int i = 0; i < 6; i++) {
+            unshuffledDeck.add(new TreasureCard(1, "gear", false, gear));//6
+        }
+        for(int i = 0; i < 20; i++) {
+            unshuffledDeck.add(new TreasureCard(2, "cube", false, cube));//20
+        }
+        for(int i = 0; i < 16; i++) {
+            unshuffledDeck.add(new TreasureCard(3, "egg", false, egg));//16
+        }
+        for(int i = 0; i < 30; i++) {
+            unshuffledDeck.add(new TreasureCard(4, "carrot", false, carrot));//30
+        }
+        for(int i = 0; i < 10; i++) {
+            unshuffledDeck.add(new TreasureCard(5, "mineral", false, mineral));//10
+        }
+        for(int i = 0; i < 14; i++) {
+            unshuffledDeck.add(new TreasureCard(6, "fish", false,fish));//14
+        }
+        Collections.shuffle(unshuffledDeck);
+        shuffledDeck.addAll(unshuffledDeck);
+
 
     }
 
@@ -273,6 +303,7 @@ public class GamePanel extends JPanel {
     }
 
     public void createImageButtons() {
+
         buildingSelected.add(sandwichStand);
         buildingSelected.add(cafe);
         buildingSelected.add(arcade);
@@ -287,6 +318,14 @@ public class GamePanel extends JPanel {
         buildingDeck1.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
         int x1 = 0;
         if(isHost1) {
+            BufferedImage treasure = treasureCardBackground;
+            JButton treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
+            treasureDraw.setBounds(370, 75, 90, 120);
+            add(treasureDraw);
+            treasureDraw.addActionListener(e -> {
+                playerTreasures.add(shuffledDeck.remove(0));
+                hostTreasureDisplay();
+            });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
                 if (cardSelectPanel.buildingsSelect.get(i) == true) {
                     buildingSelected.add(buildingNames.get(i));
@@ -339,8 +378,18 @@ public class GamePanel extends JPanel {
 
         }
     }
+    public void hostTreasureDisplay() {
+        for(int i = 0; i < playerTreasures.size(); i++) {
+            BufferedImage image1 = playerTreasures.get(i).getImage();
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
+            button1.setBounds(1600+(110*i), 600, 90, 120);
+
+            add(button1);
+        }
+        revalidate();
+        repaint();
+    }
     public void hostOwnedCardsDisplay() {
-        System.out.println("Player Building Size: " + playerBuildings.size());
         for(int i = 0; i < playerBuildings.size(); i++) {
             BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
@@ -353,7 +402,14 @@ public class GamePanel extends JPanel {
     }
 
     public void createImageButtonsClient() {
-
+        BufferedImage treasure = treasureCardBackground;
+        JButton treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
+        treasureDraw.setBounds(370, 75, 90, 120);
+        add(treasureDraw);
+        treasureDraw.addActionListener(e -> {
+            playerTreasures.add(shuffledDeck.remove(0));
+            clientTreasureDisplay();
+        });
         System.out.println(cardSelectedList_g_client.size());
         System.out.println(cardSelectedList_g_client);
         System.out.println(buildingSelected);
@@ -404,13 +460,19 @@ public class GamePanel extends JPanel {
                 y += height + gap;
             }
         }
-//        for(int i = 0; i < playerBuildings.size(); i++) {
-//            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
-//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-//            button1.setBounds(900 + 160*i, 600, 140, 210);
-//
-//            add(button1);
-//        }
+
+    }
+
+    public void clientTreasureDisplay() {
+        for(int i = 0; i < playerTreasures.size(); i++) {
+            BufferedImage image1 = playerTreasures.get(i).getImage();
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
+            button1.setBounds(1600+(110*i), 600, 90, 120);
+
+            add(button1);
+        }
+        revalidate();
+        repaint();
     }
 
     public void clientOwnedCardsDisplay() {
