@@ -197,7 +197,7 @@ public class GamePanel extends JPanel {
             System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
 
         }else {
-            System.out.println("Connected Players (C): " + clientMain.gamePlayerNames_ClientSide);
+            System.out.println("Connected Players (C): " + clientMain.Final_gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
             trimmed_stringCardPanel = stringCardPanel.substring(1, stringCardPanel.length()-1);
             array_trimmed_stringCardPanel = trimmed_stringCardPanel.split(",");

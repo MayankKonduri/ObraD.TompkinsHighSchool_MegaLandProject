@@ -16,6 +16,7 @@ public class ClientMain{
     private Socket socket;
     private ObjectOutputStream out;
     public ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
+    public ArrayList<String> Final_gamePlayerNames_ClientSide = new ArrayList<>();
     private final String clientName;
     private CharacterSelectPanel characterSelectPanel;
     public String cardPanel_Client_Side;
@@ -119,6 +120,12 @@ public class ClientMain{
             chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
         }
     }
+    public void fix_List(String processedList) {
+        String[] stringList = processedList.split("-");
+        for(int i=0;i<stringList.length;i++){
+            Final_gamePlayerNames_ClientSide.add(stringList[i]);
+        }
+    }
 
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
@@ -200,6 +207,9 @@ public class ClientMain{
     public ArrayList<String> getGamePlayerNames_ClientSide(){
         return gamePlayerNames_ClientSide;
     }
+    public ArrayList<String> getFinal_gamePlayerNames_ClientSide(){
+        return Final_gamePlayerNames_ClientSide;
+    }
     public ObjectOutputStream getOut(){
         return out;
     }
@@ -212,5 +222,4 @@ public class ClientMain{
     public void setSocket(Socket socket){
         this.socket = socket;
     }
-
 }

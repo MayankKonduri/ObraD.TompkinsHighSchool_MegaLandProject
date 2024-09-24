@@ -78,7 +78,7 @@ public class ChatPanel extends JPanel{
         chatArea.setLineWrap(true);
         chatArea.setWrapStyleWord(true);
         chatArea.setBorder(new EmptyBorder(10, 10, 10, 10));
-
+        
         JScrollPane scrollPane = new JScrollPane(chatArea);
         scrollPane.setBounds(10-i, 40, 230, 130); // Position and size
         add(scrollPane);

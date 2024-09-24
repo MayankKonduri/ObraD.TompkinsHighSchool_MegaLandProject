@@ -241,7 +241,7 @@ public class ConnectPanel extends JPanel{
     public void updatePlayerList(){
         playersJoined.setText("");
         StringBuilder sb = new StringBuilder("Players In Game:\n");
-        for(String playerName : clientMain.getGamePlayerNames_ClientSide()){
+        for(String playerName : clientMain.getFinal_gamePlayerNames_ClientSide()){
             sb.append(playerName).append("\n");
         }
         playersJoined.setText(sb.toString());

@@ -59,6 +59,11 @@ public class CommandFromServer implements Serializable
         sendMessage(out, CHAT_MESSAGE_HOST + name + "-" + message);
     }
 
+    public static final String PLAYER_LIST = "PLAYER_LIST:";
+    public static void notify_PLAYER_LIST(ObjectOutputStream out, String name) {
+        sendMessage(out, PLAYER_LIST + name);
+    }
+
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {
@@ -69,5 +74,4 @@ public class CommandFromServer implements Serializable
             e.printStackTrace();
         }
     }
-
 }

@@ -21,6 +21,7 @@ public class ClientListener implements Runnable{
     public static final String ALL_DONE_WITH_CHARACTER_SELECTION = "ALL_DONE_WITH_CHARACTER_SELECTION:";
     public static final String CARDPANEL_TOSTRING = "CARDPANEL_TOSTRING:";
     public static final String CHAT_MESSAGE_HOST = "CHAT_MESSAGE_HOST:";
+    public static final String PLAYER_LIST = "PLAYER_LIST:";
 
 
 
@@ -102,10 +103,16 @@ public class ClientListener implements Runnable{
             receivedCardPanel(message);
         } else if(message.startsWith(CHAT_MESSAGE_HOST)){
             send_Message_Clients(message);
-        }
-        else{
+        } else if(message.startsWith(PLAYER_LIST)){
+            send_List(message);
+        } else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void send_List(String message) {
+        String processed_List = message.substring(PLAYER_LIST.length());
+        cLientMain.fix_List(processed_List);
     }
 
     private void receivedCardPanel(String message) {

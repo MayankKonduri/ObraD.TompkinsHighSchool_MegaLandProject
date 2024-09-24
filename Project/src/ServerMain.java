@@ -84,6 +84,7 @@ public class ServerMain{
         hostPanel.updatePeopleList();
         System.out.println(gamePlayerNames);
         //hostPanel.verifyName();
+        sendHostList(gamePlayerNames);
     }
 
     public void removeClientFromList(String clientName) {
@@ -96,6 +97,7 @@ public class ServerMain{
         hostPanel.playerList_serverSide.remove(clientName);
         hostPanel.updatePeopleList();
         System.out.println(gamePlayerNames);
+        sendHostList(gamePlayerNames);
     }
     public void tempFinalAndMessage(String nameAndMessage) {
         String[] finalNameAndMessage = nameAndMessage.split("-");
@@ -103,6 +105,15 @@ public class ServerMain{
         chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
             //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
         broadcastMessage(11, nameAndMessage);
+    }
+    public void sendHostList(ArrayList<String> gamePlayerNames){
+        String namesString = "";
+        for(int i=0; i<gamePlayerNames.size();i++){
+            namesString += "-"+gamePlayerNames.get(i);
+        }
+        namesString = namesString.substring(1);
+
+        broadcastMessage(12, namesString);
     }
 
     public void characterTempChoose(String playerChoosing) {
@@ -257,6 +268,12 @@ public class ServerMain{
                         String[] messageAndName = name.split("-");
                         CommandFromServer.notify_CHAT_MESSAGE_HOST(out, messageAndName[0], messageAndName[1]);
                         System.out.println("Sent To Client" + messageAndName[1]);
+                    }}
+                break;
+            case 12:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_PLAYER_LIST(out, name);
                     }}
                 break;
         }
