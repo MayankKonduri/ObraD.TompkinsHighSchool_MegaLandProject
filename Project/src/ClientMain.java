@@ -121,10 +121,12 @@ public class ClientMain{
         }
     }
     public void fix_List(String processedList) {
+        Final_gamePlayerNames_ClientSide.clear();
         String[] stringList = processedList.split("-");
         for(int i=0;i<stringList.length;i++){
             Final_gamePlayerNames_ClientSide.add(stringList[i]);
         }
+        connectPanel.updatePlayerList();
     }
 
     public void characterTempChoose(String playerChoosing) {
