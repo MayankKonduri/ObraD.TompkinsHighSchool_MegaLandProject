@@ -42,6 +42,7 @@ public class GamePanel extends JPanel {
 
     public ArrayList<TreasureCard> usedTreasureCard = new ArrayList();
     public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
+    private JButton takeOff = new JButton("Drop Off Level");
 
     //missing one\
     //skip 25 its a repeat
@@ -320,7 +321,7 @@ public class GamePanel extends JPanel {
         if(isHost1) {
             BufferedImage treasure = treasureCardBackground;
             JButton treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
-            treasureDraw.setBounds(370, 75, 90, 120);
+            treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
                 playerTreasures.add(shuffledDeck.remove(0));
@@ -404,7 +405,7 @@ public class GamePanel extends JPanel {
     public void createImageButtonsClient() {
         BufferedImage treasure = treasureCardBackground;
         JButton treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
-        treasureDraw.setBounds(370, 75, 90, 120);
+        treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
             playerTreasures.add(shuffledDeck.remove(0));
@@ -490,46 +491,16 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-//        if(isHost1) {
-//            int j = 0;
-//            g.drawImage(sandwichStand, 480, 30, 140, 210, null);
-//            g.drawImage(cafe, 640, 30, 140, 210, null);
-//            g.drawImage(arcade, 800, 30, 140, 210, null);
-//            g.drawImage(bazaarOfOddities, 960, 30, 140, 210, null);
-//            g.drawImage(hotel, 1120, 30, 140, 210, null);
-//            g.drawImage(templeOfZoz, 1280, 30, 140, 210, null);
-//            for(int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
-//                boolean selected = false;
-//                if(cardSelectPanel.buildingsSelect.get(i) == true) {
-//                    selected = true;
-//                    g.drawImage(buildingNames.get(i), 400+ (j*160), 260, 140, 210, null);
-//
-//                }
-//                if(selected) {
-//                    j++;
-//                }
-//            }
-//        } else {
-//            int x = 0;
-//            g.drawImage(sandwichStand, 540, 40, 140, 210, null);
-//            g.drawImage(cafe, 680, 40, 140, 210, null);
-//            g.drawImage(arcade, 820, 40, 140, 210, null);
-//            g.drawImage(bazaarOfOddities, 960, 140, 120, 210, null);
-//            g.drawImage(hotel, 1100, 40, 140, 210, null);
-//            g.drawImage(templeOfZoz, 1240, 40, 140, 210, null);
-//            for(int i = 0; i < cardSelectedList_g_client.size(); i++) {
-//                boolean selected = false;
-//                if(cardSelectedList_g_client.get(i) == true) {
-//                    selected = true;
-//                    g.drawImage(buildingNames.get(i), 400+ (x*160), 260, 140, 210, null);
-//                }
-//                if(selected) {
-//                    x++;
-//                }
-//            }
-//
-//
-//        }
+        if(isHost1) {
+            g.drawImage(playerLevelCard, 30, 20,320, 200, null);
+            takeOff.setBounds(40, 220, 300, 30);
+            add(takeOff);
+        } else {
+            g.drawImage(playerLevelCard, 30, 20,320, 200, null);
+            takeOff.setBounds(40, 220, 300, 30);
+            add(takeOff);
+
+        }
 
     }
 
