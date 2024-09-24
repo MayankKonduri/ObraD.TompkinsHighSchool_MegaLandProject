@@ -1,0 +1,60 @@
+package Project.src;
+
+import java.awt.image.BufferedImage;
+
+public class LevelCard {
+    public int levelCardID = 0;
+    public boolean isTreasureChest = false;
+    public int numberSkulls = 0;
+    public boolean isJumpAble = false;
+    public BufferedImage image;
+    public boolean trade3;
+
+
+    public LevelCard(int levelCardID, int numberSkulls, boolean isTreasureChest, boolean isJumpAble, BufferedImage image,  boolean trade3) {
+        this.levelCardID = levelCardID;
+        this.numberSkulls = numberSkulls;
+        this.isJumpAble = isJumpAble;
+        this.isTreasureChest = isTreasureChest;
+        this.image = image;
+        this.trade3 = trade3;
+    }
+    public boolean isTrade3() {
+        return trade3;
+    }
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public int getLevelCardID() {
+        return levelCardID;
+    }
+
+    public int getNumberSkulls() {
+        return numberSkulls;
+    }
+
+    public boolean isJumpAble() {
+        return isJumpAble;
+    }
+
+    public boolean isTreasureChest() {
+        return isTreasureChest;
+    }
+
+    public void setLevelCardID(int levelCardID) {
+        this.levelCardID = levelCardID;
+    }
+
+    public void setJumpAble(boolean jumpAble) {
+        isJumpAble = jumpAble;
+    }
+
+    public void setNumberSkulls(int numberSkulls) {
+        this.numberSkulls = numberSkulls;
+    }
+
+    public void setTreasureChest(boolean treasureChest) {
+        isTreasureChest = treasureChest;
+    }
+}

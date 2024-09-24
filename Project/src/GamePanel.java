@@ -43,6 +43,8 @@ public class GamePanel extends JPanel {
     public ArrayList<TreasureCard> usedTreasureCard = new ArrayList();
     public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
     private JButton takeOff = new JButton("Drop Off Level");
+    public ArrayList<LevelCard> deckLevelCard = new ArrayList<>();
+    public ArrayList<LevelCard>  drawnLevelCard = new ArrayList<>();
 
     //missing one\
     //skip 25 its a repeat
@@ -62,15 +64,6 @@ public class GamePanel extends JPanel {
         setLayout(null);
         int i=100;
 
-//        chatButton = new JButton("Chat");
-//        chatButton.setBounds(10,950,100,30);
-//        chatButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                toggleChatPanel();
-//            }
-//        });
-//        add(chatButton);
         chatPanel1 = new ChatPanel(frame, chatButton, clientMain, serverMain, hostPanel, connectPanel, cardSelectPanel, characterSelectPanel, isHost, this);
         chatPanel1.setBounds(20,760,700,600);
         chatPanel1.setVisible(false);
@@ -185,6 +178,7 @@ public class GamePanel extends JPanel {
         buildingNames.add(endlessMine);
         buildingNames.add(arena);
         createDeck();
+        createLevelDeck();
 
 
 
@@ -217,8 +211,29 @@ public class GamePanel extends JPanel {
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
         }
 
-//        System.out.println("List of Selected Buildings: " + cardSelectPanel.buildingsSelect);
 
+    }
+    public void createLevelDeck() {
+        deckLevelCard.add(new LevelCard(1, 0, false, false, levelCard31, false));
+        deckLevelCard.add(new LevelCard(2, 1, false, false, levelCard32, false));
+        deckLevelCard.add(new LevelCard(3, 1, false, true, levelCard33, true));
+        deckLevelCard.add(new LevelCard(4, 1, false, true, levelCard34, false));
+        deckLevelCard.add(new LevelCard(5, 2, false, false, levelCard35, false));
+        deckLevelCard.add(new LevelCard(6, 0, true, false, levelCard36, false));
+        deckLevelCard.add(new LevelCard(7, 3, false, true, levelCard37, false));
+        deckLevelCard.add(new LevelCard(8, 2, false, true, levelCard38, false));
+        deckLevelCard.add(new LevelCard(9, 0, false, false, levelCard39, false));
+        deckLevelCard.add(new LevelCard(10, 0, false, false, levelCard40, false));
+
+        Collections.shuffle(deckLevelCard);
+        BufferedImage backOfLevelCard1 = backOfLevelCard;
+        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(90, 120, Image.SCALE_FAST)));
+        levelDraw.setBounds(1600, 20, 140, 210);
+        add(levelDraw);
+        levelDraw.addActionListener(e -> {
+            drawnLevelCard.add(deckLevelCard.remove(0));
+            hostTreasureDisplay();
+        });
     }
 
     public void createDeck() {
@@ -356,15 +371,6 @@ public class GamePanel extends JPanel {
                     playerBuildings.add(buildingDeck.get(finalJ));
                     System.out.println("Index added: " + finalJ);
                     hostOwnedCardsDisplay();
-
-//                    BufferedImage image1 = buildingSelected.get(finalJ);
-//                    JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-//                    button1.setBounds(900, 600, 140, 210);
-//                    add(button1);
-//
-//                    revalidate();
-//                    repaint();
-
                 });
                 add(button);
                 imageButtons.add(button);
@@ -428,7 +434,6 @@ public class GamePanel extends JPanel {
         int height = 210;
         int gap = 20;
         boolean row1 = true;
-//        for (BufferedImage image : buildingSelected) {
         for(int j = 0; j < buildingSelected.size(); j++) {
             BufferedImage image = buildingSelected.get(j);
             JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
@@ -442,14 +447,6 @@ public class GamePanel extends JPanel {
                 System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                 playerBuildings.add(buildingDeck.get(finalJ));
                 clientOwnedCardsDisplay();
-//                BufferedImage image1 = buildingSelected.get(finalJ);
-//                JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-//                button1.setBounds(900, 600, 140, 210);
-//                add(button1);
-//                revalidate();
-//                repaint();
-
-
             });
             add(button);
             imageButtons.add(button);

@@ -16,6 +16,8 @@ public class TreasureCard {
         this.image = image;
     }
 
+
+
     public BufferedImage getImage() {
         return image;
     }
