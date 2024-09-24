@@ -17,7 +17,7 @@ public class ClientMain{
     private ObjectOutputStream out;
     public ArrayList<String> gamePlayerNames_ClientSide = new ArrayList<>();
     public ArrayList<String> Final_gamePlayerNames_ClientSide = new ArrayList<>();
-    private final String clientName;
+    private String clientName;
     private CharacterSelectPanel characterSelectPanel;
     public String cardPanel_Client_Side;
     private ChatPanel chatPanel;
@@ -39,6 +39,10 @@ public class ClientMain{
     }
     public ClientMain getClientMain(){
         return this;
+    }
+    public void setName(String name){
+        this.clientName = name;
+        CommandFromClient.notify_CLIENT_NAME_VERIFY(out, clientName);
     }
     public void setConnectPanel(ConnectPanel connectPanel){
         this.connectPanel = connectPanel;

@@ -11,6 +11,7 @@ import java.net.Socket;
         private volatile boolean isRunning = true;
 
         public static final String CLIENT_NAME = "CLIENT_NAME:";
+        public static final String CLIENT_NAME_VERIFY = "CLIENT_NAME_VERIFY:";
         public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED:";
         public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
         public static final String CHARACTER_UNSELECTION = "CHARACTER_UNSELECTION:";
@@ -59,7 +60,9 @@ import java.net.Socket;
         private void processMessage(String message) {
             if (message.startsWith(CLIENT_NAME)) {
                 handleUpdatePlayers_Client(message);
-            }else if (message.startsWith(CLIENT_DISCONNECTED)) {
+            } else if(message.startsWith(CLIENT_NAME_VERIFY)){
+                handleUpdatePlayers_Client_Name(message);
+            } else if (message.startsWith(CLIENT_DISCONNECTED)) {
                 handleClientLeft(message);
             } else if(message.startsWith(CHARACTER_SELECTION)){
                 handle_CharacterSelection(message);
@@ -74,16 +77,19 @@ import java.net.Socket;
                 System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
             }
         }
-
         private void send_Message_To_All(String message) {
             String nameAndMessage = message.substring(CLIENT_MESSAGE.length());
             serverMain.tempFinalAndMessage(nameAndMessage);
         }
-
         public void handleUpdatePlayers_Client(String message){
             String clientName = message.substring(CLIENT_NAME.length());
             serverMain.addClientToList(clientName);
-            System.out.println("New Client Joined: " + clientName);
+            System.out.println("New Client Joined");
+        }
+        private void handleUpdatePlayers_Client_Name(String message) {
+            String clientName_Verify = message.substring(CLIENT_NAME_VERIFY.length());
+            serverMain.addClientToList_Verify(clientName_Verify);
+            System.out.println("New Client Verified Name: " + clientName_Verify);
         }
         public void handleClientLeft(String message){
             String clientName = message.substring(CLIENT_DISCONNECTED.length());

@@ -49,7 +49,7 @@ public class HostPanel extends JPanel{
     private JFrame jFrame;
     private GamePanel gamePanel;
     private ChatPanel chatPanel;
-
+    private ArrayList<String> ListName = new ArrayList<>();
     public HostPanel(JFrame frame) {
         this.jFrame = frame;
 
@@ -189,7 +189,7 @@ public class HostPanel extends JPanel{
             startHostingButton.setForeground(Color.WHITE);
             startHostingButton.setText("Hosting in Progress");
             confirmSettings.setEnabled(false);
-            updatePeopleList();
+            //updatePeopleList();
         });
         add(startHostingButton);
 
@@ -265,13 +265,14 @@ public class HostPanel extends JPanel{
     }
 
     public int getNumberOfPeopleInGame(){
-        return playerList_serverSide.size();
+        return ListName.size();
     }
 
-    public synchronized void updatePeopleList() {
+    public synchronized void updatePeopleList(ArrayList<String> playerNames) {
+        ListName = playerNames;
         peopleListArea.setText("");
         StringBuilder sb = new StringBuilder("Players In Game:\n");
-        for(String playerName : playerList_serverSide){
+        for(String playerName : playerNames){
             sb.append(playerName).append("\n");
         }
         peopleListArea.setText(sb.toString());

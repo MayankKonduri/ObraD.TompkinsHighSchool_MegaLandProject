@@ -91,6 +91,7 @@ public class ConnectPanel extends JPanel{
         add(nameLabel);
 
         nameTextField.setBounds(350,450,300,30);
+        nameTextField.setEnabled(false);
         nameTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -148,6 +149,7 @@ public class ConnectPanel extends JPanel{
                 confirmButton.setForeground(Color.WHITE);
                 confirmButton.setText("Connected");
                 verifyNameButton.setEnabled(true);
+                nameTextField.setEnabled(true);
             }
         });
         add(confirmButton);
@@ -156,7 +158,7 @@ public class ConnectPanel extends JPanel{
         verifyNameButton.setFont(new Font("Georgia",Font.BOLD,15));
         verifyNameButton.setEnabled(false);
         verifyNameButton.addActionListener(e -> {
-            if(playerListClientSide == null || playerListClientSide.isEmpty()){
+            if(clientMain.Final_gamePlayerNames_ClientSide  == null || playerListClientSide.isEmpty()){
                 JOptionPane.showMessageDialog(this,"Player List Not Available");
                 return;
             }
@@ -164,6 +166,8 @@ public class ConnectPanel extends JPanel{
                 JOptionPane.showMessageDialog(this,"Name Already Taken");
             }else{
                 System.out.print("Name is Available");
+                clientMain.setName(nameTextField.getText());
+                verifyNameButton.setEnabled(false);
             }
         });
         add(verifyNameButton);
@@ -214,12 +218,12 @@ public class ConnectPanel extends JPanel{
 
     }
     private boolean playerNameExists(String name){
-        return playerListClientSide.contains(name);
+        return clientMain.Final_gamePlayerNames_ClientSide.contains(name);
     }
     private void updateConfirmButtonState(){
-        boolean isNameValid = !nameTextField.getText().trim().isEmpty();
+        //boolean isNameValid = !nameTextField.getText().trim().isEmpty();
         boolean isIPValid = !ipTextField.getText().trim().isEmpty();
-        confirmButton.setEnabled(isNameValid && isIPValid);
+        confirmButton.setEnabled(/*isNameValid &&*/ isIPValid);
     }
     private void sendDisconnectMessage(){
         try{

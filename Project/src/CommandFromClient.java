@@ -13,6 +13,10 @@ public class CommandFromClient implements Serializable {
     public static void notify_CLIENT_NAME(ObjectOutputStream out, String clientName){
         sendMessage(out, CLIENT_NAME + clientName);
     }
+    public static final String CLIENT_NAME_VERIFY = "CLIENT_NAME_VERIFY:";
+    public static void notify_CLIENT_NAME_VERIFY(ObjectOutputStream out, String clientName_Verify) {
+        sendMessage(out, CLIENT_NAME_VERIFY + clientName_Verify);
+    }
     public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED:";
     public static void notify_CLIENT_DISCONNECTED(ObjectOutputStream out, String clientName) {
         try{
@@ -54,6 +58,4 @@ public class CommandFromClient implements Serializable {
             e.printStackTrace();
         }
     }
-
-
 }

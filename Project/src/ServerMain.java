@@ -43,11 +43,12 @@ public class ServerMain{
         try {
             serverSocket = new ServerSocket(port);
             System.out.println("Server Started on Port: " + port);
+            gamePlayerNames.add(hostPanel.nameTextField.getText());
             addClientToList(hostName);
+            hostPanel.updatePeopleList(gamePlayerNames);
             while (isRunning) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client accepted: " + clientSocket.getInetAddress());
-
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 out.flush();
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
@@ -71,17 +72,25 @@ public class ServerMain{
         clientOutputStreams.remove(out);
     }
     public void addClientToList(String clientName) {
-        if(!gamePlayerNames.contains(clientName)){
-            gamePlayerNames.add(clientName);
+        for(ObjectOutputStream clientOut : clientOutputStreams){
+            //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
+            //broadcastMessage(4,clientNameVerify);
+            broadcastMessage(8, hostName);
+        }
+        sendHostList(gamePlayerNames);
+    }
+    public void addClientToList_Verify(String clientNameVerify) {
+        if(!gamePlayerNames.contains(clientNameVerify)){
+            gamePlayerNames.add(clientNameVerify);
             for(ObjectOutputStream clientOut : clientOutputStreams){
                 //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
-                broadcastMessage(4,clientName);
+                broadcastMessage(4,clientNameVerify);
                 broadcastMessage(8, hostName);
             }
-            System.out.println("New Client Joined: " + clientName);
+            System.out.println("New Client Joined: " + clientNameVerify);
         }
-        hostPanel.playerList_serverSide.add(clientName);
-        hostPanel.updatePeopleList();
+        hostPanel.playerList_serverSide.add(clientNameVerify);
+        hostPanel.updatePeopleList(gamePlayerNames);
         System.out.println(gamePlayerNames);
         //hostPanel.verifyName();
         sendHostList(gamePlayerNames);
@@ -95,7 +104,7 @@ public class ServerMain{
             }
         }
         hostPanel.playerList_serverSide.remove(clientName);
-        hostPanel.updatePeopleList();
+        hostPanel.updatePeopleList(gamePlayerNames);
         System.out.println(gamePlayerNames);
         sendHostList(gamePlayerNames);
     }
