@@ -57,6 +57,7 @@ public class GamePanel extends JPanel {
     public JButton nextBuildingCard = new JButton("Next");
     public JButton previousBuildingCard = new JButton("Previous");
     public boolean secondString = false;
+    public int countBuild =0;
 
 
     //missing one\
@@ -68,6 +69,7 @@ public class GamePanel extends JPanel {
             backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
+    public ArrayList<BuildingCards> playerBuildingsFit = new ArrayList<>();
 
 
 
@@ -458,6 +460,8 @@ public class GamePanel extends JPanel {
                     playerBuildings.add(buildingDeck.get(finalJ));
                     System.out.println("Index added: " + finalJ);
                     //hostOwnedCardsDisplay();
+                    revalidate();
+                    repaint();
                 });
                 add(button);
                 imageButtons.add(button);
@@ -639,30 +643,49 @@ public class GamePanel extends JPanel {
             startLocation = 250;
         } else if(playerBuildings.size() == 10) {
             startLocation = 170;
+        } else {
+            startLocation = 170;
         }
-        if(playerBuildings.size() >10) {
-            nextBuildingCard.setBounds(1880, 365, 50, 30);
-            add(nextBuildingCard);
+        nextBuildingCard.setBounds(1800, 600, 100, 30);
+        add(nextBuildingCard);
+        previousBuildingCard.setBounds(120, 600, 100, 30);
+        add(previousBuildingCard);
+
+        if(playerBuildings.size() <= 10) {
+            nextBuildingCard.setEnabled(false);
+            previousBuildingCard.setEnabled(false);
+            for(int i = 0; i < playerBuildings.size(); i++) {
+                g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
+            }
+        } else {
+            for(int i = 0; i < 10; i++) {
+                g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
+            }
+            nextBuildingCard.setEnabled(true);
+            previousBuildingCard.setEnabled(true);
             nextBuildingCard.addActionListener(e -> {
-                int j = 1;
-                for(int i = j; i < playerBuildings.size(); i++) {
+                countBuild++;
+                for(int i = countBuild; i < playerBuildings.size(); i++) {
                     g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
-                    j++;
                 }
+                revalidate();
+                repaint();
             });
 
-            previousBuildingCard.setBounds(40, 365, 50, 30);
-            add(previousBuildingCard);
+
             previousBuildingCard.addActionListener(e -> {
-                for(int i = j; i < playerBuildings.size(); i++) {
+                countBuild--;
+                for(int i = countBuild; i < playerBuildings.size(); i++) {
                     g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
-                    j--;
                 }
+                revalidate();
+                repaint();
             });
         }
-        for(int i = 0; i < playerBuildings.size(); i++) {
-            g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
-        }
+
+
+
+
 
 
     }
