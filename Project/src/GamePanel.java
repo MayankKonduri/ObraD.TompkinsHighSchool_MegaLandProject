@@ -53,6 +53,10 @@ public class GamePanel extends JPanel {
     public ArrayList<LevelCard>  drawnLevelCard = new ArrayList<>();
     public int imageLevel = 0;
     private JButton view = new JButton("View");
+    public int startLocation = 0;
+    public JButton nextBuildingCard = new JButton("Next");
+    public JButton previousBuildingCard = new JButton("Previous");
+    public boolean secondString = false;
 
 
     //missing one\
@@ -261,7 +265,7 @@ public class GamePanel extends JPanel {
         Collections.shuffle(deckLevelCard);
         BufferedImage backOfLevelCard1 = backOfLevelCard;
         JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-        levelDraw.setBounds(1450, 30, 140, 210);
+        levelDraw.setBounds(1500, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
             drawnLevelCard.add(deckLevelCard.remove(0));
@@ -453,7 +457,7 @@ public class GamePanel extends JPanel {
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                     playerBuildings.add(buildingDeck.get(finalJ));
                     System.out.println("Index added: " + finalJ);
-                    hostOwnedCardsDisplay();
+                    //hostOwnedCardsDisplay();
                 });
                 add(button);
                 imageButtons.add(button);
@@ -534,7 +538,9 @@ public class GamePanel extends JPanel {
                 buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                 System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                 playerBuildings.add(buildingDeck.get(finalJ));
-                clientOwnedCardsDisplay();
+//                clientOwnedCardsDisplay();
+                revalidate();
+                repaint();
             });
             add(button);
             imageButtons.add(button);
@@ -592,16 +598,14 @@ public class GamePanel extends JPanel {
             for (int i = 0; i < drawnLevelCard.size(); i++) {
                 BufferedImage image1 = drawnLevelCard.get(i).getImage();
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
+                g.drawImage(scaledImage, 1660, 30, this);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 //                g2d.setColor(new Color(128, 128, 128, 127));
 //                g2d.fillRect(1610, 30, 140, 210);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
-
-
-
             }
+            g.drawImage(personalCard, 30, 270, 320, 200, null);
+
         } else {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
             takeOff.setBounds(40, 220, 300, 30);
@@ -609,12 +613,55 @@ public class GamePanel extends JPanel {
             for (int i = 0; i < drawnLevelCard.size(); i++) {
                 BufferedImage image1 = drawnLevelCard.get(i).getImage();
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
-
-
+                g.drawImage(scaledImage, 1660, 30, this);
             }
+            g.drawImage(personalCard, 30, 270, 320, 200, null);
 
+        }
 
+        if(playerBuildings.size() == 1) {
+            startLocation = 890;//140
+        } else if(playerBuildings.size() == 2) {
+            startLocation = 810;//280+20
+        } else if(playerBuildings.size() == 3) {
+            startLocation = 730;//
+        } else if(playerBuildings.size() == 4) {
+            startLocation = 650;//
+        } else if(playerBuildings.size() == 5) {
+            startLocation = 570;
+        } else if(playerBuildings.size() == 6) {
+            startLocation = 490;
+        } else if(playerBuildings.size() == 7) {
+            startLocation = 410;
+        } else if(playerBuildings.size() == 8) {
+            startLocation = 330;
+        } else if(playerBuildings.size() == 9) {
+            startLocation = 250;
+        } else if(playerBuildings.size() == 10) {
+            startLocation = 170;
+        }
+        if(playerBuildings.size() >10) {
+            nextBuildingCard.setBounds(1880, 365, 50, 30);
+            add(nextBuildingCard);
+            nextBuildingCard.addActionListener(e -> {
+                int j = 1;
+                for(int i = j; i < playerBuildings.size(); i++) {
+                    g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
+                    j++;
+                }
+            });
+
+            previousBuildingCard.setBounds(40, 365, 50, 30);
+            add(previousBuildingCard);
+            previousBuildingCard.addActionListener(e -> {
+                for(int i = j; i < playerBuildings.size(); i++) {
+                    g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
+                    j--;
+                }
+            });
+        }
+        for(int i = 0; i < playerBuildings.size(); i++) {
+            g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
         }
 
 
