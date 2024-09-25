@@ -10,6 +10,8 @@ import java.lang.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.awt.Graphics2D;
+
 
 public class GamePanel extends JPanel {
 
@@ -45,6 +47,8 @@ public class GamePanel extends JPanel {
     private JButton takeOff = new JButton("Drop Off Level");
     public ArrayList<LevelCard> deckLevelCard = new ArrayList<>();
     public ArrayList<LevelCard>  drawnLevelCard = new ArrayList<>();
+    public int imageLevel = 0;
+    private JButton view = new JButton("View");
 
     //missing one\
     //skip 25 its a repeat
@@ -227,12 +231,14 @@ public class GamePanel extends JPanel {
 
         Collections.shuffle(deckLevelCard);
         BufferedImage backOfLevelCard1 = backOfLevelCard;
-        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(90, 120, Image.SCALE_FAST)));
-        levelDraw.setBounds(1600, 20, 140, 210);
+        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+        levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
             drawnLevelCard.add(deckLevelCard.remove(0));
-            hostTreasureDisplay();
+            //levelDisplay();
+            revalidate();
+            repaint();
         });
     }
 
@@ -260,6 +266,36 @@ public class GamePanel extends JPanel {
 
 
     }
+//    public void levelDisplay() {
+//        for(int i = 0; i < drawnLevelCard.size(); i++) {
+//            BufferedImage image1 = drawnLevelCard.get(0).getImage();
+//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+//            button1.setFocusPainted(false);
+//            button1.setBorderPainted(false);
+//
+//            button1.setBounds(20+(80*i), 260, 140, 210);
+//
+//            add(button1);
+//        }
+//        revalidate();
+//        repaint();
+//    }
+//    public void levelDisplay() {
+//        for(int i = drawnLevelCard.size() - 1; i >= 0; i--) {
+//            BufferedImage image1 = drawnLevelCard.get(i).getImage();
+//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+//            button1.setFocusPainted(false);
+//            button1.setBorderPainted(false);
+//
+//            button1.setBounds(20+(80*i), 260, 140, 210);
+//
+//            add(button1);
+//        }
+//        revalidate();
+//        repaint();
+//    }
+
+
 
     public void buildingCardsInstantiate() {
         buildingDeck.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
@@ -400,7 +436,7 @@ public class GamePanel extends JPanel {
         for(int i = 0; i < playerBuildings.size(); i++) {
             BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-            button1.setBounds(900 + 160*i, 600, 140, 210);
+            button1.setBounds(300 + 160*i, 600, 140, 210);
 
             add(button1);
         }
@@ -478,7 +514,7 @@ public class GamePanel extends JPanel {
         for(int i = 0; i < playerBuildings.size(); i++) {
             BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-            button1.setBounds(900 + 160*i, 600, 140, 210);
+            button1.setBounds(300 + 160*i, 600, 140, 210);
 
             add(button1);
         }
@@ -488,14 +524,33 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+//        Graphics2D g2d = (Graphics2D) g;
         if(isHost1) {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
             takeOff.setBounds(40, 220, 300, 30);
             add(takeOff);
+            
+            for (int i = 0; i < drawnLevelCard.size(); i++) {
+                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                g.drawImage(scaledImage, 1610, 30, this);
+//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+//                g2d.setColor(new Color(128, 128, 128, 127));
+//                g2d.fillRect(1610, 30, 140, 210);
+//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+
+            }
         } else {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
             takeOff.setBounds(40, 220, 300, 30);
             add(takeOff);
+            for (int i = 0; i < drawnLevelCard.size(); i++) {
+                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                g.drawImage(scaledImage, 1610, 30, this);
+
+            }
 
         }
 
