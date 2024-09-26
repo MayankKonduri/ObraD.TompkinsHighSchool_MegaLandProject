@@ -58,7 +58,8 @@ public class GamePanel extends JPanel {
     public JButton previousBuildingCard = new JButton("Previous");
     public boolean secondString = false;
     public int countBuild =0;
-
+    private JLabel playerLabel;
+    private int current_player = 1;
 
     //missing one\
     //skip 25 its a repeat
@@ -210,6 +211,69 @@ public class GamePanel extends JPanel {
         createDeck();
         createLevelDeck();
 
+
+        JButton leftArrow = new JButton("←");
+        leftArrow.setBounds(760, 510, 50, 40);
+        leftArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                current_player--;
+                playerLabel.setText("Player " + current_player + "'s View");
+                if (current_player < 1) {
+                    if(isHost) {
+                        current_player = serverMain.gamePlayerNames.size();
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
+                        current_player = clientMain.gamePlayerNames_ClientSide.size();
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                }
+                else{
+                    playerGameView(current_player);
+                }
+            }
+        });
+        JButton rightArrow = new JButton("→");
+        rightArrow.setBounds(1090, 510, 50, 40);
+        rightArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                current_player++;
+                playerLabel.setText("Player " + current_player + "'s View");
+                if(isHost1) {
+                    if (current_player > serverMain.gamePlayerNames.size()) {
+                        current_player = 1;
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
+                        playerGameView(current_player);
+                    }
+                }
+                else{
+                    if (current_player > clientMain.gamePlayerNames_ClientSide.size()) {
+                        current_player = 1;
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
+                        playerGameView(current_player);
+                    }
+                }
+            }
+        });
+
+        playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
+        playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        playerLabel.setBounds(860, 510, 200, 50);
+
+
+        add(leftArrow);
+        add(playerLabel);
+        add(rightArrow);
 
 
 
@@ -689,6 +753,28 @@ public class GamePanel extends JPanel {
 
 
     }
+
+    public void playerGameView(int x){
+
+        switch (x){
+            case 1:
+                System.out.println("Player 1");
+                break;
+            case 2:
+                System.out.println("Player 2");
+                break;
+            case 3:
+                System.out.println("Player 3");
+                break;
+            case 4:
+                System.out.println("Player 4");
+                break;
+            case 5:
+                System.out.println("Player 5");
+                break;
+        }
+    }
+
 
 
 
