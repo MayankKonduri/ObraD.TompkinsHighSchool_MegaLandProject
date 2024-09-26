@@ -566,7 +566,7 @@ public class GamePanel extends JPanel {
         for(int i = 0; i < playerTreasures.size(); i++) {
             BufferedImage image1 = playerTreasures.get(i).getImage();
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
-            button1.setBounds(1600+(110*i), 600, 90, 120);
+            button1.setBounds(400+(110*i), 800, 90, 120);
 
 
             add(button1);
@@ -701,5 +701,6 @@ public class GamePanel extends JPanel {
     public InGameRulesPanel getinGameRulesPanel() {
         return inGameRulesPanel1;
     }
+    //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDJCTTGEhnzWVosZA1j5TElFD5hwXB-iLK0i6NXMFZQtSJRZg:https://thumbs.dreamstime.com/b/ancient-roman-gladiator-entering-colosseum-modern-depiction-ancient-roman-gladiator-entering-colosseum-modern-295358651.jpg&s
 }
 
