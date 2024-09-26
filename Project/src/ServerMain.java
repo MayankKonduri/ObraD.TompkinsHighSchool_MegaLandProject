@@ -46,7 +46,7 @@ public class ServerMain{
             gamePlayerNames.add(hostPanel.nameTextField.getText());
             addClientToList(hostName);
             hostPanel.updatePeopleList(gamePlayerNames);
-            while (isRunning) {
+            while (isRunning){
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client accepted: " + clientSocket.getInetAddress());
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());

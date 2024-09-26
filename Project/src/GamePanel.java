@@ -53,7 +53,8 @@ public class GamePanel extends JPanel {
     public ArrayList<LevelCard>  drawnLevelCard = new ArrayList<>();
     public int imageLevel = 0;
     private JButton view = new JButton("View");
-
+    private JLabel playerLabel;
+    private int current_player = 1;
 
     //missing one\
     //skip 25 its a repeat
@@ -73,6 +74,58 @@ public class GamePanel extends JPanel {
         this.inGameRulesPanel1 = inGameRulesPanel;
         setSize(1920, 1010);
         setLayout(null);
+
+        JButton leftArrow = new JButton("←");
+        leftArrow.setBounds(10, 10, 50, 40);
+        leftArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                current_player--;
+                if (current_player < 1) {
+                    if(isHost) {
+                        current_player = serverMain.gamePlayerNames.size();
+                        playerGameView(current_player);
+                    }
+                    else{
+                        current_player = clientMain.gamePlayerNames_ClientSide.size();
+                        playerGameView(current_player);
+                    }
+
+                }
+            }
+        });
+        JButton rightArrow = new JButton("→");
+        rightArrow.setBounds(340, 10, 50, 40);
+        rightArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                current_player++;
+                if(isHost1) {
+                    if (current_player > serverMain.gamePlayerNames.size()) {
+                        current_player = 1;
+                        playerGameView(current_player);
+                    }
+                }
+                else{
+                    if (current_player > clientMain.gamePlayerNames_ClientSide.size()) {
+                        current_player = 1;
+                        playerGameView(current_player);
+                    }
+                }
+            }
+        });
+
+        playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
+        playerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        playerLabel.setBounds(150, 10, 100, 40);
+
+
+        add(leftArrow);
+        add(playerLabel);
+        add(rightArrow);
+
+
+
         int i=100;
 
 
@@ -620,8 +673,26 @@ public class GamePanel extends JPanel {
 
     }
 
+    public void playerGameView(int x){
 
-
+        switch (x){
+            case 1:
+                System.out.println("Player 1");
+                break;
+            case 2:
+                System.out.println("Player 2");
+                break;
+            case 3:
+                System.out.println("Player 3");
+                break;
+            case 4:
+                System.out.println("Player 4");
+                break;
+            case 5:
+                System.out.println("Player 5");
+                break;
+        }
+    }
 
 
 
