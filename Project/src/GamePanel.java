@@ -44,8 +44,6 @@ public class GamePanel extends JPanel {
     public ArrayList<BuildingCards> playerBuildings = new ArrayList<>();
     public ArrayList<TreasureCard> unshuffledDeck = new ArrayList<>();
     public ArrayList<TreasureCard> shuffledDeck = new ArrayList<>();
-
-
     public ArrayList<TreasureCard> usedTreasureCard = new ArrayList();
     public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
     private JButton takeOff = new JButton("Drop Off Level");
@@ -72,37 +70,48 @@ public class GamePanel extends JPanel {
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, ChatPanel chatPanel, InGameRulesPanel inGameRulesPanel) {
         this.chatPanel1 = chatPanel;
         this.inGameRulesPanel1 = inGameRulesPanel;
+        //this.cardSelectPanel = cardSelectPanel;
         setSize(1920, 1010);
         setLayout(null);
 
         JButton leftArrow = new JButton("←");
-        leftArrow.setBounds(10, 10, 50, 40);
+        leftArrow.setBounds(760, 510, 50, 40);
         leftArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 current_player--;
+                playerLabel.setText("Player " + current_player + "'s View");
                 if (current_player < 1) {
                     if(isHost) {
                         current_player = serverMain.gamePlayerNames.size();
                         playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
                     }
                     else{
                         current_player = clientMain.gamePlayerNames_ClientSide.size();
                         playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
                     }
-
+                }
+                else{
+                    playerGameView(current_player);
                 }
             }
         });
         JButton rightArrow = new JButton("→");
-        rightArrow.setBounds(340, 10, 50, 40);
+        rightArrow.setBounds(1090, 510, 50, 40);
         rightArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 current_player++;
+                playerLabel.setText("Player " + current_player + "'s View");
                 if(isHost1) {
                     if (current_player > serverMain.gamePlayerNames.size()) {
                         current_player = 1;
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
                         playerGameView(current_player);
                     }
                 }
@@ -110,14 +119,18 @@ public class GamePanel extends JPanel {
                     if (current_player > clientMain.gamePlayerNames_ClientSide.size()) {
                         current_player = 1;
                         playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
+                        playerGameView(current_player);
                     }
                 }
             }
         });
 
         playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
-        playerLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        playerLabel.setBounds(150, 10, 100, 40);
+        playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        playerLabel.setBounds(860, 510, 200, 50);
 
 
         add(leftArrow);
