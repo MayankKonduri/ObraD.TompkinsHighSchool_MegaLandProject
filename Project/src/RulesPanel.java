@@ -1,7 +1,10 @@
 package Project.src;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -13,6 +16,7 @@ public class RulesPanel extends JPanel{
     private JButton homeButton = new JButton("Home");
     public int pageCount1 = 0;
     public int pageCount = 0;
+    public JLabel ruleInstructions = new JLabel("Press the \">\" to flip.");
 
 
 
@@ -41,11 +45,25 @@ public class RulesPanel extends JPanel{
             ah.printStackTrace();
             System.out.println("Error Loading Images: " + ah.getMessage());
         }
-        nextPage.setBounds(1845, 480, 50, 80);
-        nextPage.setOpaque(true);
+        nextPage.setBounds(1850, 480, 70, 80);
+        nextPage.setFont(new Font("Georgia", Font.BOLD, 40));
+         nextPage.setOpaque(false);
+         nextPage.setBackground(Color.black);
+         nextPage.setFocusPainted(false);
+         nextPage.setBorderPainted(false);
+         nextPage.setContentAreaFilled(false);
 
-        previousPage.setBounds(10, 480, 50, 80);
-        previousPage.setOpaque(true);
+
+
+
+        previousPage.setBounds(0, 480, 70, 80);
+        previousPage.setOpaque(false);
+        previousPage.setBackground(Color.black);
+        previousPage.setFocusPainted(false);
+        previousPage.setBorderPainted(false);
+        previousPage.setContentAreaFilled(false);
+        previousPage.setFont(new Font("Georgia", Font.BOLD, 40));
+
 
         homeButton.setBounds(10, 10, 100, 30);
 
@@ -60,11 +78,26 @@ public class RulesPanel extends JPanel{
             repaint();
         });
 
+        homeButton.setBounds(10, 10, 100, 40);
+        homeButton.setFont(new Font("Georgia", Font.BOLD, 20));
         homeButton.addActionListener(e -> {
             frame.setContentPane(new LoadingPanel(frame));
             frame.revalidate();
         });
-        homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
+        homeButton.setFocusPainted(false);
+        homeButton.setBackground(Color.black);
+        homeButton.setForeground(Color.white);
+        homeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                homeButton.setBorder(new LineBorder(Color.white, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                homeButton.setBorder(null);
+            }
+        });
+
 
         add(nextPage);
         add(previousPage);
@@ -75,13 +108,24 @@ public class RulesPanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if(pageCount == 0) {
-            g.drawImage(rule1, 0, 0, 1920, 1010, null);
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, 960, 1010);
+            ruleInstructions.setBounds(150, 465, 960, 80);
+            ruleInstructions.setFont(new Font("Georgia", Font.BOLD, 60));
+            ruleInstructions.setForeground(Color.WHITE);
+            add(ruleInstructions);
+            g.drawImage(rule1, 960, 0, 960, 1010, null);
             previousPage.setVisible(false);
+            homeButton.setBounds(970, 10, 100, 40);
+
         } else if(pageCount == 1) {
+            ruleInstructions.setVisible(false);
             g.drawImage(rule2, 0, 0, 960, 1010, null);
             g.drawImage(rule3, 960, 0, 960, 1010, null);
             previousPage.setVisible(true);
             nextPage.setVisible(true);
+            homeButton.setBounds(10, 10, 100, 40);
+
         }else if(pageCount == 2){
             g.drawImage(rule4, 0, 0, 960, 1010, null);
             g.drawImage(rule5, 960, 0, 960, 1010, null);
@@ -102,11 +146,17 @@ public class RulesPanel extends JPanel{
             g.drawImage(rule11, 960, 0, 960, 1010, null);
             previousPage.setVisible(true);
             nextPage.setVisible(true);
+            ruleInstructions.setVisible(false);
         }else if(pageCount == 6){
+            ruleInstructions.setVisible(true);
             g.drawImage(rule12, 0, 0, 960, 1010, null);
-            g.drawImage(ruleEnd, 960, 0, 960, 1010, null);
+            g.setColor(Color.BLACK);
+            g.fillRect(960, 0, 960, 1010);
             previousPage.setVisible(true);
             nextPage.setVisible(false);
+            ruleInstructions.setBounds(970+ 150, 465, 960, 80);
+            ruleInstructions.setFont(new Font("Georgia", Font.BOLD, 60));
+            ruleInstructions.setText("End of the Rulebook.");
         }
     }
 

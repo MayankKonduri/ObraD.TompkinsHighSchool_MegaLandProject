@@ -2,12 +2,12 @@ package Project.src;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.*;
@@ -17,33 +17,9 @@ import java.util.ArrayList;
 
 public class ConnectPanel extends JPanel{
     private BufferedImage loading;
-//    private JLabel hostLabel = new JLabel("Connect");
-//    private JLabel ipLabel = new JLabel("IP Address: ");
-//    private JTextArea playersJoined = new JTextArea("Players Joined:\n");
-//
-//    public ConnectPanel(JFrame frame) {
-//        setSize(1920, 1040);
-//        setLayout(null);
-//
-//        try {
-//            loading = ImageIO.read((new File("Project\\src\\Images\\megaland_banner_1.png")));
-//
-//        } catch (Exception ah) {
-//            ah.printStackTrace();
-//            System.out.println("Error Loading Images: " + ah.getMessage());
-//        }
-//
-//        hostLabel.setBounds(400, 450, 400, 75);
-//        hostLabel.setFont(new Font("Oswald", Font.BOLD, 30));
-//        add(hostLabel);
-//        setVisible(true);
-//    }
 
 
-
-
-
-    private JLabel titleLabel = new JLabel("Connecting to Game Server");
+    private JLabel titleLabel = new JLabel("Establish Connection");
     private JLabel nameLabel = new JLabel("Name: ");
     public JTextField nameTextField = new JTextField(20);
     private JLabel ipLabel = new JLabel("IP Address: ");
@@ -61,6 +37,8 @@ public class ConnectPanel extends JPanel{
     private WaitingForHostPanel waitingForHostPanel;
     private CharacterSelectPanel characterSelectPanel;
     private ConnectPanel connectPanel1;
+    private JLabel peopleInGameLabel = new JLabel("People in Game Server: ");
+
 
     public ConnectPanel(JFrame frame){
         setSize(1920, 1040);
@@ -68,10 +46,13 @@ public class ConnectPanel extends JPanel{
         this.jFrame1 = frame;
 
         try{
-            loading = ImageIO.read(new File("Project\\src\\Images\\megaland_banner_1.png"));
+            loading = ImageIO.read(new File("Project\\src\\Images\\Loading_v7.jpg"));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        titleLabel.setBounds(280, 340, 750, 90);
+        titleLabel.setFont(new Font("Georgia", Font.BOLD, 60));
+        titleLabel.setForeground(Color.BLACK);
 
         clientMain = new ClientMain(nameTextField.getText(), characterSelectPanel, null);
         waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this);
@@ -82,16 +63,32 @@ public class ConnectPanel extends JPanel{
         clientMain.setWaitingForHostPanel(waitingForHostPanel);
         this.playerListClientSide = new ArrayList<>();
 
-        titleLabel.setBounds(250,380,600,75);
-        titleLabel.setFont(new Font("Oswald", Font.BOLD,40));
+
         add(titleLabel);
 
-        nameLabel.setBounds(250,450,100,30);
-        nameLabel.setFont(new Font("Georgia", Font.PLAIN,20));
+        nameLabel.setBounds(394,510,140,40);
+        nameLabel.setFont(new Font("Georgia", Font.PLAIN,25));
+        nameLabel.setOpaque(true);
+        nameLabel.setBackground(Color.black);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        nameLabel.setVerticalAlignment(SwingConstants.CENTER);
+        nameLabel.setBorder(new LineBorder(Color.white, 1));
+
+
         add(nameLabel);
 
-        nameTextField.setBounds(350,450,300,30);
+        nameTextField.setBounds(532,510,292,40);
         nameTextField.setEnabled(false);
+        nameTextField.setFocusable(true);
+        nameTextField.setBackground(Color.BLACK);
+        nameTextField.setForeground(Color.WHITE);
+        nameTextField.setHorizontalAlignment(SwingConstants.CENTER);
+        nameTextField.setFont(new Font("Georgia", Font.PLAIN,25));
+        nameTextField.setCaretColor(Color.white);
+        nameTextField.setBorder(new LineBorder(Color.white, 1));
+
+
         nameTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -110,13 +107,26 @@ public class ConnectPanel extends JPanel{
         });
         add(nameTextField);
 
-        ipLabel.setBounds(250,500,150,30);
+        ipLabel.setBounds(394,450,140,40);
         ipLabel.setFont(new Font("Georgia", Font.PLAIN,20));
         ipLabel.setVisible(true);
+        ipLabel.setOpaque(true);
+        ipLabel.setBackground(Color.black);
+        ipLabel.setForeground(Color.WHITE);
+        ipLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        ipLabel.setVerticalAlignment(SwingConstants.CENTER);
+        ipLabel.setBorder(new LineBorder(Color.white, 1));
         add(ipLabel);
 
-        ipTextField.setBounds(400,500,250,30);
+        ipTextField.setBounds(532,450,292,40);
         ipTextField.setVisible(true);
+        ipTextField.setFocusable(true);
+        ipTextField.setBackground(Color.BLACK);
+        ipTextField.setForeground(Color.WHITE);
+        ipTextField.setHorizontalAlignment(SwingConstants.CENTER);
+        ipTextField.setFont(new Font("Georgia", Font.PLAIN,25));
+        ipTextField.setCaretColor(Color.white);
+        ipTextField.setBorder(new LineBorder(Color.white, 1));
         ipTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -135,8 +145,8 @@ public class ConnectPanel extends JPanel{
         });
         add(ipTextField);
 
-        confirmButton.setBounds(400,550,250,30);
-        confirmButton.setFont(new Font("Georgia",Font.BOLD,15));
+        confirmButton.setBounds(574,570,250,40);
+        confirmButton.setFont(new Font("Georgia",Font.BOLD,18));
         confirmButton.setEnabled(false);
         confirmButton.addActionListener(e -> {
             String clientName = nameTextField.getText();
@@ -145,17 +155,34 @@ public class ConnectPanel extends JPanel{
             if(temp) {
                 System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
                 confirmButton.setEnabled(false);
-                confirmButton.setBackground(Color.lightGray);
+                confirmButton.setBackground(Color.black);
                 confirmButton.setForeground(Color.WHITE);
                 confirmButton.setText("Connected");
                 verifyNameButton.setEnabled(true);
+                verifyNameButton.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        verifyNameButton.setBorder(new LineBorder(Color.white, 1));
+                    }
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        verifyNameButton.setBorder(BorderFactory.createEmptyBorder());
+                    }
+                });
                 nameTextField.setEnabled(true);
             }
         });
         add(confirmButton);
+        confirmButton.setBackground(Color.black);
+        confirmButton.setForeground(Color.white);
+        confirmButton.setBorder(BorderFactory.createEmptyBorder());
+        confirmButton.setFocusPainted(false);
 
-        verifyNameButton.setBounds(200, 550, 160, 30);
-        verifyNameButton.setFont(new Font("Georgia",Font.BOLD,15));
+
+
+        verifyNameButton.setBounds(394, 570, 160, 40);
+        verifyNameButton.setFont(new Font("Georgia",Font.BOLD,18));
         verifyNameButton.setEnabled(false);
         verifyNameButton.addActionListener(e -> {
             if(clientMain.Final_gamePlayerNames_ClientSide  == null || playerListClientSide.isEmpty()){
@@ -164,7 +191,11 @@ public class ConnectPanel extends JPanel{
             }
             if(playerNameExists(nameTextField.getText())){
                 JOptionPane.showMessageDialog(this,"Name Already Taken");
-            }else{
+            }
+            if(nameTextField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this,"Enter a Name");
+            }
+            else {
                 System.out.print("Name is Available");
                 clientMain.setName(nameTextField.getText());
                 verifyNameButton.setEnabled(false);
@@ -172,8 +203,14 @@ public class ConnectPanel extends JPanel{
         });
         add(verifyNameButton);
 
-        homeButton.setBounds(10, 10, 100, 30);
-        homeButton.setFont(new Font("Georgia", Font.PLAIN, 20));
+        verifyNameButton.setBackground(Color.black);
+        verifyNameButton.setForeground(Color.white);
+        verifyNameButton.setBorder(BorderFactory.createEmptyBorder());
+        verifyNameButton.setFocusPainted(false);
+
+
+        homeButton.setBounds(10, 10, 100, 40);
+        homeButton.setFont(new Font("Georgia", Font.BOLD, 20));
         homeButton.addActionListener(e -> {
             if(clientMain.getOut() != null){
                 sendDisconnectMessage();
@@ -185,11 +222,37 @@ public class ConnectPanel extends JPanel{
                 frame.revalidate();
             }
         });
+        homeButton.setFocusPainted(false);
+        homeButton.setBackground(Color.black);
+        homeButton.setForeground(Color.white);
+        homeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                homeButton.setBorder(new LineBorder(Color.white, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                homeButton.setBorder(null);
+            }
+        });
         add(homeButton);
+        peopleInGameLabel.setBounds(394, 630, 300, 40);
+        peopleInGameLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
+        peopleInGameLabel.setVisible(true);
+        peopleInGameLabel.setOpaque(true);
+        peopleInGameLabel.setBackground(Color.black);
+        peopleInGameLabel.setForeground(Color.WHITE);
+        peopleInGameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        peopleInGameLabel.setVerticalAlignment(SwingConstants.CENTER);
+        peopleInGameLabel.setBorder(new LineBorder(Color.white, 1));
+        add(peopleInGameLabel);
 
-        playersJoined.setFont(new Font("Georgia", Font.PLAIN, 20));
+        playersJoined.setFont(new Font("Georgia", Font.PLAIN, 25));
         playersJoined.setEditable(false);
-        playersJoined.setBounds(250, 600, 400, 300);
+        playersJoined.setBounds(394, 690, 430, 240);
+        playersJoined.setBackground(Color.BLACK);
+        playersJoined.setForeground(Color.WHITE);
+
         add(playersJoined);
         //add(playersScrollPane);
 
@@ -224,6 +287,18 @@ public class ConnectPanel extends JPanel{
         //boolean isNameValid = !nameTextField.getText().trim().isEmpty();
         boolean isIPValid = !ipTextField.getText().trim().isEmpty();
         confirmButton.setEnabled(/*isNameValid &&*/ isIPValid);
+        if(isIPValid) {
+            confirmButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    confirmButton.setBorder(new LineBorder(Color.white, 1));
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    confirmButton.setBorder(BorderFactory.createEmptyBorder());
+                }
+            });
+        }
     }
     private void sendDisconnectMessage(){
         try{
@@ -280,7 +355,7 @@ public class ConnectPanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        Graphics bg = buffer.getGraphics();
-        g.drawImage(loading, 0, 0, 1920, 1010, null);
+        g.drawImage(loading, 0, 0, 1920, 1050, null);
 //        g.drawImage(buffer, 0, 0, null);
     }
 
