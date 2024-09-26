@@ -23,7 +23,7 @@ public class LoadingPanel extends JPanel {
 
         buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
         try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\megaland_banner_1.png")));
+            loading = ImageIO.read((new File("Project\\src\\Images\\Image_Megaland_Wallpaper.jpg")));
 
         } catch (Exception ah) {
             ah.printStackTrace();
