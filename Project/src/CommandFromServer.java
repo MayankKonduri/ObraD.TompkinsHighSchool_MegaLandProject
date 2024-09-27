@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -74,4 +75,20 @@ public class CommandFromServer implements Serializable
             e.printStackTrace();
         }
     }
+    public static void notify_PLAYEROBJECT_LIST(ObjectOutputStream out, ArrayList<Player> playerArrayListHost) {
+        sendPlayer(out, playerArrayListHost);
+        System.out.println("FinalDebug1: " + playerArrayListHost.size());
+    }
+
+    public static void sendPlayer(ObjectOutputStream out, ArrayList<Player> playerArrayListHost) {
+        try {
+            out.reset();
+            out.writeObject(playerArrayListHost);
+            System.out.println("FinalDebug2: " + playerArrayListHost.size());
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

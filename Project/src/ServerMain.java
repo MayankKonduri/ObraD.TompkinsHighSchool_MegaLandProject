@@ -24,6 +24,7 @@ public class ServerMain{
     private HostPanel hostPanel;
     private CharacterSelectPanel characterSelectPanel;
     private ChatPanel chatPanel;
+    public ArrayList<Player> playerArrayList_Host = new ArrayList<>();
 
     public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
         this.port = port;
@@ -204,7 +205,14 @@ public class ServerMain{
             characterSelectPanel.updateAvailability(temp);
         }
     }
-
+    public synchronized void broadcastMessagePlayers(ArrayList<Player> playerArrayListHost) {
+        synchronized (clientOutputStreams){
+            System.out.println("Debug: " + playerArrayList_Host.size());
+            for(ObjectOutputStream out: clientOutputStreams){
+                CommandFromServer.notify_PLAYEROBJECT_LIST(out, playerArrayListHost);
+            }
+        }
+    }
     public synchronized void broadcastMessage(int values, String name){
         switch (values){
             case 1:
@@ -325,4 +333,5 @@ public class ServerMain{
     public void setCharacterSelectPanel(CharacterSelectPanel characterSelectPanel){
         this.characterSelectPanel = characterSelectPanel;
     }
+
 }

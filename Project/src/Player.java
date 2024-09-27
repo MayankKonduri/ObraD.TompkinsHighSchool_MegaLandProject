@@ -1,8 +1,9 @@
 package Project.src;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player{
+public class Player implements Serializable{
     private int playerID;
     private String playerName;
     private boolean playerTurn;
@@ -11,10 +12,11 @@ public class Player{
     public int playerJumps;
     public boolean isPlayerActive;
     public boolean canDrawLevel;
+    public boolean isHost;
     public ArrayList<Player> allPlayers = new ArrayList<>();
 //    public ArrayList<TreasureCards> playerOwnedTreasureCards;
 //    public ArrayList<BuildingCards> playerOwnedBuildingCards;
-    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel) {
+    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost) {
         this.playerID= playerID;
         this.playerName = playerName;
         this.playerTurn = playerTurn;
@@ -23,6 +25,7 @@ public class Player{
         this.playerJumps = playerJumps;
         this.isPlayerActive = isPlayerActive;
         this.canDrawLevel = canDrawLevel;
+        this.isHost = isHost;
     }
 
     public int getPlayerID() {
@@ -87,6 +90,9 @@ public class Player{
         this.canDrawLevel = canDrawLevel;
     }
 
+    public boolean getisHost(){
+        return isHost;
+    }
     public ArrayList<Player> getNames() {
         return allPlayers;
     }

@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,6 @@ public class HostPanel extends JPanel{
     private JTextArea peopleListArea = new JTextArea();
     private JScrollPane peopleScrollPane = new JScrollPane(peopleListArea);
     private JPanel peoplePanel = new JPanel();
-    ArrayList<Player> playerInfo = new ArrayList<>(); //Ayan Code Implement
     private ServerSocket serverSocket;
     //private final List<ClientHandler> clientHandler = new ArrayList<ClientHandler>();
     public ArrayList<String> playerList_serverSide = new ArrayList<>();
@@ -191,6 +191,9 @@ public class HostPanel extends JPanel{
             startHostingButton.setText("Hosting in Progress");
             confirmSettings.setEnabled(false);
             //updatePeopleList();
+            Player playerHost = new Player(0, nameTextField.getText(), false, 0, 0,0,false,false, true);
+            serverMain.playerArrayList_Host.add(playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
         });
         add(startHostingButton);
 

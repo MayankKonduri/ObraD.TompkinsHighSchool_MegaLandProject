@@ -22,6 +22,8 @@ public class ClientMain{
     private CharacterSelectPanel characterSelectPanel;
     public String cardPanel_Client_Side;
     private ChatPanel chatPanel;
+    public ArrayList<Player> playerArrayList_client = new ArrayList<Player>();
+
 
     public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
         this.clientName = clientName;
@@ -146,6 +148,18 @@ public class ClientMain{
         connectPanel.updatePlayerList();
     }
 
+    public void handleNewList(ArrayList<Player> playerArrayList1) {
+        if(!playerArrayList_client.isEmpty()) {
+            playerArrayList_client.clear();
+        }
+        playerArrayList_client.addAll(playerArrayList1);
+        System.out.println("Success, Got PlayerArrayList (C)");
+        System.out.println(playerArrayList_client.size());
+        for(int i=0;i<playerArrayList_client.size();i++){
+            System.out.println(playerArrayList_client.get(i).getPlayerName());
+        }
+    }
+
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
@@ -241,4 +255,6 @@ public class ClientMain{
     public void setSocket(Socket socket){
         this.socket = socket;
     }
+
+
 }

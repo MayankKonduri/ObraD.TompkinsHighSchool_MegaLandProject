@@ -99,7 +99,7 @@ public class GamePanel extends JPanel {
                         playerLabel.setText("Player " + current_player + "'s View");
                     }
                     else{
-                        current_player = clientMain.gamePlayerNames_ClientSide.size();
+                        current_player = clientMain.Final_gamePlayerNames_ClientSide.size();
                         playerGameView(current_player);
                         playerLabel.setText("Player " + current_player + "'s View");
                     }
@@ -127,7 +127,7 @@ public class GamePanel extends JPanel {
                     }
                 }
                 else{
-                    if (current_player > clientMain.gamePlayerNames_ClientSide.size()) {
+                    if (current_player > clientMain.Final_gamePlayerNames_ClientSide.size()) {
                         current_player = 1;
                         playerGameView(current_player);
                         playerLabel.setText("Player " + current_player + "'s View");
@@ -306,10 +306,11 @@ public class GamePanel extends JPanel {
         if(isHost1) {
             System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
             System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
-
+            serverMain.playerArrayList_Host.get(1).setPlayerName("Temp");
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
 
         }else {
-            System.out.println("Connected Players (C): " + clientMain.gamePlayerNames_ClientSide);
+            System.out.println("Connected Players (C): " + clientMain.Final_gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
             trimmed_stringCardPanel = stringCardPanel.substring(1, stringCardPanel.length()-1);
             array_trimmed_stringCardPanel = trimmed_stringCardPanel.split(",");
@@ -320,6 +321,7 @@ public class GamePanel extends JPanel {
             createImageButtonsClient();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
         }
+
 
 
 

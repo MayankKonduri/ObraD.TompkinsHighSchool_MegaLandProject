@@ -82,6 +82,7 @@ public class ConnectPanel extends JPanel{
 
         clientMain.setConnectPanel(this);
         clientMain.setWaitingForHostPanel(waitingForHostPanel);
+        /*waitingForHostPanel.setClientMain(clientMain);//fix1*/
         this.playerListClientSide = new ArrayList<>();
 
         titleLabel.setBounds(250,380,600,75);
@@ -198,6 +199,9 @@ public class ConnectPanel extends JPanel{
                 confirmButton.setEnabled(false);
                 verifyNameButton.setEnabled(false);
                 clientMain.gamePlayerNames_ClientSide = clientMain.clearPlayerNames(clientMain.gamePlayerNames_ClientSide);
+                Player playerClient = new Player(clientMain.gamePlayerNames_ClientSide.indexOf(nameTextField.getText()), nameTextField.getText(), false, 0, 0,0,false,false, false);
+                CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
+                System.out.println("Verified Name");
             }
         });
         add(verifyNameButton);

@@ -2,8 +2,9 @@ package Project.src;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
-    public class ServerListener implements Runnable{
+public class ServerListener implements Runnable{
         private Socket clientSocket;
         private ObjectInputStream in;
         private ObjectOutputStream out;
@@ -46,10 +47,16 @@ import java.net.Socket;
         }
         public void run(){
             try{
-                String message;
-                while(isRunning && (message = (String) in.readObject()) != null) {
-                    System.out.println("Received Message From Client:           " + message); // Debug statement
-                    processMessage(message);
+                Object receivedObject;
+                while (isRunning && (receivedObject = in.readObject()) != null) {
+                    if (receivedObject instanceof String) {
+                        String message = (String) receivedObject;
+                        System.out.println("Received message from server: " + message); // Debug statement
+                        processMessage(message);
+                    } else if (receivedObject instanceof Player) {
+                        Player playerGet = (Player) receivedObject;
+                        processPlayer(playerGet);
+                    }
                 }
             }catch(IOException | ClassNotFoundException e){
                 e.printStackTrace();
@@ -57,7 +64,42 @@ import java.net.Socket;
                 stopListening();
             }
         }
-        private void processMessage(String message) {
+
+    private synchronized void processPlayer(Player playerGet) {
+        int index = -1;
+        System.out.println(serverMain.playerArrayList_Host.size());
+        for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+
+            String playerName = serverMain.playerArrayList_Host.get(i).getPlayerName();
+            if (playerGet.getPlayerName().equals(playerName)) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1) {
+            if (index < serverMain.playerArrayList_Host.size()) {
+                serverMain.playerArrayList_Host.set(index, playerGet);
+                System.out.println("Player updated at index: " + index);
+            } else {
+                System.err.println("Error: Mismatch between gamePlayerNames and playerArrayList_Host sizes.");
+            }
+        } else {
+            serverMain.playerArrayList_Host.add(playerGet);
+            //serverMain.gamePlayerNames.add(playerGet.getPlayerName());
+            System.out.println("Success: New Player Added (H)");
+        }
+
+
+        for(int i=0;i<serverMain.playerArrayList_Host.size();i++){
+            System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerName());
+        }
+        System.out.println("Sending Correct List to Clients After Final Join" + serverMain.playerArrayList_Host.size());
+        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+    }
+
+
+    private void processMessage(String message) {
             if (message.startsWith(CLIENT_NAME)) {
                 handleUpdatePlayers_Client(message);
             } else if(message.startsWith(CLIENT_NAME_VERIFY)){

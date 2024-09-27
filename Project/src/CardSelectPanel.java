@@ -59,7 +59,6 @@ public class CardSelectPanel extends JPanel {
 
         setSize(1920, 1010);
         setLayout(null);
-
         for(int i = 0; i <17; i++) {
             buildingsSelect.add(false);
         }

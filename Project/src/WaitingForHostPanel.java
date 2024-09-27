@@ -16,6 +16,12 @@ public class WaitingForHostPanel extends JPanel {
     public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel){
         setLayout(null);
 
+        /*for(int i=0;i<clientMain.playerArrayList.size();i++)
+        {
+            clientMain.gamePlayerNames_ClientSide.clear();
+            clientMain.gamePlayerNames_ClientSide.add(clientMain.playerArrayList.get(i).getPlayerName());
+        } //fix2*/
+
         this.clientMain = clientMain;
         this.jframe1 = frame;
         this.connectPanel = connectPanel;
@@ -53,4 +59,8 @@ public class WaitingForHostPanel extends JPanel {
     public CharacterSelectPanel getCharacterSelectPanel(){
         return characterSelectPanel;
     }
+
+    /*public void setClientMain(ClientMain clientMain) {
+        this.clientMain = clientMain;
+    } //fix3*/
 }

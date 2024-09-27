@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,6 +56,18 @@ public class CommandFromClient implements Serializable {
                 out.flush();
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void notifyPlayerObject(ObjectOutputStream out, Player playerClient) {
+        sendPlayerObject(out, playerClient);
+    }
+    public static void sendPlayerObject(ObjectOutputStream out, Player player) {
+        try {
+            out.writeObject(player);
+            out.flush();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
