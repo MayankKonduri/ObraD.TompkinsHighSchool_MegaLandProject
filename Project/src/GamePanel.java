@@ -318,8 +318,8 @@ public class GamePanel extends JPanel {
             }
             createImageButtonsClient();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
-            characterSelectPanel.playerClient.setPlayerName("TempTempTemp");
-            System.out.println(characterSelectPanel.playerClient.getPlayerName());
+            characterSelectPanel.playerClient.setPlayerID(1000);
+            System.out.println(characterSelectPanel.playerClient.getPlayerID());
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
         }
 

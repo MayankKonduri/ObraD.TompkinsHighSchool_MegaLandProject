@@ -66,6 +66,7 @@ public class CommandFromClient implements Serializable {
     }
     public static void sendPlayerObject(ObjectOutputStream out, Player player) {
         try {
+            out.reset();
             out.writeObject(player);
             out.flush();
         } catch (Exception e) {

@@ -58,6 +58,7 @@ public class ServerListener implements Runnable{
                     } else if (receivedObject instanceof Player) {
                         Player playerGet = (Player) receivedObject;
                         processPlayer(playerGet);
+                        System.out.println("DebugLib: " + playerGet.getPlayerName());
                     }
                 }
             }catch(IOException | ClassNotFoundException e){
@@ -68,7 +69,7 @@ public class ServerListener implements Runnable{
         }
 
     private synchronized void processPlayer(Player playerGet) {
-        System.out.println(playerGet.getPlayerName());
+        System.out.println("Debug Lib: " + playerGet.getPlayerID());
         int index = -1;
         System.out.println(serverMain.playerArrayList_Host.size());
         for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
@@ -115,6 +116,7 @@ public class ServerListener implements Runnable{
         }
         System.out.println("Sending Correct List to Clients After Final Join" + serverMain.playerArrayList_Host.size());
         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+        playerGet = null;
     }
 
 
