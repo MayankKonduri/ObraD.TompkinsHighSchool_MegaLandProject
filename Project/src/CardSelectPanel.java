@@ -3,11 +3,9 @@ package Project.src;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +47,7 @@ public class CardSelectPanel extends JPanel {
     private JFrame jFrame;
     private CharacterSelectPanel characterSelectPanel;
     private BufferedImage loading;
+    public ArrayList<JButton> allButtons = new ArrayList<>();
 
     public CardSelectPanel(JFrame frame, ServerMain serverMain, HostPanel hostPanel) {
         this.jFrame = frame;
@@ -66,7 +65,7 @@ public class CardSelectPanel extends JPanel {
             buildingsSelect.add(false);
         }
         try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\Building_v2.jpg")));
+            loading = ImageIO.read((new File("Project\\src\\Images\\Character_v.jpg")));
             image12 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
             image13 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
             image14 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0014.jpg")));
@@ -92,6 +91,21 @@ public class CardSelectPanel extends JPanel {
         title.setBounds(710, 0, 500,75);
         title.setFont(new Font("Georgia", Font.BOLD, 40));
         done.setBounds(1770, 900, 100, 60);
+        done.setFont(new Font("Georgia", Font.BOLD, 20));
+        done.setForeground(Color.white);
+        done.setBackground(Color.black);
+        done.setBorder(BorderFactory.createEmptyBorder());
+        done.setFocusable(false);
+        done.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                done.setBorder(new LineBorder(Color.white, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                done.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
         done.addActionListener(e -> {
             if(serverMain!= null) {
                 if (selectionCount == 7) {
@@ -186,13 +200,73 @@ public class CardSelectPanel extends JPanel {
         select28.addActionListener(e -> {
             buildingsSelected(select28);
         });
-        buildingLabel.setBounds(630, 920, 800, 80);
+        allButtons.add(select12);
+        allButtons.add(select13);
+        allButtons.add(select14);
+        allButtons.add(select15);
+        allButtons.add(select16);
+        allButtons.add(select17);
+        allButtons.add(select18);
+        allButtons.add(select19);
+        allButtons.add(select20);
+        allButtons.add(select21);
+        allButtons.add(select22);
+        allButtons.add(select23);
+        allButtons.add(select24);
+        allButtons.add(select25);
+        allButtons.add(select26);
+        allButtons.add(select27);
+        allButtons.add(select28);
+
+        for(int i = 0; i < allButtons.size(); i++) {
+            JButton button = allButtons.get(i);
+            button.setFocusable(false);
+            button.setForeground(Color.white);
+            button.setBackground(Color.BLACK);
+            button.setBorder(BorderFactory.createEmptyBorder());
+            button.setFont(new Font("Georgia", Font.BOLD, 15));
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBorder(new LineBorder(Color.white, 1));
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBorder(BorderFactory.createEmptyBorder());
+                }
+            });
+
+        }
+
+        buildingLabel.setBounds(0, 920, 1920, 80);
+        buildingLabel.setHorizontalAlignment(SwingConstants.CENTER);
         buildingLabel.setFont(new Font("Georgia", Font.BOLD, 40));
-        error.setBounds(730, 890, 500, 40);
+        buildingLabel.setForeground(Color.white);
+        error.setBounds(0, 890, 1920, 40);
+        error.setHorizontalAlignment(SwingConstants.CENTER);
         error.setFont(new Font("Georgia", Font.BOLD, 35));
-        randomLabel.setBounds(610, 770, 800, 60);
+        error.setForeground(Color.WHITE);
+        randomLabel.setBounds(0, 770, 1920, 60);
+        randomLabel.setHorizontalAlignment(SwingConstants.CENTER);
         randomLabel.setFont(new Font("Georgia", Font.BOLD, 40));
-        random.setBounds(910,840 , 100, 40);
+        randomLabel.setForeground(Color.white);
+        random.setBounds(890,830 , 140, 50);
+        random.setFont(new Font("Georgia", Font.BOLD, 20));
+        random.setForeground(Color.white);
+        random.setBackground(Color.black);
+        random.setBorder(BorderFactory.createEmptyBorder());
+        random.setFocusable(false);
+
+        random.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                random.setBorder(new LineBorder(Color.white, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                random.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
         random.addActionListener(e -> {
             reset();
             error.setVisible(false);
@@ -338,9 +412,20 @@ public class CardSelectPanel extends JPanel {
         return buildingsSelect;
     }
 
-    public void randomSelectedColor(JButton button) {
-        button.setForeground(Color.WHITE);
-        button.setBackground(Color.BLACK);
+    public void randomSelectedColor(JButton button1) {
+        button1.setForeground(Color.black);
+        button1.setBackground(Color.white);
+        button1.setBorder(BorderFactory.createEmptyBorder());
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button1.setBorder(new LineBorder(Color.black, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button1.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
     }
 
     public void buildingsSelected(JButton button){
@@ -355,8 +440,19 @@ public class CardSelectPanel extends JPanel {
             buildingsSelect.set(buttonNumber-12,true);
             System.out.println("Selected: " + selectionCount + pressed);
             buildingLabel.setText("You have selected " + selectionCount + "/7 buildings");
-            button.setBackground(Color.black);
-            button.setForeground(Color.WHITE);
+            button.setBackground(Color.white);
+            button.setForeground(Color.black);
+            button.setBorder(BorderFactory.createEmptyBorder());
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBorder(new LineBorder(Color.black, 1));
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBorder(BorderFactory.createEmptyBorder());
+                }
+            });
         } else {
             button.setText("Select");
             selectionCount--;
@@ -366,8 +462,19 @@ public class CardSelectPanel extends JPanel {
             buildingsSelect.set(buttonNumber-12,false);
             System.out.println("Unselected: " + selectionCount + pressed);
             buildingLabel.setText("You have selected " + selectionCount + "/7 buildings");
-            button.setBackground(null);
-            button.setForeground(null);
+            button.setBackground(Color.black);
+            button.setForeground(Color.white);
+            button.setBorder(BorderFactory.createEmptyBorder());
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBorder(new LineBorder(Color.white, 1));
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBorder(BorderFactory.createEmptyBorder());
+                }
+            });
         }
         System.out.println("Final: " + buildingsSelect.toString());
     }
@@ -432,63 +539,58 @@ public class CardSelectPanel extends JPanel {
         select27.setText("Select");
         select28.setText("Select");
 
-        select12.setBackground(null);
-        select12.setForeground(null);
-        select13.setBackground(null);
-        select13.setForeground(null);
-        select14.setBackground(null);
-        select14.setForeground(null);
-        select15.setBackground(null);
-        select15.setForeground(null);
-        select16.setBackground(null);
-        select16.setForeground(null);
-        select17.setBackground(null);
-        select17.setForeground(null);
-        select18.setBackground(null);
-        select18.setForeground(null);
-        select19.setBackground(null);
-        select19.setForeground(null);
-        select20.setBackground(null);
-        select20.setForeground(null);
-        select21.setBackground(null);
-        select21.setForeground(null);
-        select22.setBackground(null);
-        select22.setForeground(null);
-        select23.setBackground(null);
-        select23.setForeground(null);
-        select24.setBackground(null);
-        select24.setForeground(null);
-        select25.setBackground(null);
-        select25.setForeground(null);
-        select26.setBackground(null);
-        select26.setForeground(null);
-        select27.setBackground(null);
-        select27.setForeground(null);
-        select28.setBackground(null);
-        select28.setForeground(null);
+        select12.setBackground(Color.black);
+        select12.setForeground(Color.white);
+        select13.setBackground(Color.black);
+        select13.setForeground(Color.white);
+        select14.setBackground(Color.black);
+        select14.setForeground(Color.white);
+        select15.setBackground(Color.black);
+        select15.setForeground(Color.white);
+        select16.setBackground(Color.black);
+        select16.setForeground(Color.white);
+        select17.setBackground(Color.black);
+        select17.setForeground(Color.white);
+        select18.setBackground(Color.black);
+        select18.setForeground(Color.white);
+        select19.setBackground(Color.black);
+        select19.setForeground(Color.white);
+        select20.setBackground(Color.black);
+        select20.setForeground(Color.white);
+        select21.setBackground(Color.black);
+        select21.setForeground(Color.white);
+        select22.setBackground(Color.black);
+        select22.setForeground(Color.white);
+        select23.setBackground(Color.black);
+        select23.setForeground(Color.white);
+        select24.setBackground(Color.black);
+        select24.setForeground(Color.white);
+        select25.setBackground(Color.black);
+        select25.setForeground(Color.white);
+        select26.setBackground(Color.black);
+        select26.setForeground(Color.white);
+        select27.setBackground(Color.black);
+        select27.setForeground(Color.white);
+        select28.setBackground(Color.black);
+        select28.setForeground(Color.white);
+
+        for(int i = 0; i < allButtons.size(); i++) {
+            JButton button = allButtons.get(i);
+            button.setBorder(BorderFactory.createEmptyBorder());
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBorder(new LineBorder(Color.white, 1));
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBorder(BorderFactory.createEmptyBorder());
+                }
+            });
+        }
 
     }
-    public void buttonsEnabled() {
-        select12.setEnabled(false);
-        select13.setEnabled(false);
-        select14.setEnabled(false);
-        select15.setEnabled(false);
-        select16.setEnabled(false);
-        select17.setEnabled(false);
-        select18.setEnabled(false);
-        select19.setEnabled(false);
-        select20.setEnabled(false);
-        select21.setEnabled(false);
-        select22.setEnabled(false);
-        select23.setEnabled(false);
-        select24.setEnabled(false);
-        select25.setEnabled(false);
-        select26.setEnabled(false);
-        select27.setEnabled(false);
-        select28.setEnabled(false);
 
-
-    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

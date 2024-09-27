@@ -37,7 +37,7 @@ public class WaitingForHostPanel extends JPanel {
         waitingTips.add("Keep an eye on your heart count and consider stopping early to avoid losing treasures.");
         waitingTips.add("Use your hearts strategically...");
         waitingTips.add("Remember there is only a certain amount of level cards...");
-        waitingTips.add("Kep treasures you can use to buy buildings when faced with discarding.");
+        waitingTips.add("Keep treasures you can use to buy buildings when faced with discarding.");
         waitingTips.add("Pay attention to your opponents, especially during the building phase...");
         Collections.shuffle(waitingTips);
 
