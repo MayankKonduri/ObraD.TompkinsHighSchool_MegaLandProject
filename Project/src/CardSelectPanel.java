@@ -48,11 +48,13 @@ public class CardSelectPanel extends JPanel {
     private ClientMain clientMain;
     private JFrame jFrame;
     private CharacterSelectPanel characterSelectPanel;
+    private BufferedImage loading;
 
     public CardSelectPanel(JFrame frame, ServerMain serverMain, HostPanel hostPanel) {
         this.jFrame = frame;
         this.serverMain = serverMain;
         this.hostPanel = hostPanel;
+
 
         characterSelectPanel = new CharacterSelectPanel(frame, null, serverMain, hostPanel, null, true, this);
         hostPanel.setCharacterSelectPanel(characterSelectPanel);
@@ -64,6 +66,7 @@ public class CardSelectPanel extends JPanel {
             buildingsSelect.add(false);
         }
         try {
+            loading = ImageIO.read((new File("Project\\src\\Images\\Building_v2.jpg")));
             image12 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
             image13 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
             image14 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0014.jpg")));
@@ -489,6 +492,7 @@ public class CardSelectPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(loading, 0, 0, 1920, 1050, null);
         g.drawImage(image12, 60, 90, 180, 270, null);
         g.drawImage(image13, 260, 90, 180, 270, null);
         g.drawImage(image14, 460, 90, 180, 270, null);
