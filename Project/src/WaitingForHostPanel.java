@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.ref.Cleaner;
+import java.util.ArrayList;
 
 public class WaitingForHostPanel extends JPanel {
 

@@ -67,6 +67,8 @@ public class ConnectPanel extends JPanel{
         setLayout(null);
         this.jFrame1 = frame;
 
+        verifyNameButton.setVisible(false);
+
         try{
             loading = ImageIO.read(new File("Project\\src\\Images\\megaland_banner_1.png"));
         } catch (Exception e) {
@@ -135,7 +137,7 @@ public class ConnectPanel extends JPanel{
         });
         add(ipTextField);
 
-        confirmButton.setBounds(400,550,250,30);
+        confirmButton.setBounds(250,550,400,30);
         confirmButton.setFont(new Font("Georgia",Font.BOLD,15));
         confirmButton.setEnabled(false);
         confirmButton.addActionListener(e -> {
@@ -143,18 +145,43 @@ public class ConnectPanel extends JPanel{
             String ipAddress = ipTextField.getText();
             boolean temp = clientMain.connectToServer(ipAddress,clientName);
             if(temp) {
+                ipTextField.setEnabled(false);
                 System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
                 confirmButton.setEnabled(false);
-                confirmButton.setBackground(Color.lightGray);
-                confirmButton.setForeground(Color.WHITE);
+                confirmButton.setVisible(false);
+                verifyNameButton.setVisible(true);
+                verifyNameButton.setBounds(250,550,400,30);
+                //confirmButton.setBackground(Color.lightGray);
+                //confirmButton.setForeground(Color.WHITE);
                 confirmButton.setText("Connected");
-                verifyNameButton.setEnabled(true);
                 nameTextField.setEnabled(true);
+
+                nameTextField.getDocument().addDocumentListener(new DocumentListener() {
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        updateVerifyButtonState();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        updateVerifyButtonState();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        updateVerifyButtonState();
+                    }
+
+                    private void updateVerifyButtonState(){
+                        String text = nameTextField.getText();
+                        verifyNameButton.setEnabled(text != null && !text.trim().isEmpty());
+                    }
+                });
             }
         });
         add(confirmButton);
 
-        verifyNameButton.setBounds(200, 550, 160, 30);
+        //verifyNameButton.setBounds(200, 550, 160, 30);
         verifyNameButton.setFont(new Font("Georgia",Font.BOLD,15));
         verifyNameButton.setEnabled(false);
         verifyNameButton.addActionListener(e -> {
@@ -167,7 +194,10 @@ public class ConnectPanel extends JPanel{
             }else{
                 System.out.print("Name is Available");
                 clientMain.setName(nameTextField.getText());
+                nameTextField.setEnabled(false);
+                confirmButton.setEnabled(false);
                 verifyNameButton.setEnabled(false);
+                clientMain.gamePlayerNames_ClientSide = clientMain.clearPlayerNames(clientMain.gamePlayerNames_ClientSide);
             }
         });
         add(verifyNameButton);

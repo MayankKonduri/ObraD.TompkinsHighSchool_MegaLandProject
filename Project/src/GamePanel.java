@@ -86,7 +86,7 @@ public class GamePanel extends JPanel {
         setLayout(null);
 
         JButton leftArrow = new JButton("←");
-        leftArrow.setBounds(760, 490, 50, 40);
+        leftArrow.setBounds(760, 485, 50, 40);
         leftArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,7 +110,7 @@ public class GamePanel extends JPanel {
             }
         });
         JButton rightArrow = new JButton("→");
-        rightArrow.setBounds(1090, 490, 50, 40);
+        rightArrow.setBounds(1090, 485, 50, 40);
         rightArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,12 +141,15 @@ public class GamePanel extends JPanel {
 
         playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
         playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        playerLabel.setBounds(860, 490, 200, 50);
-
-
-        add(leftArrow);
-        add(playerLabel);
-        add(rightArrow);
+        playerLabel.setBounds(860, 485, 200, 50);
+        JPanel backgroundP = new JPanel();
+        backgroundP.setBounds(750,480, 400,40);
+        backgroundP.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        backgroundP.setBackground(Color.orange);
+        add(backgroundP);
+        backgroundP.add(leftArrow);
+        backgroundP.add(playerLabel);
+        backgroundP.add(rightArrow);
 
 
 
@@ -580,6 +583,11 @@ public class GamePanel extends JPanel {
         cardsPanel.repaint();
         scrollPane.revalidate();
         scrollPane.repaint();
+
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
     }
 
 
@@ -656,17 +664,31 @@ public class GamePanel extends JPanel {
 
 
     public void clientOwnedCardsDisplay() {
-        System.out.println("Player Building Size: " + playerBuildings.size());
-        for(int i = 0; i < playerBuildings.size(); i++) {
-            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
-            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-            button1.setBounds(300 + 160*i, 600, 140, 210);
+        cardsPanel.removeAll();
 
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 20;
 
-            add(button1);
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
         }
-        revalidate();
-        repaint();
+
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
+
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
+
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
     }
 
 

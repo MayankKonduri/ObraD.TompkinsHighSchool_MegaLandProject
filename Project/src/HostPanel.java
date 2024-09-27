@@ -110,8 +110,9 @@ public class HostPanel extends JPanel{
                 startButton.setVisible(true);
                 startHostingButton.setEnabled(false);
                 confirmSettings.setText("Confirm Settings");
-                ipLabel.setVisible(false);
-                ipPlaceHolderLabel.setVisible(false);
+                ipLabel.setVisible(true);
+                ipPlaceHolderLabel.setVisible(true);
+                ipPlaceHolderLabel.setText("Waiting for game settings...");
                 setPlayerButtonsEnabled(true);
                 peoplePanel.setVisible(true);
                 resetStartHostingButton();

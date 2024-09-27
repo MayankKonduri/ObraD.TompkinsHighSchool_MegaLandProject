@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ClientMain{
 
@@ -90,6 +91,18 @@ public class ClientMain{
             return false;
         }
     }
+
+    public ArrayList<String> clearPlayerNames(ArrayList<String> gamePlayerNamesClientSide) {
+        Iterator<String> iterator = gamePlayerNamesClientSide.iterator();
+        while (iterator.hasNext()){
+            String name = iterator.next();
+            if(name == null || name.isEmpty()){
+                iterator.remove();
+            }
+        }
+        return gamePlayerNamesClientSide;
+    }
+
     public void addHostToList(String hostName){
         if(!gamePlayerNames_ClientSide.contains(hostName)){
             gamePlayerNames_ClientSide.add(0,hostName);
