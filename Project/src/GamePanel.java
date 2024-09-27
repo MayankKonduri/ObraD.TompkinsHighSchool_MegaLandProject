@@ -306,7 +306,6 @@ public class GamePanel extends JPanel {
         if(isHost1) {
             System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
             System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
-            serverMain.playerArrayList_Host.get(1).setPlayerName("Temp");
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
 
         }else {

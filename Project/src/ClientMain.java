@@ -157,6 +157,7 @@ public class ClientMain{
         System.out.println(playerArrayList_client.size());
         for(int i=0;i<playerArrayList_client.size();i++){
             System.out.println(playerArrayList_client.get(i).getPlayerName());
+            System.out.println(playerArrayList_client.get(i).getPlayerID());
         }
     }
 

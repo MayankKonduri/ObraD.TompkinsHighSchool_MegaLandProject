@@ -76,7 +76,8 @@ public class ConnectPanel extends JPanel{
         }
 
         clientMain = new ClientMain(nameTextField.getText(), characterSelectPanel, null);
-        waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this);
+        waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this,null);
+
         characterSelectPanel = waitingForHostPanel.getCharacterSelectPanel();
 
 
@@ -198,8 +199,10 @@ public class ConnectPanel extends JPanel{
                 nameTextField.setEnabled(false);
                 confirmButton.setEnabled(false);
                 verifyNameButton.setEnabled(false);
-                clientMain.gamePlayerNames_ClientSide = clientMain.clearPlayerNames(clientMain.gamePlayerNames_ClientSide);
+                clientMain.Final_gamePlayerNames_ClientSide = clientMain.clearPlayerNames(clientMain.Final_gamePlayerNames_ClientSide);
+                System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
                 Player playerClient = new Player(clientMain.gamePlayerNames_ClientSide.indexOf(nameTextField.getText()), nameTextField.getText(), false, 0, 0,0,false,false, false);
+                waitingForHostPanel.setPlayerObject(playerClient);
                 CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
                 System.out.println("Verified Name");
             }

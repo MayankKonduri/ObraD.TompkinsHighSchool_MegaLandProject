@@ -13,7 +13,8 @@ public class WaitingForHostPanel extends JPanel {
     private ClientMain clientMain;
     private ConnectPanel connectPanel;
     private CharacterSelectPanel characterSelectPanel;
-    public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel){
+    private Player playerObject;
+    public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel, Player player){
         setLayout(null);
 
         /*for(int i=0;i<clientMain.playerArrayList.size();i++)
@@ -25,6 +26,7 @@ public class WaitingForHostPanel extends JPanel {
         this.clientMain = clientMain;
         this.jframe1 = frame;
         this.connectPanel = connectPanel;
+        this.playerObject = player;
 
         clientMain.setWaitingForHostPanel(this);
         JLabel waitingLabel = new JLabel("Waiting for Host to Finish Card Selection");
@@ -45,7 +47,10 @@ public class WaitingForHostPanel extends JPanel {
             }
         });
 
+    }
 
+    public void setPlayerObject(Player playerObject){
+        this.playerObject = playerObject;
     }
 
     public void switchToCharacterSelectPanel() {

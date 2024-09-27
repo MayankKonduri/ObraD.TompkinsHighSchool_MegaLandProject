@@ -93,6 +93,7 @@ public class ServerListener implements Runnable{
 
         for(int i=0;i<serverMain.playerArrayList_Host.size();i++){
             System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerName());
+            System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerID());
         }
         System.out.println("Sending Correct List to Clients After Final Join" + serverMain.playerArrayList_Host.size());
         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
