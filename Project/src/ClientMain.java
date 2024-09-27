@@ -1,12 +1,14 @@
 package Project.src;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ClientMain{
 
@@ -21,6 +23,8 @@ public class ClientMain{
     private CharacterSelectPanel characterSelectPanel;
     public String cardPanel_Client_Side;
     private ChatPanel chatPanel;
+    public ArrayList<Player> playerArrayList_client = new ArrayList<Player>();
+
 
     public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
         this.clientName = clientName;
@@ -85,11 +89,23 @@ public class ClientMain{
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Failed to Connect to Server", "Connection Error",JOptionPane.ERROR_MESSAGE);
             connectPanel.confirmButton.setEnabled(true);
-            connectPanel.confirmButton.setBackground(null);
-            connectPanel.confirmButton.setForeground(null);
+            connectPanel.confirmButton.setBackground(Color.BLACK);
+            connectPanel.confirmButton.setForeground(Color.white);
             return false;
         }
     }
+
+    public ArrayList<String> clearPlayerNames(ArrayList<String> gamePlayerNamesClientSide) {
+        Iterator<String> iterator = gamePlayerNamesClientSide.iterator();
+        while (iterator.hasNext()){
+            String name = iterator.next();
+            if(name == null || name.isEmpty()){
+                iterator.remove();
+            }
+        }
+        return gamePlayerNamesClientSide;
+    }
+
     public void addHostToList(String hostName){
         if(!gamePlayerNames_ClientSide.contains(hostName)){
             gamePlayerNames_ClientSide.add(0,hostName);
@@ -133,76 +149,89 @@ public class ClientMain{
         connectPanel.updatePlayerList();
     }
 
+    public void handleNewList(ArrayList<Player> playerArrayList1) {
+        if(!playerArrayList_client.isEmpty()) {
+            playerArrayList_client.clear();
+        }
+        playerArrayList_client.addAll(playerArrayList1);
+        System.out.println("Success, Got PlayerArrayList (C)");
+        System.out.println(playerArrayList_client.size());
+        for(int i=0;i<playerArrayList_client.size();i++){
+            System.out.println(playerArrayList_client.get(i).getPlayerName());
+            System.out.println(playerArrayList_client.get(i).getPlayerID());
+        }
+    }
+
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
         if(!(characterChosenInfo[0].equals(connectPanel.nameTextField.getText()))){
-        if(characterChosenInfo[1].equals("catB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[0][0] = characterChosenInfo[0];
-            temp[0][1] = "NotMine";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterChosenInfo[1].equals("indianWomanB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[1][0] = characterChosenInfo[0];
-            temp[1][1] = "NotMine";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterChosenInfo[1].equals("whiteB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[2][0] = characterChosenInfo[0];
-            temp[2][1] = "NotMine";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterChosenInfo[1].equals("frogB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[3][0] = characterChosenInfo[0];
-            temp[3][1] = "NotMine";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterChosenInfo[1].equals("gandalfB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[4][0] = characterChosenInfo[0];
-            temp[4][1] = "NotMine";
-            characterSelectPanel.updateAvailability(temp);
-        }}
+            if(characterChosenInfo[1].equals("catB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[0][0] = characterChosenInfo[0];
+                temp[0][1] = "NotMine";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterChosenInfo[1].equals("indianWomanB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[1][0] = characterChosenInfo[0];
+                temp[1][1] = "NotMine";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterChosenInfo[1].equals("whiteB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[2][0] = characterChosenInfo[0];
+                temp[2][1] = "NotMine";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterChosenInfo[1].equals("frogB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[3][0] = characterChosenInfo[0];
+                temp[3][1] = "NotMine";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterChosenInfo[1].equals("gandalfB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[4][0] = characterChosenInfo[0];
+                temp[4][1] = "NotMine";
+                characterSelectPanel.updateAvailability(temp);
+            }}
     }
     public void characterTempUNChoose(String playerChoosing) {
         String[] characterUNChosenInfo = playerChoosing.split("-");
         System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
         if(!(characterUNChosenInfo[0].equals(connectPanel.nameTextField.getText()))){
             System.out.println("RUNNING THIS NOOOO!");
-        if(characterUNChosenInfo[1].equals("catB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[0][0] = "No_Player";
-            temp[0][1] = "Available";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterUNChosenInfo[1].equals("indianWomanB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[1][0] = "No_Player";
-            temp[1][1] = "Available";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterUNChosenInfo[1].equals("whiteB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[2][0] = "No_Player";
-            temp[2][1] = "Available";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterUNChosenInfo[1].equals("frogB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[3][0] = "No_Player";
-            temp[3][1] = "Available";
-            characterSelectPanel.updateAvailability(temp);
-        }
-        else if(characterUNChosenInfo[1].equals("gandalfB")) {
-            Object[][] temp = characterSelectPanel.FINAL_ARRAY;
-            temp[4][0] = "No_Player";
-            temp[4][1] = "Available";
-            characterSelectPanel.updateAvailability(temp);
-        }} else{
+            if(characterUNChosenInfo[1].equals("catB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[0][0] = "No_Player";
+                temp[0][1] = "Available";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterUNChosenInfo[1].equals("indianWomanB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[1][0] = "No_Player";
+                temp[1][1] = "Available";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterUNChosenInfo[1].equals("whiteB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[2][0] = "No_Player";
+                temp[2][1] = "Available";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterUNChosenInfo[1].equals("frogB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[3][0] = "No_Player";
+                temp[3][1] = "Available";
+                characterSelectPanel.updateAvailability(temp);
+            }
+            else if(characterUNChosenInfo[1].equals("gandalfB")) {
+                Object[][] temp = characterSelectPanel.FINAL_ARRAY;
+                temp[4][0] = "No_Player";
+                temp[4][1] = "Available";
+                characterSelectPanel.updateAvailability(temp);
+            }} else{
             System.out.println("BYPASSED BECAUSE CLIENT RECEIVING SAME");
         }
     }
@@ -228,4 +257,6 @@ public class ClientMain{
     public void setSocket(Socket socket){
         this.socket = socket;
     }
+
+
 }

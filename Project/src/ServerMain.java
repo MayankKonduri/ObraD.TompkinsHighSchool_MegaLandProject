@@ -24,6 +24,7 @@ public class ServerMain{
     private HostPanel hostPanel;
     private CharacterSelectPanel characterSelectPanel;
     private ChatPanel chatPanel;
+    public ArrayList<Player> playerArrayList_Host = new ArrayList<>();
 
     public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
         this.port = port;
@@ -46,7 +47,7 @@ public class ServerMain{
             gamePlayerNames.add(hostPanel.nameTextField.getText());
             addClientToList(hostName);
             hostPanel.updatePeopleList(gamePlayerNames);
-            while (isRunning) {
+            while (isRunning){
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client accepted: " + clientSocket.getInetAddress());
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -112,7 +113,7 @@ public class ServerMain{
         String[] finalNameAndMessage = nameAndMessage.split("-");
         System.out.println("Player " + finalNameAndMessage[0] + " Has Sent Message: " + finalNameAndMessage[1]);
         chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
-            //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
+        //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
         broadcastMessage(11, nameAndMessage);
     }
     public void sendHostList(ArrayList<String> gamePlayerNames){
@@ -204,7 +205,14 @@ public class ServerMain{
             characterSelectPanel.updateAvailability(temp);
         }
     }
-
+    public synchronized void broadcastMessagePlayers(ArrayList<Player> playerArrayListHost) {
+        synchronized (clientOutputStreams){
+            System.out.println("Debug: " + playerArrayList_Host.size());
+            for(ObjectOutputStream out: clientOutputStreams){
+                CommandFromServer.notify_PLAYEROBJECT_LIST(out, playerArrayListHost);
+            }
+        }
+    }
     public synchronized void broadcastMessage(int values, String name){
         switch (values){
             case 1:
@@ -253,9 +261,9 @@ public class ServerMain{
                 break;
             case 8:
                 synchronized (clientOutputStreams){
-                        ObjectOutputStream out = clientOutputStreams.get(clientOutputStreams.size()-1);
-                        CommandFromServer.notify_HOST_NAME(out, name);
-                    }
+                    ObjectOutputStream out = clientOutputStreams.get(clientOutputStreams.size()-1);
+                    CommandFromServer.notify_HOST_NAME(out, name);
+                }
                 break;
             case 9:
                 synchronized (clientOutputStreams){
@@ -325,4 +333,5 @@ public class ServerMain{
     public void setCharacterSelectPanel(CharacterSelectPanel characterSelectPanel){
         this.characterSelectPanel = characterSelectPanel;
     }
+
 }

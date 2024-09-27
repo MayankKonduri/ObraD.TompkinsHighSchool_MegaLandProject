@@ -2,6 +2,7 @@ package Project.src;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientListener implements Runnable{
     private Socket socket;
@@ -65,19 +66,33 @@ public class ClientListener implements Runnable{
             e.printStackTrace();
         }
     }
-    public void run(){
-        try{
-            String message;
-            while((message = (String) in.readObject()) != null) {
-                System.out.println("Received message from server: " + message); // Debug statement
-                processMessage(message);
+    public void run() {
+        try {
+            Object receivedObject;
+            while ((receivedObject = in.readObject()) != null) {
+                if (receivedObject instanceof String) {
+                    String message = (String) receivedObject;
+                    System.out.println("Received message from server: " + message); // Debug statement
+                    processMessage(message);
+                } else if (receivedObject instanceof ArrayList<?>) {
+                    ArrayList<Player> players = (ArrayList<Player>) receivedObject;
+                    System.out.println("Final Recieving2: " + players.size());
+                    processPlayerList(players);
+                }
             }
-        }catch (EOFException e){
-            System.out.println("Connected Closed by Server - Special");
-        } catch(IOException | ClassNotFoundException e){
+        } catch (EOFException e) {
+            System.out.println("Connection Closed by Server - Special");
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+
+    private synchronized void processPlayerList(ArrayList<Player> playerArrayList) {
+        System.out.println("Final Recieving2: " + playerArrayList.size());
+        cLientMain.handleNewList(playerArrayList);
+
+    }
+
     private void processMessage(String message) {
         if (message.startsWith(HOST_NAME)) {
             handleUpdatePlayers_Host(message);
@@ -127,9 +142,9 @@ public class ClientListener implements Runnable{
         System.out.println("THE Host Name: " + hostName);
     }
     public void handleAddition_Players_Client(String message){
-            String clientName = message.substring(CLIENT_NAME.length());
-            cLientMain.addClientToList(clientName);
-            System.out.println("New Client Joined: " + clientName);
+        String clientName = message.substring(CLIENT_NAME.length());
+        cLientMain.addClientToList(clientName);
+        System.out.println("New Client Joined: " + clientName);
     }
     public void handleRemoval_Players_Client(String message){
         String clientName = message.substring(CLIENT_DISCONNECTED.length());

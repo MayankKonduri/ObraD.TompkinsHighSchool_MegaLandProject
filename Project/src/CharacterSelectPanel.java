@@ -34,6 +34,7 @@ public class CharacterSelectPanel extends JPanel {
     private HostPanel hostPanel;
     private ConnectPanel connectPanel;
     private CardSelectPanel cardSelectPanel;
+    public Player playerClient;
 
     private CommandFromClient commandFromClient;
     public Object[][] FINAL_ARRAY = new Object[5][2];
@@ -42,7 +43,12 @@ public class CharacterSelectPanel extends JPanel {
     public CharacterSelectPanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, Boolean isHost, CardSelectPanel cardSelectPanel) {
         setSize(1920, 1010);
         setLayout(null);
-
+        if(!isHost) {
+            System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
+            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, false, false, false);
+            //waitingForHostPanel.setPlayerObject(playerClient);
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
+        }
         FINAL_ARRAY[0][0] = "No_Player";
         FINAL_ARRAY[1][0] = "No_Player";
         FINAL_ARRAY[2][0] = "No_Player";
@@ -116,46 +122,46 @@ public class CharacterSelectPanel extends JPanel {
 
 
         catB.addActionListener(e -> {
-          if(catB.isEnabled()) {
-              if(isSelected)
-              {
-                  notifyCharacterUNSelection(characterSelected);
-              }
-              if (catB.getText().equals("Available")) {
-                  characterSelected = "catB";
-                  reset(catB);
-                  catB.setText("Selected");
-                  catB.setBackground(Color.GREEN);
-                  catB.setForeground(Color.BLACK);
-                  available.set(0, true);
-                  selected.setText("Your Character is Cat");
-                  isSelected = true;
-                  System.out.println("Selected: catB");
-                  notifyCharacterSelection("catB");
-                  if(isHost){
-                      FINAL_ARRAY[0][0] = hostPanel.nameTextField.getText();
-                  } else {
-                      FINAL_ARRAY[0][0] = connectPanel.nameTextField.getText();
-                  }
-                  FINAL_ARRAY[0][1] = "Mine";
-                  updateAvailability(FINAL_ARRAY);
-              } else {
-                  characterSelected = "";
-                  catB.setText("Available");
-                  System.out.println("Unselected: catB");
-                  isSelected = false;
-                  catB.setBackground(null);
-                  catB.setForeground(null);
-                  available.set(0, false);
-                  selected.setText("Your Character is ");
-                  notifyCharacterUNSelection("catB");
-                  FINAL_ARRAY[0][0] = "No_Player";
-                  FINAL_ARRAY[0][1] = "Available";
-                  updateAvailability(FINAL_ARRAY);
+            if(catB.isEnabled()) {
+                if(isSelected)
+                {
+                    notifyCharacterUNSelection(characterSelected);
+                }
+                if (catB.getText().equals("Available")) {
+                    characterSelected = "catB";
+                    reset(catB);
+                    catB.setText("Selected");
+                    catB.setBackground(Color.GREEN);
+                    catB.setForeground(Color.BLACK);
+                    available.set(0, true);
+                    selected.setText("Your Character is Cat");
+                    isSelected = true;
+                    System.out.println("Selected: catB");
+                    notifyCharacterSelection("catB");
+                    if(isHost){
+                        FINAL_ARRAY[0][0] = hostPanel.nameTextField.getText();
+                    } else {
+                        FINAL_ARRAY[0][0] = connectPanel.nameTextField.getText();
+                    }
+                    FINAL_ARRAY[0][1] = "Mine";
+                    updateAvailability(FINAL_ARRAY);
+                } else {
+                    characterSelected = "";
+                    catB.setText("Available");
+                    System.out.println("Unselected: catB");
+                    isSelected = false;
+                    catB.setBackground(null);
+                    catB.setForeground(null);
+                    available.set(0, false);
+                    selected.setText("Your Character is ");
+                    notifyCharacterUNSelection("catB");
+                    FINAL_ARRAY[0][0] = "No_Player";
+                    FINAL_ARRAY[0][1] = "Available";
+                    updateAvailability(FINAL_ARRAY);
 
-              }
-              System.out.println(available.toString());
-          }
+                }
+                System.out.println(available.toString());
+            }
         });
         indianWomanB.addActionListener(e -> {
             if(isSelected)
@@ -323,7 +329,7 @@ public class CharacterSelectPanel extends JPanel {
                 frame.revalidate();
                 frame.repaint();
             });
-                serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
+            serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
         });
 
 
@@ -394,22 +400,22 @@ public class CharacterSelectPanel extends JPanel {
         jFrame1.revalidate();
     }
     public void notifyCharacterSelection(String characterName){
-          try{
-              if(isHost){
-                  String playerName1 = hostPanel.nameTextField.getText();
-                  serverMain.broadcastMessage(6, playerName1 + "-" + characterName);
+        try{
+            if(isHost){
+                String playerName1 = hostPanel.nameTextField.getText();
+                serverMain.broadcastMessage(6, playerName1 + "-" + characterName);
 
-              }
-              else{
-                  ObjectOutputStream out = clientMain.getOut();
-                  String playerName1 = connectPanel.nameTextField.getText();
-                  System.out.println("NotifyingCharacterSelection" + characterName);
-                  CommandFromClient.notify_CHARACTER_SELECTION(out, playerName1, characterName);
-              }
-          }catch (Exception e){
-              e.printStackTrace();
-          }
-      }
+            }
+            else{
+                ObjectOutputStream out = clientMain.getOut();
+                String playerName1 = connectPanel.nameTextField.getText();
+                System.out.println("NotifyingCharacterSelection" + characterName);
+                CommandFromClient.notify_CHARACTER_SELECTION(out, playerName1, characterName);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     private void notifyCharacterUNSelection(String characterName) {
         try{
             if(isHost){
@@ -427,76 +433,76 @@ public class CharacterSelectPanel extends JPanel {
             e.printStackTrace();
         }
     }
-      public void updateAvailability(Object[][] FINAL_ARRAYS){
+    public void updateAvailability(Object[][] FINAL_ARRAYS){
         System.out.println("Received Message");
+        for(int i=0;i<5;i++){
+            if(FINAL_ARRAYS[i][1].equals("NotMine")){
+                if(i==0){
+                    catB.setEnabled(false);
+                }
+                else if(i==1){
+                    indianWomanB.setEnabled(false);
+                }
+                else if(i==2){
+                    whiteB.setEnabled(false);
+                }
+                else if(i==3){
+                    frogB.setEnabled(false);
+                }
+                else if(i==4){
+                    gandalfB.setEnabled(false);
+
+                }
+            }
+            if(FINAL_ARRAYS[i][1].equals("Available")){
+                if(i==0){
+                    catB.setEnabled(true);
+                    catB.setForeground(null);
+                    catB.setBackground(null);
+                }
+                else if(i==1){
+                    indianWomanB.setEnabled(true);
+                    indianWomanB.setForeground(null);
+                    indianWomanB.setBackground(null);
+                }
+                else if(i==2){
+                    whiteB.setEnabled(true);
+                    whiteB.setForeground(null);
+                    whiteB.setBackground(null);
+                }
+                else if(i==3){
+                    frogB.setEnabled(true);
+                    frogB.setForeground(null);
+                    frogB.setBackground(null);
+                }
+                else if(i==4){
+                    gandalfB.setEnabled(true);
+                    gandalfB.setForeground(null);
+                    gandalfB.setBackground(null);
+                }
+            }
+        }
+        for(int i=0; i<5;i++){
+            for (int j=0;j<2;j++){
+                System.out.print(i+1 + ") " + FINAL_ARRAY[i][j] + "     ||     ");
+            }
+        }
+        if(isHost){
+            int NumTemp = hostPanel.selectedNumberOfPlayers[0];
+            int temp = 0;
             for(int i=0;i<5;i++){
-                if(FINAL_ARRAYS[i][1].equals("NotMine")){
-                    if(i==0){
-                        catB.setEnabled(false);
-                    }
-                    else if(i==1){
-                        indianWomanB.setEnabled(false);
-                    }
-                    else if(i==2){
-                        whiteB.setEnabled(false);
-                    }
-                    else if(i==3){
-                        frogB.setEnabled(false);
-                    }
-                    else if(i==4){
-                        gandalfB.setEnabled(false);
-
-                    }
-                }
-                 if(FINAL_ARRAYS[i][1].equals("Available")){
-                    if(i==0){
-                        catB.setEnabled(true);
-                        catB.setForeground(null);
-                        catB.setBackground(null);
-                    }
-                    else if(i==1){
-                        indianWomanB.setEnabled(true);
-                        indianWomanB.setForeground(null);
-                        indianWomanB.setBackground(null);
-                    }
-                    else if(i==2){
-                        whiteB.setEnabled(true);
-                        whiteB.setForeground(null);
-                        whiteB.setBackground(null);
-                    }
-                    else if(i==3){
-                        frogB.setEnabled(true);
-                        frogB.setForeground(null);
-                        frogB.setBackground(null);
-                    }
-                    else if(i==4){
-                        gandalfB.setEnabled(true);
-                        gandalfB.setForeground(null);
-                        gandalfB.setBackground(null);
-                    }
+                if((FINAL_ARRAYS[i][1] == "Mine") || (FINAL_ARRAYS[i][1] == "NotMine")){
+                    temp++;
                 }
             }
-            for(int i=0; i<5;i++){
-                for (int j=0;j<2;j++){
-                    System.out.print(i+1 + ") " + FINAL_ARRAY[i][j] + "     ||     ");
-                }
+            if(temp == NumTemp){
+                done.setEnabled(true);
             }
-          if(isHost){
-              int NumTemp = hostPanel.selectedNumberOfPlayers[0];
-              int temp = 0;
-              for(int i=0;i<5;i++){
-                  if((FINAL_ARRAYS[i][1] == "Mine") || (FINAL_ARRAYS[i][1] == "NotMine")){
-                      temp++;
-                  }
-              }
-              if(temp == NumTemp){
-                  done.setEnabled(true);
-              }
-              else{
-                  done.setEnabled(false);
-              }
-          }
+            else{
+                done.setEnabled(false);
+            }
+        }
 
-      }
+    }
 
 }

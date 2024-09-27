@@ -44,8 +44,6 @@ public class GamePanel extends JPanel {
     public ArrayList<BuildingCards> playerBuildings = new ArrayList<>();
     public ArrayList<TreasureCard> unshuffledDeck = new ArrayList<>();
     public ArrayList<TreasureCard> shuffledDeck = new ArrayList<>();
-
-
     public ArrayList<TreasureCard> usedTreasureCard = new ArrayList();
     public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
     private JButton takeOff = new JButton("Drop Off Level");
@@ -53,13 +51,10 @@ public class GamePanel extends JPanel {
     public ArrayList<LevelCard>  drawnLevelCard = new ArrayList<>();
     public int imageLevel = 0;
     private JButton view = new JButton("View");
-    public int startLocation = 0;
-    public JButton nextBuildingCard = new JButton("Next");
-    public JButton previousBuildingCard = new JButton("Previous");
-    public boolean secondString = false;
-    public int countBuild =0;
     private JLabel playerLabel;
     private int current_player = 1;
+    private JPanel cardsPanel = new JPanel();
+    private JScrollPane scrollPane;
 
     //missing one\
     //skip 25 its a repeat
@@ -70,7 +65,6 @@ public class GamePanel extends JPanel {
             backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
-    public ArrayList<BuildingCards> playerBuildingsFit = new ArrayList<>();
 
 
 
@@ -78,8 +72,87 @@ public class GamePanel extends JPanel {
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, ChatPanel chatPanel, InGameRulesPanel inGameRulesPanel) {
         this.chatPanel1 = chatPanel;
         this.inGameRulesPanel1 = inGameRulesPanel;
+        //this.cardSelectPanel = cardSelectPanel;
+
+        cardsPanel = new JPanel();
+        cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+
+        scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBounds(280, 540, 160 * 9 + 40, 230);
+        add(scrollPane);
+
+
         setSize(1920, 1010);
         setLayout(null);
+
+        JButton leftArrow = new JButton("←");
+        leftArrow.setBounds(760, 485, 50, 40);
+        leftArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                current_player--;
+                playerLabel.setText("Player " + current_player + "'s View");
+                if (current_player < 1) {
+                    if(isHost) {
+                        current_player = serverMain.gamePlayerNames.size();
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
+                        current_player = clientMain.Final_gamePlayerNames_ClientSide.size();
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                }
+                else{
+                    playerGameView(current_player);
+                }
+            }
+        });
+        JButton rightArrow = new JButton("→");
+        rightArrow.setBounds(1090, 485, 50, 40);
+        rightArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                current_player++;
+                playerLabel.setText("Player " + current_player + "'s View");
+                if(isHost1) {
+                    if (current_player > serverMain.gamePlayerNames.size()) {
+                        current_player = 1;
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
+                        playerGameView(current_player);
+                    }
+                }
+                else{
+                    if (current_player > clientMain.Final_gamePlayerNames_ClientSide.size()) {
+                        current_player = 1;
+                        playerGameView(current_player);
+                        playerLabel.setText("Player " + current_player + "'s View");
+                    }
+                    else{
+                        playerGameView(current_player);
+                    }
+                }
+            }
+        });
+
+        playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
+        playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        playerLabel.setBounds(860, 485, 200, 50);
+        JPanel backgroundP = new JPanel();
+        backgroundP.setBounds(750,480, 400,40);
+        backgroundP.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        backgroundP.setBackground(Color.orange);
+        add(backgroundP);
+        backgroundP.add(leftArrow);
+        backgroundP.add(playerLabel);
+        backgroundP.add(rightArrow);
+
+
+
         int i=100;
 
 
@@ -212,69 +285,6 @@ public class GamePanel extends JPanel {
         createLevelDeck();
 
 
-        JButton leftArrow = new JButton("←");
-        leftArrow.setBounds(760, 510, 50, 40);
-        leftArrow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                current_player--;
-                playerLabel.setText("Player " + current_player + "'s View");
-                if (current_player < 1) {
-                    if(isHost) {
-                        current_player = serverMain.gamePlayerNames.size();
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
-                    }
-                    else{
-                        current_player = clientMain.gamePlayerNames_ClientSide.size();
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
-                    }
-                }
-                else{
-                    playerGameView(current_player);
-                }
-            }
-        });
-        JButton rightArrow = new JButton("→");
-        rightArrow.setBounds(1090, 510, 50, 40);
-        rightArrow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                current_player++;
-                playerLabel.setText("Player " + current_player + "'s View");
-                if(isHost1) {
-                    if (current_player > serverMain.gamePlayerNames.size()) {
-                        current_player = 1;
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
-                    }
-                    else{
-                        playerGameView(current_player);
-                    }
-                }
-                else{
-                    if (current_player > clientMain.gamePlayerNames_ClientSide.size()) {
-                        current_player = 1;
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
-                    }
-                    else{
-                        playerGameView(current_player);
-                    }
-                }
-            }
-        });
-
-        playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
-        playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        playerLabel.setBounds(860, 510, 200, 50);
-
-
-        add(leftArrow);
-        add(playerLabel);
-        add(rightArrow);
-
 
 
 
@@ -296,10 +306,9 @@ public class GamePanel extends JPanel {
         if(isHost1) {
             System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
             System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
-
-
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
         }else {
-            System.out.println("Connected Players (C): " + clientMain.gamePlayerNames_ClientSide);
+            System.out.println("Connected Players (C): " + clientMain.Final_gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
             trimmed_stringCardPanel = stringCardPanel.substring(1, stringCardPanel.length()-1);
             array_trimmed_stringCardPanel = trimmed_stringCardPanel.split(",");
@@ -309,7 +318,13 @@ public class GamePanel extends JPanel {
             }
             createImageButtonsClient();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
+            /*if(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())==1) {
+                characterSelectPanel.playerClient.setPlayerID(1000);
+            }*/
+            System.out.println(characterSelectPanel.playerClient.getPlayerID());
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
         }
+
 
 
 
@@ -331,7 +346,7 @@ public class GamePanel extends JPanel {
         Collections.shuffle(deckLevelCard);
         BufferedImage backOfLevelCard1 = backOfLevelCard;
         JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-        levelDraw.setBounds(1500, 30, 140, 210);
+        levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
             drawnLevelCard.add(deckLevelCard.remove(0));
@@ -523,9 +538,7 @@ public class GamePanel extends JPanel {
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                     playerBuildings.add(buildingDeck.get(finalJ));
                     System.out.println("Index added: " + finalJ);
-                    //hostOwnedCardsDisplay();
-                    revalidate();
-                    repaint();
+                    hostOwnedCardsDisplay();
                 });
                 add(button);
                 imageButtons.add(button);
@@ -555,17 +568,34 @@ public class GamePanel extends JPanel {
         repaint();
     }
     public void hostOwnedCardsDisplay() {
-        for(int i = 0; i < playerBuildings.size(); i++) {
-            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
-            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-            button1.setBounds(300 + 160*i, 600, 140, 210);
+        cardsPanel.removeAll();
 
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 20;
 
-            add(button1);
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
         }
-        revalidate();
-        repaint();
+
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
+
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
+
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
     }
+
+
 
 
     public void createImageButtonsClient() {
@@ -606,9 +636,7 @@ public class GamePanel extends JPanel {
                 buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                 System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                 playerBuildings.add(buildingDeck.get(finalJ));
-//                clientOwnedCardsDisplay();
-                revalidate();
-                repaint();
+                clientOwnedCardsDisplay();
             });
             add(button);
             imageButtons.add(button);
@@ -630,7 +658,7 @@ public class GamePanel extends JPanel {
         for(int i = 0; i < playerTreasures.size(); i++) {
             BufferedImage image1 = playerTreasures.get(i).getImage();
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
-            button1.setBounds(400+(110*i), 800, 90, 120);
+            button1.setBounds(1600+(110*i), 600, 90, 120);
 
 
             add(button1);
@@ -641,17 +669,31 @@ public class GamePanel extends JPanel {
 
 
     public void clientOwnedCardsDisplay() {
-        System.out.println("Player Building Size: " + playerBuildings.size());
-        for(int i = 0; i < playerBuildings.size(); i++) {
-            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
-            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-            button1.setBounds(300 + 160*i, 600, 140, 210);
+        cardsPanel.removeAll();
 
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 20;
 
-            add(button1);
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
         }
-        revalidate();
-        repaint();
+
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
+
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
+
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
     }
 
 
@@ -666,14 +708,16 @@ public class GamePanel extends JPanel {
             for (int i = 0; i < drawnLevelCard.size(); i++) {
                 BufferedImage image1 = drawnLevelCard.get(i).getImage();
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1660, 30, this);
+                g.drawImage(scaledImage, 1610, 30, this);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 //                g2d.setColor(new Color(128, 128, 128, 127));
 //                g2d.fillRect(1610, 30, 140, 210);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            }
-            g.drawImage(personalCard, 30, 270, 320, 200, null);
 
+
+
+
+            }
         } else {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
             takeOff.setBounds(40, 220, 300, 30);
@@ -681,75 +725,13 @@ public class GamePanel extends JPanel {
             for (int i = 0; i < drawnLevelCard.size(); i++) {
                 BufferedImage image1 = drawnLevelCard.get(i).getImage();
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1660, 30, this);
+                g.drawImage(scaledImage, 1610, 30, this);
+
+
             }
-            g.drawImage(personalCard, 30, 270, 320, 200, null);
+
 
         }
-
-        if(playerBuildings.size() == 1) {
-            startLocation = 890;//140
-        } else if(playerBuildings.size() == 2) {
-            startLocation = 810;//280+20
-        } else if(playerBuildings.size() == 3) {
-            startLocation = 730;//
-        } else if(playerBuildings.size() == 4) {
-            startLocation = 650;//
-        } else if(playerBuildings.size() == 5) {
-            startLocation = 570;
-        } else if(playerBuildings.size() == 6) {
-            startLocation = 490;
-        } else if(playerBuildings.size() == 7) {
-            startLocation = 410;
-        } else if(playerBuildings.size() == 8) {
-            startLocation = 330;
-        } else if(playerBuildings.size() == 9) {
-            startLocation = 250;
-        } else if(playerBuildings.size() == 10) {
-            startLocation = 170;
-        } else {
-            startLocation = 170;
-        }
-        nextBuildingCard.setBounds(1800, 600, 100, 30);
-        add(nextBuildingCard);
-        previousBuildingCard.setBounds(120, 600, 100, 30);
-        add(previousBuildingCard);
-
-        if(playerBuildings.size() <= 10) {
-            nextBuildingCard.setEnabled(false);
-            previousBuildingCard.setEnabled(false);
-            for(int i = 0; i < playerBuildings.size(); i++) {
-                g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
-            }
-        } else {
-            for(int i = 0; i < 10; i++) {
-                g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
-            }
-            nextBuildingCard.setEnabled(true);
-            previousBuildingCard.setEnabled(true);
-            nextBuildingCard.addActionListener(e -> {
-                countBuild++;
-                for(int i = countBuild; i < playerBuildings.size(); i++) {
-                    g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
-                }
-                revalidate();
-                repaint();
-            });
-
-
-            previousBuildingCard.addActionListener(e -> {
-                countBuild--;
-                for(int i = countBuild; i < playerBuildings.size(); i++) {
-                    g.drawImage(buildingSelected.get(playerBuildings.get(i).getBuildingID()-1), startLocation + (160*i), 550, 140, 210, null);
-                }
-                revalidate();
-                repaint();
-            });
-        }
-
-
-
-
 
 
     }
@@ -777,16 +759,10 @@ public class GamePanel extends JPanel {
 
 
 
-
-
-
-
     public ChatPanel getChatPanel() {
         return chatPanel1;
     }
     public InGameRulesPanel getinGameRulesPanel() {
         return inGameRulesPanel1;
     }
-    //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDJCTTGEhnzWVosZA1j5TElFD5hwXB-iLK0i6NXMFZQtSJRZg:https://thumbs.dreamstime.com/b/ancient-roman-gladiator-entering-colosseum-modern-depiction-ancient-roman-gladiator-entering-colosseum-modern-295358651.jpg&s
 }
-

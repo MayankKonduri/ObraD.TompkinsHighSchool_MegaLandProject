@@ -20,12 +20,16 @@ public class WaitingForHostPanel extends JPanel {
     private CharacterSelectPanel characterSelectPanel;
     private BufferedImage loading;
     public ArrayList<String> waitingTips = new ArrayList<>();
-    public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel){
+    private Player playerObject;
+
+    public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel, Player player){
         setLayout(null);
 
         this.clientMain = clientMain;
         this.jframe1 = frame;
         this.connectPanel = connectPanel;
+        this.playerObject = player;
+
         try {
             loading = ImageIO.read((new File("Project\\src\\Images\\Waiting_v2.jpg")));
 
@@ -78,6 +82,9 @@ public class WaitingForHostPanel extends JPanel {
         });
 
 
+    }
+    public void setPlayerObject(Player playerObject){
+        this.playerObject = playerObject;
     }
 
     public void switchToCharacterSelectPanel() {

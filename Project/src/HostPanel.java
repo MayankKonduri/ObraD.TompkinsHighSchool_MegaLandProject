@@ -51,6 +51,8 @@ public class HostPanel extends JPanel{
     private GamePanel gamePanel;
     private ChatPanel chatPanel;
     private ArrayList<String> ListName = new ArrayList<>();
+    public Player playerHost;
+
     public HostPanel(JFrame frame) {
         this.jFrame = frame;
 
@@ -245,6 +247,9 @@ public class HostPanel extends JPanel{
             startHostingButton.setText("Hosting...");
             confirmSettings.setEnabled(false);
             //updatePeopleList();
+            playerHost = new Player(0, nameTextField.getText(), false, 0, 0,0,false,false, true);
+            serverMain.playerArrayList_Host.add(playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
         });
         add(startHostingButton);
         startHostingButton.setFocusPainted(false);
@@ -412,8 +417,8 @@ public class HostPanel extends JPanel{
     }
     private void resetStartHostingButton(){
         startHostingButton.setEnabled(false);
-        startHostingButton.setForeground(new JButton().getForeground());
-        startHostingButton.setBackground(new JButton().getBackground());
+        startHostingButton.setForeground(Color.WHITE);
+        startHostingButton.setBackground(Color.BLACK);
         startHostingButton.setText("Start Hosting!");
     }
     public ArrayList<String> getPlayerList(){

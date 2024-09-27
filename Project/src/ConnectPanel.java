@@ -53,7 +53,7 @@ public class ConnectPanel extends JPanel{
 
 
         clientMain = new ClientMain(nameTextField.getText(), characterSelectPanel, null);
-        waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this);
+        waitingForHostPanel = new WaitingForHostPanel(jFrame1, clientMain, this, null);
         characterSelectPanel = waitingForHostPanel.getCharacterSelectPanel();
 
 
@@ -143,9 +143,13 @@ public class ConnectPanel extends JPanel{
         });
         add(ipTextField);
 
-        confirmButton.setBounds(574,570,250,40);
+        confirmButton.setBounds(394,570,430,40);
         confirmButton.setFont(new Font("Georgia",Font.BOLD,18));
         confirmButton.setEnabled(false);
+        confirmButton.setBackground(Color.black);
+        confirmButton.setForeground(Color.white);
+        confirmButton.setBorder(BorderFactory.createEmptyBorder());
+        confirmButton.setFocusPainted(false);
         confirmButton.addActionListener(e -> {
             String clientName = nameTextField.getText();
             String ipAddress = ipTextField.getText();
@@ -159,19 +163,10 @@ public class ConnectPanel extends JPanel{
 //                confirmButton.setText("Connected");
                 confirmButton.setVisible(false);
                 verifyNameButton.setVisible(true);
-                verifyNameButton.setBounds(394, 570, 160, 40);
-                verifyNameButton.setEnabled(true);
-                verifyNameButton.addMouseListener(new MouseAdapter() {
+                verifyNameButton.setBounds(394, 570, 430, 40);
+                verifyNameButton.setEnabled(false);
 
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        verifyNameButton.setBorder(new LineBorder(Color.white, 1));
-                    }
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        verifyNameButton.setBorder(BorderFactory.createEmptyBorder());
-                    }
-                });
+
                 nameTextField.setEnabled(true);
                 nameTextField.getDocument().addDocumentListener(new DocumentListener() {
                     @Override
@@ -191,15 +186,27 @@ public class ConnectPanel extends JPanel{
                     private void updateVerifyButtonState() {
                         String text = nameTextField.getText();
                         verifyNameButton.setEnabled(text != null && !text.trim().isEmpty());
+                        if(verifyNameButton.isEnabled()) {
+                            verifyNameButton.addMouseListener(new MouseAdapter() {
+
+                                @Override
+                                public void mouseEntered(MouseEvent e) {
+                                    verifyNameButton.setBorder(new LineBorder(Color.white, 1));
+                                }
+                                @Override
+                                public void mouseExited(MouseEvent e) {
+                                    verifyNameButton.setBorder(BorderFactory.createEmptyBorder());
+                                }
+                            });
+                        } else if(verifyNameButton.isEnabled() == false){
+                            verifyNameButton.setBorder(BorderFactory.createEmptyBorder());
+                        }
                     }
                 });
             }
         });
         add(confirmButton);
-        confirmButton.setBackground(Color.black);
-        confirmButton.setForeground(Color.white);
-        confirmButton.setBorder(BorderFactory.createEmptyBorder());
-        confirmButton.setFocusPainted(false);
+
 
 
 
@@ -224,6 +231,7 @@ public class ConnectPanel extends JPanel{
                 clientMain.setName(nameTextField.getText());
                 nameTextField.setEnabled(false);
                 confirmButton.setEnabled(false);
+                verifyNameButton.setText("Verified and Connected");
                 verifyNameButton.setEnabled(false);
                 clientMain.Final_gamePlayerNames_ClientSide = clientMain.clearPlayerNames(clientMain.Final_gamePlayerNames_ClientSide);
                 System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
@@ -266,7 +274,7 @@ public class ConnectPanel extends JPanel{
             }
         });
         add(homeButton);
-        
+
         peopleInGameLabel.setBounds(394, 630, 300, 40);
         peopleInGameLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
         peopleInGameLabel.setVisible(true);
