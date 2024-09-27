@@ -34,6 +34,7 @@ public class CharacterSelectPanel extends JPanel {
     private HostPanel hostPanel;
     private ConnectPanel connectPanel;
     private CardSelectPanel cardSelectPanel;
+    public Player playerClient;
 
     private CommandFromClient commandFromClient;
     public Object[][] FINAL_ARRAY = new Object[5][2];
@@ -42,7 +43,12 @@ public class CharacterSelectPanel extends JPanel {
     public CharacterSelectPanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, Boolean isHost, CardSelectPanel cardSelectPanel) {
         setSize(1920, 1010);
         setLayout(null);
-
+        if(!isHost) {
+            System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
+            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, false, false, false);
+            //waitingForHostPanel.setPlayerObject(playerClient);
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
+        }
         FINAL_ARRAY[0][0] = "No_Player";
         FINAL_ARRAY[1][0] = "No_Player";
         FINAL_ARRAY[2][0] = "No_Player";

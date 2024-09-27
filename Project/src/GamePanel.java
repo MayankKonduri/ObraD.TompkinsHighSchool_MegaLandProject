@@ -307,7 +307,6 @@ public class GamePanel extends JPanel {
             System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
             System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-
         }else {
             System.out.println("Connected Players (C): " + clientMain.Final_gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
@@ -319,6 +318,9 @@ public class GamePanel extends JPanel {
             }
             createImageButtonsClient();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
+            characterSelectPanel.playerClient.setPlayerName("TempTempTemp");
+            System.out.println(characterSelectPanel.playerClient.getPlayerName());
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
         }
 
 

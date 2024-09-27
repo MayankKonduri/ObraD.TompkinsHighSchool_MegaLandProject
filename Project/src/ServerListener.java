@@ -3,6 +3,8 @@ package Project.src;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ServerListener implements Runnable{
         private Socket clientSocket;
@@ -66,11 +68,13 @@ public class ServerListener implements Runnable{
         }
 
     private synchronized void processPlayer(Player playerGet) {
+        System.out.println(playerGet.getPlayerName());
         int index = -1;
         System.out.println(serverMain.playerArrayList_Host.size());
         for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
 
             String playerName = serverMain.playerArrayList_Host.get(i).getPlayerName();
+            System.out.println("Player Name In Order: " + playerName);
             if (playerGet.getPlayerName().equals(playerName)) {
                 index = i;
                 break;
@@ -79,6 +83,7 @@ public class ServerListener implements Runnable{
 
         if (index != -1) {
             if (index < serverMain.playerArrayList_Host.size()) {
+                System.out.println(playerGet.getPlayerName());
                 serverMain.playerArrayList_Host.set(index, playerGet);
                 System.out.println("Player updated at index: " + index);
             } else {
@@ -88,6 +93,19 @@ public class ServerListener implements Runnable{
             serverMain.playerArrayList_Host.add(playerGet);
             //serverMain.gamePlayerNames.add(playerGet.getPlayerName());
             System.out.println("Success: New Player Added (H)");
+
+
+            Collections.sort(serverMain.playerArrayList_Host, new Comparator<Player>() {
+                @Override
+                public int compare(Player p1, Player p2) {
+                    // Assuming getPlayerID() returns an int, compare the player IDs
+                    return Integer.compare(p1.getPlayerID(), p2.getPlayerID());
+                }
+            });
+            for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                int playerID = serverMain.playerArrayList_Host.get(i).getPlayerID();
+                System.out.println("Player ID In Order: " + playerID);
+            }
         }
 
 

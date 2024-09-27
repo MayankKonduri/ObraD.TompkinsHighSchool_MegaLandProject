@@ -61,6 +61,7 @@ public class ConnectPanel extends JPanel{
     private WaitingForHostPanel waitingForHostPanel;
     private CharacterSelectPanel characterSelectPanel;
     private ConnectPanel connectPanel1;
+    private String text;
 
     public ConnectPanel(JFrame frame){
         setSize(1920, 1040);
@@ -148,7 +149,8 @@ public class ConnectPanel extends JPanel{
             boolean temp = clientMain.connectToServer(ipAddress,clientName);
             if(temp) {
                 ipTextField.setEnabled(false);
-                System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + clientName);
+                System.out.println("Client Name: " + text);
+                System.out.println("Connecting To Server At: " + ipAddress + ", With Name: " + text);
                 confirmButton.setEnabled(false);
                 confirmButton.setVisible(false);
                 verifyNameButton.setVisible(true);
@@ -175,7 +177,8 @@ public class ConnectPanel extends JPanel{
                     }
 
                     private void updateVerifyButtonState(){
-                        String text = nameTextField.getText();
+                        text = nameTextField.getText();
+                        System.out.println(text);
                         verifyNameButton.setEnabled(text != null && !text.trim().isEmpty());
                     }
                 });
@@ -200,10 +203,6 @@ public class ConnectPanel extends JPanel{
                 confirmButton.setEnabled(false);
                 verifyNameButton.setEnabled(false);
                 clientMain.Final_gamePlayerNames_ClientSide = clientMain.clearPlayerNames(clientMain.Final_gamePlayerNames_ClientSide);
-                System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
-                Player playerClient = new Player(clientMain.gamePlayerNames_ClientSide.indexOf(nameTextField.getText()), nameTextField.getText(), false, 0, 0,0,false,false, false);
-                waitingForHostPanel.setPlayerObject(playerClient);
-                CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
                 System.out.println("Verified Name");
             }
         });

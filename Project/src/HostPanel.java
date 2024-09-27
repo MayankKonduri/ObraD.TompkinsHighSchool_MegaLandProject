@@ -50,6 +50,7 @@ public class HostPanel extends JPanel{
     private GamePanel gamePanel;
     private ChatPanel chatPanel;
     private ArrayList<String> ListName = new ArrayList<>();
+    public Player playerHost;
     public HostPanel(JFrame frame) {
         this.jFrame = frame;
 
@@ -191,7 +192,7 @@ public class HostPanel extends JPanel{
             startHostingButton.setText("Hosting in Progress");
             confirmSettings.setEnabled(false);
             //updatePeopleList();
-            Player playerHost = new Player(0, nameTextField.getText(), false, 0, 0,0,false,false, true);
+            playerHost = new Player(0, nameTextField.getText(), false, 0, 0,0,false,false, true);
             serverMain.playerArrayList_Host.add(playerHost);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
         });

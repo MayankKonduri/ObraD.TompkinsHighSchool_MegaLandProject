@@ -62,6 +62,7 @@ public class CommandFromClient implements Serializable {
 
     public static void notifyPlayerObject(ObjectOutputStream out, Player playerClient) {
         sendPlayerObject(out, playerClient);
+        System.out.println("Before Sending: " + playerClient.getPlayerName());
     }
     public static void sendPlayerObject(ObjectOutputStream out, Player player) {
         try {
