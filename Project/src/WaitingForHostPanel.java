@@ -39,6 +39,10 @@ public class WaitingForHostPanel extends JPanel {
         waitingTips.add("Remember there is only a certain amount of level cards...");
         waitingTips.add("Keep treasures you can use to buy buildings when faced with discarding.");
         waitingTips.add("Pay attention to your opponents, especially during the building phase...");
+        waitingTips.add("Don’t hesitate to return early from an adventure if you feel the risks outweigh the rewards.");
+        waitingTips.add("A balanced approach with a mix of income-generating, defensive, and heart-restoring buildings can be more resilient.");
+        waitingTips.add("Some buildings are more valuable in the early game, such as those that give coins or hearts, while others become more useful in the late game.");
+
         Collections.shuffle(waitingTips);
 
         clientMain.setWaitingForHostPanel(this);
