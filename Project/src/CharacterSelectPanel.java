@@ -1,11 +1,9 @@
 package Project.src;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +13,7 @@ import java.lang.*;
 import java.util.ArrayList;
 
 public class CharacterSelectPanel extends JPanel {
-    private BufferedImage indianWoman, gandalf, cat, frog, white;
+    private BufferedImage indianWoman, gandalf, cat, frog, white, loading;
     private JLabel title = new JLabel ("Choose Your Characters Wisely!");
     private JLabel selected = new JLabel ("");
     private JButton gandalfB = new JButton ("Available");
@@ -81,6 +79,7 @@ public class CharacterSelectPanel extends JPanel {
 
 
         try {
+            loading = ImageIO.read((new File("Project\\src\\Images\\Character_v.jpg")));
             indianWoman = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player1.png")));
             gandalf = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player2.png")));
             cat = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player3.png")));
@@ -92,18 +91,40 @@ public class CharacterSelectPanel extends JPanel {
             ah.printStackTrace();
             System.out.println("Error Loading Images: " + ah.getMessage());
         }
-        title.setBounds(610, 50, 700,75);
+        title.setBounds(0, 50, 1920,75);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setFont(new Font("Georgia", Font.BOLD, 50));
+        title.setForeground(Color.black);
 
 
 
         catB.setBounds(145, 800, 180, 30);
+        catB.setBackground(Color.BLACK);
+        catB.setForeground(Color.WHITE);
+        catB.setFocusable(false);
+
+
         indianWomanB.setBounds(510, 800, 180, 30);
+        indianWomanB.setBackground(Color.BLACK);
+        indianWomanB.setForeground(Color.WHITE);
+        indianWomanB.setFocusable(false);
         whiteB.setBounds(875, 800, 180, 30);
+        whiteB.setBackground(Color.BLACK);
+        whiteB.setForeground(Color.WHITE);
+        whiteB.setFocusable(false);
         frogB.setBounds(1235, 800, 180, 30);
+        frogB.setBackground(Color.BLACK);
+        frogB.setForeground(Color.WHITE);
+        frogB.setFocusable(false);
         gandalfB.setBounds(1600, 800, 180, 30);
-        selected.setBounds(680, 900, 700, 70);
+        gandalfB.setBackground(Color.BLACK);
+        gandalfB.setForeground(Color.WHITE);
+        gandalfB.setFocusable(false);
+        selected.setBounds(0, 900, 1920, 70);
+        selected.setHorizontalAlignment(SwingConstants.CENTER);
         selected.setFont(new Font("Georgia", Font.BOLD, 40));
+        selected.setForeground(Color.white);
+
 
         /*JLabel test;
         test = new JLabel("isHost");
@@ -131,7 +152,7 @@ public class CharacterSelectPanel extends JPanel {
                     characterSelected = "catB";
                     reset(catB);
                     catB.setText("Selected");
-                    catB.setBackground(Color.GREEN);
+                    catB.setBackground(Color.WHITE);
                     catB.setForeground(Color.BLACK);
                     available.set(0, true);
                     selected.setText("Your Character is Cat");
@@ -150,8 +171,8 @@ public class CharacterSelectPanel extends JPanel {
                     catB.setText("Available");
                     System.out.println("Unselected: catB");
                     isSelected = false;
-                    catB.setBackground(null);
-                    catB.setForeground(null);
+                    catB.setBackground(Color.BLACK);
+                    catB.setForeground(Color.white);
                     available.set(0, false);
                     selected.setText("Your Character is ");
                     notifyCharacterUNSelection("catB");
@@ -172,7 +193,7 @@ public class CharacterSelectPanel extends JPanel {
                 characterSelected = "indianWomanB";
                 reset(indianWomanB);
                 indianWomanB.setText("Selected");
-                indianWomanB.setBackground(Color.GREEN);
+                indianWomanB.setBackground(Color.white);
                 indianWomanB.setForeground(Color.BLACK);
                 available.set(1,true);
                 selected.setText("Your Character is Woman");
@@ -192,8 +213,8 @@ public class CharacterSelectPanel extends JPanel {
                 indianWomanB.setText("Available");
                 System.out.println("Unselected: indianWomanB");
                 isSelected = false;
-                indianWomanB.setBackground(null);
-                indianWomanB.setForeground(null);
+                indianWomanB.setBackground(Color.black);
+                indianWomanB.setForeground(Color.white);
                 available.set(1,false);
                 selected.setText("Your Character is ");
                 notifyCharacterUNSelection("indianWomanB");
@@ -212,7 +233,7 @@ public class CharacterSelectPanel extends JPanel {
                 characterSelected = "whiteB";
                 reset(whiteB);
                 whiteB.setText("Selected");
-                whiteB.setBackground(Color.GREEN);
+                whiteB.setBackground(Color.white);
                 whiteB.setForeground(Color.BLACK);
                 available.set(2,true);
                 selected.setText("Your Character is White Boy");
@@ -230,8 +251,8 @@ public class CharacterSelectPanel extends JPanel {
                 characterSelected = "";
                 whiteB.setText("Available");
                 System.out.println("Unselected: whiteB");
-                whiteB.setBackground(null);
-                whiteB.setForeground(null);
+                whiteB.setBackground(Color.black);
+                whiteB.setForeground(Color.white);
                 available.set(2,false);
                 isSelected = false;
                 selected.setText("Your Character is ");
@@ -251,7 +272,7 @@ public class CharacterSelectPanel extends JPanel {
                     characterSelected = "frogB";
                     reset(frogB);
                     frogB.setText("Selected");
-                    frogB.setBackground(Color.GREEN);
+                    frogB.setBackground(Color.white);
                     frogB.setForeground(Color.BLACK);
                     available.set(3, true);
                     selected.setText("Your Character is Froggy");
@@ -270,8 +291,8 @@ public class CharacterSelectPanel extends JPanel {
                     frogB.setText("Available");
                     System.out.println("Unselected: frogB");
                     isSelected = false;
-                    frogB.setBackground(null);
-                    frogB.setForeground(null);
+                    frogB.setBackground(Color.black);
+                    frogB.setForeground(Color.white);
                     available.set(3, false);
                     selected.setText("Your Character is ");
                     notifyCharacterUNSelection("frogB");
@@ -291,7 +312,7 @@ public class CharacterSelectPanel extends JPanel {
                 characterSelected = "gandalfB";
                 reset(gandalfB);
                 gandalfB.setText("Selected");
-                gandalfB.setBackground(Color.GREEN);
+                gandalfB.setBackground(Color.white);
                 gandalfB.setForeground(Color.BLACK);
                 available.set(3,true);
                 selected.setText("Your Character is Gandalf");
@@ -309,8 +330,8 @@ public class CharacterSelectPanel extends JPanel {
                 characterSelected = "";
                 gandalfB.setText("Available");
                 System.out.println("Unselected: gandalfB");
-                gandalfB.setBackground(null);
-                gandalfB.setForeground(null);
+                gandalfB.setBackground(Color.black);
+                gandalfB.setForeground(Color.white);
                 available.set(4,false);
                 isSelected = false;
                 selected.setText("Your Character is ");
@@ -322,7 +343,22 @@ public class CharacterSelectPanel extends JPanel {
             System.out.println(available.toString());
         });
         done.setBounds(1770, 900, 100, 60);
+        done.setFont(new Font ("Georgia", Font.BOLD, 20));
         done.setEnabled(false);
+        done.setForeground(Color.white);
+        done.setBackground(Color.black);
+        done.setBorder(BorderFactory.createEmptyBorder());
+        done.setFocusable(false);
+        done.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                done.setBorder(new LineBorder(Color.white, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                done.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
         done.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> {
                 frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null, null));
@@ -353,6 +389,7 @@ public class CharacterSelectPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(loading, 0, 0, 1920, 1050, null);
         g.drawImage(cat, 65, 250, 360, 540, null);
         g.drawImage(indianWoman, 425, 250, 360, 540, null);
         g.drawImage(white, 785, 250, 360, 540, null);
@@ -381,18 +418,19 @@ public class CharacterSelectPanel extends JPanel {
         gandalfB.setText("Available");
         indianWomanB.setText("Available");
         frogB.setText("Available");
-        frogB.setForeground(null);
-        frogB.setBackground(null);
+        frogB.setForeground(Color.white);
+        frogB.setBackground(Color.black);
         whiteB.setText("Available");
         catB.setText("Available");
-        catB.setBackground(null);
-        catB.setForeground(null);
+        catB.setBackground(Color.BLACK);
+        catB.setForeground(Color.white);
         gandalfB.setForeground(null);
-        gandalfB.setBackground(null);
-        indianWomanB.setForeground(null);
-        indianWomanB.setBackground(null);
-        whiteB.setForeground(null);
-        whiteB.setBackground(null);
+        gandalfB.setBackground(Color.BLACK);
+        indianWomanB.setForeground(Color.WHITE);
+        indianWomanB.setBackground(Color.BLACK);
+        whiteB.setForeground(Color.white);
+        whiteB.setBackground(Color.BLACK);
+
 
     }
     public void switchToGamePanel() {
@@ -438,18 +476,23 @@ public class CharacterSelectPanel extends JPanel {
         for(int i=0;i<5;i++){
             if(FINAL_ARRAYS[i][1].equals("NotMine")){
                 if(i==0){
+                    catB.setText("Unavailable");
                     catB.setEnabled(false);
                 }
                 else if(i==1){
+                    indianWomanB.setText("Unavailable");
                     indianWomanB.setEnabled(false);
                 }
                 else if(i==2){
+                    whiteB.setText("Unavailable");
                     whiteB.setEnabled(false);
                 }
                 else if(i==3){
+                    frogB.setText("Unavailable");
                     frogB.setEnabled(false);
                 }
                 else if(i==4){
+                    gandalfB.setText("Unavailable");
                     gandalfB.setEnabled(false);
 
                 }
@@ -457,28 +500,28 @@ public class CharacterSelectPanel extends JPanel {
             if(FINAL_ARRAYS[i][1].equals("Available")){
                 if(i==0){
                     catB.setEnabled(true);
-                    catB.setForeground(null);
-                    catB.setBackground(null);
+                    catB.setForeground(Color.white);
+                    catB.setBackground(Color.BLACK);
                 }
                 else if(i==1){
                     indianWomanB.setEnabled(true);
-                    indianWomanB.setForeground(null);
-                    indianWomanB.setBackground(null);
+                    indianWomanB.setForeground(Color.white);
+                    indianWomanB.setBackground(Color.BLACK);
                 }
                 else if(i==2){
                     whiteB.setEnabled(true);
-                    whiteB.setForeground(null);
-                    whiteB.setBackground(null);
+                    whiteB.setForeground(Color.white);
+                    whiteB.setBackground(Color.BLACK);
                 }
                 else if(i==3){
                     frogB.setEnabled(true);
-                    frogB.setForeground(null);
-                    frogB.setBackground(null);
+                    frogB.setForeground(Color.white);
+                    frogB.setBackground(Color.BLACK);
                 }
                 else if(i==4){
                     gandalfB.setEnabled(true);
-                    gandalfB.setForeground(null);
-                    gandalfB.setBackground(null);
+                    gandalfB.setForeground(Color.white);
+                    gandalfB.setBackground(Color.BLACK);
                 }
             }
         }
