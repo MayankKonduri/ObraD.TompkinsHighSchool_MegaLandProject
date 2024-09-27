@@ -53,6 +53,8 @@ public class GamePanel extends JPanel {
     private JButton view = new JButton("View");
     private JLabel playerLabel;
     private int current_player = 1;
+    private JPanel cardsPanel = new JPanel();
+    private JScrollPane scrollPane;
 
     //missing one\
     //skip 25 its a repeat
@@ -71,11 +73,20 @@ public class GamePanel extends JPanel {
         this.chatPanel1 = chatPanel;
         this.inGameRulesPanel1 = inGameRulesPanel;
         //this.cardSelectPanel = cardSelectPanel;
+
+        cardsPanel = new JPanel();
+        cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+
+        scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBounds(280, 540, 160 * 9 + 40, 230);
+        add(scrollPane);
+
+
         setSize(1920, 1010);
         setLayout(null);
 
         JButton leftArrow = new JButton("←");
-        leftArrow.setBounds(760, 510, 50, 40);
+        leftArrow.setBounds(760, 490, 50, 40);
         leftArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +110,7 @@ public class GamePanel extends JPanel {
             }
         });
         JButton rightArrow = new JButton("→");
-        rightArrow.setBounds(1090, 510, 50, 40);
+        rightArrow.setBounds(1090, 490, 50, 40);
         rightArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,7 +141,7 @@ public class GamePanel extends JPanel {
 
         playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
         playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        playerLabel.setBounds(860, 510, 200, 50);
+        playerLabel.setBounds(860, 490, 200, 50);
 
 
         add(leftArrow);
@@ -549,17 +560,29 @@ public class GamePanel extends JPanel {
         repaint();
     }
     public void hostOwnedCardsDisplay() {
-        for(int i = 0; i < playerBuildings.size(); i++) {
-            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID()-1);
-            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-            button1.setBounds(300 + 160*i, 600, 140, 210);
+        cardsPanel.removeAll();
 
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 20;
 
-            add(button1);
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
         }
-        revalidate();
-        repaint();
+
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
+
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
     }
+
+
 
 
     public void createImageButtonsClient() {
