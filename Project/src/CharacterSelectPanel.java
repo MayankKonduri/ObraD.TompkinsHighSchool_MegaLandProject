@@ -43,7 +43,7 @@ public class CharacterSelectPanel extends JPanel {
         setLayout(null);
         if(!isHost) {
             System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
-            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, false, false, false);
+            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, false, false, false, new ArrayList<BuildingCards>());
             //waitingForHostPanel.setPlayerObject(playerClient);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
         }

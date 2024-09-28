@@ -1,9 +1,10 @@
 package Project.src;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.*;
 import java.lang.*;
 
-public class BuildingCards {
+public class BuildingCards implements Serializable {
 
     public int buildingID = 0;
     public String buildingName = null;

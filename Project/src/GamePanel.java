@@ -538,8 +538,11 @@ public class GamePanel extends JPanel {
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                     playerBuildings.add(buildingDeck.get(finalJ));
+                    hostPanel.playerHost.setPlayerBuildings(playerBuildings);
+                    serverMain.playerArrayList_Host.set(0,hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     System.out.println("Index added: " + finalJ);
-                    hostOwnedCardsDisplay();
+                    hostOwnedCardsDisplay(playerBuildings);
                 });
                 add(button);
                 imageButtons.add(button);
@@ -568,7 +571,9 @@ public class GamePanel extends JPanel {
         revalidate();
         repaint();
     }
-    public void hostOwnedCardsDisplay() {
+    public void hostOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
+
+
         cardsPanel.removeAll();
 
         int cardWidth = 140;
@@ -637,7 +642,11 @@ public class GamePanel extends JPanel {
                 buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber()-1);
                 System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                 playerBuildings.add(buildingDeck.get(finalJ));
-                clientOwnedCardsDisplay();
+                characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
+                if(!isHost1) {
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                }
+                clientOwnedCardsDisplay(playerBuildings);
             });
             add(button);
             imageButtons.add(button);
@@ -669,7 +678,7 @@ public class GamePanel extends JPanel {
     }
 
 
-    public void clientOwnedCardsDisplay() {
+    public void clientOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
         cardsPanel.removeAll();
 
         int cardWidth = 140;
@@ -757,27 +766,32 @@ public class GamePanel extends JPanel {
         switch (x){
             case 0:
                 System.out.println("Player 1");
-                cardsPanel.setVisible(true);
+                cardsPanel.removeAll();
+                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 1:
                 System.out.println("Player 2");
-                cardsPanel.setVisible(false);
+                cardsPanel.removeAll();
+                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 2:
                 System.out.println("Player 3");
-                cardsPanel.setVisible(false);
+                cardsPanel.removeAll();
+                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 3:
                 System.out.println("Player 4");
-                cardsPanel.setVisible(false);
+                cardsPanel.removeAll();
+                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 4:
                 System.out.println("Player 5");
-                cardsPanel.setVisible(false);
+                cardsPanel.removeAll();
+                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             }
@@ -786,22 +800,32 @@ public class GamePanel extends JPanel {
             switch (x){
                 case 0:
                     System.out.println("Player 1");
+                    cardsPanel.removeAll();
+                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 1:
                     System.out.println("Player 2");
+                    cardsPanel.removeAll();
+                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 2:
                     System.out.println("Player 3");
+                    cardsPanel.removeAll();
+                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 3:
                     System.out.println("Player 4");
+                    cardsPanel.removeAll();
+                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 4:
                     System.out.println("Player 5");
+                    cardsPanel.removeAll();
+                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
             }

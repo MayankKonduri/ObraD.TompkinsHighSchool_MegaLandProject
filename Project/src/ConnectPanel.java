@@ -38,6 +38,7 @@ public class ConnectPanel extends JPanel{
     private CharacterSelectPanel characterSelectPanel;
     private ConnectPanel connectPanel1;
     private JLabel peopleInGameLabel = new JLabel("People in Game Server: ");
+    //public Player playerClient;
 
 
     public ConnectPanel(JFrame frame){
@@ -235,9 +236,9 @@ public class ConnectPanel extends JPanel{
                 verifyNameButton.setEnabled(false);
                 clientMain.Final_gamePlayerNames_ClientSide = clientMain.clearPlayerNames(clientMain.Final_gamePlayerNames_ClientSide);
                 System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
-                Player playerClient = new Player(clientMain.gamePlayerNames_ClientSide.indexOf(nameTextField.getText()), nameTextField.getText(), false, 0, 0,0,false,false, false);
-                waitingForHostPanel.setPlayerObject(playerClient);
-                CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
+                //playerClient = new Player(clientMain.gamePlayerNames_ClientSide.indexOf(nameTextField.getText()), nameTextField.getText(), false, 0, 0,0,false,false, false, new ArrayList<BuildingCards>());
+                //waitingForHostPanel.setPlayerObject(playerClient);
+                //CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
                 System.out.println("Verified Name");
             }
 
