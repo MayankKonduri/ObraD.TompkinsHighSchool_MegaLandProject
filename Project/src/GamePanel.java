@@ -8,11 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.awt.Graphics2D;
-
-
 
 
 public class GamePanel extends JPanel {
@@ -52,7 +48,7 @@ public class GamePanel extends JPanel {
     public int imageLevel = 0;
     private JButton view = new JButton("View");
     private JLabel playerLabel;
-    private int current_player = 1;
+    private int current_player = 0;
     private JPanel cardsPanel = new JPanel();
     private JScrollPane scrollPane;
 
@@ -91,21 +87,21 @@ public class GamePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 current_player--;
-                playerLabel.setText("Player " + current_player + "'s View");
-                if (current_player < 1) {
+                if (current_player < 0) {
                     if(isHost) {
-                        current_player = serverMain.gamePlayerNames.size();
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
+                        current_player = serverMain.playerArrayList_Host.size()-1;
+                        String tempName = playerGameView(current_player);
+                        playerLabel.setText("Player " + tempName + "'s View");
                     }
                     else{
-                        current_player = clientMain.Final_gamePlayerNames_ClientSide.size();
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
+                        current_player = clientMain.playerArrayList_client.size()-1;
+                        String tempName = playerGameView(current_player);
+                        playerLabel.setText("Player " + tempName + "'s View");
                     }
                 }
                 else{
-                    playerGameView(current_player);
+                    String tempName = playerGameView(current_player);
+                    playerLabel.setText("Player " + tempName + "'s View");
                 }
             }
         });
@@ -115,31 +111,36 @@ public class GamePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 current_player++;
-                playerLabel.setText("Player " + current_player + "'s View");
-                if(isHost1) {
-                    if (current_player > serverMain.gamePlayerNames.size()) {
-                        current_player = 1;
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
+                if(isHost) {
+                    if (current_player > serverMain.playerArrayList_Host.size()-1) {
+                        current_player = 0;
+                        String tempName = playerGameView(current_player);
+                        playerLabel.setText("Player " + tempName + "'s View");
                     }
                     else{
-                        playerGameView(current_player);
+                        String tempName = playerGameView(current_player);
+                        playerLabel.setText("Player " + tempName + "'s View");
                     }
                 }
                 else{
-                    if (current_player > clientMain.Final_gamePlayerNames_ClientSide.size()) {
-                        current_player = 1;
-                        playerGameView(current_player);
-                        playerLabel.setText("Player " + current_player + "'s View");
+                    if (current_player > clientMain.playerArrayList_client.size()-1) {
+                        current_player = 0;
+                        String tempName = playerGameView(current_player);
+                        playerLabel.setText("Player " + tempName + "'s View");
                     }
                     else{
-                        playerGameView(current_player);
+                        String tempName = playerGameView(current_player);
+                        playerLabel.setText("Player " + tempName + "'s View");
                     }
                 }
             }
         });
-
-        playerLabel = new JLabel("Player " + current_player + "'s View", JLabel.CENTER);
+        if(isHost) {
+            playerLabel = new JLabel("Player " + serverMain.playerArrayList_Host.get(0).getPlayerName() + "'s View", JLabel.CENTER);
+        }
+        else{
+            playerLabel = new JLabel("Player " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerName() + "'s View", JLabel.CENTER);
+        }
         playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
         playerLabel.setBounds(860, 485, 200, 50);
         JPanel backgroundP = new JPanel();
@@ -736,25 +737,76 @@ public class GamePanel extends JPanel {
 
     }
 
-    public void playerGameView(int x){
-
-        switch (x){
-            case 1:
-                System.out.println("Player 1");
-                break;
-            case 2:
-                System.out.println("Player 2");
-                break;
-            case 3:
-                System.out.println("Player 3");
-                break;
-            case 4:
-                System.out.println("Player 4");
-                break;
-            case 5:
-                System.out.println("Player 5");
-                break;
+    public String playerGameView(int x){
+        System.out.println(x);
+        System.out.println("Night Debug Test");
+        if(isHost1) {
+            for (int i = 0; i <serverMain.playerArrayList_Host.size();i++){
+                System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerName());
+                System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerID());
+            }
         }
+        else{
+            for (int i = 0; i <clientMain.playerArrayList_client.size();i++){
+                System.out.println(clientMain.playerArrayList_client.get(i).getPlayerName());
+                System.out.println(clientMain.playerArrayList_client.get(i).getPlayerID());
+            }
+        }
+
+        if(isHost1){
+        switch (x){
+            case 0:
+                System.out.println("Player 1");
+                cardsPanel.setVisible(true);
+                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                //break;
+            case 1:
+                System.out.println("Player 2");
+                cardsPanel.setVisible(false);
+                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                //break;
+            case 2:
+                System.out.println("Player 3");
+                cardsPanel.setVisible(false);
+                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                //break;
+            case 3:
+                System.out.println("Player 4");
+                cardsPanel.setVisible(false);
+                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                //break;
+            case 4:
+                System.out.println("Player 5");
+                cardsPanel.setVisible(false);
+                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                //break;
+            }
+        }
+        else{
+            switch (x){
+                case 0:
+                    System.out.println("Player 1");
+                    return clientMain.playerArrayList_client.get(x).getPlayerName();
+                    //break;
+                case 1:
+                    System.out.println("Player 2");
+                    return clientMain.playerArrayList_client.get(x).getPlayerName();
+                    //break;
+                case 2:
+                    System.out.println("Player 3");
+                    return clientMain.playerArrayList_client.get(x).getPlayerName();
+                    //break;
+                case 3:
+                    System.out.println("Player 4");
+                    return clientMain.playerArrayList_client.get(x).getPlayerName();
+                    //break;
+                case 4:
+                    System.out.println("Player 5");
+                    return clientMain.playerArrayList_client.get(x).getPlayerName();
+                    //break;
+            }
+        }
+        return null;
     }
 
 

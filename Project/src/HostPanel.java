@@ -118,7 +118,8 @@ public class HostPanel extends JPanel{
         });
         add(nameTextField);
 
-        confirmSettings.setBounds(750, 450, 250, 40);
+        confirmSettings.setBounds(725, 420, 270, 40);
+        confirmSettings.setBorder(new LineBorder(Color.white, 1));
         confirmSettings.setFont(new Font("Georgia", Font.BOLD, 20));
         confirmSettings.setEnabled(false);
         confirmSettings.setBackground(Color.black);
@@ -221,13 +222,14 @@ public class HostPanel extends JPanel{
         peopleInGameLabel.setBorder(new LineBorder(Color.white, 1));
         add(peopleInGameLabel);
 
-        peopleListArea.setFont(new Font("Georgia", Font.PLAIN, 25));
+        peopleListArea.setFont(new Font("Georgia", Font.PLAIN, 20));
         peopleListArea.setEditable(false);
-        peopleListArea.setBounds(370, 660, 430, 240);
+        peopleListArea.setBounds(260, 645, 430, 240);
         peopleListArea.setBackground(Color.BLACK);
         peopleListArea.setForeground(Color.WHITE);
-
+        peopleListArea.setBorder(new LineBorder(Color.white, 1));
         add(peopleListArea);
+
 //        peopleScrollPane.setBounds(0, 0, 600, 200);
 //        add(peopleScrollPane);
 //
@@ -236,7 +238,7 @@ public class HostPanel extends JPanel{
 //        peoplePanel.add(peopleScrollPane);
 //        add(peoplePanel);
 
-        startHostingButton.setBounds(370,920,200,40);
+        startHostingButton.setBounds(260,905,200,40);
         startHostingButton.setFont(new Font("Georgia", Font.BOLD,20));
         startHostingButton.setEnabled(false);
         startHostingButton.addActionListener(e -> {
@@ -250,6 +252,7 @@ public class HostPanel extends JPanel{
             playerHost = new Player(0, nameTextField.getText(), false, 0, 0,0,false,false, true);
             serverMain.playerArrayList_Host.add(playerHost);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+            startHostingButton.setBorder(new LineBorder(Color.white, 1));
         });
         add(startHostingButton);
         startHostingButton.setFocusPainted(false);
@@ -267,7 +270,7 @@ public class HostPanel extends JPanel{
         });
 
 
-        startButton.setBounds(600,920,200,40);
+        startButton.setBounds(490,905,200,40);
         startButton.setFont(new Font("Georgia",Font.BOLD,20));
         startButton.setEnabled(false);//mayank fix this
         startButton.addActionListener(e -> {
@@ -382,7 +385,7 @@ public class HostPanel extends JPanel{
     public synchronized void updatePeopleList(ArrayList<String> playerNames) {
         ListName = playerNames;
         peopleListArea.setText("");
-        StringBuilder sb = new StringBuilder("Players In Game:\n");
+        StringBuilder sb = new StringBuilder("");
         for(String playerName : playerNames){
             sb.append(playerName).append("\n");
         }

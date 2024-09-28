@@ -66,7 +66,7 @@ public class ConnectPanel extends JPanel{
         titleLabel.setForeground(Color.BLACK);
         add(titleLabel);
 
-        nameLabel.setBounds(394,510,140,40);
+        nameLabel.setBounds(394-(394-280),510,140,40);
         nameLabel.setFont(new Font("Georgia", Font.PLAIN,25));
         nameLabel.setOpaque(true);
         nameLabel.setBackground(Color.black);
@@ -76,7 +76,7 @@ public class ConnectPanel extends JPanel{
         nameLabel.setBorder(new LineBorder(Color.white, 1));
         add(nameLabel);
 
-        nameTextField.setBounds(532,510,292,40);
+        nameTextField.setBounds(532-(394-280),510,292,40);
         nameTextField.setEnabled(false);
         nameTextField.setFocusable(true);
         nameTextField.setBackground(Color.BLACK);
@@ -105,7 +105,7 @@ public class ConnectPanel extends JPanel{
         });
         add(nameTextField);
 
-        ipLabel.setBounds(394,450,140,40);
+        ipLabel.setBounds(394-(394-280),450,140,40);
         ipLabel.setFont(new Font("Georgia", Font.PLAIN,20));
         ipLabel.setVisible(true);
         ipLabel.setOpaque(true);
@@ -116,7 +116,7 @@ public class ConnectPanel extends JPanel{
         ipLabel.setBorder(new LineBorder(Color.white, 1));
         add(ipLabel);
 
-        ipTextField.setBounds(532,450,292,40);
+        ipTextField.setBounds(532-(394-280),450,292,40);
         ipTextField.setVisible(true);
         ipTextField.setFocusable(true);
         ipTextField.setBackground(Color.BLACK);
@@ -143,7 +143,7 @@ public class ConnectPanel extends JPanel{
         });
         add(ipTextField);
 
-        confirmButton.setBounds(394,570,430,40);
+        confirmButton.setBounds(394-(394-280),570,430,40);
         confirmButton.setFont(new Font("Georgia",Font.BOLD,18));
         confirmButton.setEnabled(false);
         confirmButton.setBackground(Color.black);
@@ -163,7 +163,7 @@ public class ConnectPanel extends JPanel{
 //                confirmButton.setText("Connected");
                 confirmButton.setVisible(false);
                 verifyNameButton.setVisible(true);
-                verifyNameButton.setBounds(394, 570, 430, 40);
+                verifyNameButton.setBounds(394-(394-280), 570, 430, 40);
                 verifyNameButton.setEnabled(false);
 
 
@@ -275,7 +275,7 @@ public class ConnectPanel extends JPanel{
         });
         add(homeButton);
 
-        peopleInGameLabel.setBounds(394, 630, 300, 40);
+        peopleInGameLabel.setBounds(394-(394-280), 630, 300, 40);
         peopleInGameLabel.setFont(new Font("Georgia", Font.PLAIN, 20));
         peopleInGameLabel.setVisible(true);
         peopleInGameLabel.setOpaque(true);
@@ -286,11 +286,12 @@ public class ConnectPanel extends JPanel{
         peopleInGameLabel.setBorder(new LineBorder(Color.white, 1));
         add(peopleInGameLabel);
 
-        playersJoined.setFont(new Font("Georgia", Font.PLAIN, 25));
+        playersJoined.setFont(new Font("Georgia", Font.PLAIN, 20));
         playersJoined.setEditable(false);
-        playersJoined.setBounds(394, 690, 430, 240);
+        playersJoined.setBounds(394-(394-280), 690-15, 430, 240);
         playersJoined.setBackground(Color.BLACK);
         playersJoined.setForeground(Color.WHITE);
+        playersJoined.setBorder(new LineBorder(Color.white, 1));
 
         add(playersJoined);
         //add(playersScrollPane);
@@ -358,7 +359,7 @@ public class ConnectPanel extends JPanel{
     }
     public void updatePlayerList(){
         playersJoined.setText("");
-        StringBuilder sb = new StringBuilder("Players In Game:\n");
+        StringBuilder sb = new StringBuilder("");
         for(String playerName : clientMain.Final_gamePlayerNames_ClientSide){
             sb.append(playerName).append("\n");
         }
