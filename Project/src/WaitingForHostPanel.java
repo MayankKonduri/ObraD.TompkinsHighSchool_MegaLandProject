@@ -91,8 +91,19 @@ public class WaitingForHostPanel extends JPanel {
 
         characterSelectPanel = new CharacterSelectPanel(jframe1, clientMain, null, null, connectPanel,false, null);
         connectPanel.setCharacterSelectPanel(characterSelectPanel);
-        jframe1.setContentPane(characterSelectPanel);
+
+        characterSelectPanel.setPreferredSize(new Dimension(1920,1040));
+
+        JScrollPane scrollPane1 = new JScrollPane(characterSelectPanel);
+        scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        add(scrollPane1);
+        jframe1.setContentPane(scrollPane1);
+
+        jframe1.pack();
         jframe1.revalidate();
+        jframe1.repaint();
+        jframe1.setVisible(true);
     }
 
     public CharacterSelectPanel getCharacterSelectPanel(){

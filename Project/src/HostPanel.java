@@ -277,8 +277,20 @@ public class HostPanel extends JPanel{
             serverMain.broadcastMessage(1, nameTextField.getText());
             //commandFromServer.notify_START_GAME(serverMain.getOut(), nameTextField.getText());
             System.out.println("Game Has Started!!!");
-            frame.setContentPane(cardSelectPanel);
+
+            cardSelectPanel.setPreferredSize(new Dimension(1920,1040));
+
+            JScrollPane scrollPane1 = new JScrollPane(cardSelectPanel);
+            scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            add(scrollPane1);
+            frame.setContentPane(scrollPane1);
+
+            frame.pack();
             frame.revalidate();
+            frame.repaint();
+            frame.setVisible(true);
+
         });
         startButton.setFocusPainted(false);
         startButton.setBackground(Color.black);
@@ -302,8 +314,20 @@ public class HostPanel extends JPanel{
                 serverMain.broadcastMessage(3, nameTextField.getText());
                 serverMain.stopServer();
             }
-            frame.setContentPane(new LoadingPanel(frame));
+
+            LoadingPanel loadingPanel = new LoadingPanel(jFrame);
+            loadingPanel.setPreferredSize(new Dimension(1920,1040));
+
+            JScrollPane scrollPane1 = new JScrollPane(loadingPanel);
+            scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            add(scrollPane1);
+            frame.setContentPane(scrollPane1);
+
+            frame.pack();
             frame.revalidate();
+            frame.repaint();
+            frame.setVisible(true);
         });
         homeButton.setFocusPainted(false);
         homeButton.setBackground(Color.black);

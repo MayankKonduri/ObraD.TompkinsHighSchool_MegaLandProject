@@ -110,8 +110,20 @@ public class CardSelectPanel extends JPanel {
             if(serverMain!= null) {
                 if (selectionCount == 7) {
                     serverMain.broadcastMessage(2, hostPanel.nameTextField.getText());
-                    frame.setContentPane(characterSelectPanel);
+
+                    characterSelectPanel.setPreferredSize(new Dimension(1920,1040));
+
+                    JScrollPane scrollPane1 = new JScrollPane(characterSelectPanel);
+                    scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                    scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    add(scrollPane1);
+                    frame.setContentPane(scrollPane1);
+
+                    frame.pack();
                     frame.revalidate();
+                    frame.repaint();
+                    frame.setVisible(true);
+
                     //CommandFromServer.notify_DONE_WITH_CARD_SELECTION(serverMain.getOut(), hostPanel.nameTextField.getText());
                     //CommandFromServer.notify_CARDPANEL_TOSTRING(serverMain.getOut(), buildingsSelect.toString());
                     serverMain.broadcastMessage(10, buildingsSelect.toString());

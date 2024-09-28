@@ -19,11 +19,15 @@ public class LoadingPanel extends JPanel {
     private BufferedImage loading;
     private BufferedImage buffer;
     private JLabel welcome = new JLabel("Welcome to Megaland!");
+    private JFrame jFrame;
 
 
     public LoadingPanel(JFrame frame) {
+
         setSize(1920, 1040);
         setLayout(null);
+        this.jFrame = frame;
+
 
         buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
         try {
@@ -99,22 +103,55 @@ public class LoadingPanel extends JPanel {
         hostButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setContentPane(new HostPanel(frame));
+                HostPanel hostPanel = new HostPanel(jFrame);
+                hostPanel.setPreferredSize(new Dimension(1920,1040));
+
+                JScrollPane scrollPane1 = new JScrollPane(hostPanel);
+                scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                add(scrollPane1);
+                frame.setContentPane(scrollPane1);
+
+                frame.pack();
                 frame.revalidate();
+                frame.repaint();
+                frame.setVisible(true);
             }
         });
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setContentPane(new ConnectPanel(frame));
+                ConnectPanel connectPanel = new ConnectPanel(jFrame);
+                connectPanel.setPreferredSize(new Dimension(1920,1040));
+
+                JScrollPane scrollPane1 = new JScrollPane(connectPanel);
+                scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                add(scrollPane1);
+                frame.setContentPane(scrollPane1);
+
+                frame.pack();
                 frame.revalidate();
+                frame.repaint();
+                frame.setVisible(true);
             }
         });
         rulesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setContentPane(new RulesPanel(frame));
+                RulesPanel rulesPanel = new RulesPanel(frame);
+                rulesPanel.setPreferredSize(new Dimension(1920,1040));
+
+                JScrollPane scrollPane1 = new JScrollPane(rulesPanel);
+                scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                add(scrollPane1);
+                frame.setContentPane(scrollPane1);
+
+                frame.pack();
                 frame.revalidate();
+                frame.repaint();
+                frame.setVisible(true);
             }
         });
 

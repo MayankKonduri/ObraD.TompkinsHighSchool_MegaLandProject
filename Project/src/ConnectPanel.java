@@ -256,11 +256,34 @@ public class ConnectPanel extends JPanel{
             if(clientMain.getOut() != null){
                 sendDisconnectMessage();
                 frame.setContentPane(new LoadingPanel(frame));
+                frame.revalidate();LoadingPanel loadingPanel = new LoadingPanel(frame);
+                loadingPanel.setPreferredSize(new Dimension(1920,1040));
+
+                JScrollPane scrollPane1 = new JScrollPane(loadingPanel);
+                scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                add(scrollPane1);
+                frame.setContentPane(scrollPane1);
+
+                frame.pack();
                 frame.revalidate();
+                frame.repaint();
+                frame.setVisible(true);
             }
             else{
-                frame.setContentPane(new LoadingPanel(frame));
+                LoadingPanel loadingPanel = new LoadingPanel(frame);
+                loadingPanel.setPreferredSize(new Dimension(1920,1040));
+
+                JScrollPane scrollPane1 = new JScrollPane(loadingPanel);
+                scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                add(scrollPane1);
+                frame.setContentPane(scrollPane1);
+
+                frame.pack();
                 frame.revalidate();
+                frame.repaint();
+                frame.setVisible(true);
             }
         });
 
@@ -372,8 +395,19 @@ public class ConnectPanel extends JPanel{
         playersJoined.setText(updatedText);
     }
     public void switchToWaitingForHostPanel() {
-        jFrame1.setContentPane(waitingForHostPanel);
+
+        waitingForHostPanel.setPreferredSize(new Dimension(1920,1040));
+
+        JScrollPane scrollPane1 = new JScrollPane(waitingForHostPanel);
+        scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        add(scrollPane1);
+        jFrame1.setContentPane(scrollPane1);
+
+        jFrame1.pack();
         jFrame1.revalidate();
+        jFrame1.repaint();
+        jFrame1.setVisible(true);
     }
     public void setCharacterSelectPanel(CharacterSelectPanel panel) {
         this.characterSelectPanel = panel;

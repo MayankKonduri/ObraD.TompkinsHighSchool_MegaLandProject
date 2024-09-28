@@ -361,9 +361,19 @@ public class CharacterSelectPanel extends JPanel {
         });
         done.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> {
-                frame.setContentPane(new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null, null));
+                GamePanel gamePanel = new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null, null);
+                gamePanel.setPreferredSize(new Dimension(1920,1040));
+
+                JScrollPane scrollPane1 = new JScrollPane(gamePanel);
+                scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                add(scrollPane1);
+                frame.setContentPane(scrollPane1);
+
+                frame.pack();
                 frame.revalidate();
                 frame.repaint();
+                frame.setVisible(true);
             });
             serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
         });
@@ -434,8 +444,19 @@ public class CharacterSelectPanel extends JPanel {
 
     }
     public void switchToGamePanel() {
-        jFrame1.setContentPane(new GamePanel(jFrame1, clientMain, null, null, connectPanel, null, this, false, null, null));
+        GamePanel gamePanel = new GamePanel(jFrame1, clientMain, null, null, connectPanel, cardSelectPanel, this, false, null, null);
+        gamePanel.setPreferredSize(new Dimension(1920,1040));
+
+        JScrollPane scrollPane1 = new JScrollPane(gamePanel);
+        scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        add(scrollPane1);
+        jFrame1.setContentPane(scrollPane1);
+
+        jFrame1.pack();
         jFrame1.revalidate();
+        jFrame1.repaint();
+        jFrame1.setVisible(true);
     }
     public void notifyCharacterSelection(String characterName){
         try{

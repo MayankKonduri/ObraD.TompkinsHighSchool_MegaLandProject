@@ -81,8 +81,20 @@ public class RulesPanel extends JPanel{
         homeButton.setBounds(10, 10, 100, 40);
         homeButton.setFont(new Font("Georgia", Font.BOLD, 20));
         homeButton.addActionListener(e -> {
-            frame.setContentPane(new LoadingPanel(frame));
+            LoadingPanel loadingPanel = new LoadingPanel(frame);
+            loadingPanel.setPreferredSize(new Dimension(1920,1040));
+
+            JScrollPane scrollPane1 = new JScrollPane(loadingPanel);
+            scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            add(scrollPane1);
+            frame.setContentPane(scrollPane1);
+
+            frame.pack();
             frame.revalidate();
+            frame.repaint();
+            frame.setVisible(true);
+
         });
         homeButton.setFocusPainted(false);
         homeButton.setBackground(Color.black);
