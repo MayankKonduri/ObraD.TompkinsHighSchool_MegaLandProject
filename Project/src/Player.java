@@ -15,10 +15,12 @@ public class Player implements Serializable{
     public boolean isHost;
 
     public ArrayList<BuildingCards> playerBuildings;
+    public ArrayList<TreasureCard> playerTreasures;
+
     public ArrayList<Player> allPlayers = new ArrayList<>();
     //    public ArrayList<TreasureCards> playerOwnedTreasureCards;
 //    public ArrayList<BuildingCards> playerOwnedBuildingCards;
-    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings) {
+    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings, ArrayList<TreasureCard> playerTreasures) {
         this.playerID= playerID;
         this.playerName = playerName;
         this.playerTurn = playerTurn;
@@ -29,6 +31,7 @@ public class Player implements Serializable{
         this.canDrawLevel = canDrawLevel;
         this.isHost = isHost;
         this.playerBuildings = playerBuildings;
+        this.playerTreasures = playerTreasures;
     }
 
     public int getPlayerID() {
@@ -105,5 +108,12 @@ public class Player implements Serializable{
     }
     public ArrayList<BuildingCards> getPlayerBuildings(){
         return this.playerBuildings;
+    }
+    public void setPlayerTreasures(ArrayList<TreasureCard> playerTreasures1) {
+        this.playerTreasures = playerTreasures1;
+    }
+
+    public ArrayList<TreasureCard> getPlayerTreasures() {
+        return playerTreasures;
     }
 }

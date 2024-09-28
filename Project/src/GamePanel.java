@@ -50,6 +50,8 @@ public class GamePanel extends JPanel {
     private JLabel playerLabel;
     private int current_player = 0;
     private JPanel cardsPanel = new JPanel();
+    private JPanel treasurePanel = new JPanel();
+    private JScrollPane scrollPane1;
     private JScrollPane scrollPane;
 
     //missing one\
@@ -72,9 +74,15 @@ public class GamePanel extends JPanel {
 
         cardsPanel = new JPanel();
         cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        treasurePanel = new JPanel();
+        treasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        scrollPane1 = new JScrollPane(treasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane1.setBounds(280, 790, 160 * 9 + 40, 230);
+        add(scrollPane1);
+
 
         scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(280, 540, 160 * 9 + 40, 230);
+        scrollPane.setBounds(280, 540, 160 * 9 + 40, 150);
         add(scrollPane);
 
 
@@ -507,7 +515,7 @@ public class GamePanel extends JPanel {
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
                 playerTreasures.add(shuffledDeck.remove(0));
-                hostTreasureDisplay();
+                hostTreasureDisplay(playerTreasures);
             });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
                 if (cardSelectPanel.buildingsSelect.get(i) == true) {
@@ -564,17 +572,29 @@ public class GamePanel extends JPanel {
 
         }
     }
-    public void hostTreasureDisplay() {
+    public void hostTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
+        treasurePanel.removeAll();
+
+        int cardWidth = 90;
+        int cardHeight = 120;
+        int cardSpacing = 20;
+
         for(int i = 0; i < playerTreasures.size(); i++) {
             BufferedImage image1 = playerTreasures.get(i).getImage();
-            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
-            button1.setBounds(1600+(110*i), 600, 90, 120);
-
-
-            add(button1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            treasurePanel.add(button1);
         }
-        revalidate();
-        repaint();
+        int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
+        treasurePanel.setPreferredSize(new Dimension(totalWidth, 230));
+        treasurePanel.revalidate();
+        treasurePanel.repaint();
+        scrollPane1.revalidate();
+        scrollPane1.repaint();
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane1.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
     }
     public void hostOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
             cardsPanel.removeAll();
@@ -614,7 +634,7 @@ public class GamePanel extends JPanel {
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
             playerTreasures.add(shuffledDeck.remove(0));
-            clientTreasureDisplay();
+            clientTreasureDisplay(playerTreasures);
         });
         System.out.println(cardSelectedList_g_client.size());
         System.out.println(cardSelectedList_g_client);
@@ -671,17 +691,39 @@ public class GamePanel extends JPanel {
     }
 
 
-    public void clientTreasureDisplay() {
+    public void clientTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
+        treasurePanel.removeAll();
+
+        int cardWidth = 90;
+        int cardHeight = 120;
+        int cardSpacing = 20;
+
         for(int i = 0; i < playerTreasures.size(); i++) {
             BufferedImage image1 = playerTreasures.get(i).getImage();
-            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
-            button1.setBounds(1600+(110*i), 600, 90, 120);
-
-
-            add(button1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            treasurePanel.add(button1);
         }
-        revalidate();
-        repaint();
+        int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
+        treasurePanel.setPreferredSize(new Dimension(totalWidth, 230));
+        treasurePanel.revalidate();
+        treasurePanel.repaint();
+        scrollPane1.revalidate();
+        scrollPane1.repaint();
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane1.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
+//        for(int i = 0; i < playerTreasures.size(); i++) {
+//            BufferedImage image1 = playerTreasures.get(i).getImage();
+//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
+//            button1.setBounds(1600+(110*i), 600, 90, 120);
+//
+//
+//            add(button1);
+//        }
+//        revalidate();
+//        repaint();
     }
 
 
@@ -776,30 +818,40 @@ public class GamePanel extends JPanel {
                 System.out.println("Player 1");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 1:
                 System.out.println("Player 2");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 2:
                 System.out.println("Player 3");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 3:
                 System.out.println("Player 4");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 4:
                 System.out.println("Player 5");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             }
@@ -810,30 +862,35 @@ public class GamePanel extends JPanel {
                     System.out.println("Player 1");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 1:
                     System.out.println("Player 2");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 2:
                     System.out.println("Player 3");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 3:
                     System.out.println("Player 4");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 4:
                     System.out.println("Player 5");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
             }
