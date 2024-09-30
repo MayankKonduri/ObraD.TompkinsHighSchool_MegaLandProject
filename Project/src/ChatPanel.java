@@ -165,7 +165,7 @@ public class ChatPanel extends JPanel{
                     setVisible(false);
 //                    chatButton1.setEnabled(true);
                 }
-                setBackground(new Color(0.8f, 0.8f, 0.8f, (int) (opacity *255)));
+                //setBackground(new Color(0.8f, 0.8f, 0.8f, (int) (opacity *255)));
                 repaint();
             }
         });
@@ -186,7 +186,7 @@ public class ChatPanel extends JPanel{
         if(fadeTimer.isRunning()){
             fadeTimer.stop();
         }
-        setBackground(new Color(0.8f, 0.8f, 0.8f, 1.0f));
+        //setBackground(new Color(0.8f, 0.8f, 0.8f, 1.0f));
         repaint();
     }
     private void sendMessageToPlayers(String message){
