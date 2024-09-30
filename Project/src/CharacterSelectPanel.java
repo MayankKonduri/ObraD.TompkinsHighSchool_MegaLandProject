@@ -523,26 +523,31 @@ public class CharacterSelectPanel extends JPanel {
             if(FINAL_ARRAYS[i][1].equals("Available")){
                 if(i==0){
                     catB.setEnabled(true);
+                    catB.setText("Available");
                     catB.setForeground(Color.white);
                     catB.setBackground(Color.BLACK);
                 }
                 else if(i==1){
                     indianWomanB.setEnabled(true);
+                    indianWomanB.setText("Available");
                     indianWomanB.setForeground(Color.white);
                     indianWomanB.setBackground(Color.BLACK);
                 }
                 else if(i==2){
                     whiteB.setEnabled(true);
+                    whiteB.setText("Available");
                     whiteB.setForeground(Color.white);
                     whiteB.setBackground(Color.BLACK);
                 }
                 else if(i==3){
                     frogB.setEnabled(true);
+                    frogB.setText("Available");
                     frogB.setForeground(Color.white);
                     frogB.setBackground(Color.BLACK);
                 }
                 else if(i==4){
                     gandalfB.setEnabled(true);
+                    gandalfB.setText("Available");
                     gandalfB.setForeground(Color.white);
                     gandalfB.setBackground(Color.BLACK);
                 }
