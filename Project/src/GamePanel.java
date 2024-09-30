@@ -53,6 +53,7 @@ public class GamePanel extends JPanel {
     private JPanel treasurePanel = new JPanel();
     private JScrollPane scrollPane1;
     private JScrollPane scrollPane;
+    private static JLabel ErrorArea;
 
     //missing one\
     //skip 25 its a repeat
@@ -72,6 +73,15 @@ public class GamePanel extends JPanel {
         this.inGameRulesPanel1 = inGameRulesPanel;
         //this.cardSelectPanel = cardSelectPanel;
 
+        ErrorArea = new JLabel("",JLabel.CENTER);
+        ErrorArea.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+        ErrorArea.setBackground(Color.PINK);
+        ErrorArea.setForeground(Color.RED);
+        ErrorArea.setFont(new Font("Roman", Font.BOLD, 20));
+        ErrorArea.setBounds(30, 740, 230, 40);
+        //ErrorArea.setEditable(false);
+        add(ErrorArea);
+        ErrorArea.setVisible(false);
         cardsPanel = new JPanel();
         cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         treasurePanel = new JPanel();
@@ -80,10 +90,13 @@ public class GamePanel extends JPanel {
         scrollPane1.setBounds(280, 790, 160 * 9 + 40, 140);
         add(scrollPane1);
 
-
         scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(280, 540, 160 * 9 + 40, 230);
         add(scrollPane);
+
+        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+
 
         if(isHost){
             current_player = 0;
@@ -183,6 +196,33 @@ public class GamePanel extends JPanel {
                 }
             }
         });
+                takeOff.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (isHost) {
+                            if (hostPanel.playerHost.isPlayerActive) {
+                                hostPanel.playerHost.setPlayerActive(false);
+                                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                                takeOff.setText("Dropped Level");
+                                takeOff.setEnabled(false);
+                            }
+                            else{
+                                showError("Player Not Active");
+                            }
+                        } else {
+                            if (characterSelectPanel.playerClient.isPlayerActive) {
+                                characterSelectPanel.playerClient.setPlayerActive(false);
+                                CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                                takeOff.setText("Dropped Level");
+                                takeOff.setEnabled(false);
+                            }
+                            else{
+                                showError("Player Not Active");
+                            }
+                        }
+                    }
+                });
 
         playerLabel = new JLabel("My View", JLabel.CENTER);
         playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -327,14 +367,6 @@ public class GamePanel extends JPanel {
         buildingNames.add(endlessMine);
         buildingNames.add(arena);
         createDeck();
-        createLevelDeck();
-
-
-
-
-
-
-
 
         this.jFrame = frame;
         this.clientMain = clientMain;
@@ -352,6 +384,7 @@ public class GamePanel extends JPanel {
             System.out.println("Connected Players (H): " + serverMain.gamePlayerNames);
             System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+            createLevelDeck_Host();
         }else {
             System.out.println("Connected Players (C): " + clientMain.Final_gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
@@ -362,6 +395,7 @@ public class GamePanel extends JPanel {
                 cardSelectedList_g_client.add(booleanValue);
             }
             createImageButtonsClient();
+            createLevelDeck_Client();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
             /*if(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())==1) {
                 characterSelectPanel.playerClient.setPlayerID(1000);
@@ -375,29 +409,73 @@ public class GamePanel extends JPanel {
 
 
     }
-    public void createLevelDeck() {
-        deckLevelCard.add(new LevelCard(1, 0, false, false, levelCard31, false));
-        deckLevelCard.add(new LevelCard(2, 1, false, false, levelCard32, false));
-        deckLevelCard.add(new LevelCard(3, 1, false, true, levelCard33, true));
-        deckLevelCard.add(new LevelCard(4, 1, false, true, levelCard34, false));
-        deckLevelCard.add(new LevelCard(5, 2, false, false, levelCard35, false));
-        deckLevelCard.add(new LevelCard(6, 0, true, false, levelCard36, false));
-        deckLevelCard.add(new LevelCard(7, 3, false, true, levelCard37, false));
-        deckLevelCard.add(new LevelCard(8, 2, false, true, levelCard38, false));
-        deckLevelCard.add(new LevelCard(9, 0, false, false, levelCard39, false));
-        deckLevelCard.add(new LevelCard(10, 0, false, false, levelCard40, false));
+    public void createLevelDeck_Host() {
+        deckLevelCard.add(new LevelCard("levelCard31",1, 0, false, false, levelCard31, false));
+        deckLevelCard.add(new LevelCard("levelCard32",2, 1, false, false, levelCard32, false));
+        deckLevelCard.add(new LevelCard("levelCard33",3, 1, false, true, levelCard33, true));
+        deckLevelCard.add(new LevelCard("levelCard34",4, 1, false, true, levelCard34, false));
+        deckLevelCard.add(new LevelCard("levelCard35",5, 2, false, false, levelCard35, false));
+        deckLevelCard.add(new LevelCard("levelCard36",6, 0, true, false, levelCard36, false));
+        deckLevelCard.add(new LevelCard("levelCard37",7, 3, false, true, levelCard37, false));
+        deckLevelCard.add(new LevelCard("levelCard38",8, 2, false, true, levelCard38, false));
+        deckLevelCard.add(new LevelCard("levelCard39",9, 0, false, false, levelCard39, false));
+        deckLevelCard.add(new LevelCard("levelCard40",10, 0, false, false, levelCard40, false));
+        //Collections.shuffle(deckLevelCard);
+        if(isHost1) {
+            hostPanel.playerHost.setPlayerLevelCards(deckLevelCard);
+            serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
 
+            BufferedImage backOfLevelCard1 = backOfLevelCard;
+            JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+            levelDraw.setBounds(1450, 30, 140, 210);
+            add(levelDraw);
+            levelDraw.addActionListener(e -> {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                        GUILevelCardsHost();
+                        serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
+                        //logic
+                    } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                    showError("Not Your View");
+                    } else if(!(hostPanel.playerHost.isPlayerActive)){
+                        showError("Player Not Active");
+                    }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
+                        showError("Cannot Draw Cards");
+                    }
+            });
+        }
+    }
+    public void createLevelDeck_Client() {
+        deckLevelCard.add(new LevelCard("levelCard31",1, 0, false, false, levelCard31, false));
+        deckLevelCard.add(new LevelCard("levelCard32",2, 1, false, false, levelCard32, false));
+        deckLevelCard.add(new LevelCard("levelCard33",3, 1, false, true, levelCard33, true));
+        deckLevelCard.add(new LevelCard("levelCard34",4, 1, false, true, levelCard34, false));
+        deckLevelCard.add(new LevelCard("levelCard35",5, 2, false, false, levelCard35, false));
+        deckLevelCard.add(new LevelCard("levelCard36",6, 0, true, false, levelCard36, false));
+        deckLevelCard.add(new LevelCard("levelCard37",7, 3, false, true, levelCard37, false));
+        deckLevelCard.add(new LevelCard("levelCard38",8, 2, false, true, levelCard38, false));
+        deckLevelCard.add(new LevelCard("levelCard39",9, 0, false, false, levelCard39, false));
+        deckLevelCard.add(new LevelCard("levelCard40",10, 0, false, false, levelCard40, false));
+        //Collections.shuffle(deckLevelCard);
+        characterSelectPanel.playerClient.setPlayerLevelCards(deckLevelCard);
+        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
 
-        Collections.shuffle(deckLevelCard);
         BufferedImage backOfLevelCard1 = backOfLevelCard;
         JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
         levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
-            drawnLevelCard.add(deckLevelCard.remove(0));
-            //levelDisplay();
-            revalidate();
-            repaint();
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
+                    GUILevelCardsClient();
+                    CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
+                }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
+                    showError("Not Your View");
+                } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
+                    showError("Player Not Active");
+                }
+                else if(!(characterSelectPanel.playerClient.isCanDrawLevel())){
+                    showError("Cannot Draw Cards");
+                }
         });
     }
 
@@ -547,7 +625,7 @@ public class GamePanel extends JPanel {
             treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
-                if(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) {
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
                     System.out.println(hostPanel.playerHost.getPlayerTreasures());
@@ -555,8 +633,11 @@ public class GamePanel extends JPanel {
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     hostTreasureDisplay(playerTreasures);
                 }
-                else{
-                    //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
+                else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
+                    showError("Not Your View");
+                }
+                else if(!(hostPanel.playerHost.isPlayerActive)){
+                    showError("Player Not Active");
                 }
             });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
@@ -584,7 +665,7 @@ public class GamePanel extends JPanel {
 
 
                 button.addActionListener(e -> {
-                    if(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
@@ -595,9 +676,12 @@ public class GamePanel extends JPanel {
                         System.out.println("Index added: " + finalJ);
                         hostOwnedCardsDisplay(playerBuildings);
                     }
-                    else{
-                        //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+                        else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
+                            showError("Not Your View");
+                        }
+                        else if(!(hostPanel.playerHost.isPlayerActive)){
+                            showError("Player Not Active");
+                        }
                 });
                 add(button);
                 imageButtons.add(button);
@@ -680,15 +764,18 @@ public class GamePanel extends JPanel {
         treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
-            if(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) {
+            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)) {
                 playerTreasures.add(shuffledDeck.remove(0));
                 characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
                 if (!isHost1) {
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                 }
                 clientTreasureDisplay(playerTreasures);
-            } else{
-                //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
+                showError("Not Your View");
+            }
+            else if(!(characterSelectPanel.playerClient.isPlayerActive)){
+                showError("Player Not Active");
             }
         });
         System.out.println(cardSelectedList_g_client.size());
@@ -716,7 +803,7 @@ public class GamePanel extends JPanel {
             int finalJ = j;
             int x1 = 0;
             button.addActionListener(e -> {
-                if(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) {
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
                     System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
@@ -726,8 +813,11 @@ public class GamePanel extends JPanel {
                         CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                     }
                     clientOwnedCardsDisplay(playerBuildings);
-                }else{
-                    //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
+                }else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
+                    showError("Not Your View");
+                }
+                else if(!(characterSelectPanel.playerClient.isPlayerActive)){
+                    showError("Player Not Active");
                 }
             });
             add(button);
@@ -831,7 +921,6 @@ public class GamePanel extends JPanel {
 
 
 
-
             }
         } else {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
@@ -876,7 +965,13 @@ public class GamePanel extends JPanel {
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
+                }
+                else{
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
@@ -886,7 +981,13 @@ public class GamePanel extends JPanel {
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
+                }
+                else{
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
@@ -896,7 +997,13 @@ public class GamePanel extends JPanel {
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
+                }
+                else{
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
@@ -906,7 +1013,13 @@ public class GamePanel extends JPanel {
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
+                }
+                else{
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
@@ -916,7 +1029,13 @@ public class GamePanel extends JPanel {
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
+                }
+                else{
+                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
@@ -930,7 +1049,13 @@ public class GamePanel extends JPanel {
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
@@ -940,7 +1065,13 @@ public class GamePanel extends JPanel {
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
@@ -950,7 +1081,13 @@ public class GamePanel extends JPanel {
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
@@ -960,7 +1097,13 @@ public class GamePanel extends JPanel {
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
@@ -970,7 +1113,13 @@ public class GamePanel extends JPanel {
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
@@ -979,7 +1128,52 @@ public class GamePanel extends JPanel {
         return null;
     }
 
+    public void GUILevelCardsHost(){
+        if(hostPanel.playerHost.getPlayerLevelCards().size() != 0) {
+            LevelCard temp = hostPanel.playerHost.getPlayerLevelCards().remove(0);
+            hostPanel.playerHost.setPlayerLevelCards(hostPanel.playerHost.getPlayerLevelCards());
+            serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
 
+            drawnLevelCard.add(temp);
+            //levelDisplay();
+            revalidate();
+            repaint();
+            if(hostPanel.playerHost.getPlayerLevelCards().size()==0){
+                createLevelDeck_Host();
+            }
+        }
+    }
+    public void GUILevelCardsClient(){
+        if(characterSelectPanel.playerClient.getPlayerLevelCards().size() != 0) {
+            LevelCard temp = characterSelectPanel.playerClient.getPlayerLevelCards().remove(0);
+            characterSelectPanel.playerClient.setPlayerLevelCards(characterSelectPanel.playerClient.getPlayerLevelCards());
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+
+            drawnLevelCard.add(temp);
+            //levelDisplay();
+            revalidate();
+            repaint();
+            if(characterSelectPanel.playerClient.getPlayerLevelCards().size()!=0){
+                createLevelDeck_Client();
+            }
+        }
+    }
+
+    private static void showError(String message) {
+        ErrorArea.setVisible(true);
+        ErrorArea.setText(message);
+        Timer timer = new Timer(2500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ErrorArea.setText("");
+                ErrorArea.setVisible(false);
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
 
     public ChatPanel getChatPanel() {
         return chatPanel1;

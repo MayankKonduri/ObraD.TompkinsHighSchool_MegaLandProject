@@ -48,6 +48,10 @@ public class CommandFromClient implements Serializable {
     public static void notify_CLIENT_MESSAGE(ObjectOutputStream out, String playerName, String message) {
         sendMessage(out, CLIENT_MESSAGE + playerName + "-" + message);
     }
+    public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
+    public static void notify_LEVEL_CARD_NAME(ObjectOutputStream out, String levelCardName) {
+        sendMessage(out, LEVEL_CARD_NAME + levelCardName);
+    }
 
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {

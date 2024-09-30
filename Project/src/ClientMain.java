@@ -24,12 +24,14 @@ public class ClientMain{
     public String cardPanel_Client_Side;
     private ChatPanel chatPanel;
     public ArrayList<Player> playerArrayList_client = new ArrayList<Player>();
+    private GamePanel gamePanel;
 
 
-    public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
+    public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel, GamePanel gamePanel){
         this.clientName = clientName;
         this.characterSelectPanel = characterSelectPanel;
         this.chatPanel = chatPanel;
+        this.gamePanel = gamePanel;
     }
     //Boolean temp = characterSelectPanel.available.get(0);
     public static void main(String[] args){
@@ -161,6 +163,11 @@ public class ClientMain{
             System.out.println(playerArrayList_client.get(i).getPlayerID());
         }
     }
+    public void processLCName(String lcName) {
+        if(!(lcName.equals(connectPanel.nameTextField.getText()))){
+            gamePanel.GUILevelCardsClient();
+        }
+    }
 
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
@@ -257,6 +264,7 @@ public class ClientMain{
     public void setSocket(Socket socket){
         this.socket = socket;
     }
-
-
+    public void setGamePanel(GamePanel gamePanel){
+        this.gamePanel = gamePanel;
+    }
 }

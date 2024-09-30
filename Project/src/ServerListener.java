@@ -20,6 +20,7 @@ public class ServerListener implements Runnable{
     public static final String CHARACTER_UNSELECTION = "CHARACTER_UNSELECTION:";
     public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";
     public static final String CLIENT_MESSAGE = "CLIENT_MESSAGE:";
+    public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
 
     /*
     public static final String CLIENT_NAME = "CLIENT_NAME:";
@@ -135,11 +136,19 @@ public class ServerListener implements Runnable{
             halfway_CHARACTER_SELECTION(message);
         } else if(message.startsWith(CLIENT_MESSAGE)){
             send_Message_To_All(message);
+        } else if(message.startsWith(LEVEL_CARD_NAME)){
+            handleLCName(message);
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
     }
+
+    private void handleLCName(String message) {
+        String LCNAME = message.substring(LEVEL_CARD_NAME.length());
+        serverMain.processLCNAME(LCNAME);
+    }
+
     private void send_Message_To_All(String message) {
         String nameAndMessage = message.substring(CLIENT_MESSAGE.length());
         serverMain.tempFinalAndMessage(nameAndMessage);

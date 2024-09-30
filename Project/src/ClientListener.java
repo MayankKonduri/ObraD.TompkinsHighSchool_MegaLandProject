@@ -23,6 +23,8 @@ public class ClientListener implements Runnable{
     public static final String CARDPANEL_TOSTRING = "CARDPANEL_TOSTRING:";
     public static final String CHAT_MESSAGE_HOST = "CHAT_MESSAGE_HOST:";
     public static final String PLAYER_LIST = "PLAYER_LIST:";
+    public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
+
 
 
 
@@ -90,7 +92,6 @@ public class ClientListener implements Runnable{
     private synchronized void processPlayerList(ArrayList<Player> playerArrayList) {
         System.out.println("Final Recieving2: " + playerArrayList.size());
         cLientMain.handleNewList(playerArrayList);
-
     }
 
     private void processMessage(String message) {
@@ -118,11 +119,18 @@ public class ClientListener implements Runnable{
             receivedCardPanel(message);
         } else if(message.startsWith(CHAT_MESSAGE_HOST)){
             send_Message_Clients(message);
-        } else if(message.startsWith(PLAYER_LIST)){
+        } else if(message.startsWith(PLAYER_LIST)) {
             send_List(message);
+        } else if(message.startsWith(LEVEL_CARD_NAME)){
+            handleLevelCard(message);
         } else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void handleLevelCard(String message) {
+        String LCName = message.substring(LEVEL_CARD_NAME.length());
+        cLientMain.processLCName(LCName);
     }
 
     private void send_List(String message) {

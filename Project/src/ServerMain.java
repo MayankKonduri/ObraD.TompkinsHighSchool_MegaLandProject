@@ -25,13 +25,15 @@ public class ServerMain{
     private CharacterSelectPanel characterSelectPanel;
     private ChatPanel chatPanel;
     public ArrayList<Player> playerArrayList_Host = new ArrayList<>();
+    private GamePanel gamePanel;
 
-    public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel){
+    public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel, GamePanel gamePanel){
         this.port = port;
         this.hostName = hostName;
         this.hostPanel = hostPanel;
         this.characterSelectPanel = characterSelectPanel;
         this.chatPanel = chatPanel;
+        this.gamePanel = gamePanel;
     }
 
     public void setChatPanel(ChatPanel chatPanel){
@@ -124,6 +126,10 @@ public class ServerMain{
         namesString = namesString.substring(1);
 
         broadcastMessage(12, namesString);
+    }
+    public void processLCNAME(String lcname) {
+        gamePanel.GUILevelCardsHost();
+        broadcastMessage(13, lcname);
     }
 
     public void characterTempChoose(String playerChoosing) {
@@ -293,6 +299,12 @@ public class ServerMain{
                         CommandFromServer.notify_PLAYER_LIST(out, name);
                     }}
                 break;
+            case 13:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_LevelCard_Name(out, name);
+                    }}
+                break;
         }
     }
     public void stopServer(){
@@ -333,5 +345,7 @@ public class ServerMain{
     public void setCharacterSelectPanel(CharacterSelectPanel characterSelectPanel){
         this.characterSelectPanel = characterSelectPanel;
     }
+    public void setGamePanel(GamePanel gamePanel) { this.gamePanel = gamePanel;}
+
 
 }

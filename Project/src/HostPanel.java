@@ -249,7 +249,7 @@ public class HostPanel extends JPanel{
             startHostingButton.setText("Hosting...");
             confirmSettings.setEnabled(false);
             //updatePeopleList();
-            playerHost = new Player(0, nameTextField.getText(), false, 0, 0,0,false,false, true, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>());
+            playerHost = new Player(0, nameTextField.getText(), false, 0, 0,0,true,true, true, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>(), new ArrayList<LevelCard>());
             serverMain.playerArrayList_Host.add(playerHost);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
             startHostingButton.setBorder(new LineBorder(Color.white, 1));
@@ -424,7 +424,7 @@ public class HostPanel extends JPanel{
     public void startHostingServer() {
         try {
             cardSelectPanel = new CardSelectPanel(jFrame, null, this);
-            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, cardSelectPanel.getCharacterSelectPanel(), null);
+            this.serverMain = new ServerMain(12345, nameTextField.getText(), this, cardSelectPanel.getCharacterSelectPanel(), null, null);
             cardSelectPanel = new CardSelectPanel(jFrame, serverMain, this);
             characterSelectPanel = cardSelectPanel.getCharacterSelectPanel();
             serverMain.setCharacterSelectPanel(characterSelectPanel);

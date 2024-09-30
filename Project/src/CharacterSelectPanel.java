@@ -43,7 +43,7 @@ public class CharacterSelectPanel extends JPanel {
         setLayout(null);
         if(!isHost) {
             System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
-            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, false, false, false, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>());
+            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, true, true, false, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>(), new ArrayList<LevelCard>());
             //waitingForHostPanel.setPlayerObject(playerClient);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
         }
@@ -363,7 +363,7 @@ public class CharacterSelectPanel extends JPanel {
             SwingUtilities.invokeLater(() -> {
                 GamePanel gamePanel = new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null, null);
                 gamePanel.setPreferredSize(new Dimension(1920,1040));
-
+                serverMain.setGamePanel(gamePanel);
                 JScrollPane scrollPane1 = new JScrollPane(gamePanel);
                 scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
                 scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -446,7 +446,9 @@ public class CharacterSelectPanel extends JPanel {
     public void switchToGamePanel() {
         GamePanel gamePanel = new GamePanel(jFrame1, clientMain, null, null, connectPanel, cardSelectPanel, this, false, null, null);
         gamePanel.setPreferredSize(new Dimension(1920,1040));
-
+        if(!isHost){
+            clientMain.setGamePanel(gamePanel);
+        }
         JScrollPane scrollPane1 = new JScrollPane(gamePanel);
         scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

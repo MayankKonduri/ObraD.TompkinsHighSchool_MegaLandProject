@@ -65,6 +65,10 @@ public class CommandFromServer implements Serializable
         sendMessage(out, PLAYER_LIST + name);
     }
 
+    public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
+    public static void notify_LevelCard_Name(ObjectOutputStream out, String name) {
+        sendMessage(out, LEVEL_CARD_NAME + name);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {
@@ -90,5 +94,4 @@ public class CommandFromServer implements Serializable
             e.printStackTrace();
         }
     }
-
 }
