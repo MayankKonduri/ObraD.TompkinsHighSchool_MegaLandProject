@@ -131,6 +131,12 @@ public class ServerMain{
         gamePanel.GUILevelCardsHost();
         broadcastMessage(13, lcname);
     }
+    public void processClickName(String clickName) {
+        broadcastMessage(14, clickName);
+        if(gamePanel.current_player == gamePlayerNames.indexOf(clickName)){
+            gamePanel.playerGameView(gamePanel.current_player);
+        }
+    }
 
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
@@ -305,6 +311,12 @@ public class ServerMain{
                         CommandFromServer.notify_LevelCard_Name(out, name);
                     }}
                 break;
+            case 14:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_INTERCLICK(out, name);
+                    }}
+                break;
         }
     }
     public void stopServer(){
@@ -346,6 +358,4 @@ public class ServerMain{
         this.characterSelectPanel = characterSelectPanel;
     }
     public void setGamePanel(GamePanel gamePanel) { this.gamePanel = gamePanel;}
-
-
 }

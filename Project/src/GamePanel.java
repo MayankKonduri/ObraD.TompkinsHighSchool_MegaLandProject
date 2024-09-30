@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
     public int imageLevel = 0;
     private JButton view = new JButton("View");
     private JLabel playerLabel;
-    private int current_player;
+    public int current_player;
     private JPanel cardsPanel = new JPanel();
     private JPanel treasurePanel = new JPanel();
     private JScrollPane scrollPane1;
@@ -632,6 +632,7 @@ public class GamePanel extends JPanel {
                     serverMain.playerArrayList_Host.set(0,hostPanel.playerHost);
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     hostTreasureDisplay(playerTreasures);
+                    serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
                 }
                 else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                     showError("Not Your View");
@@ -675,6 +676,7 @@ public class GamePanel extends JPanel {
                         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                         System.out.println("Index added: " + finalJ);
                         hostOwnedCardsDisplay(playerBuildings);
+                        serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
                     }
                         else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                             showError("Not Your View");
@@ -771,6 +773,7 @@ public class GamePanel extends JPanel {
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                 }
                 clientTreasureDisplay(playerTreasures);
+                CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
             } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                 showError("Not Your View");
             }
@@ -813,6 +816,7 @@ public class GamePanel extends JPanel {
                         CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                     }
                     clientOwnedCardsDisplay(playerBuildings);
+                    CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
                 }else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
                 }

@@ -24,6 +24,7 @@ public class ClientListener implements Runnable{
     public static final String CHAT_MESSAGE_HOST = "CHAT_MESSAGE_HOST:";
     public static final String PLAYER_LIST = "PLAYER_LIST:";
     public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
+    public static final String INTERCLICK = "INTERCLICK:";
 
 
 
@@ -123,9 +124,17 @@ public class ClientListener implements Runnable{
             send_List(message);
         } else if(message.startsWith(LEVEL_CARD_NAME)){
             handleLevelCard(message);
-        } else{
+        } else if(message.startsWith(INTERCLICK)){
+            handleInterClick(message);
+        }
+        else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void handleInterClick(String message) {
+        String nameClicked = message.substring(INTERCLICK.length());
+        cLientMain.processInterClick(nameClicked);
     }
 
     private void handleLevelCard(String message) {

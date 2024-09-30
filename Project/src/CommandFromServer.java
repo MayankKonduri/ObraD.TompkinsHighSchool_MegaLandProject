@@ -69,6 +69,10 @@ public class CommandFromServer implements Serializable
     public static void notify_LevelCard_Name(ObjectOutputStream out, String name) {
         sendMessage(out, LEVEL_CARD_NAME + name);
     }
+    public static final String INTERCLICK = "INTERCLICK:";
+    public static void notify_INTERCLICK(ObjectOutputStream out, String name) {
+        sendMessage(out, INTERCLICK + name);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {

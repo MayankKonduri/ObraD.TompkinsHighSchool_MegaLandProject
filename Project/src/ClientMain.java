@@ -168,6 +168,11 @@ public class ClientMain{
             gamePanel.GUILevelCardsClient();
         }
     }
+    public void processInterClick(String nameClicked) {
+        if(gamePanel.current_player == Final_gamePlayerNames_ClientSide.indexOf(nameClicked)){
+            gamePanel.playerGameView(gamePanel.current_player);
+        }
+    }
 
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
@@ -264,7 +269,7 @@ public class ClientMain{
     public void setSocket(Socket socket){
         this.socket = socket;
     }
-    public void setGamePanel(GamePanel gamePanel){
+    public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 }
