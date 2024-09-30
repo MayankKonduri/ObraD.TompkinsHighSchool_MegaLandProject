@@ -284,7 +284,7 @@ public class GamePanel extends JPanel {
             arcade = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0007.jpg")));
             bazaarOfOddities = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0008.jpg")));
             hotel = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0009.jpg")));
-            templeOfZoz = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0010.png")));
+            templeOfZoz = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0010.jpg")));
             buildingCardBackground = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0011.jpg")));
             reptileStable = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
             herbHut = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
@@ -586,6 +586,8 @@ public class GamePanel extends JPanel {
             inGameRulesPanel1.closeRules();
             chatPanel1.openChat();
             rules.setVisible(true);
+            scrollPane.setVisible(true);
+            scrollPane1.setVisible(true);
 
 
 
@@ -593,6 +595,8 @@ public class GamePanel extends JPanel {
         } else {
             inGameRulesPanel1.openRules();
             chatPanel1.closeChat();
+            scrollPane.setVisible(false);
+            scrollPane1.setVisible(false);
             rules.setVisible(false);
         }
     }
@@ -600,6 +604,8 @@ public class GamePanel extends JPanel {
         setVisible(true);
         toggleChatPanel();
         rules.setVisible(true);
+        scrollPane.setVisible(true);
+        scrollPane1.setVisible(true);
     }
 
 
