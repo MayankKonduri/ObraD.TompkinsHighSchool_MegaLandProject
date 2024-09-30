@@ -38,7 +38,7 @@ public class GamePanel extends JPanel {
     public ArrayList<BuildingCards> buildingDeck = new ArrayList<>();
     public ArrayList<BuildingCards> buildingDeck1 = new ArrayList<>();
     public ArrayList<BuildingCards> playerBuildings = new ArrayList<>();
-    public ArrayList<TreasureCard> unshuffledDeck = new ArrayList<>();
+    public ArrayList<TreasureCard> unshuffledDeck = new ArrayList<TreasureCard>();
     public ArrayList<TreasureCard> shuffledDeck = new ArrayList<>();
     public ArrayList<TreasureCard> usedTreasureCard = new ArrayList();
     public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
     public int imageLevel = 0;
     private JButton view = new JButton("View");
     private JLabel playerLabel;
-    private int current_player = 0;
+    private int current_player;
     private JPanel cardsPanel = new JPanel();
     private JPanel treasurePanel = new JPanel();
     private JScrollPane scrollPane1;
@@ -77,15 +77,20 @@ public class GamePanel extends JPanel {
         treasurePanel = new JPanel();
         treasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         scrollPane1 = new JScrollPane(treasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane1.setBounds(280, 790, 160 * 9 + 40, 230);
+        scrollPane1.setBounds(280, 790, 160 * 9 + 40, 140);
         add(scrollPane1);
 
 
         scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(280, 540, 160 * 9 + 40, 150);
+        scrollPane.setBounds(280, 540, 160 * 9 + 40, 230);
         add(scrollPane);
 
-
+        if(isHost){
+            current_player = 0;
+        }
+        else{
+            current_player = clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText());
+        }
         setSize(1920, 1010);
         setLayout(null);
 
@@ -99,17 +104,32 @@ public class GamePanel extends JPanel {
                     if(isHost) {
                         current_player = serverMain.playerArrayList_Host.size()-1;
                         String tempName = playerGameView(current_player);
-                        playerLabel.setText("Player " + tempName + "'s View");
+                        if(tempName.equals("My")){
+                            playerLabel.setText("My View");
+                        }
+                        else {
+                            playerLabel.setText("Player " + tempName + "'s View");
+                        }
                     }
                     else{
                         current_player = clientMain.playerArrayList_client.size()-1;
                         String tempName = playerGameView(current_player);
-                        playerLabel.setText("Player " + tempName + "'s View");
+                        if(tempName.equals("My")){
+                            playerLabel.setText("My View");
+                        }
+                        else {
+                            playerLabel.setText("Player " + tempName + "'s View");
+                        }
                     }
                 }
                 else{
                     String tempName = playerGameView(current_player);
-                    playerLabel.setText("Player " + tempName + "'s View");
+                    if(tempName.equals("My")){
+                        playerLabel.setText("My View");
+                    }
+                    else {
+                        playerLabel.setText("Player " + tempName + "'s View");
+                    }
                 }
             }
         });
@@ -123,32 +143,48 @@ public class GamePanel extends JPanel {
                     if (current_player > serverMain.playerArrayList_Host.size()-1) {
                         current_player = 0;
                         String tempName = playerGameView(current_player);
-                        playerLabel.setText("Player " + tempName + "'s View");
+                        if(tempName.equals("My")){
+                            playerLabel.setText("My View");
+                        }
+                        else {
+                            playerLabel.setText("Player " + tempName + "'s View");
+                        }
                     }
                     else{
                         String tempName = playerGameView(current_player);
-                        playerLabel.setText("Player " + tempName + "'s View");
+                        if(tempName.equals("My")){
+                            playerLabel.setText("My View");
+                        }
+                        else {
+                            playerLabel.setText("Player " + tempName + "'s View");
+                        }
                     }
                 }
                 else{
                     if (current_player > clientMain.playerArrayList_client.size()-1) {
                         current_player = 0;
                         String tempName = playerGameView(current_player);
-                        playerLabel.setText("Player " + tempName + "'s View");
+                        if(tempName.equals("My")){
+                            playerLabel.setText("My View");
+                        }
+                        else {
+                            playerLabel.setText("Player " + tempName + "'s View");
+                        }
                     }
                     else{
                         String tempName = playerGameView(current_player);
-                        playerLabel.setText("Player " + tempName + "'s View");
+                        if(tempName.equals("My")){
+                            playerLabel.setText("My View");
+                        }
+                        else {
+                            playerLabel.setText("Player " + tempName + "'s View");
+                        }
                     }
                 }
             }
         });
-        if(isHost) {
-            playerLabel = new JLabel("Player " + serverMain.playerArrayList_Host.get(0).getPlayerName() + "'s View", JLabel.CENTER);
-        }
-        else{
-            playerLabel = new JLabel("Player " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerName() + "'s View", JLabel.CENTER);
-        }
+
+        playerLabel = new JLabel("My View", JLabel.CENTER);
         playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
         playerLabel.setBounds(860, 485, 200, 50);
         JPanel backgroundP = new JPanel();
@@ -368,28 +404,25 @@ public class GamePanel extends JPanel {
 
     public void createDeck() {
         for(int i = 0; i < 6; i++) {
-            unshuffledDeck.add(new TreasureCard(1, "gear", false, gear));//6
+            unshuffledDeck.add(new TreasureCard(1, "gear", false, gear, "Project\\src\\Images\\2024-08-19-10-14-0042.jpg"));//6
         }
         for(int i = 0; i < 20; i++) {
-            unshuffledDeck.add(new TreasureCard(2, "cube", false, cube));//20
+            unshuffledDeck.add(new TreasureCard(2, "cube", false, cube, "Project\\src\\Images\\2024-08-19-10-14-0043.jpg"));//20
         }
         for(int i = 0; i < 16; i++) {
-            unshuffledDeck.add(new TreasureCard(3, "egg", false, egg));//16
+            unshuffledDeck.add(new TreasureCard(3, "egg", false, egg, "Project\\src\\Images\\2024-08-19-10-14-0044.jpg"));//16
         }
         for(int i = 0; i < 30; i++) {
-            unshuffledDeck.add(new TreasureCard(4, "carrot", false, carrot));//30
+            unshuffledDeck.add(new TreasureCard(4, "carrot", false, carrot, "Project\\src\\Images\\2024-08-19-10-14-0045.jpg"));//30
         }
         for(int i = 0; i < 10; i++) {
-            unshuffledDeck.add(new TreasureCard(5, "mineral", false, mineral));//10
+            unshuffledDeck.add(new TreasureCard(5, "mineral", false, mineral, "Project\\src\\Images\\2024-08-19-10-14-0046.jpg"));//10
         }
         for(int i = 0; i < 14; i++) {
-            unshuffledDeck.add(new TreasureCard(6, "fish", false,fish));//14
+            unshuffledDeck.add(new TreasureCard(6, "fish", false,fish, "Project\\src\\Images\\2024-08-19-10-14-0047.jpg"));//14
         }
         Collections.shuffle(unshuffledDeck);
         shuffledDeck.addAll(unshuffledDeck);
-
-
-
 
     }
 //    public void levelDisplay() {
@@ -514,8 +547,17 @@ public class GamePanel extends JPanel {
             treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
-                playerTreasures.add(shuffledDeck.remove(0));
-                hostTreasureDisplay(playerTreasures);
+                if(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) {
+                    playerTreasures.add(shuffledDeck.remove(0));
+                    hostPanel.playerHost.setPlayerTreasures(playerTreasures);
+                    System.out.println(hostPanel.playerHost.getPlayerTreasures());
+                    serverMain.playerArrayList_Host.set(0,hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    hostTreasureDisplay(playerTreasures);
+                }
+                else{
+                    //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
                 if (cardSelectPanel.buildingsSelect.get(i) == true) {
@@ -554,7 +596,7 @@ public class GamePanel extends JPanel {
                         hostOwnedCardsDisplay(playerBuildings);
                     }
                     else{
-                        JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
+                        //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 });
                 add(button);
@@ -577,10 +619,11 @@ public class GamePanel extends JPanel {
 
         int cardWidth = 90;
         int cardHeight = 120;
-        int cardSpacing = 20;
+        int cardSpacing = 15;
 
         for(int i = 0; i < playerTreasures.size(); i++) {
-            BufferedImage image1 = playerTreasures.get(i).getImage();
+            TreasureCard treasureCard = playerTreasures.get(i);
+            BufferedImage image1 = treasureCard.getImage();
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
@@ -601,7 +644,7 @@ public class GamePanel extends JPanel {
 
             int cardWidth = 140;
             int cardHeight = 210;
-            int cardSpacing = 20;
+            int cardSpacing = 15;
 
             for (int i = 0; i < playerBuildings.size(); i++) {
                 BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
@@ -611,7 +654,7 @@ public class GamePanel extends JPanel {
             }
 
             int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
-            cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
+            cardsPanel.setPreferredSize(new Dimension(totalWidth, 200));
 
             cardsPanel.revalidate();
             cardsPanel.repaint();
@@ -622,6 +665,10 @@ public class GamePanel extends JPanel {
                 JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
                 horizontalBar.setValue(horizontalBar.getMaximum());
             });
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar vertical = scrollPane.getVerticalScrollBar();
+            vertical.setValue(vertical.getMaximum());
+        });
     }
 
 
@@ -633,8 +680,16 @@ public class GamePanel extends JPanel {
         treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
-            playerTreasures.add(shuffledDeck.remove(0));
-            clientTreasureDisplay(playerTreasures);
+            if(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) {
+                playerTreasures.add(shuffledDeck.remove(0));
+                characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                if (!isHost1) {
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                }
+                clientTreasureDisplay(playerTreasures);
+            } else{
+                //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
         System.out.println(cardSelectedList_g_client.size());
         System.out.println(cardSelectedList_g_client);
@@ -672,7 +727,7 @@ public class GamePanel extends JPanel {
                     }
                     clientOwnedCardsDisplay(playerBuildings);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "Please Choose for Your Own View", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             });
             add(button);
@@ -699,7 +754,8 @@ public class GamePanel extends JPanel {
         int cardSpacing = 20;
 
         for(int i = 0; i < playerTreasures.size(); i++) {
-            BufferedImage image1 = playerTreasures.get(i).getImage();
+            TreasureCard treasureCard = playerTreasures.get(i);
+            BufferedImage image1 = treasureCard.getImage();
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
@@ -819,7 +875,9 @@ public class GamePanel extends JPanel {
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
-
+                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    return "My";
+                }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 1:
@@ -827,7 +885,9 @@ public class GamePanel extends JPanel {
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
-
+                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    return "My";
+                }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 2:
@@ -835,7 +895,9 @@ public class GamePanel extends JPanel {
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
-
+                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    return "My";
+                }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 3:
@@ -843,7 +905,9 @@ public class GamePanel extends JPanel {
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
-
+                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    return "My";
+                }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 4:
@@ -851,7 +915,9 @@ public class GamePanel extends JPanel {
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
-
+                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                    return "My";
+                }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             }
@@ -863,6 +929,9 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        return "My";
+                    }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 1:
@@ -870,6 +939,9 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        return "My";
+                    }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 2:
@@ -877,6 +949,9 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        return "My";
+                    }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 3:
@@ -884,6 +959,9 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        return "My";
+                    }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 4:
@@ -891,6 +969,9 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
+                        return "My";
+                    }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
             }
