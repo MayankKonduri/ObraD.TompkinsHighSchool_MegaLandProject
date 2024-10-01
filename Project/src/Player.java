@@ -1,5 +1,6 @@
 package Project.src;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class Player implements Serializable{
     public boolean isPlayerActive;
     public boolean canDrawLevel;
     public boolean isHost;
+    public String playerImage;
 
     public ArrayList<BuildingCards> playerBuildings;
     public ArrayList<TreasureCard> playerTreasures;
@@ -21,7 +23,7 @@ public class Player implements Serializable{
     public ArrayList<Player> allPlayers = new ArrayList<>();
     //    public ArrayList<TreasureCards> playerOwnedTreasureCards;
 //    public ArrayList<BuildingCards> playerOwnedBuildingCards;
-    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings, ArrayList<TreasureCard> playerTreasures, ArrayList<LevelCard> playerLevelCards) {
+    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings, ArrayList<TreasureCard> playerTreasures, ArrayList<LevelCard> playerLevelCards, String characterImage) {
         this.playerID= playerID;
         this.playerName = playerName;
         this.playerTurn = playerTurn;
@@ -34,8 +36,15 @@ public class Player implements Serializable{
         this.playerBuildings = playerBuildings;
         this.playerTreasures = playerTreasures;
         this.playerLevelCards = playerLevelCards;
+        this.playerImage = characterImage;
     }
 
+    public String getPlayerImage(){
+        return playerImage;
+    }
+    public void setPlayerImage(String playerImage){
+        this.playerImage = playerImage;
+    }
     public ArrayList<LevelCard> getPlayerLevelCards(){
         return playerLevelCards;
     }

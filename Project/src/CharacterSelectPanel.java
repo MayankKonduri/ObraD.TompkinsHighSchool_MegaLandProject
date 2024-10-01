@@ -5,14 +5,11 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.lang.*;
 import java.util.ArrayList;
 
-public class CharacterSelectPanel extends JPanel {
+public class CharacterSelectPanel extends JPanel implements Serializable {
     private BufferedImage indianWoman, gandalf, cat, frog, white, loading;
     private JLabel title = new JLabel ("Choose Your Characters Wisely!");
     private JLabel selected = new JLabel ("");
@@ -43,7 +40,7 @@ public class CharacterSelectPanel extends JPanel {
         setLayout(null);
         if(!isHost) {
             System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
-            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, true, true, false, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>(), new ArrayList<LevelCard>());
+            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, true, true, false, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>(), new ArrayList<LevelCard>(), null);
             //waitingForHostPanel.setPlayerObject(playerClient);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
         }
@@ -147,6 +144,15 @@ public class CharacterSelectPanel extends JPanel {
                 if(isSelected)
                 {
                     notifyCharacterUNSelection(characterSelected);
+                    if(isHost){
+                        hostPanel.playerHost.setPlayerImage(null);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    }
+                    else{
+                        this.playerClient.setPlayerImage(null);
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                    }
                 }
                 if (catB.getText().equals("Available")) {
                     characterSelected = "catB";
@@ -159,6 +165,15 @@ public class CharacterSelectPanel extends JPanel {
                     isSelected = true;
                     System.out.println("Selected: catB");
                     notifyCharacterSelection("catB");
+                    if(isHost){
+                        hostPanel.playerHost.setPlayerImage("cat");
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    }
+                    else{
+                        this.playerClient.setPlayerImage("cat");
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                    }
                     if(isHost){
                         FINAL_ARRAY[0][0] = hostPanel.nameTextField.getText();
                     } else {
@@ -179,6 +194,15 @@ public class CharacterSelectPanel extends JPanel {
                     FINAL_ARRAY[0][0] = "No_Player";
                     FINAL_ARRAY[0][1] = "Available";
                     updateAvailability(FINAL_ARRAY);
+                    if(isHost){
+                        hostPanel.playerHost.setPlayerImage(null);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    }
+                    else{
+                        this.playerClient.setPlayerImage(null);
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                    }
 
                 }
                 System.out.println(available.toString());
@@ -188,6 +212,15 @@ public class CharacterSelectPanel extends JPanel {
             if(isSelected)
             {
                 notifyCharacterUNSelection(characterSelected);
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage(null);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage(null);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
             }
             if(indianWomanB.getText().equals("Available")) {
                 characterSelected = "indianWomanB";
@@ -200,6 +233,15 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: indianwomanB");
                 notifyCharacterSelection("indianWomanB");
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage("indianWoman");
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage("indianWoman");
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
                 if(isHost){
                     FINAL_ARRAY[1][0] = hostPanel.nameTextField.getText();
                 } else {
@@ -221,6 +263,15 @@ public class CharacterSelectPanel extends JPanel {
                 FINAL_ARRAY[1][0] = "No_Player";
                 FINAL_ARRAY[1][1] = "Available";
                 updateAvailability(FINAL_ARRAY);
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage(null);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage(null);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
             }
             System.out.println(available.toString());
         });
@@ -228,6 +279,15 @@ public class CharacterSelectPanel extends JPanel {
             if(isSelected)
             {
                 notifyCharacterUNSelection(characterSelected);
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage(null);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage(null);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
             }
             if(whiteB.getText().equals("Available")) {
                 characterSelected = "whiteB";
@@ -240,6 +300,15 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: whiteB");
                 notifyCharacterSelection("whiteB");
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage("white");
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage("white");
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
                 if(isHost){
                     FINAL_ARRAY[2][0] = hostPanel.nameTextField.getText();
                 } else {
@@ -260,6 +329,15 @@ public class CharacterSelectPanel extends JPanel {
                 FINAL_ARRAY[2][0] = "No_Player";
                 FINAL_ARRAY[2][1] = "Available";
                 updateAvailability(FINAL_ARRAY);
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage(null);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage(null);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
             }
             System.out.println(available.toString());
         });
@@ -267,6 +345,15 @@ public class CharacterSelectPanel extends JPanel {
             if(frogB.isEnabled()) {
                 if (isSelected) {
                     notifyCharacterUNSelection(characterSelected);
+                    if(isHost){
+                        hostPanel.playerHost.setPlayerImage(null);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    }
+                    else{
+                        this.playerClient.setPlayerImage(null);
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                    }
                 }
                 if (frogB.getText().equals("Available")) {
                     characterSelected = "frogB";
@@ -279,6 +366,15 @@ public class CharacterSelectPanel extends JPanel {
                     isSelected = true;
                     System.out.println("Selected: frogB");
                     notifyCharacterSelection("frogB");
+                    if(isHost){
+                        hostPanel.playerHost.setPlayerImage("frog");
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    }
+                    else{
+                        this.playerClient.setPlayerImage("frog");
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                    }
                     if (isHost) {
                         FINAL_ARRAY[3][0] = hostPanel.nameTextField.getText();
                     } else {
@@ -299,6 +395,15 @@ public class CharacterSelectPanel extends JPanel {
                     FINAL_ARRAY[3][0] = "No_Player";
                     FINAL_ARRAY[3][1] = "Available";
                     updateAvailability(FINAL_ARRAY);
+                    if(isHost){
+                        hostPanel.playerHost.setPlayerImage(null);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    }
+                    else{
+                        this.playerClient.setPlayerImage(null);
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                    }
                 }
                 System.out.println(available.toString());
             }
@@ -307,6 +412,15 @@ public class CharacterSelectPanel extends JPanel {
             if(isSelected)
             {
                 notifyCharacterUNSelection(characterSelected);
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage(null);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage(null);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
             }
             if(gandalfB.getText().equals("Available")) {
                 characterSelected = "gandalfB";
@@ -319,6 +433,15 @@ public class CharacterSelectPanel extends JPanel {
                 isSelected = true;
                 System.out.println("Selected: gandalfB");
                 notifyCharacterSelection("gandalfB");
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage("gandalf");
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage("gandalf");
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
                 if(isHost){
                     FINAL_ARRAY[4][0] = hostPanel.nameTextField.getText();
                 } else {
@@ -339,6 +462,15 @@ public class CharacterSelectPanel extends JPanel {
                 FINAL_ARRAY[4][0] = "No_Player";
                 FINAL_ARRAY[4][1] = "Available";
                 updateAvailability(FINAL_ARRAY);
+                if(isHost){
+                    hostPanel.playerHost.setPlayerImage(null);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }
+                else{
+                    this.playerClient.setPlayerImage(null);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
+                }
             }
             System.out.println(available.toString());
         });
