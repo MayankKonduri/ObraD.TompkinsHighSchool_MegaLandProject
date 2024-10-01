@@ -919,23 +919,40 @@ public class GamePanel extends JPanel {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
             takeOff.setBounds(40, 220, 300, 30);
             add(takeOff);
+            g.drawImage(personalCard, 30, 260, 320, 200, null);
+            int hearts = hostPanel.playerHost.getPlayerHearts();
+            for(int j = 0; j < 4; j++) {
+                if(j <2) {
+                    g.drawImage(heart, 50 + (45*j), 300, 40, 40, null);
 
+                } else {
+                    int k = j-2;
+                    g.drawImage(heart, 50 + (45*k), 345, 40, 40, null);
+
+                }
+            }
             for (int i = 0; i < drawnLevelCard.size(); i++) {
                 BufferedImage image1 = drawnLevelCard.get(i).getImage();
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
                 g.drawImage(scaledImage, 1610, 30, this);
-//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-//                g2d.setColor(new Color(128, 128, 128, 127));
-//                g2d.fillRect(1610, 30, 140, 210);
-//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
-
 
             }
         } else {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
             takeOff.setBounds(40, 220, 300, 30);
             add(takeOff);
+            g.drawImage(personalCard, 30, 260, 320, 200, null);
+            int hearts = characterSelectPanel.playerClient.getPlayerHearts();
+            for(int j = 0; j < 4; j++) {
+                if(j <2) {
+                    g.drawImage(heart, 50 + (45*j), 300, 40, 40, null);
+
+                } else {
+                    int k = j-2;
+                    g.drawImage(heart, 50 + (45*k), 345, 40, 40, null);
+
+                }
+            }
             for (int i = 0; i < drawnLevelCard.size(); i++) {
                 BufferedImage image1 = drawnLevelCard.get(i).getImage();
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);

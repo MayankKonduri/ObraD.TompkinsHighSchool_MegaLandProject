@@ -8,7 +8,7 @@ public class Player implements Serializable{
     private String playerName;
     private boolean playerTurn;
     public int playerCoins;
-    public int playerHearts;
+    public int playerHearts = 4;
     public int playerJumps;
     public boolean isPlayerActive;
     public boolean canDrawLevel;
