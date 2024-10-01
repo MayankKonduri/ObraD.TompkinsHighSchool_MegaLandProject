@@ -252,11 +252,11 @@ public class GamePanel extends JPanel {
         chatPanel1.setForeground(Color.YELLOW);
 
 
-        rules.setBounds(1830, 20, 70, 30);
-        rules.addActionListener(e -> {
-            toggleInGameRulesPanel();
-        });
-        add(rules);
+//        rules.setBounds(1830, 20, 70, 30);
+//        rules.addActionListener(e -> {
+//            toggleInGameRulesPanel();
+//        });
+//        add(rules);
 
 
         inGameRulesPanel1 = new InGameRulesPanel(frame, this);
