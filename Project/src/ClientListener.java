@@ -25,6 +25,8 @@ public class ClientListener implements Runnable{
     public static final String PLAYER_LIST = "PLAYER_LIST:";
     public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
     public static final String INTERCLICK = "INTERCLICK:";
+    public static final String FINALCHARACTER = "FINALCHARACTER:";
+
 
 
 
@@ -126,12 +128,17 @@ public class ClientListener implements Runnable{
             handleLevelCard(message);
         } else if(message.startsWith(INTERCLICK)){
             handleInterClick(message);
+        } else if(message.startsWith(FINALCHARACTER)){
+            handleFinalCharacter(message);
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
     }
 
+    private void handleFinalCharacter(String message) {
+        String fCharacter = message.substring(FINALCHARACTER.length());
+    }
     private void handleInterClick(String message) {
         String nameClicked = message.substring(INTERCLICK.length());
         cLientMain.processInterClick(nameClicked);
@@ -204,6 +211,7 @@ public class ClientListener implements Runnable{
     }
 
     public void switchingToGamePanel(String message){
+        cLientMain.getCharacterData();
         cLientMain.getCharacterSelectPanel().switchToGamePanel();
     }
 

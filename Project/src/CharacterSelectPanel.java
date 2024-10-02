@@ -508,6 +508,7 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                 frame.setVisible(true);
             });
             serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
+            serverMain.broadcastMessage(15, hostPanel.playerHost.getPlayerImage());
         });
 
 

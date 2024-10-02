@@ -22,6 +22,8 @@ public class ServerListener implements Runnable{
     public static final String CLIENT_MESSAGE = "CLIENT_MESSAGE:";
     public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
     public static final String INTERCLICK = "INTERCLICK:";
+    public static final String FINALCHARACTER = "FINALCHARACTER:";
+
 
 
     /*
@@ -142,10 +144,16 @@ public class ServerListener implements Runnable{
             handleLCName(message);
         } else if(message.startsWith(INTERCLICK)){
             handle_Click(message);
+        } else if(message.startsWith(FINALCHARACTER)){
+            handleFinalCharacter(message);
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void handleFinalCharacter(String message) {
+        String fCharacter = message.substring(FINALCHARACTER.length());
     }
 
     private void handle_Click(String message) {

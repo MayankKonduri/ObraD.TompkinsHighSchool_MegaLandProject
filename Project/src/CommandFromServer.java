@@ -59,7 +59,6 @@ public class CommandFromServer implements Serializable
     public static void notify_CHAT_MESSAGE_HOST(ObjectOutputStream out, String name, String message){
         sendMessage(out, CHAT_MESSAGE_HOST + name + "-" + message);
     }
-
     public static final String PLAYER_LIST = "PLAYER_LIST:";
     public static void notify_PLAYER_LIST(ObjectOutputStream out, String name) {
         sendMessage(out, PLAYER_LIST + name);
@@ -73,6 +72,12 @@ public class CommandFromServer implements Serializable
     public static void notify_INTERCLICK(ObjectOutputStream out, String name) {
         sendMessage(out, INTERCLICK + name);
     }
+
+    public static final String FINALCHARACTER = "FINALCHARACTER:";
+    public static void notifyFinalCharacter(ObjectOutputStream out, String playerImage) {
+        sendMessage(out, FINALCHARACTER + playerImage);
+    }
+
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {

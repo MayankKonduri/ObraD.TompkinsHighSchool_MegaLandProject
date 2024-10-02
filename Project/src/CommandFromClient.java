@@ -57,6 +57,11 @@ public class CommandFromClient implements Serializable {
         sendMessage(out, INTERCLICK + name);
     }
 
+    public static final String FINALCHARACTER = "FINALCHARACTER:";
+    public static void notifyFinalCharacter(ObjectOutputStream out, String playerImage) {
+        sendMessage(out, FINALCHARACTER + playerImage);
+    }
+
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {
@@ -67,7 +72,6 @@ public class CommandFromClient implements Serializable {
             e.printStackTrace();
         }
     }
-
     public static void notifyPlayerObject(ObjectOutputStream out, Player playerClient) {
         sendPlayerObject(out, playerClient);
         System.out.println("Before Sending: " + playerClient.getPlayerName());
@@ -81,4 +85,6 @@ public class CommandFromClient implements Serializable {
             e.printStackTrace();
         }
     }
+
+
 }

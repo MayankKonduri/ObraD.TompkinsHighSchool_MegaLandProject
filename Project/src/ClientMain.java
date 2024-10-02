@@ -247,10 +247,12 @@ public class ClientMain{
             System.out.println("BYPASSED BECAUSE CLIENT RECEIVING SAME");
         }
     }
+    public void getCharacterData() {
+        CommandFromClient.notifyFinalCharacter(getOut(),characterSelectPanel.playerClient.getPlayerImage());
+    }
     public void makeCardChosenAccessible(String arrayListCardPanel) {
         cardPanel_Client_Side = arrayListCardPanel;
     }
-
     public ArrayList<String> getGamePlayerNames_ClientSide(){
         return gamePlayerNames_ClientSide;
     }
@@ -272,4 +274,5 @@ public class ClientMain{
     public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
 }

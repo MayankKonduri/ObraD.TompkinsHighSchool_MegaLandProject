@@ -317,6 +317,12 @@ public class ServerMain{
                         CommandFromServer.notify_INTERCLICK(out, name);
                     }}
                 break;
+            case 15:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notifyFinalCharacter(out, name);
+                    }}
+                break;
         }
     }
     public void stopServer(){
