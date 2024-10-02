@@ -52,8 +52,10 @@ public class GamePanel extends JPanel {
     private JPanel cardsPanel = new JPanel();
     private JPanel treasurePanel = new JPanel();
     private JScrollPane scrollPane1;
+    private JScrollPane scrollPane2;
     private JScrollPane scrollPane;
     private static JLabel ErrorArea;
+    private static JLabel ErrorArea1;
 
     //missing one\
     //skip 25 its a repeat
@@ -77,18 +79,30 @@ public class GamePanel extends JPanel {
         ErrorArea.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
         ErrorArea.setBackground(Color.PINK);
         ErrorArea.setForeground(Color.RED);
-        ErrorArea.setFont(new Font("Roman", Font.BOLD, 20));
-        ErrorArea.setBounds(30, 740, 230, 40);
+        ErrorArea.setFont(new Font("Georgia", Font.BOLD, 20));
+        ErrorArea.setBounds(500, 485, 230, 40);
         //ErrorArea.setEditable(false);
         add(ErrorArea);
         ErrorArea.setVisible(false);
+
+        ErrorArea1 = new JLabel("",JLabel.CENTER);
+        ErrorArea1.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+        ErrorArea1.setBackground(Color.PINK);
+        ErrorArea1.setForeground(Color.RED);
+        ErrorArea1.setFont(new Font("Georgia", Font.BOLD, 20));
+        ErrorArea1.setBounds(1170, 485, 230, 40);
+        add(ErrorArea1);
+        ErrorArea1.setVisible(false);
         cardsPanel = new JPanel();
         cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         treasurePanel = new JPanel();
         treasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         scrollPane1 = new JScrollPane(treasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane1.setBounds(280, 790, 160 * 9 + 40, 140);
+        scrollPane1.setBounds(280, 830, 730, 140);
         add(scrollPane1);
+
+        scrollPane2 = new JScrollPane(treasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane1.setBounds(1010, 830, 730, 140);
 
         scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(280, 540, 160 * 9 + 40, 230);
@@ -108,7 +122,7 @@ public class GamePanel extends JPanel {
         setLayout(null);
 
         JButton leftArrow = new JButton("←");
-        leftArrow.setBounds(760, 485, 50, 40);
+        leftArrow.setBounds(760, 490, 50, 40);
         leftArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -147,7 +161,7 @@ public class GamePanel extends JPanel {
             }
         });
         JButton rightArrow = new JButton("→");
-        rightArrow.setBounds(1090, 485, 50, 40);
+        rightArrow.setBounds(1090, 490, 50, 40);
         rightArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -226,9 +240,9 @@ public class GamePanel extends JPanel {
 
         playerLabel = new JLabel("My View", JLabel.CENTER);
         playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        playerLabel.setBounds(860, 485, 200, 50);
+        playerLabel.setBounds(860, 490, 200, 50);
         JPanel backgroundP = new JPanel();
-        backgroundP.setBounds(750,480, 400,40);
+        backgroundP.setBounds(750,485, 400,40);
         backgroundP.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         backgroundP.setBackground(Color.orange);
         add(backgroundP);
@@ -422,6 +436,7 @@ public class GamePanel extends JPanel {
         deckLevelCard.add(new LevelCard("levelCard40",10, 0, false, false, levelCard40, false));
         //Collections.shuffle(deckLevelCard);
         if(isHost1) {
+
             hostPanel.playerHost.setPlayerLevelCards(deckLevelCard);
             serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
@@ -464,6 +479,18 @@ public class GamePanel extends JPanel {
         JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
         levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
+        levelDraw.setEnabled(false);
+
+        if(isHost1) {
+            hostPanel.playerHost.setPlayerTurn(true);
+            hostPanel.playerHost.setCanDrawLevel(true);
+
+            if(hostPanel.playerHost.isCanDrawLevel()) {
+                levelDraw.setEnabled(false);
+            } else {
+                levelDraw.setEnabled(false);
+            }
+        }
         levelDraw.addActionListener(e -> {
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
                     GUILevelCardsClient();
@@ -1200,6 +1227,20 @@ public class GamePanel extends JPanel {
         });
         timer.setRepeats(false);
         timer.start();
+
+        ErrorArea1.setVisible(true);
+        ErrorArea1.setText(message);
+        Timer timer1 = new Timer(2500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ErrorArea1.setText("");
+                ErrorArea1.setVisible(false);
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        timer1.setRepeats(false);
+        timer1.start();
+
     }
 
     public ChatPanel getChatPanel() {
