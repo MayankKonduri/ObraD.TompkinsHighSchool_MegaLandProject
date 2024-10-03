@@ -70,7 +70,7 @@ public class GamePanel extends JPanel {
             soapMakers, hallOfElders, lodge, rootMarket, endlessMine, arena,
             backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
-            coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
+            coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard, loading;
 
 
 
@@ -100,18 +100,22 @@ public class GamePanel extends JPanel {
         ErrorArea1.setVisible(false);
         cardsPanel = new JPanel();
         cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        cardsPanel.setBackground(Color.black);
         treasurePanel = new JPanel();
         treasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        treasurePanel.setBackground(Color.black);
+
+
         scrollPane1 = new JScrollPane(treasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane1.setBounds(280, 830, 660, 140);
-        scrollPane1.setBackground(Color.black);
-        scrollPane1.setForeground(Color.WHITE);
+
         scrollPane1.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
                 this.thumbColor = Color.BLACK;
             }
         });
+
         add(scrollPane1);
 
 
@@ -133,8 +137,7 @@ public class GamePanel extends JPanel {
 
         scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(280, 540, 1360, 230);
-        scrollPane.setBackground(Color.black);
-        scrollPane.setForeground(Color.WHITE);
+
         scrollPane.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
@@ -142,6 +145,9 @@ public class GamePanel extends JPanel {
             }
         });
         add(scrollPane);
+        scrollPane.getHorizontalScrollBar().setBackground(Color.GRAY);
+        scrollPane1.getHorizontalScrollBar().setBackground(Color.GRAY);
+        scrollPane2.getHorizontalScrollBar().setBackground(Color.GRAY);
 
 
         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -354,6 +360,7 @@ public class GamePanel extends JPanel {
 
 
         try {
+            loading = ImageIO.read((new File("Project\\src\\Images\\GamePanel1.jpg")));
             personalCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0002.jpg")));
             heartCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0003.jpg")));
             starCardBackground = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0004.jpg")));
@@ -797,6 +804,7 @@ public class GamePanel extends JPanel {
     public void hostOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
             cardsPanel.removeAll();
 
+
             int cardWidth = 140;
             int cardHeight = 210;
             int cardSpacing = 15;
@@ -977,24 +985,22 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        scrollPane1.setBackground(Color.black);
-        scrollPane1.setForeground(Color.WHITE);
+        g.drawImage(loading, 0, 0, 1920, 1050, null);
+
         scrollPane1.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
                 this.thumbColor = Color.BLACK;
             }
         });
-        scrollPane.setBackground(Color.black);
-        scrollPane.setForeground(Color.WHITE);
+
         scrollPane.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
                 this.thumbColor = Color.BLACK;
             }
         });
-        scrollPane2.setBackground(Color.black);
-        scrollPane2.setForeground(Color.WHITE);
+
         scrollPane2.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
