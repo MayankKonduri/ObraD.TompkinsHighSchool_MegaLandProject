@@ -1,4 +1,5 @@
 package Project.src;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import javax.sound.sampled.Line;
 import javax.swing.*;
@@ -52,43 +53,57 @@ public class ChatPanel extends JPanel{
         setLayout(null);
         setOpaque(false);
 
-//        JPanel headerPanel = new JPanel(null);
-//        headerPanel.setBounds(10-i,0,230,30);
-//        headerPanel.setBackground(new Color(150,150,150));
-//        headerPanel.setBorder(new EmptyBorder(5,10,5,10));
-//
-//        closeButton = new JButton("X");
-//        closeButton.setBounds(180-i, 5, 45, 20);
-//        closeButton.addActionListener(e -> closeChat());
-//        headerPanel.add(closeButton);
-//
-//        if(isHost1) {
-//            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ serverMain.gamePlayerNames*/);
-//        }
-//        else{
-//            headerLabel = new JLabel("Game Chat  |  Megaland" /*+ clientMain1.gamePlayerNames_ClientSide*/);
-//        }
-//        headerLabel.setForeground(Color.WHITE);
-//        headerLabel.setBounds(10-i, 5, 230, 20);
-//        headerPanel.add(headerLabel);
-//        add(headerPanel);
+
 
         chatArea = new JTextArea();
         chatArea.setEditable(false);
         chatArea.setLineWrap(true);
         chatArea.setWrapStyleWord(true);
-        chatArea.setBorder(new EmptyBorder(10, 10, 10, 10));
+        chatArea.setBorder(new LineBorder(Color.white, 1));
+        chatArea.setFont(new Font("Georgia", Font.PLAIN, 15));
+        chatArea.setBackground(Color.black);
+        chatArea.setForeground(Color.white);
         
         JScrollPane scrollPane = new JScrollPane(chatArea);
         scrollPane.setBounds(10-i, 40, 230, 130); // Position and size
+        scrollPane.setBackground(Color.black);
+        scrollPane.setForeground(Color.white);
         add(scrollPane);
+        scrollPane.getVerticalScrollBar().setBackground(Color.GRAY);
+        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Color.BLACK;
+            }
+        });
 
         messageField = new JTextField();
         messageField.setBounds(10-i,180,150,30);
+        messageField.setFont(new Font("Georgia", Font.PLAIN, 15));
+        messageField.setBackground(Color.black);
+        messageField.setForeground(Color.white);
+        messageField.setFocusable(true);
+        messageField.setCaretColor(Color.white);
+        messageField.setBorder(new LineBorder(Color.white, 1));
         add(messageField);
 
         JButton sendButton = new JButton("Send");
         sendButton.setBounds(170-i, 180, 70, 30);
+        sendButton.setFocusable(false);
+        sendButton.setFont(new Font("Georgia", Font.BOLD, 15));
+        sendButton.setBackground(Color.black);
+        sendButton.setForeground(Color.white);
+        sendButton.setBorder(BorderFactory.createEmptyBorder());
+        sendButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                sendButton.setBorder(new LineBorder(Color.white, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                sendButton.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
