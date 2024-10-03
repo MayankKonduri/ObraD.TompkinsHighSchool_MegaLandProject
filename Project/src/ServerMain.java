@@ -26,6 +26,8 @@ public class ServerMain{
     private ChatPanel chatPanel;
     public ArrayList<Player> playerArrayList_Host = new ArrayList<>();
     private GamePanel gamePanel;
+    public ArrayList<String> charactersInLevel_host = new ArrayList<>();
+
 
     public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel, GamePanel gamePanel){
         this.port = port;
@@ -345,6 +347,12 @@ public class ServerMain{
         broadcastMessage(3, hostName);
         hostPanel.clearPeopleList();
     }
+    public void handleFinalcharacter(String fCharacter) {
+        String[] tempFinalChar = fCharacter.split("-");
+        charactersInLevel_host.add(tempFinalChar[1]);
+        broadcastMessage(15, fCharacter);
+    }
+
     public ObjectOutputStream getOut(){
         return out;
     }
@@ -364,4 +372,6 @@ public class ServerMain{
         this.characterSelectPanel = characterSelectPanel;
     }
     public void setGamePanel(GamePanel gamePanel) { this.gamePanel = gamePanel;}
+
+
 }

@@ -137,7 +137,9 @@ public class ClientListener implements Runnable{
     }
 
     private void handleFinalCharacter(String message) {
+        System.out.println("DEBUGGGGGGGGGG 10/3" + message);
         String fCharacter = message.substring(FINALCHARACTER.length());
+        cLientMain.handleFinalCharacter(fCharacter);
     }
     private void handleInterClick(String message) {
         String nameClicked = message.substring(INTERCLICK.length());
@@ -211,7 +213,7 @@ public class ClientListener implements Runnable{
     }
 
     public void switchingToGamePanel(String message){
-        cLientMain.getCharacterData();
+        cLientMain.finalCharacterMethod();
         cLientMain.getCharacterSelectPanel().switchToGamePanel();
     }
 

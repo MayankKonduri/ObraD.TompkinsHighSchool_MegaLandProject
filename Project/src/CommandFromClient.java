@@ -58,8 +58,8 @@ public class CommandFromClient implements Serializable {
     }
 
     public static final String FINALCHARACTER = "FINALCHARACTER:";
-    public static void notifyFinalCharacter(ObjectOutputStream out, String playerImage) {
-        sendMessage(out, FINALCHARACTER + playerImage);
+    public static void notifyFinalCharacter(ObjectOutputStream out, String name, String playerImage) {
+        sendMessage(out, FINALCHARACTER + name + "-" + playerImage);
     }
 
     public static void sendMessage(ObjectOutputStream out, String message) {

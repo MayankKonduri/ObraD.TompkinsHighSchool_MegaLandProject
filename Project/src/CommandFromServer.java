@@ -76,6 +76,7 @@ public class CommandFromServer implements Serializable
     public static final String FINALCHARACTER = "FINALCHARACTER:";
     public static void notifyFinalCharacter(ObjectOutputStream out, String playerImage) {
         sendMessage(out, FINALCHARACTER + playerImage);
+        System.out.println("SERVER DEBUGGGGG" + playerImage);
     }
 
     public static void sendMessage(ObjectOutputStream out, String message) {

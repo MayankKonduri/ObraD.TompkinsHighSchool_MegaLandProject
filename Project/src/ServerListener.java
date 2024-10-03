@@ -154,6 +154,7 @@ public class ServerListener implements Runnable{
 
     private void handleFinalCharacter(String message) {
         String fCharacter = message.substring(FINALCHARACTER.length());
+        serverMain.handleFinalcharacter(fCharacter);
     }
 
     private void handle_Click(String message) {

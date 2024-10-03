@@ -25,6 +25,7 @@ public class ClientMain{
     private ChatPanel chatPanel;
     public ArrayList<Player> playerArrayList_client = new ArrayList<Player>();
     private GamePanel gamePanel;
+    public ArrayList<String> charactersInLevel_client = new ArrayList<>();
 
 
     public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel, GamePanel gamePanel){
@@ -247,8 +248,22 @@ public class ClientMain{
             System.out.println("BYPASSED BECAUSE CLIENT RECEIVING SAME");
         }
     }
-    public void getCharacterData() {
-        CommandFromClient.notifyFinalCharacter(getOut(),characterSelectPanel.playerClient.getPlayerImage());
+    public void finalCharacterMethod() {
+        charactersInLevel_client.add(characterSelectPanel.characterSelected);
+        CommandFromClient.notifyFinalCharacter(getOut(), connectPanel.nameTextField.getText(), characterSelectPanel.characterSelected);
+    }
+    public void handleFinalCharacter(String fCharacter) {
+        System.out.println(fCharacter);
+        if(fCharacter.contains("-")) {
+            String fCharacterTemp[] = fCharacter.split("-");
+            System.out.println("FINAL DEBUG" + fCharacterTemp);
+            if (!(fCharacterTemp[0].equals(connectPanel.nameTextField.getText()))) {
+                charactersInLevel_client.add(fCharacterTemp[1]);
+            }
+        }
+        else{
+            charactersInLevel_client.add((fCharacter));
+        }
     }
     public void makeCardChosenAccessible(String arrayListCardPanel) {
         cardPanel_Client_Side = arrayListCardPanel;
@@ -274,5 +289,4 @@ public class ClientMain{
     public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
-
 }

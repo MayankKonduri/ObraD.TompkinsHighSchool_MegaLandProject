@@ -21,7 +21,7 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
     public ArrayList<Boolean> available= new ArrayList<Boolean>();
     private JButton done = new JButton ("Done");
     private boolean isSelected = false;
-    private String characterSelected;
+    public String characterSelected;
     private JFrame jFrame1;
     private ClientMain clientMain;
     private ServerMain serverMain;
@@ -493,6 +493,10 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
         });
         done.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> {
+                if(isHost){
+                    serverMain.charactersInLevel_host.add(characterSelected);
+                    serverMain.broadcastMessage(15, hostPanel.nameTextField.getText() + "-" + characterSelected);
+                }
                 GamePanel gamePanel = new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null, null);
                 gamePanel.setPreferredSize(new Dimension(1920,1040));
                 serverMain.setGamePanel(gamePanel);

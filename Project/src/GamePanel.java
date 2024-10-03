@@ -411,6 +411,7 @@ public class GamePanel extends JPanel {
             System.out.println("CardSelectedList (H): " + cardSelectPanel.buildingsSelect);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
             createLevelDeck_Host();
+            System.out.println("CharactersInGame:" + serverMain.charactersInLevel_host);
         }else {
             System.out.println("Connected Players (C): " + clientMain.Final_gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
@@ -428,6 +429,7 @@ public class GamePanel extends JPanel {
             }*/
             System.out.println(characterSelectPanel.playerClient.getPlayerID());
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+            System.out.println("CharactersInGame:" + clientMain.charactersInLevel_client);
         }
 
 
@@ -974,28 +976,28 @@ public class GamePanel extends JPanel {
         }
         if(isHost1) {
             if(hostPanel.playerHost.getPlayerImage().equals("cat")) {
-                g.drawImage(cat, 65, 250, 360, 540, null);
+                g.drawImage(cat, 60, 60, 70, 105, null);
             } else if(hostPanel.playerHost.getPlayerImage().equals("indianWoman")) {
-                g.drawImage(indianWoman, 425, 250, 360, 540, null);
+                g.drawImage(indianWoman, 110, 60, 70, 105, null);
             } else if(hostPanel.playerHost.getPlayerImage().equals("white")) {
-                g.drawImage(white, 785, 250, 360, 540, null);
+                g.drawImage(white, 160, 60, 70, 105, null);
             } else if(hostPanel.playerHost.getPlayerImage().equals("frog")) {
-                g.drawImage(frog, 1145, 250, 360, 540, null);
+                g.drawImage(frog, 210, 60, 70, 105, null);
             } else if(hostPanel.playerHost.getPlayerImage().equals("gandalf")) {
-                g.drawImage(gandalf, 1505, 250, 360, 540, null);
+                g.drawImage(gandalf, 260, 60, 70, 105, null);
             }
             setVisible(true);
         }else{
             if(characterSelectPanel.playerClient.getPlayerImage().equals("cat")) {
-                g.drawImage(cat, 65, 250, 360, 540, null);
+                g.drawImage(cat, 60, 60, 70, 105, null);
             } else if(characterSelectPanel.playerClient.getPlayerImage().equals("indianWoman")) {
-                g.drawImage(indianWoman, 425, 250, 360, 540, null);
+                g.drawImage(indianWoman, 110, 60, 70, 105, null);
             } else if(characterSelectPanel.playerClient.getPlayerImage().equals("white")) {
-                g.drawImage(white, 785, 250, 360, 540, null);
+                g.drawImage(white, 160, 60, 70, 105, null);
             } else if(characterSelectPanel.playerClient.getPlayerImage().equals("frog")) {
-                g.drawImage(frog, 1145, 250, 360, 540, null);
+                g.drawImage(frog, 210, 60, 70, 105, null);
             } else if(characterSelectPanel.playerClient.getPlayerImage().equals("gandalf")) {
-                g.drawImage(gandalf, 1505, 250, 360, 540, null);
+                g.drawImage(gandalf, 260, 60, 70, 105, null);
             }
             setVisible(true);
         }
