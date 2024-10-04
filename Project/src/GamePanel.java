@@ -477,14 +477,14 @@ public class GamePanel extends JPanel {
             levelDraw.setBounds(1450, 30, 140, 210);
             add(levelDraw);
             levelDraw.addActionListener(e -> {
-                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
                         GUILevelCardsHost();
                         serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
                         //logic
                     } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
-                    } else if(!(hostPanel.playerHost.isPlayerActive)){
-                        showError("Player Not Active");
+                    } else if((hostPanel.playerHost.isPlayerActive)){
+                        showError("Still in Level");
                     }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
                         showError("Cannot Draw Cards");
                     }
@@ -511,13 +511,13 @@ public class GamePanel extends JPanel {
         levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && !(characterSelectPanel.playerClient.isPlayerActive)){
                     GUILevelCardsClient();
                     CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
                 }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
-                } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
-                    showError("Player Not Active");
+                } else if((characterSelectPanel.playerClient.isPlayerActive)){
+                    showError("Still in Level");
                 }
                 else if(!(characterSelectPanel.playerClient.isCanDrawLevel())){
                     showError("Cannot Draw Cards");
@@ -677,7 +677,7 @@ public class GamePanel extends JPanel {
             treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
                     System.out.println(hostPanel.playerHost.getPlayerTreasures());
@@ -689,8 +689,8 @@ public class GamePanel extends JPanel {
                 else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                     showError("Not Your View");
                 }
-                else if(!(hostPanel.playerHost.isPlayerActive)){
-                    showError("Player Not Active");
+                else if((hostPanel.playerHost.isPlayerActive)){
+                    showError("Still in Level");
                 }
             });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
@@ -719,7 +719,7 @@ public class GamePanel extends JPanel {
 
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
-                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
@@ -734,8 +734,8 @@ public class GamePanel extends JPanel {
                         else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                             showError("Not Your View");
                         }
-                        else if(!(hostPanel.playerHost.isPlayerActive)){
-                            showError("Player Not Active");
+                        else if((hostPanel.playerHost.isPlayerActive)){
+                            showError("Still in Level");
                         }
                 });
                 add(button);
@@ -819,7 +819,7 @@ public class GamePanel extends JPanel {
         treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
-            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)) {
+            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)) {
                 playerTreasures.add(shuffledDeck.remove(0));
                 characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
                 if (!isHost1) {
@@ -830,8 +830,8 @@ public class GamePanel extends JPanel {
             } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                 showError("Not Your View");
             }
-            else if(!(characterSelectPanel.playerClient.isPlayerActive)){
-                showError("Player Not Active");
+            else if((characterSelectPanel.playerClient.isPlayerActive)){
+                showError("Still in Level");
             }
         });
         System.out.println(cardSelectedList_g_client.size());
@@ -860,7 +860,7 @@ public class GamePanel extends JPanel {
             int x1 = 0;
             button.addActionListener(e -> {
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)){
                     System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
@@ -874,8 +874,8 @@ public class GamePanel extends JPanel {
                 }else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
                 }
-                else if(!(characterSelectPanel.playerClient.isPlayerActive)){
-                    showError("Player Not Active");
+                else if((characterSelectPanel.playerClient.isPlayerActive)){
+                    showError("Still in Level");
                 }
             });
             add(button);
