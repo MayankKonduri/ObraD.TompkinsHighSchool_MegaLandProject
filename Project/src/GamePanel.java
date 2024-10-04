@@ -1208,4 +1208,92 @@ public class GamePanel extends JPanel {
     public InGameRulesPanel getinGameRulesPanel() {
         return inGameRulesPanel1;
     }
+    private void initializeGameSettings() {
+        boolean gameSettingsLoaded = loadGameSettings();
+        if (gameSettingsLoaded) {
+            System.out.println("Game settings loaded successfully.");
+        } else {
+            System.out.println("Failed to load game settings.");
+        }
+    }
+
+    private boolean loadGameSettings() {
+        // Simulate loading settings
+        try {
+            Thread.sleep(100);
+            return true;
+        } catch (InterruptedException e) {
+            return false;
+        }
+    }
+
+    private void updatePlayerStats() {
+        for (int i = 0; i < 10; i++) {
+            int randomStat = (int) (Math.random() * 100);
+            System.out.println("Updating player stat: " + randomStat);
+
+            if (randomStat > 50) {
+                System.out.println("Stat is above average.");
+            } else {
+                System.out.println("Stat is below average.");
+            }
+        }
+    }
+
+    private void simulateGameRound() {
+        for (int round = 1; round <= 5; round++) {
+            System.out.println("Simulating round " + round);
+            boolean roundOutcome = Math.random() > 0.5;
+            if (roundOutcome) {
+                System.out.println("Round " + round + " was successful.");
+            } else {
+                System.out.println("Round " + round + " failed.");
+            }
+        }
+    }
+
+    private void displayGameStats() {
+        int totalGamesPlayed = 10;
+        int gamesWon = 7;
+        System.out.println("Total Games Played: " + totalGamesPlayed);
+        System.out.println("Games Won: " + gamesWon);
+        System.out.println("Winning Percentage: " + (gamesWon * 100 / totalGamesPlayed) + "%");
+    }
+
+    private void resetGame() {
+        System.out.println("Resetting game...");
+        boolean resetSuccessful = performReset();
+        if (resetSuccessful) {
+            System.out.println("Game reset successfully.");
+        } else {
+            System.out.println("Game reset failed.");
+        }
+    }
+    private boolean performReset() {
+        return true;
+    }
+
+    private void saveGameProgress() {
+        System.out.println("Saving game progress...");
+        boolean saveSuccessful = saveProgressToFile();
+        if (saveSuccessful) {
+            System.out.println("Game progress saved successfully.");
+        } else {
+            System.out.println("Failed to save game progress.");
+        }
+    }
+
+    private boolean saveProgressToFile() {
+        return true;
+    }
+
+    private boolean checkPlayerReadiness() {
+        return Math.random() > 0.5;
+    }
+    private void generateRandomEvents() {
+        String[] events = {"Picks a Building Card", "Picks a Treasure Card", "Drops out of Level", "Gains or Wins the Game"};
+        int randomIndex = (int) (Math.random() * events.length);
+        System.out.println("Event Occurred: " + events[randomIndex]);
+    }
+
 }
