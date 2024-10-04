@@ -19,8 +19,18 @@ public class WaitingForHostPanel extends JPanel {
     private ConnectPanel connectPanel;
     private CharacterSelectPanel characterSelectPanel;
     private BufferedImage loading;
+    private String connectionStatus = "Connecting...";
+    private int retryAttempts = 0;
+    private ArrayList<String> playerList = new ArrayList<>();
+    private Cleaner.Cleanable cleanableResource;
+    private boolean isServerFull = false;
+    private int maxPlayers = 8;
     public ArrayList<String> waitingTips = new ArrayList<>();
     private Player playerObject;
+    private String connectionStatus = "Connecting...";
+    private int retryAttempts = 0;
+    private ArrayList<String> playerList = new ArrayList<>();
+    private Cleaner.Cleanable cleanableResource;
 
     public WaitingForHostPanel(JFrame frame, ClientMain clientMain, ConnectPanel connectPanel, Player player){
         setLayout(null);
@@ -118,4 +128,104 @@ public class WaitingForHostPanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(loading, 0, 0, 1920, 1050, null);
     }
+    public void checkHostStatus() {
+        if (clientMain != null && retryAttempts < 5) {
+            retryAttempts++;
+            connectionStatus = "Retrying connection... Attempt " + retryAttempts;
+            revalidate();
+            repaint();
+        } else {
+            connectionStatus = "Host not reachable";
+        }
+    }
+
+    public String getConnectionStatus() {
+        return connectionStatus;
+    }
+
+    public void addPlayerToList(String playerName) {
+        if (!playerList.contains(playerName)) {
+            playerList.add(playerName);
+            revalidate();
+            repaint();
+        }
+    }
+
+    public void releaseResources() {
+        if (cleanableResource != null) {
+            cleanableResource.clean();
+        }
+    }
+
+    public boolean isConnectionStable() {
+        return retryAttempts < 3;  // Arbitrary threshold for connection stability
+    }
+
+    public void resetConnectionStatus() {
+        connectionStatus = "Reconnecting...";
+        retryAttempts = 0;
+    }
+
+    public void updateMaxPlayers(int newMax) {
+        if (newMax > 0) {
+            this.maxPlayers = newMax;
+        }
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+    public ArrayList<String> getPlayerList() {
+        return playerList;
+    }
+    public void checkHostStatus() {
+        if (clientMain != null && retryAttempts < 5) {
+            retryAttempts++;
+            connectionStatus = "Retrying connection... Attempt " + retryAttempts;
+            revalidate();
+            repaint();
+        } else {
+            connectionStatus = "Host not reachable";
+        }
+    }
+
+    public String getConnectionStatus() {
+        return connectionStatus;
+    }
+
+    public void addPlayerToList(String playerName) {
+        if (!playerList.contains(playerName) && playerList.size() < maxPlayers) {
+            playerList.add(playerName);
+            revalidate();
+            repaint();
+        } else {
+            isServerFull = playerList.size() >= maxPlayers;
+        }
+    }
+
+    public void removePlayerFromList(String playerName) {
+        playerList.remove(playerName);
+        revalidate();
+        repaint();
+    }
+
+    public void releaseResources() {
+        if (cleanableResource != null) {
+            cleanableResource.clean();
+        }
+    }
+
+    public boolean isServerFull() {
+        return isServerFull;
+    }
+
+    public ArrayList<String> getPlayerList() {
+        return playerList;
+    }
+
+    public int getRemainingSlots() {
+        return maxPlayers - playerList.size();
+    }
+
+
 }
