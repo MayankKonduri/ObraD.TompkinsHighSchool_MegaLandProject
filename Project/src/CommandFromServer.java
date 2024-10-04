@@ -78,6 +78,10 @@ public class CommandFromServer implements Serializable
         sendMessage(out, FINALCHARACTER + playerImage);
         System.out.println("SERVER DEBUGGGGG" + playerImage);
     }
+    public static final String LEVELDISCONNECTION = "LEVELDISCONNECTION:";
+    public static void notify_LEVELDISCONNECTION(ObjectOutputStream out, String s){
+        sendMessage(out, LEVELDISCONNECTION + s);
+    }
 
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {

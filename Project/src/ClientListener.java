@@ -26,6 +26,7 @@ public class ClientListener implements Runnable{
     public static final String LEVEL_CARD_NAME = "LEVEL_CARD_NAME:";
     public static final String INTERCLICK = "INTERCLICK:";
     public static final String FINALCHARACTER = "FINALCHARACTER:";
+    public static final String LEVELDISCONNECTION = "LEVELDISCONNECTION:";
 
 
 
@@ -130,10 +131,17 @@ public class ClientListener implements Runnable{
             handleInterClick(message);
         } else if(message.startsWith(FINALCHARACTER)){
             handleFinalCharacter(message);
+        } else if(message.startsWith(LEVELDISCONNECTION)){
+            handleLevelDisconnection(message);
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void handleLevelDisconnection(String message) {
+        String tempLevelD = message.substring(LEVELDISCONNECTION.length());
+        cLientMain.finalizeLevelDisconnection(tempLevelD);
     }
 
     private void handleFinalCharacter(String message) {

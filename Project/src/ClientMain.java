@@ -260,6 +260,12 @@ public class ClientMain{
             charactersInLevel_client.add(fCharacterTemp[1]);
         }
     }
+    public void finalizeLevelDisconnection(String tempLevelD) {
+        String tempCharFinalFinal[] = tempLevelD.split("-");
+        if (!(tempCharFinalFinal[0].equals(connectPanel.nameTextField.getText()))) {
+            gamePanel.updateTempChar(tempCharFinalFinal[1]);
+        }
+    }
     public void makeCardChosenAccessible(String arrayListCardPanel) {
         cardPanel_Client_Side = arrayListCardPanel;
     }
@@ -284,4 +290,6 @@ public class ClientMain{
     public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
+
 }

@@ -55,7 +55,7 @@ public class GamePanel extends JPanel {
     private JScrollPane scrollPane;
     private static JLabel ErrorArea;
     private String playerImage;
-    private ArrayList<String> tempChar = new ArrayList<String>();
+    public ArrayList<String> tempChar = new ArrayList<String>();
 
     //missing one\
     //skip 25 its a repeat
@@ -243,6 +243,7 @@ public class GamePanel extends JPanel {
                                 tempChar.remove(hostPanel.playerHost.getPlayerImage());
                                 repaint();
                                 revalidate();
+                                serverMain.broadcastMessage(16, hostPanel.nameTextField.getText() + "-" + hostPanel.playerHost.getPlayerImage());
                             }
                             else{
                                 showError("Player Not Active");
@@ -256,6 +257,7 @@ public class GamePanel extends JPanel {
                                 tempChar.remove(characterSelectPanel.playerClient.getPlayerImage());
                                 repaint();
                                 revalidate();
+                                CommandFromClient.notify_LEVELDISCONNECTION(clientMain.getOut(), connectPanel.nameTextField.getText() + "-" + characterSelectPanel.playerClient.getPlayerImage());
                             }
                             else{
                                 showError("Player Not Active");
@@ -445,12 +447,14 @@ public class GamePanel extends JPanel {
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
             System.out.println("CharactersInGame:" + clientMain.charactersInLevel_client);
         }
-
-
-
-
-
     }
+
+    public void updateTempChar(String tempCharChar){
+        tempChar.remove(tempCharChar);
+        repaint();
+        revalidate();
+    }
+
     public void createLevelDeck_Host() {
         deckLevelCard.add(new LevelCard("levelCard31",1, 0, false, false, levelCard31, false));
         deckLevelCard.add(new LevelCard("levelCard32",2, 1, false, false, levelCard32, false));

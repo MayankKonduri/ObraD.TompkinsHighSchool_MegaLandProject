@@ -325,6 +325,12 @@ public class ServerMain{
                         CommandFromServer.notifyFinalCharacter(out, name);
                     }}
                 break;
+            case 16:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_LEVELDISCONNECTION(out, name);
+                    }}
+                break;
         }
     }
     public void stopServer(){
@@ -352,6 +358,11 @@ public class ServerMain{
         charactersInLevel_host.add(tempFinalChar[1]);
         broadcastMessage(15, fCharacter);
     }
+    public void finalizeLevelDisconnection(String tempLevelD) {
+        String tempCharFinalFinal[] = tempLevelD.split("-");
+        gamePanel.updateTempChar(tempCharFinalFinal[1]);
+        broadcastMessage(16, tempLevelD);
+    }
 
     public ObjectOutputStream getOut(){
         return out;
@@ -372,6 +383,7 @@ public class ServerMain{
         this.characterSelectPanel = characterSelectPanel;
     }
     public void setGamePanel(GamePanel gamePanel) { this.gamePanel = gamePanel;}
+
 
 
 }

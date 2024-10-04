@@ -61,7 +61,10 @@ public class CommandFromClient implements Serializable {
     public static void notifyFinalCharacter(ObjectOutputStream out, String name, String playerImage) {
         sendMessage(out, FINALCHARACTER + name + "-" + playerImage);
     }
-
+    public static final String LEVELDISCONNECTION = "LEVELDISCONNECTION:";
+    public static void notify_LEVELDISCONNECTION(ObjectOutputStream out, String s) {
+        sendMessage(out, LEVELDISCONNECTION + s);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {
@@ -85,6 +88,4 @@ public class CommandFromClient implements Serializable {
             e.printStackTrace();
         }
     }
-
-
 }
