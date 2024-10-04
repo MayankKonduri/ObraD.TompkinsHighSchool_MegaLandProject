@@ -61,6 +61,8 @@ public class GamePanel extends JPanel {
     private JScrollPane scrollPane;
     private static JLabel ErrorArea;
     private static JLabel ErrorArea1;
+    private JLabel unsafeTreasures = new JLabel ("Unsafe:");
+    private JLabel safeTreasures = new JLabel ("Safe:");
 
     //missing one\
     //skip 25 its a repeat
@@ -82,7 +84,8 @@ public class GamePanel extends JPanel {
 
         ErrorArea = new JLabel("",JLabel.CENTER);
         ErrorArea.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-        ErrorArea.setBackground(Color.PINK);
+        ErrorArea.setOpaque(true);
+        ErrorArea.setBackground(Color.BLACK);
         ErrorArea.setForeground(Color.RED);
         ErrorArea.setFont(new Font("Georgia", Font.BOLD, 20));
         ErrorArea.setBounds(500, 485, 230, 40);
@@ -91,9 +94,9 @@ public class GamePanel extends JPanel {
         ErrorArea.setVisible(false);
 
         ErrorArea1 = new JLabel("",JLabel.CENTER);
-        ErrorArea1.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+        ErrorArea1.setBorder(BorderFactory.createLineBorder(Color.red,2,true));
         ErrorArea1.setBackground(Color.PINK);
-        ErrorArea1.setForeground(Color.RED);
+        ErrorArea1.setForeground(Color.red);
         ErrorArea1.setFont(new Font("Georgia", Font.BOLD, 20));
         ErrorArea1.setBounds(1170, 485, 230, 40);
         add(ErrorArea1);
@@ -105,7 +108,15 @@ public class GamePanel extends JPanel {
         treasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         treasurePanel.setBackground(Color.black);
 
-
+        unsafeTreasures.setBounds(280, 785, 200, 30);
+        unsafeTreasures.setForeground(Color.WHITE);
+        unsafeTreasures.setOpaque(true);
+        unsafeTreasures.setBackground(Color.black);
+        unsafeTreasures.setBorder(new LineBorder(Color.white, 1));
+        unsafeTreasures.setFont(new Font ("Georgia", Font.BOLD, 15));
+        unsafeTreasures.setHorizontalAlignment(SwingConstants.CENTER);
+        unsafeTreasures.setVerticalAlignment(SwingConstants.CENTER);
+        add(unsafeTreasures);
         scrollPane1 = new JScrollPane(treasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane1.setBounds(280, 830, 660, 140);
 
@@ -119,7 +130,17 @@ public class GamePanel extends JPanel {
         add(scrollPane1);
 
 
+        safeTreasures.setBounds(1440, 785, 200, 30);
+        safeTreasures.setForeground(Color.WHITE);
+        safeTreasures.setOpaque(true);
+        safeTreasures.setBackground(Color.black);
+        safeTreasures.setBorder(new LineBorder(Color.white, 1));
+        safeTreasures.setFont(new Font ("Georgia", Font.BOLD, 15));
+        safeTreasures.setHorizontalAlignment(SwingConstants.CENTER);
+        safeTreasures.setVerticalAlignment(SwingConstants.CENTER);
+        add(safeTreasures);
 
+        add(safeTreasures);
         safeTreasurePanel = new JPanel();
         safeTreasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         scrollPane2 = new JScrollPane(safeTreasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
