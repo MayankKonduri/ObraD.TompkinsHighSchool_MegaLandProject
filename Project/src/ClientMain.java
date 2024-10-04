@@ -8,9 +8,15 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
 
 public class ClientMain{
+
+    private Map<String, Integer> playerScores = new Map<>();
+    private ArrayList<String> chatMessages = new ArrayList<>();
 
     private ConnectPanel connectPanel;
     private WaitingForHostPanel waitingForHostPanel;
@@ -271,5 +277,56 @@ public class ClientMain{
     }
     public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+    }
+    public void startNewGameSession() {
+        playerScores.clear();
+        chatMessages.clear();
+        System.out.println("New game session started.");
+    }
+
+    public void updatePlayerScore(String playerName, int score) {
+        playerScores.put(playerName, playerScores.getOrDefault(playerName, 0) + score);
+        System.out.println("Updated score for " + playerName + ": " + playerScores.get(playerName));
+    }
+
+    public int getPlayerScore(String playerName) {
+        return playerScores.getOrDefault(playerName, 0);
+    }
+
+    public void sendChatMessage(String message) {
+        chatMessages.add(clientName + ": " + message);
+        CommandFromClient.notify_CHAT_MESSAGE(out, message);
+        System.out.println("Sent message: " + message);
+    }
+
+    public void receiveChatMessage(String message) {
+        chatMessages.add(message);
+        chatPanel.handleIncomingMessage("Server", message);
+    }
+
+    public void displayPlayerScores() {
+        System.out.println("Current Scores:");
+        for (String player : playerScores.keySet()) {
+            System.out.println(player + ": " + playerScores.get(player));
+        }
+    }
+
+    public void exampleGameFlow() {
+        startNewGameSession();
+        updatePlayerScore(clientName, 10);
+        sendChatMessage("Ready to play!");
+        displayPlayerScores();
+    }
+
+    public void handleIncomingChat(String chatMessage) {
+        receiveChatMessage(chatMessage);
+    }
+
+    public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel, GamePanel gamePanel) {
+        this.clientName = clientName;
+        this.characterSelectPanel = characterSelectPanel;
+        this.chatPanel = chatPanel;
+        this.gamePanel = gamePanel;
+        startNewGameSession();
     }
 }
