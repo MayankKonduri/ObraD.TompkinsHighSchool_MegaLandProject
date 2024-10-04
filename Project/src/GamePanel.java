@@ -63,6 +63,7 @@ public class GamePanel extends JPanel {
     private static JLabel ErrorArea1;
     private JLabel unsafeTreasures = new JLabel ("Unsafe:");
     private JLabel safeTreasures = new JLabel ("Safe:");
+    private JButton temp = new JButton("Temp");
 
     //missing one\
     //skip 25 its a repeat
@@ -82,6 +83,7 @@ public class GamePanel extends JPanel {
         this.inGameRulesPanel1 = inGameRulesPanel;
         //this.cardSelectPanel = cardSelectPanel;
 
+        temp.setBounds()
         ErrorArea = new JLabel("",JLabel.CENTER);
         ErrorArea.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
         ErrorArea.setOpaque(true);
@@ -951,6 +953,9 @@ public class GamePanel extends JPanel {
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
+            button1.addActionListener(e -> {
+                safeTreasurePanel.add(button1);
+            });
         }
         int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
         treasurePanel.setPreferredSize(new Dimension(totalWidth, 230));
