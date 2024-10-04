@@ -166,12 +166,12 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                     System.out.println("Selected: catB");
                     notifyCharacterSelection("catB");
                     if(isHost){
-                        hostPanel.playerHost.setPlayerImage("cat");
+                        hostPanel.playerHost.setPlayerImage("catB");
                         serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     }
                     else{
-                        this.playerClient.setPlayerImage("cat");
+                        this.playerClient.setPlayerImage("catB");
                         CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                     }
                     if(isHost){
@@ -234,12 +234,12 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                 System.out.println("Selected: indianwomanB");
                 notifyCharacterSelection("indianWomanB");
                 if(isHost){
-                    hostPanel.playerHost.setPlayerImage("indianWoman");
+                    hostPanel.playerHost.setPlayerImage("indianWomanB");
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 }
                 else{
-                    this.playerClient.setPlayerImage("indianWoman");
+                    this.playerClient.setPlayerImage("indianWomanB");
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                 }
                 if(isHost){
@@ -301,12 +301,12 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                 System.out.println("Selected: whiteB");
                 notifyCharacterSelection("whiteB");
                 if(isHost){
-                    hostPanel.playerHost.setPlayerImage("white");
+                    hostPanel.playerHost.setPlayerImage("whiteB");
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 }
                 else{
-                    this.playerClient.setPlayerImage("white");
+                    this.playerClient.setPlayerImage("whiteB");
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                 }
                 if(isHost){
@@ -367,12 +367,12 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                     System.out.println("Selected: frogB");
                     notifyCharacterSelection("frogB");
                     if(isHost){
-                        hostPanel.playerHost.setPlayerImage("frog");
+                        hostPanel.playerHost.setPlayerImage("frogB");
                         serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     }
                     else{
-                        this.playerClient.setPlayerImage("frog");
+                        this.playerClient.setPlayerImage("frogB");
                         CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                     }
                     if (isHost) {
@@ -434,12 +434,12 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                 System.out.println("Selected: gandalfB");
                 notifyCharacterSelection("gandalfB");
                 if(isHost){
-                    hostPanel.playerHost.setPlayerImage("gandalf");
+                    hostPanel.playerHost.setPlayerImage("gandalfB");
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 }
                 else{
-                    this.playerClient.setPlayerImage("gandalf");
+                    this.playerClient.setPlayerImage("gandalfB");
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                 }
                 if(isHost){
@@ -496,6 +496,7 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                 if(isHost){
                     serverMain.charactersInLevel_host.add(characterSelected);
                     serverMain.broadcastMessage(15, hostPanel.nameTextField.getText() + "-" + characterSelected);
+                    serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
                 }
                 GamePanel gamePanel = new GamePanel(frame, null, serverMain, hostPanel, null, cardSelectPanel, this, true, null, null);
                 gamePanel.setPreferredSize(new Dimension(1920,1040));
@@ -511,8 +512,6 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                 frame.repaint();
                 frame.setVisible(true);
             });
-            serverMain.broadcastMessage(9, hostPanel.nameTextField.getText());
-            serverMain.broadcastMessage(15, hostPanel.playerHost.getPlayerImage());
         });
 
 

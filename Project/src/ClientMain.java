@@ -254,15 +254,10 @@ public class ClientMain{
     }
     public void handleFinalCharacter(String fCharacter) {
         System.out.println(fCharacter);
-        if(fCharacter.contains("-")) {
-            String fCharacterTemp[] = fCharacter.split("-");
-            System.out.println("FINAL DEBUG" + fCharacterTemp);
-            if (!(fCharacterTemp[0].equals(connectPanel.nameTextField.getText()))) {
-                charactersInLevel_client.add(fCharacterTemp[1]);
-            }
-        }
-        else{
-            charactersInLevel_client.add((fCharacter));
+        String fCharacterTemp[] = fCharacter.split("-");
+        System.out.println("FINAL DEBUG" + fCharacterTemp[0] + "Temp" + fCharacterTemp[1]);
+        if (!(fCharacterTemp[0].equals(connectPanel.nameTextField.getText()))) {
+            charactersInLevel_client.add(fCharacterTemp[1]);
         }
     }
     public void makeCardChosenAccessible(String arrayListCardPanel) {

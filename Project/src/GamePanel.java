@@ -55,6 +55,7 @@ public class GamePanel extends JPanel {
     private JScrollPane scrollPane;
     private static JLabel ErrorArea;
     private String playerImage;
+    private ArrayList<String> tempChar = new ArrayList<String>();
 
     //missing one\
     //skip 25 its a repeat
@@ -97,6 +98,13 @@ public class GamePanel extends JPanel {
 
         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+
+        if(isHost){
+            tempChar = serverMain.charactersInLevel_host;
+        }
+        else{
+            tempChar = clientMain.charactersInLevel_client;
+        }
 
         try {
             indianWoman = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player1.png")));
@@ -232,6 +240,9 @@ public class GamePanel extends JPanel {
                                 serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                                 takeOff.setText("Dropped Level");
                                 takeOff.setEnabled(false);
+                                tempChar.remove(hostPanel.playerHost.getPlayerImage());
+                                repaint();
+                                revalidate();
                             }
                             else{
                                 showError("Player Not Active");
@@ -242,6 +253,9 @@ public class GamePanel extends JPanel {
                                 CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                                 takeOff.setText("Dropped Level");
                                 takeOff.setEnabled(false);
+                                tempChar.remove(characterSelectPanel.playerClient.getPlayerImage());
+                                repaint();
+                                revalidate();
                             }
                             else{
                                 showError("Player Not Active");
@@ -700,6 +714,7 @@ public class GamePanel extends JPanel {
 
 
                 button.addActionListener(e -> {
+                    System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
                     if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
@@ -840,6 +855,7 @@ public class GamePanel extends JPanel {
             int finalJ = j;
             int x1 = 0;
             button.addActionListener(e -> {
+                System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
                     System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
@@ -971,10 +987,8 @@ public class GamePanel extends JPanel {
 
 
             }
-
-
         }
-        if(isHost1) {
+        /*if(isHost1) {
             if(hostPanel.playerHost.getPlayerImage().equals("cat")) {
                 g.drawImage(cat, 60, 60, 70, 105, null);
             } else if(hostPanel.playerHost.getPlayerImage().equals("indianWoman")) {
@@ -987,22 +1001,42 @@ public class GamePanel extends JPanel {
                 g.drawImage(gandalf, 260, 60, 70, 105, null);
             }
             setVisible(true);
-        }else{
-            if(characterSelectPanel.playerClient.getPlayerImage().equals("cat")) {
-                g.drawImage(cat, 60, 60, 70, 105, null);
-            } else if(characterSelectPanel.playerClient.getPlayerImage().equals("indianWoman")) {
-                g.drawImage(indianWoman, 110, 60, 70, 105, null);
-            } else if(characterSelectPanel.playerClient.getPlayerImage().equals("white")) {
-                g.drawImage(white, 160, 60, 70, 105, null);
-            } else if(characterSelectPanel.playerClient.getPlayerImage().equals("frog")) {
-                g.drawImage(frog, 210, 60, 70, 105, null);
-            } else if(characterSelectPanel.playerClient.getPlayerImage().equals("gandalf")) {
-                g.drawImage(gandalf, 260, 60, 70, 105, null);
+        }*/
+
+        if(isHost1){
+            System.out.println(tempChar);
+            for(int i=0; i<tempChar.size();i++){
+                if((tempChar.get(i)).equals("catB")){
+                    g.drawImage(cat, 60, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("indianWomanB"))){
+                    g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("whiteB"))){
+                    g.drawImage(white, 160, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("frogB"))){
+                    g.drawImage(frog, 210, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("gandalfB"))){
+                    g.drawImage(gandalf, 260, 60, 70, 105, null);
+                }
+                setVisible(true);
             }
-            setVisible(true);
         }
-
-
+        else{
+            System.out.println(tempChar);
+            for(int i=0; i<tempChar.size();i++){
+                if((tempChar.get(i)).equals("catB")){
+                    g.drawImage(cat, 60, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("indianWomanB"))){
+                    g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("whiteB"))){
+                    g.drawImage(white, 160, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("frogB"))){
+                    g.drawImage(frog, 210, 60, 70, 105, null);
+                } else if((tempChar.get(i).equals("gandalfB"))){
+                    g.drawImage(gandalf, 260, 60, 70, 105, null);
+                }
+                setVisible(true);
+            }
+        }
     }
 
     public String playerGameView(int x){
