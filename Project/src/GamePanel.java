@@ -1,9 +1,13 @@
 package Project.src;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.*;
@@ -51,11 +55,17 @@ public class GamePanel extends JPanel {
     public int current_player;
     private JPanel cardsPanel = new JPanel();
     private JPanel treasurePanel = new JPanel();
+    private JPanel safeTreasurePanel = new JPanel();
     private JScrollPane scrollPane1;
+    private JScrollPane scrollPane2;
     private JScrollPane scrollPane;
     private static JLabel ErrorArea;
+    private static JLabel ErrorArea1;
     private String playerImage;
     public ArrayList<String> tempChar = new ArrayList<String>();
+    private JLabel unsafeTreasures = new JLabel ("Unsafe:");
+    private JLabel safeTreasures = new JLabel ("Safe:");
+    private JButton temp = new JButton("Temp");
 
     //missing one\
     //skip 25 its a repeat
@@ -65,7 +75,7 @@ public class GamePanel extends JPanel {
             soapMakers, hallOfElders, lodge, rootMarket, endlessMine, arena,
             backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
-            coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard;
+            coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard, loading;
 
 
 
@@ -77,24 +87,93 @@ public class GamePanel extends JPanel {
 
         ErrorArea = new JLabel("",JLabel.CENTER);
         ErrorArea.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-        ErrorArea.setBackground(Color.PINK);
+        ErrorArea.setOpaque(true);
+        ErrorArea.setBackground(Color.BLACK);
         ErrorArea.setForeground(Color.RED);
-        ErrorArea.setFont(new Font("Roman", Font.BOLD, 20));
-        ErrorArea.setBounds(30, 740, 230, 40);
+        ErrorArea.setFont(new Font("Georgia", Font.BOLD, 20));
+        ErrorArea.setBounds(500, 485, 230, 40);
         //ErrorArea.setEditable(false);
         add(ErrorArea);
         ErrorArea.setVisible(false);
+
+
+        ErrorArea1 = new JLabel("",JLabel.CENTER);
+        ErrorArea1.setBorder(BorderFactory.createLineBorder(Color.red,2,true));
+        ErrorArea1.setBackground(Color.PINK);
+        ErrorArea1.setForeground(Color.red);
+        ErrorArea1.setFont(new Font("Georgia", Font.BOLD, 20));
+        ErrorArea1.setBounds(1170, 485, 230, 40);
+        add(ErrorArea1);
+        ErrorArea1.setVisible(false);
+
+
         cardsPanel = new JPanel();
         cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         treasurePanel = new JPanel();
         treasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+
+        unsafeTreasures.setBounds(280, 785, 200, 30);
+        unsafeTreasures.setForeground(Color.WHITE);
+        unsafeTreasures.setOpaque(true);
+        unsafeTreasures.setBackground(Color.black);
+        unsafeTreasures.setBorder(new LineBorder(Color.white, 1));
+        unsafeTreasures.setFont(new Font ("Georgia", Font.BOLD, 15));
+        unsafeTreasures.setHorizontalAlignment(SwingConstants.CENTER);
+        unsafeTreasures.setVerticalAlignment(SwingConstants.CENTER);
+        add(unsafeTreasures);
+
         scrollPane1 = new JScrollPane(treasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane1.setBounds(280, 790, 160 * 9 + 40, 140);
+        scrollPane1.setBounds(280, 830, 660, 140);
+
+        scrollPane1.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Color.BLACK;
+            }
+        });
+
         add(scrollPane1);
 
+        safeTreasures.setBounds(1440, 785, 200, 30);
+        safeTreasures.setForeground(Color.WHITE);
+        safeTreasures.setOpaque(true);
+        safeTreasures.setBackground(Color.black);
+        safeTreasures.setBorder(new LineBorder(Color.white, 1));
+        safeTreasures.setFont(new Font ("Georgia", Font.BOLD, 15));
+        safeTreasures.setHorizontalAlignment(SwingConstants.CENTER);
+        safeTreasures.setVerticalAlignment(SwingConstants.CENTER);
+        add(safeTreasures);
+
+        add(safeTreasures);
+        safeTreasurePanel = new JPanel();
+        safeTreasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        scrollPane2 = new JScrollPane(safeTreasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane2.setBounds(980, 830, 660, 140);
+        scrollPane2.setBackground(Color.black);
+        scrollPane2.setForeground(Color.WHITE);
+        scrollPane2.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Color.BLACK;
+            }
+        });
+        add(scrollPane2);
+
+
         scrollPane = new JScrollPane(cardsPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(280, 540, 160 * 9 + 40, 230);
+        scrollPane.setBounds(280, 540, 1360, 230);
+
+        scrollPane.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Color.BLACK;
+            }
+        });
         add(scrollPane);
+        scrollPane.getHorizontalScrollBar().setBackground(Color.GRAY);
+        scrollPane1.getHorizontalScrollBar().setBackground(Color.GRAY);
+        scrollPane2.getHorizontalScrollBar().setBackground(Color.GRAY);
+
 
         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -140,9 +219,13 @@ public class GamePanel extends JPanel {
         }
         setSize(1920, 1010);
         setLayout(null);
-
-        JButton leftArrow = new JButton("←");
-        leftArrow.setBounds(760, 485, 50, 40);
+        JButton leftArrow = new JButton("<");
+        leftArrow.setBounds(700, 490, 50, 40);
+        leftArrow.setForeground(Color.white);
+        leftArrow.setBackground(Color.black);
+        leftArrow.setFocusable(false);
+        leftArrow.setFont(new Font("Georgia", Font.BOLD, 25));
+        leftArrow.setBorder(null);
         leftArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -180,8 +263,14 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-        JButton rightArrow = new JButton("→");
-        rightArrow.setBounds(1090, 485, 50, 40);
+//        JButton rightArrow = new JButton("→");
+        JButton rightArrow = new JButton(">");
+        rightArrow.setBounds(1150, 490, 50, 40);
+        rightArrow.setForeground(Color.white);
+        rightArrow.setBackground(Color.black);
+        rightArrow.setFocusable(false);
+        rightArrow.setFont(new Font("Georgia", Font.BOLD, 25));
+        rightArrow.setBorder(null);
         rightArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -230,54 +319,69 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-                takeOff.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (isHost) {
-                            if (hostPanel.playerHost.isPlayerActive) {
-                                hostPanel.playerHost.setPlayerActive(false);
-                                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                                takeOff.setText("Dropped Level");
-                                takeOff.setEnabled(false);
-                                tempChar.remove(hostPanel.playerHost.getPlayerImage());
-                                repaint();
-                                revalidate();
-                                serverMain.broadcastMessage(16, hostPanel.nameTextField.getText() + "-" + hostPanel.playerHost.getPlayerImage());
-                            }
-                            else{
-                                showError("Player Not Active");
-                            }
-                        } else {
-                            if (characterSelectPanel.playerClient.isPlayerActive) {
-                                characterSelectPanel.playerClient.setPlayerActive(false);
-                                CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-                                takeOff.setText("Dropped Level");
-                                takeOff.setEnabled(false);
-                                tempChar.remove(characterSelectPanel.playerClient.getPlayerImage());
-                                repaint();
-                                revalidate();
-                                CommandFromClient.notify_LEVELDISCONNECTION(clientMain.getOut(), connectPanel.nameTextField.getText() + "-" + characterSelectPanel.playerClient.getPlayerImage());
-                            }
-                            else{
-                                showError("Player Not Active");
-                            }
-                        }
-                    }
-                });
 
+        takeOff.setFocusable(false);
+        takeOff.setBackground(Color.black);
+        takeOff.setForeground(Color.WHITE);
+        takeOff.setFont(new Font("Georgia", Font. BOLD, 15));
+        takeOff.setBorder(BorderFactory.createEmptyBorder());
+        takeOff.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                takeOff.setBorder(new LineBorder(Color.white, 1));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                takeOff.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
+        takeOff.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isHost) {
+                    if (hostPanel.playerHost.isPlayerActive) {
+                        hostPanel.playerHost.setPlayerActive(false);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                        takeOff.setText("Dropped Level");
+                        takeOff.setEnabled(false);
+                        tempChar.remove(hostPanel.playerHost.getPlayerImage());
+                        repaint();
+                        revalidate();
+                        serverMain.broadcastMessage(16, hostPanel.nameTextField.getText() + "-" + hostPanel.playerHost.getPlayerImage());
+                    }
+                    else{
+                        showError("Player Not Active");
+                    }
+                } else {
+                    if (characterSelectPanel.playerClient.isPlayerActive) {
+                        characterSelectPanel.playerClient.setPlayerActive(false);
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        takeOff.setText("Dropped Level");
+                        takeOff.setEnabled(false);
+                        tempChar.remove(characterSelectPanel.playerClient.getPlayerImage());
+                        repaint();
+                        revalidate();
+                        CommandFromClient.notify_LEVELDISCONNECTION(clientMain.getOut(), connectPanel.nameTextField.getText() + "-" + characterSelectPanel.playerClient.getPlayerImage());
+                    }
+                    else{
+                        showError("Player Not Active");
+                    }
+                }
+            }
+        });
         playerLabel = new JLabel("My View", JLabel.CENTER);
-        playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        playerLabel.setBounds(860, 485, 200, 50);
+        playerLabel.setFont(new Font("Georgia", Font.BOLD, 20));
+        playerLabel.setForeground(Color.white);
+        playerLabel.setBounds(860, 490, 200, 50);
         JPanel backgroundP = new JPanel();
-        backgroundP.setBounds(750,480, 400,40);
-        backgroundP.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundP.setBackground(Color.orange);
+        backgroundP.setBounds(750,485, 400,40);
+        backgroundP.setBorder(BorderFactory.createLineBorder(Color.white));
+        backgroundP.setBackground(Color.black);
         add(backgroundP);
         backgroundP.add(leftArrow);
         backgroundP.add(playerLabel);
         backgroundP.add(rightArrow);
-
 
 
         int i=100;
@@ -294,11 +398,12 @@ public class GamePanel extends JPanel {
         chatPanel1.setForeground(Color.YELLOW);
 
 
-        rules.setBounds(1830, 20, 70, 30);
-        rules.addActionListener(e -> {
-            toggleInGameRulesPanel();
-        });
-        add(rules);
+//        rules.setBounds(1830, 20, 70, 30);
+//        rules.addActionListener(e -> {
+//            toggleInGameRulesPanel();
+//        });
+//        add(rules);
+
 
 
         inGameRulesPanel1 = new InGameRulesPanel(frame, this);
@@ -318,6 +423,7 @@ public class GamePanel extends JPanel {
 
 
         try {
+            loading = ImageIO.read((new File("Project\\src\\Images\\GamePanel1.jpg")));
             personalCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0002.jpg")));
             heartCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0003.jpg")));
             starCardBackground = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0004.jpg")));
@@ -962,6 +1068,9 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(loading, 0, 0, 1920, 1050, null);
+
+
 //        Graphics2D g2d = (Graphics2D) g;
         if(isHost1) {
             g.drawImage(playerLevelCard, 30, 20,320, 200, null);
