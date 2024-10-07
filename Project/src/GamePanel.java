@@ -44,8 +44,9 @@ public class GamePanel extends JPanel {
     public ArrayList<BuildingCards> playerBuildings = new ArrayList<>();
     public ArrayList<TreasureCard> unshuffledDeck = new ArrayList<TreasureCard>();
     public ArrayList<TreasureCard> shuffledDeck = new ArrayList<>();
-    public ArrayList<TreasureCard> usedTreasureCard = new ArrayList();
     public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
+    public ArrayList<TreasureCard> safeTreasuresList = new ArrayList<>();
+
     private JButton takeOff = new JButton("Drop Off Level");
     public ArrayList<LevelCard> deckLevelCard = new ArrayList<>();
     public ArrayList<LevelCard>  drawnLevelCard = new ArrayList<>();
@@ -83,7 +84,8 @@ public class GamePanel extends JPanel {
         this.inGameRulesPanel1 = inGameRulesPanel;
         //this.cardSelectPanel = cardSelectPanel;
 
-        temp.setBounds()
+        temp.setBounds(1800, 700, 100, 30);
+        add(temp);
         ErrorArea = new JLabel("",JLabel.CENTER);
         ErrorArea.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
         ErrorArea.setOpaque(true);
@@ -799,12 +801,12 @@ public class GamePanel extends JPanel {
 
         }
     }
-    public void hostTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
+    public ArrayList<TreasureCard> hostTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
         treasurePanel.removeAll();
 
         int cardWidth = 90;
         int cardHeight = 120;
-        int cardSpacing = 15;
+        int cardSpacing = 20;
 
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
@@ -812,6 +814,15 @@ public class GamePanel extends JPanel {
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
+            int finalI = i;
+            button1.addActionListener(e -> {
+                safeTreasuresList.add(playerTreasures.get(finalI));
+                playerTreasures.remove(finalI);
+                clientTreasureDisplay(playerTreasures);
+                safeTreasureDisplay();
+                revalidate();
+                repaint();
+            });
         }
         int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
         treasurePanel.setPreferredSize(new Dimension(totalWidth, 230));
@@ -823,6 +834,8 @@ public class GamePanel extends JPanel {
             JScrollBar horizontalBar = scrollPane1.getHorizontalScrollBar();
             horizontalBar.setValue(horizontalBar.getMaximum());
         });
+        return playerTreasures;
+
     }
     public void hostOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
             cardsPanel.removeAll();
@@ -940,7 +953,7 @@ public class GamePanel extends JPanel {
     }
 
 
-    public void clientTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
+    public ArrayList<TreasureCard> clientTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
         treasurePanel.removeAll();
 
         int cardWidth = 90;
@@ -953,8 +966,14 @@ public class GamePanel extends JPanel {
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
+            int finalI = i;
             button1.addActionListener(e -> {
-                safeTreasurePanel.add(button1);
+                safeTreasuresList.add(playerTreasures.get(finalI));
+                playerTreasures.remove(finalI);
+                clientTreasureDisplay(playerTreasures);
+                safeTreasureDisplay();
+                revalidate();
+                repaint();
             });
         }
         int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
@@ -967,16 +986,32 @@ public class GamePanel extends JPanel {
             JScrollBar horizontalBar = scrollPane1.getHorizontalScrollBar();
             horizontalBar.setValue(horizontalBar.getMaximum());
         });
-//        for(int i = 0; i < playerTreasures.size(); i++) {
-//            BufferedImage image1 = playerTreasures.get(i).getImage();
-//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
-//            button1.setBounds(1600+(110*i), 600, 90, 120);
-//
-//
-//            add(button1);
-//        }
-//        revalidate();
-//        repaint();
+        return playerTreasures;
+
+    }
+    public void safeTreasureDisplay() {
+        safeTreasurePanel.removeAll();
+
+        int cardWidth = 90;
+        int cardHeight = 120;
+        int cardSpacing = 20;
+        for(int i = 0; i < safeTreasuresList.size(); i++) {
+            TreasureCard treasureCard = safeTreasuresList.get(i);
+            BufferedImage image1 = treasureCard.getImage();
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            safeTreasurePanel.add(button1);
+        }
+        int totalWidth = (cardWidth + cardSpacing) * safeTreasuresList.size();
+        safeTreasurePanel.setPreferredSize(new Dimension(totalWidth, 230));
+        safeTreasurePanel.revalidate();
+        safeTreasurePanel.repaint();
+        scrollPane2.revalidate();
+        scrollPane2.repaint();
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane2.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
     }
 
 
@@ -1109,7 +1144,7 @@ public class GamePanel extends JPanel {
                 System.out.println("Player 1");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1125,7 +1160,7 @@ public class GamePanel extends JPanel {
                 System.out.println("Player 2");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1141,7 +1176,7 @@ public class GamePanel extends JPanel {
                 System.out.println("Player 3");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1157,7 +1192,7 @@ public class GamePanel extends JPanel {
                 System.out.println("Player 4");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1173,7 +1208,7 @@ public class GamePanel extends JPanel {
                 System.out.println("Player 5");
                 cardsPanel.removeAll();
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures());
+                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1193,7 +1228,7 @@ public class GamePanel extends JPanel {
                     System.out.println("Player 1");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1209,7 +1244,8 @@ public class GamePanel extends JPanel {
                     System.out.println("Player 2");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+//                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1225,7 +1261,8 @@ public class GamePanel extends JPanel {
                     System.out.println("Player 3");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+//                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1241,7 +1278,8 @@ public class GamePanel extends JPanel {
                     System.out.println("Player 4");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+//                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
@@ -1257,7 +1295,8 @@ public class GamePanel extends JPanel {
                     System.out.println("Player 5");
                     cardsPanel.removeAll();
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+//                    clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
