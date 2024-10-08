@@ -513,6 +513,7 @@ public class GamePanel extends JPanel {
         }
 
 
+
         buildingNames.add(reptileStable);
         buildingNames.add(herbHut);
         buildingNames.add(ostrichRanch);
