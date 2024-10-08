@@ -67,6 +67,8 @@ public class GamePanel extends JPanel {
     private JLabel safeTreasures = new JLabel ("Safe:");
     private JButton temp = new JButton("Temp");
     public JLabel phase;
+
+    JPanel LeaderBoard;
     //missing one\
     //skip 25 its a repeat
     private BufferedImage personalCard, heartCard, starCardBackground,
@@ -83,10 +85,31 @@ public class GamePanel extends JPanel {
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, ChatPanel chatPanel, InGameRulesPanel inGameRulesPanel) {
         this.chatPanel1 = chatPanel;
         this.inGameRulesPanel1 = inGameRulesPanel;
+        this.isHost1 = isHost;
         //this.cardSelectPanel = cardSelectPanel;
 
         temp.setBounds(1800,700,100,30);
         add(temp);
+
+        LeaderBoard = new JPanel();
+        LeaderBoard.setBounds(30,475,230,300);
+        add(LeaderBoard);
+        JLabel leaderBoardName = new JLabel("LeaderBoard", JLabel.CENTER);
+        leaderBoardName.setFont(new Font("Georgia", Font.BOLD, 20));
+        leaderBoardName.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+        leaderBoardName.setOpaque(true);
+        leaderBoardName.setBackground(Color.GRAY);
+        leaderBoardName.setForeground(Color.WHITE);
+        LeaderBoard.setLayout(new BorderLayout());
+        LeaderBoard.setBackground(Color.BLACK);
+        LeaderBoard.setBorder(BorderFactory.createLineBorder(Color.WHITE,2,true));
+        LeaderBoard.add(leaderBoardName, BorderLayout.NORTH);
+        /*if(isHost){
+            LeaderBoardUpdateHost();
+        } else{
+            LeaderBoardUpdateClient();
+        }*/
+
 
         ErrorArea = new JLabel("",JLabel.CENTER);
         ErrorArea.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
@@ -512,8 +535,6 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
 
-
-
         buildingNames.add(reptileStable);
         buildingNames.add(herbHut);
         buildingNames.add(ostrichRanch);
@@ -551,6 +572,7 @@ public class GamePanel extends JPanel {
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
             createLevelDeck_Host();
             System.out.println("CharactersInGame:" + serverMain.charactersInLevel_host);
+            LeaderBoardUpdateHost();
         }else {
             System.out.println("Connected Players (C): " + clientMain.Final_gamePlayerNames_ClientSide);
             stringCardPanel = clientMain.cardPanel_Client_Side;
@@ -562,6 +584,7 @@ public class GamePanel extends JPanel {
             }
             createImageButtonsClient();
             createLevelDeck_Client();
+            LeaderBoardUpdateClient();
             System.out.println("CardSelectedList (C): " + cardSelectedList_g_client);
             /*if(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())==1) {
                 characterSelectPanel.playerClient.setPlayerID(1000);
@@ -1619,6 +1642,143 @@ public class GamePanel extends JPanel {
         timer.start();
     }
 
+    public void LeaderBoardUpdateHost() {
+        if (this.isHost1) {
+            LeaderBoard.removeAll();
+
+            JLabel leaderBoardName = new JLabel("LeaderBoard1", JLabel.CENTER);
+            leaderBoardName.setFont(new Font("Georgia", Font.BOLD, 20));
+            leaderBoardName.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2, true));
+            leaderBoardName.setOpaque(true);
+            leaderBoardName.setBackground(Color.GRAY);
+            leaderBoardName.setForeground(Color.WHITE);
+
+            LeaderBoard.setLayout(new BorderLayout());
+            LeaderBoard.setBackground(Color.BLACK);
+            LeaderBoard.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+            LeaderBoard.add(leaderBoardName, BorderLayout.NORTH);
+
+            JPanel playerPanel = new JPanel();
+            playerPanel.setLayout(new GridLayout(0, 4)); // Dynamic rows, 4 columns
+            playerPanel.setBackground(Color.BLACK);
+            playerPanel.setForeground(Color.WHITE);
+
+            playerPanel.add(new JLabel("Name", JLabel.CENTER));
+            playerPanel.add(new JLabel("Hearts", JLabel.CENTER));
+            playerPanel.add(new JLabel("Coins", JLabel.CENTER));
+            playerPanel.add(new JLabel("Jumps", JLabel.CENTER));
+
+            for (Component comp : playerPanel.getComponents()) {
+                if (comp instanceof JLabel) {
+                    ((JLabel) comp).setFont(new Font("Georgia", Font.PLAIN, 14));
+                    ((JLabel) comp).setForeground(Color.GREEN);
+                    ((JLabel) comp).setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                }
+            }
+
+            for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                String playerName = serverMain.playerArrayList_Host.get(i).getPlayerName();
+                int HeartsTemp = serverMain.playerArrayList_Host.get(i).getPlayerHearts();
+                int CoinsTemp = serverMain.playerArrayList_Host.get(i).getPlayerCoins();
+                int JumpTemp = serverMain.playerArrayList_Host.get(i).getPlayerJumps();
+
+                JLabel nameLabel = new JLabel(playerName, JLabel.CENTER);
+                nameLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                nameLabel.setForeground(Color.WHITE);
+
+                JLabel heartsLabel = new JLabel(String.valueOf(HeartsTemp), JLabel.CENTER);
+                heartsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                heartsLabel.setForeground(Color.WHITE);
+
+                JLabel coinsLabel = new JLabel(String.valueOf(CoinsTemp), JLabel.CENTER);
+                coinsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                coinsLabel.setForeground(Color.WHITE);
+
+                JLabel jumpsLabel = new JLabel(String.valueOf(JumpTemp), JLabel.CENTER);
+                jumpsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                jumpsLabel.setForeground(Color.WHITE);
+
+                playerPanel.add(nameLabel);
+                playerPanel.add(heartsLabel);
+                playerPanel.add(coinsLabel);
+                playerPanel.add(jumpsLabel);
+
+            }
+
+            LeaderBoard.add(playerPanel, BorderLayout.CENTER);
+            LeaderBoard.revalidate();
+            LeaderBoard.repaint();
+        }
+    }
+
+    public void LeaderBoardUpdateClient() {
+        if (!this.isHost1) {
+            LeaderBoard.removeAll();
+
+            JLabel leaderBoardName = new JLabel("LeaderBoard", JLabel.CENTER);
+            leaderBoardName.setFont(new Font("Georgia", Font.BOLD, 20));
+            leaderBoardName.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2, true));
+            leaderBoardName.setOpaque(true);
+            leaderBoardName.setBackground(Color.GRAY);
+            leaderBoardName.setForeground(Color.WHITE);
+
+            LeaderBoard.setLayout(new BorderLayout());
+            LeaderBoard.setBackground(Color.BLACK);
+            LeaderBoard.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+            LeaderBoard.add(leaderBoardName, BorderLayout.NORTH);
+
+            JPanel playerPanel = new JPanel();
+            playerPanel.setLayout(new GridLayout(0, 4)); // Dynamic rows, 4 columns
+            playerPanel.setBackground(Color.BLACK);
+            playerPanel.setForeground(Color.WHITE);
+
+            playerPanel.add(new JLabel("Name", JLabel.CENTER));
+            playerPanel.add(new JLabel("Hearts", JLabel.CENTER));
+            playerPanel.add(new JLabel("Coins", JLabel.CENTER));
+            playerPanel.add(new JLabel("Jumps", JLabel.CENTER));
+
+            for (Component comp : playerPanel.getComponents()) {
+                if (comp instanceof JLabel) {
+                    ((JLabel) comp).setFont(new Font("Georgia", Font.PLAIN, 14));
+                    ((JLabel) comp).setForeground(Color.GREEN);
+                    ((JLabel) comp).setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                }
+            }
+
+            for (int i = 0; i < clientMain.playerArrayList_client.size(); i++) {
+                String playerName = clientMain.playerArrayList_client.get(i).getPlayerName();
+                int HeartsTemp = clientMain.playerArrayList_client.get(i).getPlayerHearts();
+                int CoinsTemp = clientMain.playerArrayList_client.get(i).getPlayerCoins();
+                int JumpTemp = clientMain.playerArrayList_client.get(i).getPlayerJumps();
+
+                JLabel nameLabel = new JLabel(playerName, JLabel.CENTER);
+                nameLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                nameLabel.setForeground(Color.WHITE);
+
+                JLabel heartsLabel = new JLabel(String.valueOf(HeartsTemp), JLabel.CENTER);
+                heartsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                heartsLabel.setForeground(Color.WHITE);
+
+                JLabel coinsLabel = new JLabel(String.valueOf(CoinsTemp), JLabel.CENTER);
+                coinsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                coinsLabel.setForeground(Color.WHITE);
+
+                JLabel jumpsLabel = new JLabel(String.valueOf(JumpTemp), JLabel.CENTER);
+                jumpsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                jumpsLabel.setForeground(Color.WHITE);
+
+                playerPanel.add(nameLabel);
+                playerPanel.add(heartsLabel);
+                playerPanel.add(coinsLabel);
+                playerPanel.add(jumpsLabel);
+
+            }
+
+            LeaderBoard.add(playerPanel, BorderLayout.CENTER);
+            LeaderBoard.revalidate();
+            LeaderBoard.repaint();
+        }
+    }
     public ChatPanel getChatPanel() {
         return chatPanel1;
     }
