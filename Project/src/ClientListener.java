@@ -84,6 +84,7 @@ public class ClientListener implements Runnable{
                     ArrayList<Player> players = (ArrayList<Player>) receivedObject;
                     System.out.println("Final Recieving2: " + players.size());
                     processPlayerList(players);
+                    setLeaderBoardGameClient1();
                 }
             }
         } catch (EOFException e) {
@@ -137,6 +138,10 @@ public class ClientListener implements Runnable{
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    public void setLeaderBoardGameClient1(){
+        cLientMain.setLeaderBoardGameClient();
     }
 
     private void handleLevelDisconnection(String message) {

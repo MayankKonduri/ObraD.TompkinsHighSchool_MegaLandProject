@@ -266,6 +266,14 @@ public class ClientMain{
             gamePanel.updateTempChar(tempCharFinalFinal[1]);
         }
     }
+
+    public void setLeaderBoardGameClient() {
+        if(gamePanel!=null){
+            gamePanel.LeaderBoardUpdateClient();
+        }
+    }
+
+
     public void makeCardChosenAccessible(String arrayListCardPanel) {
         cardPanel_Client_Side = arrayListCardPanel;
     }
@@ -290,6 +298,7 @@ public class ClientMain{
     public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
 
 
 }

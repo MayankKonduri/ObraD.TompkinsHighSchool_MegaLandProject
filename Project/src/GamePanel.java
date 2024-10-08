@@ -65,7 +65,12 @@ public class GamePanel extends JPanel {
     public ArrayList<String> tempChar = new ArrayList<String>();
     private JLabel unsafeTreasures = new JLabel ("Unsafe:");
     private JLabel safeTreasures = new JLabel ("Safe:");
-    private JButton temp = new JButton("Temp");
+    private JButton temp1 = new JButton("Coin Increase");
+    private JButton temp2 = new JButton("Coin Decrease");
+    private JButton temp3 = new JButton("Heart Increase");
+    private JButton temp4 = new JButton("Heart Decrease");
+    private JButton temp5 = new JButton("Jump Increase");
+    private JButton temp6 = new JButton("Jump Decrease");
     public JLabel phase;
 
     JPanel LeaderBoard;
@@ -88,8 +93,120 @@ public class GamePanel extends JPanel {
         this.isHost1 = isHost;
         //this.cardSelectPanel = cardSelectPanel;
 
-        temp.setBounds(1800,700,100,30);
-        add(temp);
+        temp1.setBounds(1700,700,250,30);
+        add(temp1);
+        temp1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isHost){
+                    hostPanel.playerHost.setPlayerCoins(hostPanel.playerHost.getPlayerCoins() +1);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    LeaderBoardUpdateHost();
+                }else{
+                    characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+1);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    LeaderBoardUpdateClient();
+                }
+            }
+        });
+
+        temp2.setBounds(1700,730,250,30);
+        add(temp2);
+        temp2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isHost){
+                    hostPanel.playerHost.setPlayerCoins(hostPanel.playerHost.getPlayerCoins() - 1);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    LeaderBoardUpdateHost();
+                }else{
+                    characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()-1);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    LeaderBoardUpdateClient();
+                }
+            }
+        });
+
+        temp3.setBounds(1700,760,250,30);
+        add(temp3);
+        temp3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isHost){
+                    hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts() +1);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    LeaderBoardUpdateHost();
+                    repaint();
+                    revalidate();
+                }else{
+                    characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()+1);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    LeaderBoardUpdateClient();
+                    repaint();
+                    revalidate();
+                }
+            }
+        });
+
+        temp4.setBounds(1700,790,250,30);
+        add(temp4);
+        temp4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isHost){
+                    hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts() -1);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    LeaderBoardUpdateHost();
+                    repaint();
+                    revalidate();
+                }else{
+                    characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()-1);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    LeaderBoardUpdateClient();
+                    repaint();
+                    revalidate();
+                }
+            }
+        });
+
+        temp5.setBounds(1700,820,250,30);
+        add(temp5);
+        temp5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isHost){
+                    hostPanel.playerHost.setPlayerJumps(hostPanel.playerHost.getPlayerJumps() +1);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    LeaderBoardUpdateHost();
+                }else{
+                    characterSelectPanel.playerClient.setPlayerJumps(characterSelectPanel.playerClient.getPlayerJumps()+1);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    LeaderBoardUpdateClient();
+                }
+            }
+        });
+
+        temp6.setBounds(1700,850,250,30);
+        add(temp6);
+        temp6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isHost){
+                    hostPanel.playerHost.setPlayerJumps(hostPanel.playerHost.getPlayerJumps() -1);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                }else{
+                    characterSelectPanel.playerClient.setPlayerJumps(characterSelectPanel.playerClient.getPlayerJumps()-1);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                }
+            }
+        });
+
 
         LeaderBoard = new JPanel();
         LeaderBoard.setBounds(30,475,230,300);
@@ -452,9 +569,11 @@ public class GamePanel extends JPanel {
 
 
         if(isHost){
+            serverMain.setGamePanel(this);
             serverMain.setChatPanel(this.chatPanel1);
         }
         else{
+            clientMain.setGamePanel(this);
             clientMain.setChatPanel(this.chatPanel1);
         }
 
@@ -1189,88 +1308,87 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(loading, 0, 0, 1920, 1050, null);
+            g.drawImage(loading, 0, 0, 1920, 1050, null);
 
 
 //        Graphics2D g2d = (Graphics2D) g;
-        if(isHost1) {
-            g.drawImage(playerLevelCard, 30, 20,320, 200, null);
-            takeOff.setBounds(40, 220, 300, 30);
-            add(takeOff);
+            if (isHost1) {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                takeOff.setBounds(40, 220, 300, 30);
+                add(takeOff);
 
-            for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
+                for (int i = 0; i < drawnLevelCard.size(); i++) {
+                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                    g.drawImage(scaledImage, 1610, 30, this);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 //                g2d.setColor(new Color(128, 128, 128, 127));
 //                g2d.fillRect(1610, 30, 140, 210);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
 
+                }
+            } else {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                takeOff.setBounds(40, 220, 300, 30);
+                add(takeOff);
+                for (int i = 0; i < drawnLevelCard.size(); i++) {
+                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                    g.drawImage(scaledImage, 1610, 30, this);
 
-            }
-        } else {
-            g.drawImage(playerLevelCard, 30, 20,320, 200, null);
-            takeOff.setBounds(40, 220, 300, 30);
-            add(takeOff);
-            for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
-
-
-            }
-        }
-
-        if(isHost1) {
-            g.drawImage(playerLevelCard, 30, 20,320, 200, null);
-            takeOff.setBounds(40, 220, 300, 30);
-            add(takeOff);
-            g.drawImage(personalCard, 30, 260, 320, 200, null);
-            int hearts = hostPanel.playerHost.getPlayerHearts();
-            for(int j = 0; j < 4; j++) {
-                if(j <2) {
-                    g.drawImage(heart, 50 + (45*j), 300, 40, 40, null);
-
-                } else {
-                    int k = j-2;
-                    g.drawImage(heart, 50 + (45*k), 345, 40, 40, null);
 
                 }
             }
-            for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
 
-            }
-        } else {
-            g.drawImage(playerLevelCard, 30, 20,320, 200, null);
-            takeOff.setBounds(40, 220, 300, 30);
-            add(takeOff);
-            g.drawImage(personalCard, 30, 260, 320, 200, null);
-            int hearts = characterSelectPanel.playerClient.getPlayerHearts();
-            for(int j = 0; j < 4; j++) {
-                if(j <2) {
-                    g.drawImage(heart, 50 + (45*j), 300, 40, 40, null);
+            if (isHost1) {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                takeOff.setBounds(40, 220, 300, 30);
+                add(takeOff);
+                g.drawImage(personalCard, 30, 260, 320, 200, null);
+                int hearts = hostPanel.playerHost.getPlayerHearts();
+                for (int j = 0; j < hearts; j++) {
+                    if (j < 2) {
+                        g.drawImage(heart, 50 + (45 * j), 300, 40, 40, null);
 
-                } else {
-                    int k = j-2;
-                    g.drawImage(heart, 50 + (45*k), 345, 40, 40, null);
+                    } else {
+                        int k = j - 2;
+                        g.drawImage(heart, 50 + (45 * k), 345, 40, 40, null);
+
+                    }
+                }
+                for (int i = 0; i < drawnLevelCard.size(); i++) {
+                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                    g.drawImage(scaledImage, 1610, 30, this);
 
                 }
-            }
-            for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
+            } else {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                takeOff.setBounds(40, 220, 300, 30);
+                add(takeOff);
+                g.drawImage(personalCard, 30, 260, 320, 200, null);
+                int hearts = characterSelectPanel.playerClient.getPlayerHearts();
+                for (int j = 0; j < hearts; j++) {
+                    if (j < 2) {
+                        g.drawImage(heart, 50 + (45 * j), 300, 40, 40, null);
+
+                    } else {
+                        int k = j - 2;
+                        g.drawImage(heart, 50 + (45 * k), 345, 40, 40, null);
+
+                    }
+                }
+                for (int i = 0; i < drawnLevelCard.size(); i++) {
+                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                    g.drawImage(scaledImage, 1610, 30, this);
+
+
+                }
 
 
             }
-
-
-        }
         /*if(isHost1) {
             if(hostPanel.playerHost.getPlayerImage().equals("cat")) {
                 g.drawImage(cat, 60, 60, 70, 105, null);
@@ -1286,42 +1404,43 @@ public class GamePanel extends JPanel {
             setVisible(true);
         }*/
 
-        if(isHost1){
-            System.out.println(tempChar);
-            for(int i=0; i<tempChar.size();i++){
-                if((tempChar.get(i)).equals("catB")){
-                    g.drawImage(cat, 60, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("indianWomanB"))){
-                    g.drawImage(indianWoman, 110, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("whiteB"))){
-                    g.drawImage(white, 160, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("frogB"))){
-                    g.drawImage(frog, 210, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("gandalfB"))){
-                    g.drawImage(gandalf, 260, 60, 70, 105, null);
+            if (isHost1) {
+                System.out.println(tempChar);
+                for (int i = 0; i < tempChar.size(); i++) {
+                    if ((tempChar.get(i)).equals("catB")) {
+                        g.drawImage(cat, 60, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("indianWomanB"))) {
+                        g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("whiteB"))) {
+                        g.drawImage(white, 160, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("frogB"))) {
+                        g.drawImage(frog, 210, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("gandalfB"))) {
+                        g.drawImage(gandalf, 260, 60, 70, 105, null);
+                    }
+                    setVisible(true);
                 }
-                setVisible(true);
-            }
-        }
-        else{
-            System.out.println(tempChar);
-            for(int i=0; i<tempChar.size();i++){
-                if((tempChar.get(i)).equals("catB")){
-                    g.drawImage(cat, 60, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("indianWomanB"))){
-                    g.drawImage(indianWoman, 110, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("whiteB"))){
-                    g.drawImage(white, 160, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("frogB"))){
-                    g.drawImage(frog, 210, 60, 70, 105, null);
-                } else if((tempChar.get(i).equals("gandalfB"))){
-                    g.drawImage(gandalf, 260, 60, 70, 105, null);
+            } else {
+                if (tempChar.size() == 0) {
+                    phase.setText("Buy Phase");
                 }
-                setVisible(true);
+                System.out.println(tempChar);
+                for (int i = 0; i < tempChar.size(); i++) {
+                    if ((tempChar.get(i)).equals("catB")) {
+                        g.drawImage(cat, 60, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("indianWomanB"))) {
+                        g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("whiteB"))) {
+                        g.drawImage(white, 160, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("frogB"))) {
+                        g.drawImage(frog, 210, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("gandalfB"))) {
+                        g.drawImage(gandalf, 260, 60, 70, 105, null);
+                    }
+                    setVisible(true);
+                }
             }
-        }
     }
-
     public String playerGameView(int x){
         cardsPanel.setEnabled(false);
         System.out.println(x);
@@ -1646,8 +1765,8 @@ public class GamePanel extends JPanel {
         if (this.isHost1) {
             LeaderBoard.removeAll();
 
-            JLabel leaderBoardName = new JLabel("LeaderBoard1", JLabel.CENTER);
-            leaderBoardName.setFont(new Font("Georgia", Font.BOLD, 20));
+            JLabel leaderBoardName = new JLabel("LeaderBoard (Host)", JLabel.CENTER);
+            leaderBoardName.setFont(new Font("Georgia", Font.BOLD, 18));
             leaderBoardName.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2, true));
             leaderBoardName.setOpaque(true);
             leaderBoardName.setBackground(Color.GRAY);
@@ -1715,8 +1834,8 @@ public class GamePanel extends JPanel {
         if (!this.isHost1) {
             LeaderBoard.removeAll();
 
-            JLabel leaderBoardName = new JLabel("LeaderBoard", JLabel.CENTER);
-            leaderBoardName.setFont(new Font("Georgia", Font.BOLD, 20));
+            JLabel leaderBoardName = new JLabel("LeaderBoard (Client)", JLabel.CENTER);
+            leaderBoardName.setFont(new Font("Georgia", Font.BOLD, 18));
             leaderBoardName.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2, true));
             leaderBoardName.setOpaque(true);
             leaderBoardName.setBackground(Color.GRAY);

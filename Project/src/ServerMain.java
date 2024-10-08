@@ -221,6 +221,10 @@ public class ServerMain{
     }
     public synchronized void broadcastMessagePlayers(ArrayList<Player> playerArrayListHost) {
         synchronized (clientOutputStreams){
+            if(gamePanel!=null){
+                System.out.println("YES DOING");
+                gamePanel.LeaderBoardUpdateHost();
+            }
             System.out.println("Debug: " + playerArrayList_Host.size());
             for(ObjectOutputStream out: clientOutputStreams){
                 CommandFromServer.notify_PLAYEROBJECT_LIST(out, playerArrayListHost);
@@ -383,7 +387,5 @@ public class ServerMain{
         this.characterSelectPanel = characterSelectPanel;
     }
     public void setGamePanel(GamePanel gamePanel) { this.gamePanel = gamePanel;}
-
-
 
 }
