@@ -66,7 +66,7 @@ public class GamePanel extends JPanel {
     private JLabel unsafeTreasures = new JLabel ("Unsafe:");
     private JLabel safeTreasures = new JLabel ("Safe:");
     private JButton temp = new JButton("Temp");
-
+    public JLabel phase;
     //missing one\
     //skip 25 its a repeat
     private BufferedImage personalCard, heartCard, starCardBackground,
@@ -100,16 +100,24 @@ public class GamePanel extends JPanel {
         ErrorArea.setVisible(false);
 
 
-        ErrorArea1 = new JLabel("",JLabel.CENTER);
-        ErrorArea1.setBorder(BorderFactory.createLineBorder(Color.red,2,true));
-        ErrorArea1.setBackground(Color.PINK);
-        ErrorArea1.setForeground(Color.red);
-        ErrorArea1.setFont(new Font("Georgia", Font.BOLD, 20));
-        ErrorArea1.setBounds(1170, 485, 230, 40);
-        add(ErrorArea1);
-        ErrorArea1.setVisible(false);
+//        ErrorArea1 = new JLabel("",JLabel.CENTER);
+//        ErrorArea1.setBorder(BorderFactory.createLineBorder(Color.red,2,true));
+//        ErrorArea1.setBackground(Color.PINK);
+//        ErrorArea1.setForeground(Color.red);
+//        ErrorArea1.setFont(new Font("Georgia", Font.BOLD, 20));
+//        ErrorArea1.setBounds(1170, 485, 230, 40);
+//        add(ErrorArea1);
+//        ErrorArea1.setVisible(false);
+        phase = new JLabel("Run Phase",JLabel.CENTER);
+        phase.setBorder(BorderFactory.createLineBorder(Color.green,2,true));
+        phase.setOpaque(true);
 
-
+        phase.setFont(new Font("Georgia", Font.BOLD, 20));
+        phase.setBounds(1170, 485, 230, 40);
+        phase.setBackground(Color.black);
+        phase.setForeground(Color.green);
+        phase.setFont(new Font("Georgia", Font.BOLD, 20));
+        add(phase);
         cardsPanel = new JPanel();
         cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         cardsPanel.setBackground(Color.black);
@@ -791,7 +799,7 @@ public class GamePanel extends JPanel {
             treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -805,8 +813,8 @@ public class GamePanel extends JPanel {
                 else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                     showError("Not Your View");
                 }
-                else if((hostPanel.playerHost.isPlayerActive)){
-                    showError("Still in Level");
+                else if((!hostPanel.playerHost.isPlayerActive)){
+                    showError("In Buy Phase");
                 }
             });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
@@ -960,7 +968,7 @@ public class GamePanel extends JPanel {
         treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
-            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)) {
+            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)) {
                 playerTreasures.add(shuffledDeck.remove(0));
                 characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
                 if (!isHost1) {
@@ -971,8 +979,8 @@ public class GamePanel extends JPanel {
             } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                 showError("Not Your View");
             }
-            else if((characterSelectPanel.playerClient.isPlayerActive)){
-                showError("Still in Level");
+            else if((!characterSelectPanel.playerClient.isPlayerActive)){
+                showError("In Buy Phase");
             }
         });
         System.out.println(cardSelectedList_g_client.size());

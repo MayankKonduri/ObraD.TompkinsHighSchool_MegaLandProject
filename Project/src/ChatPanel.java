@@ -4,6 +4,8 @@ import javax.sound.sampled.Line;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.ScrollBarUI;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.ObjectOutputStream;
@@ -77,18 +79,49 @@ public class ChatPanel extends JPanel{
         chatArea.setEditable(false);
         chatArea.setLineWrap(true);
         chatArea.setWrapStyleWord(true);
-        chatArea.setBorder(new EmptyBorder(10, 10, 10, 10));
-        
+        chatArea.setBorder(new LineBorder(Color.white, 1));
+        chatArea.setFont(new Font("Georgia", Font.PLAIN, 15));
+        chatArea.setBackground(Color.black);
+        chatArea.setForeground(Color.WHITE);
+
         JScrollPane scrollPane = new JScrollPane(chatArea);
         scrollPane.setBounds(10-i, 40, 230, 130); // Position and size
+        scrollPane.setBackground(Color.black);
+        scrollPane.setForeground(Color.white);
         add(scrollPane);
+        scrollPane.getVerticalScrollBar().setBackground(Color.gray);
+        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Color.BLACK;
+            }
+        });
 
         messageField = new JTextField();
         messageField.setBounds(10-i,180,150,30);
+        messageField.setFont(new Font("Georgia", Font.PLAIN, 15));
+        messageField.setBackground(Color.black);
+        messageField.setForeground(Color.white);
+        messageField.setFocusable(true);
+        messageField.setCaretColor(Color.white);
+        messageField.setBorder(new LineBorder(Color.white, 1));
         add(messageField);
 
         JButton sendButton = new JButton("Send");
         sendButton.setBounds(170-i, 180, 70, 30);
+        sendButton.setFocusable(false);
+        sendButton.setFont(new Font("Georgia", Font.BOLD, 15));
+        sendButton.setForeground(Color.white);
+        sendButton.setBackground(Color.black);
+        sendButton.setBorder(BorderFactory.createEmptyBorder());
+        sendButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                sendButton.setBorder(new LineBorder(Color.white, 1));
+            }
+            public void mouseExited(MouseEvent e) {
+                sendButton.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
