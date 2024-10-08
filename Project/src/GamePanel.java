@@ -573,6 +573,10 @@ public class GamePanel extends JPanel {
 
     public void updateTempChar(String tempCharChar){
         tempChar.remove(tempCharChar);
+        if(tempChar.size() == 0){
+            phase.setText("Buy Phase");
+        }
+        System.out.println(tempChar);
         repaint();
         revalidate();
     }
