@@ -93,6 +93,9 @@ public class GamePanel extends JPanel {
         this.isHost1 = isHost;
         //this.cardSelectPanel = cardSelectPanel;
 
+ //---------------------------------------------------------------------------------------------------------------------------------------------------------------
+        /* TEST CASE BUTTONS*/
+        
         temp1.setBounds(1700,700,250,30);
         add(temp1);
         temp1.addActionListener(new ActionListener() {
@@ -207,6 +210,8 @@ public class GamePanel extends JPanel {
             }
         });
 
+        /* TEST CASE BUTTONS*/
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         LeaderBoard = new JPanel();
         LeaderBoard.setBounds(30,475,230,300);
