@@ -40,7 +40,7 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
         setLayout(null);
         if(!isHost) {
             System.out.println("ID Before Creating Object: " + clientMain.Final_gamePlayerNames_ClientSide);
-            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, true, true, false, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>(), new ArrayList<LevelCard>(), null);
+            playerClient = new Player(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()), connectPanel.nameTextField.getText(), false, 0, 0, 0, true, true, false, new ArrayList<BuildingCards>(), new ArrayList<TreasureCard>(), new ArrayList<LevelCard>(), null, new ArrayList<TreasureCard>());
             //waitingForHostPanel.setPlayerObject(playerClient);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), playerClient);
         }

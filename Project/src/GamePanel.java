@@ -149,11 +149,13 @@ public class GamePanel extends JPanel {
         safeTreasures.setVerticalAlignment(SwingConstants.CENTER);
         add(safeTreasures);
 
-        add(safeTreasures);
         safeTreasurePanel = new JPanel();
         safeTreasurePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        safeTreasurePanel.setOpaque(true);
+        safeTreasurePanel.setBackground(Color.black);
         scrollPane2 = new JScrollPane(safeTreasurePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane2.setBounds(980, 830, 660, 140);
+        scrollPane2.setOpaque(true);
         scrollPane2.setBackground(Color.black);
         scrollPane2.setForeground(Color.WHITE);
         scrollPane2.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
@@ -182,6 +184,7 @@ public class GamePanel extends JPanel {
 
         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
 
         if(isHost){
             tempChar = serverMain.charactersInLevel_host;
@@ -791,6 +794,8 @@ public class GamePanel extends JPanel {
                 if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     System.out.println(hostPanel.playerHost.getPlayerTreasures());
                     serverMain.playerArrayList_Host.set(0,hostPanel.playerHost);
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
@@ -879,12 +884,27 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
-                safeTreasuresList.add(playerTreasures.get(finalI));
-                playerTreasures.remove(finalI);
-                clientTreasureDisplay(playerTreasures);
-                safeTreasureDisplay();
-                revalidate();
-                repaint();
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                    safeTreasuresList.add(playerTreasures.get(finalI));
+                    hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    playerTreasures.remove(finalI);
+                    hostPanel.playerHost.setPlayerTreasures(playerTreasures);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    hostTreasureDisplay(playerTreasures);
+                    safeTreasureDisplay(safeTreasuresList);
+                    serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
+                    revalidate();
+                    repaint();
+                } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                    showError("Not Your View");
+                } else if((hostPanel.playerHost.isPlayerActive)){
+                    showError("Still in Level");
+                }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
+                    showError("Cannot Draw Cards");
+                }
             });
         }
         int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
@@ -1030,12 +1050,26 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
-                safeTreasuresList.add(playerTreasures.get(finalI));
-                playerTreasures.remove(finalI);
-                clientTreasureDisplay(playerTreasures);
-                safeTreasureDisplay();
-                revalidate();
-                repaint();
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && !(characterSelectPanel.playerClient.isPlayerActive)){
+                    safeTreasuresList.add(playerTreasures.get(finalI));
+                    characterSelectPanel.playerClient.setPlayerSafeTreasures(safeTreasuresList);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    playerTreasures.remove(finalI);
+                    characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    clientTreasureDisplay(playerTreasures);
+                    safeTreasureDisplay(safeTreasuresList);
+                    CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
+                    revalidate();
+                    repaint();
+                }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
+                    showError("Not Your View");
+                } else if((characterSelectPanel.playerClient.isPlayerActive)){
+                    showError("Still in Level");
+                }
+                else if(!(characterSelectPanel.playerClient.isCanDrawLevel())){
+                    showError("Cannot Draw Cards");
+                }
             });
         }
         int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
@@ -1061,20 +1095,20 @@ public class GamePanel extends JPanel {
         return playerTreasures;
     }
 
-    public void safeTreasureDisplay() {
+    public void safeTreasureDisplay(ArrayList<TreasureCard> safeTreasuresList1) {
         safeTreasurePanel.removeAll();
 
         int cardWidth = 90;
         int cardHeight = 120;
         int cardSpacing = 20;
-        for(int i = 0; i < safeTreasuresList.size(); i++) {
-            TreasureCard treasureCard = safeTreasuresList.get(i);
+        for(int i = 0; i < safeTreasuresList1.size(); i++) {
+            TreasureCard treasureCard = safeTreasuresList1.get(i);
             BufferedImage image1 = treasureCard.getImage();
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             safeTreasurePanel.add(button1);
         }
-        int totalWidth = (cardWidth + cardSpacing) * safeTreasuresList.size();
+        int totalWidth = (cardWidth + cardSpacing) * safeTreasuresList1.size();
         safeTreasurePanel.setPreferredSize(new Dimension(totalWidth, 230));
         safeTreasurePanel.revalidate();
         safeTreasurePanel.repaint();
@@ -1225,80 +1259,120 @@ public class GamePanel extends JPanel {
             case 0:
                 System.out.println("Player 1");
                 cardsPanel.removeAll();
+                treasurePanel.removeAll();
+                safeTreasurePanel.removeAll();
+
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
                 }
                 else{
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 1:
                 System.out.println("Player 2");
                 cardsPanel.removeAll();
+                treasurePanel.removeAll();
+                safeTreasurePanel.removeAll();
+
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
                 }
                 else{
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 2:
                 System.out.println("Player 3");
                 cardsPanel.removeAll();
+                treasurePanel.removeAll();
+                safeTreasurePanel.removeAll();
+
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
                 }
                 else{
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 3:
                 System.out.println("Player 4");
                 cardsPanel.removeAll();
+                treasurePanel.removeAll();
+                safeTreasurePanel.removeAll();
+
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
                 }
                 else{
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             case 4:
                 System.out.println("Player 5");
                 cardsPanel.removeAll();
+                treasurePanel.removeAll();
+                safeTreasurePanel.removeAll();
+
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                 if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                     return "My";
                 }
                 else{
                     cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                 }
                 return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
@@ -1309,80 +1383,125 @@ public class GamePanel extends JPanel {
                 case 0:
                     System.out.println("Player 1");
                     cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
+
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
+                    if (!isHost1) {
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    }
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
                     }
                     else{
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 1:
                     System.out.println("Player 2");
                     cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
+
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
+                    if (!isHost1) {
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    }
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
                     }
                     else{
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 2:
                     System.out.println("Player 3");
                     cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
+
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
+                    if (!isHost1) {
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    }
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
                     }
                     else{
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 3:
                     System.out.println("Player 4");
                     cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
+
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
+                    if (!isHost1) {
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    }
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
                     }
                     else{
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;
                 case 4:
                     System.out.println("Player 5");
                     cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
+
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
-                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientMain.playerArrayList_client.get(x).getPlayerTreasures());
+                    clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
+                    if (!isHost1) {
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                    }
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         return "My";
                     }
                     else{
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
                     //break;

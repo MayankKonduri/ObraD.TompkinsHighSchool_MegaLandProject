@@ -2,6 +2,7 @@ package Project.src;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Player implements Serializable{
@@ -19,11 +20,12 @@ public class Player implements Serializable{
     public ArrayList<BuildingCards> playerBuildings;
     public ArrayList<TreasureCard> playerTreasures;
     public ArrayList<LevelCard> playerLevelCards;
+    public ArrayList<TreasureCard> playerSafeTreasures;
 
     public ArrayList<Player> allPlayers = new ArrayList<>();
     //    public ArrayList<TreasureCards> playerOwnedTreasureCards;
 //    public ArrayList<BuildingCards> playerOwnedBuildingCards;
-    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings, ArrayList<TreasureCard> playerTreasures, ArrayList<LevelCard> playerLevelCards, String characterImage) {
+    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings, ArrayList<TreasureCard> playerTreasures, ArrayList<LevelCard> playerLevelCards, String characterImage, ArrayList<TreasureCard> playerSafeTreasures) {
         this.playerID= playerID;
         this.playerName = playerName;
         this.playerTurn = playerTurn;
@@ -37,6 +39,7 @@ public class Player implements Serializable{
         this.playerTreasures = playerTreasures;
         this.playerLevelCards = playerLevelCards;
         this.playerImage = characterImage;
+        this.playerSafeTreasures = playerSafeTreasures;
     }
 
     public String getPlayerImage(){
@@ -129,8 +132,15 @@ public class Player implements Serializable{
     public void setPlayerTreasures(ArrayList<TreasureCard> playerTreasures1) {
         this.playerTreasures = playerTreasures1;
     }
-
     public ArrayList<TreasureCard> getPlayerTreasures() {
         return playerTreasures;
+    }
+
+    public void setPlayerSafeTreasures(ArrayList<TreasureCard> playerSafeTreasures) {
+        this.playerSafeTreasures = playerSafeTreasures;
+    }
+
+    public ArrayList<TreasureCard> getPlayerSafeTreasures() {
+        return playerSafeTreasures;
     }
 }
