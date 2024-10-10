@@ -84,7 +84,7 @@ public class ClientMain{
             out = new ObjectOutputStream(socket.getOutputStream());
             clientListener = new ClientListener(socket, this);
             new Thread(clientListener).start();
-            gamePlayerNames_ClientSide.add(clientName);
+            Final_gamePlayerNames_ClientSide.add(clientName);
             connectPanel.playerListClientSide.add(clientName);
             CommandFromClient.notify_CLIENT_NAME(out, clientName);
             return true;
@@ -98,20 +98,26 @@ public class ClientMain{
         }
     }
 
-    public ArrayList<String> clearPlayerNames(ArrayList<String> gamePlayerNamesClientSide) {
-        Iterator<String> iterator = gamePlayerNamesClientSide.iterator();
+    public ArrayList<String> clearPlayerNames(ArrayList<String> Final_gamePlayerNames_ClientSide) {
+        Iterator<String> iterator = Final_gamePlayerNames_ClientSide.iterator();
         while (iterator.hasNext()){
             String name = iterator.next();
             if(name == null || name.isEmpty()){
                 iterator.remove();
             }
         }
-        return gamePlayerNamesClientSide;
+        return Final_gamePlayerNames_ClientSide;
+    }
+
+    public void walletTemp() {
+        if(gamePanel!= null) {
+            gamePanel.wallet(playerArrayList_client.get(Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerName(), playerArrayList_client.get(Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerHearts(), playerArrayList_client.get(Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerCoins(), playerArrayList_client.get(Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerJumps());
+        }
     }
 
     public void addHostToList(String hostName){
-        if(!gamePlayerNames_ClientSide.contains(hostName)){
-            gamePlayerNames_ClientSide.add(0,hostName);
+        if(!Final_gamePlayerNames_ClientSide.contains(hostName)){
+            Final_gamePlayerNames_ClientSide.add(0,hostName);
         }
         if(!connectPanel.playerListClientSide.contains(hostName)){
             connectPanel.playerListClientSide.add(0,hostName);
@@ -120,8 +126,8 @@ public class ClientMain{
         System.out.println(gamePlayerNames_ClientSide);
     }
     public void addClientToList(String clientName) {
-        if(!gamePlayerNames_ClientSide.contains(clientName)){
-            gamePlayerNames_ClientSide.add(clientName);
+        if(!Final_gamePlayerNames_ClientSide.contains(clientName)){
+            Final_gamePlayerNames_ClientSide.add(clientName);
         }
         if(!connectPanel.playerListClientSide.contains(clientName)){
             connectPanel.playerListClientSide.add(clientName);
@@ -131,7 +137,7 @@ public class ClientMain{
         //connectPanel.verifyName();
     }
     public void removeClientFromList(String clientName) {
-        gamePlayerNames_ClientSide.remove(clientName);
+        Final_gamePlayerNames_ClientSide.remove(clientName);
         connectPanel.playerListClientSide.remove(clientName);
         connectPanel.updatePlayerList();
         System.out.println(gamePlayerNames_ClientSide);
@@ -278,7 +284,7 @@ public class ClientMain{
         cardPanel_Client_Side = arrayListCardPanel;
     }
     public ArrayList<String> getGamePlayerNames_ClientSide(){
-        return gamePlayerNames_ClientSide;
+        return Final_gamePlayerNames_ClientSide;
     }
     public ArrayList<String> getFinal_gamePlayerNames_ClientSide(){
         return Final_gamePlayerNames_ClientSide;

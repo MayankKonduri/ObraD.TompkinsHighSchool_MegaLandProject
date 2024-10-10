@@ -85,6 +85,7 @@ public class ClientListener implements Runnable{
                     System.out.println("Final Recieving2: " + players.size());
                     processPlayerList(players);
                     setLeaderBoardGameClient1();
+                    cLientMain.walletTemp();
                 }
             }
         } catch (EOFException e) {

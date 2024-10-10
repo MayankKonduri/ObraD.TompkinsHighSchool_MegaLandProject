@@ -220,6 +220,7 @@ public class ServerMain{
         }
     }
     public synchronized void broadcastMessagePlayers(ArrayList<Player> playerArrayListHost) {
+        walletTemp();
         synchronized (clientOutputStreams){
             if(gamePanel!=null){
                 System.out.println("YES DOING");
@@ -388,4 +389,9 @@ public class ServerMain{
     }
     public void setGamePanel(GamePanel gamePanel) { this.gamePanel = gamePanel;}
 
+    public void walletTemp() {
+        if(gamePanel!= null) {
+            gamePanel.wallet(playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerName(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerHearts(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerCoins(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerJumps());
+        }
+    }
 }

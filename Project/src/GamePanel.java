@@ -72,6 +72,9 @@ public class GamePanel extends JPanel {
     private JButton temp5 = new JButton("Jump Increase");
     private JButton temp6 = new JButton("Jump Decrease");
     public JLabel phase;
+    public JLabel heartCount = new JLabel("4");
+    public JLabel coinCount = new JLabel("0");
+    public JLabel jumpCount = new JLabel("0");
 
     JPanel LeaderBoard;
     //missing one\
@@ -95,7 +98,16 @@ public class GamePanel extends JPanel {
 
  //---------------------------------------------------------------------------------------------------------------------------------------------------------------
         /* TEST CASE BUTTONS*/
-        
+
+        heartCount.setBounds(360, 500, 70, 40);
+        heartCount.setFont(new Font("Georgia", Font.BOLD, 20));
+        add(heartCount);
+        coinCount.setBounds(440, 500, 70, 40);
+        coinCount.setFont(new Font("Georgia", Font.BOLD, 20));
+        add(coinCount);
+        jumpCount.setBounds(520, 500, 70, 40);
+        jumpCount.setFont(new Font("Georgia", Font.BOLD, 20));
+        add(jumpCount);
         temp1.setBounds(1700,700,250,30);
         add(temp1);
         temp1.addActionListener(new ActionListener() {
@@ -1314,7 +1326,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
             g.drawImage(loading, 0, 0, 1920, 1050, null);
-
+            g.drawImage(heart, 280, 500, 40, 40, null);
 
 //        Graphics2D g2d = (Graphics2D) g;
             if (isHost1) {
@@ -1411,38 +1423,42 @@ public class GamePanel extends JPanel {
 
             if (isHost1) {
                 System.out.println(tempChar);
-                for (int i = 0; i < tempChar.size(); i++) {
-                    if ((tempChar.get(i)).equals("catB")) {
-                        g.drawImage(cat, 60, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("indianWomanB"))) {
-                        g.drawImage(indianWoman, 110, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("whiteB"))) {
-                        g.drawImage(white, 160, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("frogB"))) {
-                        g.drawImage(frog, 210, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("gandalfB"))) {
-                        g.drawImage(gandalf, 260, 60, 70, 105, null);
+                if(tempChar.size() != 0) {
+                    for (int i = 0; i < tempChar.size(); i++) {
+                        if ((tempChar.get(i)).equals("catB")) {
+                            g.drawImage(cat, 60, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("indianWomanB"))) {
+                            g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("whiteB"))) {
+                            g.drawImage(white, 160, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("frogB"))) {
+                            g.drawImage(frog, 210, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("gandalfB"))) {
+                            g.drawImage(gandalf, 260, 60, 70, 105, null);
+                        }
+                        setVisible(true);
                     }
-                    setVisible(true);
                 }
             } else {
                 if (tempChar.size() == 0) {
                     phase.setText("Buy Phase");
                 }
                 System.out.println(tempChar);
-                for (int i = 0; i < tempChar.size(); i++) {
-                    if ((tempChar.get(i)).equals("catB")) {
-                        g.drawImage(cat, 60, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("indianWomanB"))) {
-                        g.drawImage(indianWoman, 110, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("whiteB"))) {
-                        g.drawImage(white, 160, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("frogB"))) {
-                        g.drawImage(frog, 210, 60, 70, 105, null);
-                    } else if ((tempChar.get(i).equals("gandalfB"))) {
-                        g.drawImage(gandalf, 260, 60, 70, 105, null);
+                if(tempChar.size() != 0) {
+                    for (int i = 0; i < tempChar.size(); i++) {
+                        if ((tempChar.get(i)).equals("catB")) {
+                            g.drawImage(cat, 60, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("indianWomanB"))) {
+                            g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("whiteB"))) {
+                            g.drawImage(white, 160, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("frogB"))) {
+                            g.drawImage(frog, 210, 60, 70, 105, null);
+                        } else if ((tempChar.get(i).equals("gandalfB"))) {
+                            g.drawImage(gandalf, 260, 60, 70, 105, null);
+                        }
+                        setVisible(true);
                     }
-                    setVisible(true);
                 }
             }
     }
@@ -1766,6 +1782,14 @@ public class GamePanel extends JPanel {
         timer.start();
     }
 
+    public void wallet(String playerName, int hearts, int coins, int jumps) {
+        heartCount.setText(String.valueOf(hearts));
+        coinCount.setText(String.valueOf(coins));
+        jumpCount.setText(String.valueOf(jumps));
+        revalidate();
+        repaint();
+    }
+
     public void LeaderBoardUpdateHost() {
         if (this.isHost1) {
             LeaderBoard.removeAll();
@@ -1805,6 +1829,8 @@ public class GamePanel extends JPanel {
                 int HeartsTemp = serverMain.playerArrayList_Host.get(i).getPlayerHearts();
                 int CoinsTemp = serverMain.playerArrayList_Host.get(i).getPlayerCoins();
                 int JumpTemp = serverMain.playerArrayList_Host.get(i).getPlayerJumps();
+
+
 
                 JLabel nameLabel = new JLabel(playerName, JLabel.CENTER);
                 nameLabel.setFont(new Font("Georgia", Font.PLAIN, 14));

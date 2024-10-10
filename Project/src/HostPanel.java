@@ -169,7 +169,7 @@ public class HostPanel extends JPanel{
         numPlayersLabel.setBorder(new LineBorder(Color.white, 1));
         add(numPlayersLabel);
 
-        String[] numberPlayersOption = {"2", "3", "4", /*"5"*/};
+        String[] numberPlayersOption = {"2", "3", "4", "5"};
         for (int i = 0; i < numberPlayersOption.length; i++) {
             final int index = i;
             playerButtons[i] = new JRadioButton(numberPlayersOption[i]);

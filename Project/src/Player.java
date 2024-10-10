@@ -41,7 +41,7 @@ public class Player implements Serializable{
         this.playerImage = characterImage;
         this.playerSafeTreasures = playerSafeTreasures;
 
-        this.playerHearts = 5;
+        this.playerHearts = 4;
     }
 
     public String getPlayerImage(){
