@@ -812,14 +812,14 @@ public class GamePanel extends JPanel {
             levelDraw.setBounds(1450, 30, 140, 210);
             add(levelDraw);
             levelDraw.addActionListener(e -> {
-                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
                         GUILevelCardsHost();
                         serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
                         //logic
                     } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
-                    } else if((hostPanel.playerHost.isPlayerActive)){
-                        showError("Still in Level");
+                    } else if((!hostPanel.playerHost.isPlayerActive)){
+                        showError("Not in Level");
                     }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
                         showError("Cannot Draw Cards");
                     }
@@ -846,13 +846,13 @@ public class GamePanel extends JPanel {
         levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && !(characterSelectPanel.playerClient.isPlayerActive)){
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
                     GUILevelCardsClient();
                     CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
                 }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
-                } else if((characterSelectPanel.playerClient.isPlayerActive)){
-                    showError("Still in Level");
+                } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
+                    showError("Not in Level");
                 }
                 else if(!(characterSelectPanel.playerClient.isCanDrawLevel())){
                     showError("Cannot Draw Cards");
@@ -1090,6 +1090,9 @@ public class GamePanel extends JPanel {
 
         }
     }
+
+
+
     public ArrayList<TreasureCard> hostTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
         treasurePanel.removeAll();
 
@@ -1786,6 +1789,8 @@ public class GamePanel extends JPanel {
     public void GUILevelCardsHost(){
         if(hostPanel.playerHost.getPlayerLevelCards().size() != 0) {
             LevelCard temp = hostPanel.playerHost.getPlayerLevelCards().remove(0);
+            int skulls = temp.getNumberSkulls();
+            levelCardActions(skulls);
             hostPanel.playerHost.setPlayerLevelCards(hostPanel.playerHost.getPlayerLevelCards());
             serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
@@ -1802,6 +1807,8 @@ public class GamePanel extends JPanel {
     public void GUILevelCardsClient(){
         if(characterSelectPanel.playerClient.getPlayerLevelCards().size() != 0) {
             LevelCard temp = characterSelectPanel.playerClient.getPlayerLevelCards().remove(0);
+            int skulls = temp.getNumberSkulls();
+            levelCardActions(skulls);
             characterSelectPanel.playerClient.setPlayerLevelCards(characterSelectPanel.playerClient.getPlayerLevelCards());
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
 
@@ -1812,6 +1819,67 @@ public class GamePanel extends JPanel {
             if(characterSelectPanel.playerClient.getPlayerLevelCards().size()!=0){
                 createLevelDeck_Client();
             }
+        }
+    }
+
+    public void levelCardActions(int skulls){
+        if(isHost1){
+            if (hostPanel.playerHost.isPlayerActive) {
+                System.out.println("Hearts to be taken off:" + skulls);
+                hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts() - skulls);
+                if (hostPanel.playerHost.getPlayerHearts() <= 0) {
+                    hostPanel.playerHost.setPlayerHearts(0);
+                    if (hostPanel.playerHost.isPlayerActive) {
+                        hostPanel.playerHost.setPlayerActive(false);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                        takeOff.setText("Dropped Level");
+                        takeOff.setEnabled(false);
+                        tempChar.remove(hostPanel.playerHost.getPlayerImage());
+                        repaint();
+                        revalidate();
+                        serverMain.broadcastMessage(16, hostPanel.nameTextField.getText() + "-" + hostPanel.playerHost.getPlayerImage());
+                    }
+                    else{
+                        showError("Player Not Active");
+                    }
+                }
+
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                LeaderBoardUpdateHost();
+                personalWallet.repaint();
+                personalWallet.revalidate();
+                repaint();
+                revalidate();
+            }
+
+        }else{
+            if (characterSelectPanel.playerClient.isPlayerActive) {
+                System.out.println("Hearts to be taken off:" + skulls);
+                characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()-skulls);
+                if(characterSelectPanel.playerClient.getPlayerHearts() <= 0) {
+                    characterSelectPanel.playerClient.setPlayerHearts(0);
+                    if (characterSelectPanel.playerClient.isPlayerActive) {
+                        characterSelectPanel.playerClient.setPlayerActive(false);
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        takeOff.setText("Dropped Level");
+                        takeOff.setEnabled(false);
+                        tempChar.remove(characterSelectPanel.playerClient.getPlayerImage());
+                        repaint();
+                        revalidate();
+                        CommandFromClient.notify_LEVELDISCONNECTION(clientMain.getOut(), connectPanel.nameTextField.getText() + "-" + characterSelectPanel.playerClient.getPlayerImage());
+                    }
+                    else{
+                        showError("Player Not Active");
+                    }
+                }
+                CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                LeaderBoardUpdateClient();
+                repaint();
+                revalidate();
+            }
+
         }
     }
 
