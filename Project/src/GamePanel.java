@@ -1171,6 +1171,28 @@ public class GamePanel extends JPanel {
             }
         }
     }
+    public void initializeComponents() {
+        setLayout(new BorderLayout());
+        WelcomeLabel.setFont(new Font("Serif", Font.BOLD, 28));
+        add(WelcomeLabel, BorderLayout.NORTH);
+    }
+
+    public void addPlayerLabel(String playerName) {
+        playerLabel = new JLabel("Welcome " + playerName);
+        add(playerLabel, BorderLayout.SOUTH);
+    }
+
+    public void setupChatButton() {
+        chatButton = new JButton("Chat");
+        chatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        add(chatButton, BorderLayout.EAST);
+    }
+
+
     public void GUILevelCardsClient(){
         if(characterSelectPanel.playerClient.getPlayerLevelCards().size() != 0) {
             LevelCard temp = characterSelectPanel.playerClient.getPlayerLevelCards().remove(0);
@@ -1290,10 +1312,46 @@ public class GamePanel extends JPanel {
     private boolean checkPlayerReadiness() {
         return Math.random() > 0.5;
     }
+
+    public void loadBuildingImages() {
+        try {
+            buildingNames.add(ImageIO.read(new File("path/to/image1.png")));
+            buildingNames.add(ImageIO.read(new File("path/to/image2.png")));
+            // Load more images as needed
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setupTreasurePanel() {
+        treasurePanel.setLayout(new GridLayout(3, 2));
+        add(treasurePanel, BorderLayout.CENTER);
+    }
     private void generateRandomEvents() {
         String[] events = {"Picks a Building Card", "Picks a Treasure Card", "Drops out of Level", "Gains or Wins the Game"};
         int randomIndex = (int) (Math.random() * events.length);
         System.out.println("Event Occurred: " + events[randomIndex]);
     }
 
+    public void showChatPanel() {
+        chatPanel1 = new ChatPanel();
+        JFrame chatFrame = new JFrame("Chat");
+        chatFrame.add(chatPanel1);
+        chatFrame.setSize(300, 400);
+        chatFrame.setVisible(true);
+    }
+
+    public void updateErrorArea(String message) {
+        ErrorArea.setText(message);
+    }
+
+    public void toggleTakeOffButton() {
+        takeOff.setEnabled(!takeOff.isEnabled());
+    }
+
+    public void setupLevelCardDeck() {
+        deckLevelCard.add(new LevelCard("Level 1", 1));
+        deckLevelCard.add(new LevelCard("Level 2", 2));
+        // Add more level cards as needed
+    }
 }

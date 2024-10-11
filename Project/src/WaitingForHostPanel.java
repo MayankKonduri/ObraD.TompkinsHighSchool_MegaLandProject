@@ -223,9 +223,59 @@ public class WaitingForHostPanel extends JPanel {
         return playerList;
     }
 
+    ```java
+    public void refreshPanel() {
+        revalidate();
+        repaint();
+    }
+
+    public void displayLoadingMessage() {
+        System.out.println("Loading, please wait...");
+    }
+
+    public void toggleServerFullStatus() {
+        isServerFull = !isServerFull;
+    }
+
+    public void resetRetryAttempts() {
+        retryAttempts = 0;
+    }
+
+    public void incrementRetryAttempts() {
+        retryAttempts++;
+    }
+
+    public void updateConnectionMessage(String newStatus) {
+        connectionStatus = newStatus;
+        revalidate();
+        repaint();
+    }
+```
+
     public int getRemainingSlots() {
         return maxPlayers - playerList.size();
     }
 
+    public void showChatPanel() {
+        chatPanel1 = new ChatPanel();
+        JFrame chatFrame = new JFrame("Chat");
+        chatFrame.add(chatPanel1);
+        chatFrame.setSize(300, 400);
+        chatFrame.setVisible(true);
+    }
+
+    public void updateErrorArea(String message) {
+        ErrorArea.setText(message);
+    }
+
+    public void toggleTakeOffButton() {
+        takeOff.setEnabled(!takeOff.isEnabled());
+    }
+
+    public void setupLevelCardDeck() {
+        deckLevelCard.add(new LevelCard("Level 1", 1));
+        deckLevelCard.add(new LevelCard("Level 2", 2));
+        // Add more level cards as needed
+    }
 
 }
