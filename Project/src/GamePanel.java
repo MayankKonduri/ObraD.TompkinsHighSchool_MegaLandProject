@@ -75,6 +75,7 @@ public class GamePanel extends JPanel {
     public JLabel heartCount = new JLabel("4");
     public JLabel coinCount = new JLabel("0");
     public JLabel jumpCount = new JLabel("0");
+    private JPanel personalWallet = new JPanel();
 
     JPanel LeaderBoard;
     //missing one\
@@ -99,15 +100,24 @@ public class GamePanel extends JPanel {
  //---------------------------------------------------------------------------------------------------------------------------------------------------------------
         /* TEST CASE BUTTONS*/
 
-        heartCount.setBounds(360, 500, 70, 40);
+//        heartCount.setBounds(360, 500, 70, 40);
         heartCount.setFont(new Font("Georgia", Font.BOLD, 20));
-        add(heartCount);
-        coinCount.setBounds(440, 500, 70, 40);
+        heartCount.setForeground(Color.white);
+//        add(heartCount);
+//        coinCount.setBounds(440, 500, 70, 40);
         coinCount.setFont(new Font("Georgia", Font.BOLD, 20));
-        add(coinCount);
-        jumpCount.setBounds(520, 500, 70, 40);
+        coinCount.setForeground(Color.white);
+
+//        add(coinCount);
+//        jumpCount.setBounds(520, 500, 70, 40);
         jumpCount.setFont(new Font("Georgia", Font.BOLD, 20));
-        add(jumpCount);
+        jumpCount.setForeground(Color.white);
+
+//        add(jumpCount);
+
+
+
+
         temp1.setBounds(1700,700,250,30);
         add(temp1);
         temp1.addActionListener(new ActionListener() {
@@ -671,6 +681,37 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
 
+        personalWallet = new JPanel();
+//        personalWallet.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        personalWallet.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        personalWallet.setBackground(Color.black);
+        personalWallet.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+        personalWallet.setBounds(1420, 485, 230, 40);
+        JButton heart1 = new JButton(new ImageIcon(heart.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        heart1.setOpaque(true);
+        heart1.setBackground(Color.black);
+        heart1.setFocusable(false);
+        heart1.setBorder(BorderFactory.createEmptyBorder());
+        personalWallet.add(heart1);
+        personalWallet.add(heartCount);
+        JButton coinOne = new JButton(new ImageIcon(coin1.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        coinOne.setOpaque(true);
+        coinOne.setBackground(Color.black);
+        coinOne.setFocusable(false);
+        coinOne.setBorder(BorderFactory.createEmptyBorder());
+        personalWallet.add(coinOne);
+        personalWallet.add(coinCount);
+        JButton jump1 = new JButton(new ImageIcon(jump.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        jump1.setOpaque(true);
+        jump1.setBackground(Color.black);
+        jump1.setFocusable(false);
+        jump1.setBorder(BorderFactory.createEmptyBorder());
+        personalWallet.add(jump1);
+        personalWallet.add(jumpCount);
+        add(personalWallet);
+
+
+
         buildingNames.add(reptileStable);
         buildingNames.add(herbHut);
         buildingNames.add(ostrichRanch);
@@ -735,6 +776,14 @@ public class GamePanel extends JPanel {
         tempChar.remove(tempCharChar);
         if(tempChar.size() == 0){
             phase.setText("Buy Phase");
+
+            JButton heartBuy = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
+            heartBuy.setBounds(30, 20, 310, 190);
+            heartBuy.setOpaque(true);
+            heartBuy.setBackground(Color.black);
+            heartBuy.setFocusable(false);
+            heartBuy.setBorder(BorderFactory.createEmptyBorder());
+            add(heartBuy);
         }
         System.out.println(tempChar);
         repaint();
@@ -1326,7 +1375,6 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
             g.drawImage(loading, 0, 0, 1920, 1050, null);
-            g.drawImage(heart, 280, 500, 40, 40, null);
 
 //        Graphics2D g2d = (Graphics2D) g;
             if (isHost1) {
@@ -1788,6 +1836,8 @@ public class GamePanel extends JPanel {
         jumpCount.setText(String.valueOf(jumps));
         revalidate();
         repaint();
+        personalWallet.revalidate();
+        personalWallet.repaint();
     }
 
     public void LeaderBoardUpdateHost() {
