@@ -910,6 +910,56 @@ public class GamePanel extends JPanel {
                 horizontalBar.setValue(horizontalBar.getMaximum());
             });
     }
+    public GamePanel() {
+        playerBuildings = new ArrayList<>();
+        players = new ArrayList<>();
+        initializePlayers();
+    }
+
+    public void initializePlayers() {
+        players.add("Player 1");
+        players.add("Player 2");
+        players.add("Player 3");
+    }
+
+    public void initializeGameTimer() {
+        int countdown = 60;
+        while (countdown > 0) {
+            countdown--;
+        }
+    }
+
+    public void checkPlayerStatistics() {
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            boolean active = playerBuildings.get(i).isActive();
+            if (active) {
+                System.out.println("Player building " + i + " is active.");
+            }
+        }
+    }
+
+    public void generateRandomEvents() {
+        int event = (int) (Math.random() * 5);
+        switch (event) {
+            case 0:
+                System.out.println("Random event: Nothing happens.");
+                break;
+            case 1:
+                System.out.println("Random event: A storm approaches!");
+                break;
+            case 2:
+                System.out.println("Random event: A treasure is found!");
+                break;
+            case 3:
+                System.out.println("Random event: A building is under attack!");
+                break;
+            case 4:
+                System.out.println("Random event: Resources have been depleted!");
+                break;
+        }
+    }
+
+
 
 
     public void paintComponent(Graphics g) {
@@ -1323,10 +1373,23 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void setupTreasurePanel() {
-        treasurePanel.setLayout(new GridLayout(3, 2));
-        add(treasurePanel, BorderLayout.CENTER);
+    public void displayPlayerHealth() {
+        for (BuildingCards building : playerBuildings) {
+            int health = building.getHealth();
+            System.out.println("Building health: " + health);
+        }
     }
+
+    public void resetGameData() {
+        playerBuildings.clear();
+        players.clear();
+    }
+
+    public void logGameActions() {
+        System.out.println("Game actions logged.");
+    }
+
+
     private void generateRandomEvents() {
         String[] events = {"Picks a Building Card", "Picks a Treasure Card", "Drops out of Level", "Gains or Wins the Game"};
         int randomIndex = (int) (Math.random() * events.length);

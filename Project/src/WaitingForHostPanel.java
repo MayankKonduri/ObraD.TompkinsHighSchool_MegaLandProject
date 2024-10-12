@@ -193,15 +193,7 @@ public class WaitingForHostPanel extends JPanel {
         return connectionStatus;
     }
 
-    public void addPlayerToList(String playerName) {
-        if (!playerList.contains(playerName) && playerList.size() < maxPlayers) {
-            playerList.add(playerName);
-            revalidate();
-            repaint();
-        } else {
-            isServerFull = playerList.size() >= maxPlayers;
-        }
-    }
+
 
     public void removePlayerFromList(String playerName) {
         playerList.remove(playerName);
@@ -270,6 +262,22 @@ public class WaitingForHostPanel extends JPanel {
 
     public void toggleTakeOffButton() {
         takeOff.setEnabled(!takeOff.isEnabled());
+    }
+
+    public void displayPlayerHealth() {
+        for (BuildingCards building : playerBuildings) {
+            int health = building.getHealth();
+            System.out.println("Building health: " + health);
+        }
+    }
+
+    public void resetGameData() {
+        playerBuildings.clear();
+        players.clear();
+    }
+
+    public void logGameActions() {
+        System.out.println("Game actions logged.");
     }
 
     public void setupLevelCardDeck() {

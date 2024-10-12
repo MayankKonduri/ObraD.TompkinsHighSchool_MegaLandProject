@@ -85,6 +85,31 @@ public class InGameRulesPanel extends JPanel{
         setVisible(false);
         gamePanel.openGame();
     }
+    public void manageResourceCollection() {
+        // Simulates collecting resources for each player
+        for (String player : players) {
+            int resourcesCollected = (int) (Math.random() * 100);
+            System.out.println(player + " has collected " + resourcesCollected + " resources.");
+        }
+    }
+
+    public void updateBuildingStatus() {
+        // Updates and displays the status of each player's buildings
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BuildingCards building = playerBuildings.get(i);
+            String status = building.isActive() ? "active" : "inactive";
+            System.out.println("Building " + (i + 1) + " is currently " + status + ".");
+        }
+    }
+
+    public void handlePlayerTurn(int playerIndex) {
+        // Simulates handling a player's turn
+        if (playerIndex >= 0 && playerIndex < players.size()) {
+            System.out.println(players.get(playerIndex) + "'s turn is now.");
+        } else {
+            System.out.println("Invalid player index.");
+        }
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -122,5 +147,28 @@ public class InGameRulesPanel extends JPanel{
             previousPage.setVisible(true);
             nextPage.setVisible(false);
         }
+    }
+    public void trackGameProgress() {
+        // Displays the current state of the game
+        System.out.println("Current game progress:");
+        for (String player : players) {
+            System.out.println(player + " is in the game.");
+        }
+    }
+
+    public void announceRoundWinner(int round) {
+        // Simulates announcing the winner of a round
+        String winner = players.get((int) (Math.random() * players.size()));
+        System.out.println("Round " + round + " winner is: " + winner + "!");
+    }
+
+    public void displayGameInstructions() {
+        // Displays game instructions
+        System.out.println("Game Instructions:");
+        System.out.println("1. Each player takes turns to collect resources.");
+        System.out.println("2. Build structures using collected resources.");
+        System.out.println("3. Random events may affect your strategy.");
+        System.out.println("4. Manage your buildings and resources wisely.");
+        System.out.println("5. The player with the most points at the end wins.");
     }
 }
