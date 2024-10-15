@@ -511,6 +511,25 @@ public class GamePanel extends JPanel {
         takeOff.setBorder(BorderFactory.createEmptyBorder());
         takeOff.addMouseListener(new MouseAdapter() {
             @Override
+            public void updateLevelProgress() {
+                int currentLevel = Integer.parseInt(levelCount.getText());
+                levelCount.setText(String.valueOf(currentLevel + 1));
+                if (currentLevel % 5 == 0) {
+                    shuffleAndDistributeBuildings();
+                }
+                LeaderBoard.repaint();
+            }
+
+            public void completeTreasureChallenge() {
+                if (safeTreasuresList.size() >= 5) {
+                    scoreCount.setText(String.valueOf(Integer.parseInt(scoreCount.getText()) + 100));
+                    safeTreasuresList.clear();
+                    LeaderBoard.repaint();
+                } else {
+                    ErrorArea.setText("Not enough treasures for a challenge completion!");
+                    ErrorArea.setVisible(true);
+                }
+            }
             public void mouseEntered(MouseEvent e) {
                 takeOff.setBorder(new LineBorder(Color.white, 1));
             }
@@ -554,6 +573,18 @@ public class GamePanel extends JPanel {
                 }
             }
         });
+
+
+        public void shuffleAndDistributeBuildings() {
+            Collections.shuffle(buildingDeck);
+            if (buildingDeck.size() > 3) {
+                playerBuildings.clear();
+                for (int i = 0; i < 3; i++) {
+                    playerBuildings.add(buildingDeck.get(i));
+                }
+                buildingDeck.subList(0, 3).clear();
+            }
+        }
         playerLabel = new JLabel("My View", JLabel.CENTER);
         playerLabel.setFont(new Font("Georgia", Font.BOLD, 20));
         playerLabel.setForeground(Color.white);
@@ -724,7 +755,28 @@ public class GamePanel extends JPanel {
         personalWallet.add(jumpCount);
         add(personalWallet);
 
+        public void drawTreasureCard() {
+            if (!unshuffledDeck.isEmpty()) {
+                TreasureCard card = unshuffledDeck.remove(0);
+                playerTreasures.add(card);
+                if (safeTreasuresList.size() < 5) {
+                    safeTreasuresList.add(card);
+                }
+            } else {
+                ErrorArea.setText("No more treasure cards to draw!");
+                ErrorArea.setVisible(true);
+            }
+        }
 
+        public void resetPlayerStats() {
+            heartCount.setText("4");
+            coinCount.setText("0");
+            jumpCount.setText("0");
+            hasJumpedLevel = false;
+            playerTreasures.clear();
+            safeTreasuresList.clear();
+            LeaderBoard.repaint();
+        }
 
         buildingNames.add(reptileStable);
         buildingNames.add(herbHut);
@@ -2147,4 +2199,14 @@ public class GamePanel extends JPanel {
     public InGameRulesPanel getinGameRulesPanel() {
         return inGameRulesPanel1;
     }
+    public void addBuildingToPlayer() {
+        if (!buildingDeck.isEmpty()) {
+            Building building = buildingDeck.remove(0);
+            playerBuildings.add(building);
+        } else {
+            ErrorArea.setText("No buildings left to add!");
+            ErrorArea.setVisible(true);
+        }
+    }
+
 }
