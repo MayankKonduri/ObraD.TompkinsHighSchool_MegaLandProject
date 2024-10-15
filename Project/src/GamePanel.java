@@ -1187,6 +1187,57 @@ public class GamePanel extends JPanel {
             JScrollBar vertical = scrollPane.getVerticalScrollBar();
             vertical.setValue(vertical.getMaximum());
         });
+        walletUpdate(playerBuildings);
+    }
+    public void walletUpdate(ArrayList<BuildingCards> playerBuildings) {
+        if(isHost1){
+            hostPanel.playerHost.setPlayerCoins(0);
+            serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+            LeaderBoardUpdateHost();
+        }
+        else{
+            characterSelectPanel.playerClient.setPlayerCoins(0);
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+            LeaderBoardUpdateClient();
+        }
+        for(int i = 0; i < playerBuildings.size(); i++) {
+            BuildingCards temp = playerBuildings.get(i);
+            if(temp == buildingDeck.get(0)) {
+                addCoin(1);
+            } else if (temp == buildingDeck.get(1)) {
+                addCoin(2);
+            } else if (temp == buildingDeck.get(2)) {
+                addCoin(3);
+            }
+            else if (temp == buildingDeck.get(3)) {
+                addCoin(4);
+            }
+            else if (temp == buildingDeck.get(4)) {
+                addCoin(5);
+            }
+            else if (temp == buildingDeck.get(5)) {
+                addCoin(7);
+            }
+        }
+
+    }
+
+    public void addCoin(int number) {
+        if(isHost1){
+            hostPanel.playerHost.setPlayerCoins(hostPanel.playerHost.getPlayerCoins() +number);
+            serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+            LeaderBoardUpdateHost();
+        }else{
+//            int numberTemp = characterSelectPanel.playerClient.getPlayerCoins();
+//            characterSelectPanel.playerClient.setPlayerCoins(0);
+//            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+//            LeaderBoardUpdateClient();
+            characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+number);
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+            LeaderBoardUpdateClient();
+        }
     }
 
 
@@ -1386,6 +1437,7 @@ public class GamePanel extends JPanel {
                 JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
                 horizontalBar.setValue(horizontalBar.getMaximum());
             });
+            walletUpdate(playerBuildings);
     }
 
 
@@ -1395,7 +1447,11 @@ public class GamePanel extends JPanel {
 
 //        Graphics2D g2d = (Graphics2D) g;
             if (isHost1) {
-                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                if(phase.getText() == "Run Phase") {
+                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                } else if(phase.getText() == "Buy Phase") {
+                    g.drawImage(heartCard, 30, 20, 300, 180, null);
+                }
                 takeOff.setBounds(40, 220, 300, 30);
                 add(takeOff);
 
@@ -1411,7 +1467,11 @@ public class GamePanel extends JPanel {
 
                 }
             } else {
-                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                if(phase.getText() == "Run Phase") {
+                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                } else if(phase.getText() == "Buy Phase") {
+                    g.drawImage(heartCard, 30, 20, 300, 180, null);
+                }
                 takeOff.setBounds(40, 220, 300, 30);
                 add(takeOff);
                 for (int i = 0; i < drawnLevelCard.size(); i++) {
@@ -1424,7 +1484,11 @@ public class GamePanel extends JPanel {
             }
 
             if (isHost1) {
-                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                if(phase.getText() == "Run Phase") {
+                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                } else if(phase.getText() == "Buy Phase") {
+                    g.drawImage(heartCard, 30, 20, 300, 180, null);
+                }
                 takeOff.setBounds(40, 220, 300, 30);
                 add(takeOff);
                 g.drawImage(personalCard, 30, 260, 320, 200, null);
@@ -1446,7 +1510,11 @@ public class GamePanel extends JPanel {
 
                 }
             } else {
-                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                if(phase.getText() == "Run Phase") {
+                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+                } else if(phase.getText() == "Buy Phase") {
+                    g.drawImage(heartCard, 30, 20, 300, 180, null);
+                }
                 takeOff.setBounds(40, 220, 300, 30);
                 add(takeOff);
                 g.drawImage(personalCard, 30, 260, 320, 200, null);
