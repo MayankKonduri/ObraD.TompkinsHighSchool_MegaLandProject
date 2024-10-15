@@ -394,4 +394,8 @@ public class ServerMain{
             gamePanel.wallet(playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerName(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerHearts(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerCoins(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerJumps());
         }
     }
+
+    public void processBuildingUpdate() {
+
+    }
 }
