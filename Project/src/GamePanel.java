@@ -582,11 +582,11 @@ public class GamePanel extends JPanel {
         chatPanel1.setForeground(Color.YELLOW);
 
 
-//        rules.setBounds(1830, 20, 70, 30);
-//        rules.addActionListener(e -> {
-//            toggleInGameRulesPanel();
-//        });
-//        add(rules);
+        rules.setBounds(1830, 20, 70, 30);
+        rules.addActionListener(e -> {
+            toggleInGameRulesPanel();
+       });
+       add(rules);
 
 
 
@@ -983,16 +983,18 @@ public class GamePanel extends JPanel {
             rules.setVisible(true);
             scrollPane.setVisible(true);
             scrollPane1.setVisible(true);
-
-
-
-
         } else {
             inGameRulesPanel1.openRules();
             chatPanel1.closeChat();
             scrollPane.setVisible(false);
             scrollPane1.setVisible(false);
             rules.setVisible(false);
+            phase.setVisible(false);
+            unsafeTreasures.setVisible(false);
+            playerLabel.setVisible(false);
+            LeaderBoard.setVisible(false);
+            takeOff.setVisible(false);
+
         }
     }
     public void openGame(){
@@ -1001,6 +1003,11 @@ public class GamePanel extends JPanel {
         rules.setVisible(true);
         scrollPane.setVisible(true);
         scrollPane1.setVisible(true);
+        phase.setVisible(true);
+        safeTreasures.setVisible(true);
+        playerLabel.setVisible(true);
+        LeaderBoard.setVisible(true);
+        takeOff.setVisible(true);
     }
 
 
