@@ -77,6 +77,9 @@ public class GamePanel extends JPanel {
     public JLabel jumpCount = new JLabel("0");
     private JPanel personalWallet = new JPanel();
     public boolean hasJumpedLevel = false;
+    public JButton buyBuildings = new JButton("Buy Buildings");
+    public JButton buyHearts = new JButton("Buy Hearts");
+    public ArrayList<TreasureCard> buyingCards = new ArrayList<>();
 
     JPanel LeaderBoard;
     //missing one\
@@ -100,6 +103,17 @@ public class GamePanel extends JPanel {
 
  //---------------------------------------------------------------------------------------------------------------------------------------------------------------
         /* TEST CASE BUTTONS*/
+        buyBuildings.setBounds(1700,500,250,30);
+        buyBuildings.addActionListener(e -> {
+            buyBuildings.setText("Stop Buying");
+
+        });
+        buyHearts.setBounds(1700, 600, 250, 30);
+        buyHearts.addActionListener( e-> {
+            buyHearts.setText("Stop Buying");
+        });
+        add(buyBuildings);
+        add(buyHearts);
 
 //        heartCount.setBounds(360, 500, 70, 40);
         heartCount.setFont(new Font("Georgia", Font.BOLD, 20));
@@ -786,6 +800,40 @@ public class GamePanel extends JPanel {
         }
     }
 
+    public void buyBuildingsAction(BuildingCards buying) {
+        int costMatch = buyingCards.size();
+        int cost = buying.getBuildingCost();
+        int carrots = 0;//4
+        int gear = 0;//1
+        int cube = 0;//2
+        int mineral = 0;//5
+        int fish = 0;//6
+        int egg = 0;//3
+
+        for(int i = 0; i < playerTreasures.size(); i++) {
+            if(playerTreasures.get(i).getTreasureName().equals("gear")) {
+                gear++;
+            } else if(playerTreasures.get(i).getTreasureName().equals("cube")) {
+                cube++;
+            }else if(playerTreasures.get(i).getTreasureName().equals("egg")) {
+                egg++;
+            }else if(playerTreasures.get(i).getTreasureName().equals("carrots")) {
+                carrots++;
+            }else if(playerTreasures.get(i).getTreasureName().equals("mineral")) {
+                mineral++;
+            }else if(playerTreasures.get(i).getTreasureName().equals("fish")) {
+                fish++;
+            }
+        }
+
+        if(cost == costMatch) {
+            playerBuildings.add(buying);
+            hostOwnedCardsDisplay(playerBuildings);
+        }
+
+
+    }
+
     public void updateTempChar(String tempCharChar){
         tempChar.remove(tempCharChar);
         if(tempChar.size() == 0){
@@ -1074,6 +1122,7 @@ public class GamePanel extends JPanel {
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+                        buyBuildingsAction(buildingDeck.get(finalJ));
                         playerBuildings.add(buildingDeck.get(finalJ));
                         hostPanel.playerHost.setPlayerBuildings(playerBuildings);
                         serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1122,6 +1171,9 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
+                if(buyBuildings.equals("Stop Buying")) {
+                    buyingCards.add(treasureCard);
+                }
                 if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
                     safeTreasuresList.add(playerTreasures.get(finalI));
                     hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
@@ -1921,7 +1973,9 @@ public class GamePanel extends JPanel {
                             serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                             takeOff.setText("Dropped Level");
+                            treasurePanel.removeAll();
                             takeOff.setEnabled(false);
+                            hostPanel.playerHost.getPlayerTreasures().clear();
                             tempChar.remove(hostPanel.playerHost.getPlayerImage());
                             repaint();
                             revalidate();
@@ -1958,6 +2012,8 @@ public class GamePanel extends JPanel {
                             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                             takeOff.setText("Dropped Level");
                             takeOff.setEnabled(false);
+                            treasurePanel.removeAll();
+                            characterSelectPanel.playerClient.getPlayerTreasures().clear();
                             tempChar.remove(characterSelectPanel.playerClient.getPlayerImage());
                             repaint();
                             revalidate();
