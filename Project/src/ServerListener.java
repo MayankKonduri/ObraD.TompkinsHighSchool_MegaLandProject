@@ -181,6 +181,18 @@ public class ServerListener implements Runnable{
         String nameAndMessage = message.substring(CLIENT_MESSAGE.length());
         serverMain.tempFinalAndMessage(nameAndMessage);
     }
+    public void stopListening() {
+        isRunning = false;
+        try {
+            if (clientSocket != null) clientSocket.close();
+            if (in != null) in.close();
+            if (out != null) out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void handleUpdatePlayers_Client(String message){
         String clientName = message.substring(CLIENT_NAME.length());
         serverMain.addClientToList(clientName);
@@ -209,6 +221,15 @@ public class ServerListener implements Runnable{
         String[] finalCharacterChosenInfo = finalPlayerChoosing.split("-");
         System.out.println("Player " + finalCharacterChosenInfo[0] + " Has Finalized Character " + finalCharacterChosenInfo[1]);
         return finalCharacterChosenInfo;
+    }
+    public void handle_CharacterUNSelection(String message) {
+        String playerUnselecting = message.substring(CHARACTER_UNSELECTION.length());
+        serverMain.characterTempUnchoose(playerUnselecting);
+    }
+
+    public void halfway_CHARACTER_SELECTION(String message) {
+        String playerDoneSelecting = message.substring(DONE_WITH_CHARACTER_SELECTION.length());
+        serverMain.notifyCharacterSelectionComplete(playerDoneSelecting);
     }
 
     public void stopListening(){

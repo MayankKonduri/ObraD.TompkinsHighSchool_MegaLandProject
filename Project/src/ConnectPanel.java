@@ -408,6 +408,10 @@ public class ConnectPanel extends JPanel{
         jFrame1.revalidate();
         jFrame1.repaint();
         jFrame1.setVisible(true);
+        
+        scrollPane1.getVerticalScrollBar().setUnitIncrement(16);
+        jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame1.setLocationRelativeTo(null);
     }
     public void setCharacterSelectPanel(CharacterSelectPanel panel) {
         this.characterSelectPanel = panel;
