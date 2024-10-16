@@ -116,6 +116,41 @@ public class GamePanel extends JPanel {
 
 //        add(jumpCount);
 
+        buildingDeck.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
+        buildingDeck.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
+        buildingDeck.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
+        buildingDeck.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
+        buildingDeck.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
+        buildingDeck.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
+        buildingDeck.add(new BuildingCards(7, "Reptile Stable", 1, true, false, reptileStable, 4));
+        buildingDeck.add(new BuildingCards(8, "Herb Hut", 1, false, false, herbHut, 4));
+        buildingDeck.add(new BuildingCards(9, "Ostrich Ranch", 2, false, false, ostrichRanch, 4));
+        buildingDeck.add(new BuildingCards(10, "Gym", 2, false, false, gym, 4));
+        buildingDeck.add(new BuildingCards(11, "Hospital", 2, false, false, hospital, 4));
+        buildingDeck.add(new BuildingCards(12, "Laboratory", 3, false, false, laboratory, 4));
+        buildingDeck.add(new BuildingCards(13, "Fishing Pond", 3, false, true, fishingPond, 4));
+        buildingDeck.add(new BuildingCards(14, "Bowling Alley", 3, false, true, bowlingAlley, 4));
+        buildingDeck.add(new BuildingCards(15, "Smithy", 3, false, false, smithy, 4));
+        buildingDeck.add(new BuildingCards(16, "Fish Vendor", 3, false, false, fishVendor, 4));
+        buildingDeck.add(new BuildingCards(17, "Toll Booth", 3, false, false, tollBooth, 4));
+        buildingDeck.add(new BuildingCards(18, "Soap Makers", 3, false, false, soapMakers, 4));
+        buildingDeck.add(new BuildingCards(19, "Hall of Elders", 3, false, false, hallOfElders, 4));
+        buildingDeck.add(new BuildingCards(20, "Lodge", 4, false, true, lodge, 4));
+        buildingDeck.add(new BuildingCards(21, "Root Market", 4, false, false, rootMarket, 4));
+        buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, endlessMine, 4));
+        buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, arena, 4));
+
+        if(isHost){
+            hostPanel.playerHost.setCountBuildingCards(buildingDeck);
+            serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+        }
+        else{
+            characterSelectPanel.playerClient.setCountBuildingCards(buildingDeck);
+            if (!isHost1) {
+                CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+            }
+        }
 
 
 
@@ -576,7 +611,7 @@ public class GamePanel extends JPanel {
         chatPanel1.setVisible(false);
         add(chatPanel1);
         toggleChatPanel();
-        buildingCardsInstantiate();
+
 
 
         chatPanel1.setForeground(Color.YELLOW);
@@ -928,43 +963,6 @@ public class GamePanel extends JPanel {
 //    }
 
 
-
-
-
-
-    public void buildingCardsInstantiate() {
-        buildingDeck.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
-        buildingDeck.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
-        buildingDeck.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
-        buildingDeck.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
-        buildingDeck.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
-        buildingDeck.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
-        buildingDeck.add(new BuildingCards(7, "Reptile Stable", 1, true, false, reptileStable, 4));
-        buildingDeck.add(new BuildingCards(8, "Herb Hut", 1, false, false, herbHut, 4));
-        buildingDeck.add(new BuildingCards(9, "Ostrich Ranch", 2, false, false, ostrichRanch, 4));
-        buildingDeck.add(new BuildingCards(10, "Gym", 2, false, false, gym, 4));
-        buildingDeck.add(new BuildingCards(11, "Hospital", 2, false, false, hospital, 4));
-        buildingDeck.add(new BuildingCards(12, "Laboratory", 3, false, false, laboratory, 4));
-        buildingDeck.add(new BuildingCards(13, "Fishing Pond", 3, false, true, fishingPond, 4));
-        buildingDeck.add(new BuildingCards(14, "Bowling Alley", 3, false, true, bowlingAlley, 4));
-        buildingDeck.add(new BuildingCards(15, "Smithy", 3, false, false, smithy, 4));
-        buildingDeck.add(new BuildingCards(16, "Fish Vendor", 3, false, false, fishVendor, 4));
-        buildingDeck.add(new BuildingCards(17, "Toll Booth", 3, false, false, tollBooth, 4));
-        buildingDeck.add(new BuildingCards(18, "Soap Makers", 3, false, false, soapMakers, 4));
-        buildingDeck.add(new BuildingCards(19, "Hall of Elders", 3, false, false, hallOfElders, 4));
-        buildingDeck.add(new BuildingCards(20, "Lodge", 4, false, true, lodge, 4));
-        buildingDeck.add(new BuildingCards(21, "Root Market", 4, false, false, rootMarket, 4));
-        buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, endlessMine, 4));
-        buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, arena, 4));
-
-
-
-
-
-
-    }
-
-
     private void toggleChatPanel() {
         if(chatPanel1.isVisible()){
             chatPanel1.closeChat();
@@ -1071,16 +1069,23 @@ public class GamePanel extends JPanel {
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
                     if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
-                        System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
-                        buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
-                        System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
-                        playerBuildings.add(buildingDeck.get(finalJ));
-                        hostPanel.playerHost.setPlayerBuildings(playerBuildings);
-                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                        System.out.println("Index added: " + finalJ);
-                        hostOwnedCardsDisplay(playerBuildings);
-                        serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
+                        if(buildingDeck.get(finalJ).getNumber() > 0) {
+                            System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
+                            buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
+                            System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+
+                            buildingDeck.get(finalJ).setNumber(buildingDeck.get(finalJ).getNumber() - 1);
+
+                            playerBuildings.add(buildingDeck.get(finalJ));
+                            hostPanel.playerHost.setPlayerBuildings(playerBuildings);
+                            hostPanel.playerHost.setCountBuildingCards(buildingDeck);
+                            serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                            System.out.println("Index added: " + finalJ);
+                            hostOwnedCardsDisplay(playerBuildings);
+                            serverMain.broadcastMessage(14, hostPanel.nameTextField.getText());
+                        }
+                        System.out.println("Trial: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
                     }
                         else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                             showError("Not Your View");
@@ -1290,22 +1295,27 @@ public class GamePanel extends JPanel {
             int x1 = 0;
             button.addActionListener(e -> {
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)){
-                    System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
-                    buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
-                    System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
-                    playerBuildings.add(buildingDeck.get(finalJ));
-                    characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
-                    if (!isHost1) {
-                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)) {
+                    if (buildingDeck.get(finalJ).getNumber() > 0) {
+                        System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
+                        buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
+                        System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+
+                        buildingDeck.get(finalJ).setNumber(buildingDeck.get(finalJ).getNumber() - 1);
+
+                        playerBuildings.add(buildingDeck.get(finalJ));
+                        characterSelectPanel.playerClient.setCountBuildingCards(buildingDeck);
+                        characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
+                        if (!isHost1) {
+                            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        }
+                        clientOwnedCardsDisplay(playerBuildings);
+                        CommandFromClient.notify_INTERCLICK(clientMain.getOut(), connectPanel.nameTextField.getText());
+                    } else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
+                        showError("Not Your View");
+                    } else if ((characterSelectPanel.playerClient.isPlayerActive)) {
+                        showError("Still in Level");
                     }
-                    clientOwnedCardsDisplay(playerBuildings);
-                    CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
-                }else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
-                    showError("Not Your View");
-                }
-                else if((characterSelectPanel.playerClient.isPlayerActive)){
-                    showError("Still in Level");
                 }
             });
             add(button);

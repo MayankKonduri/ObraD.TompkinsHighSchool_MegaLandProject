@@ -168,6 +168,7 @@ public class ClientMain{
         for(int i=0;i<playerArrayList_client.size();i++){
             System.out.println(playerArrayList_client.get(i).getPlayerName());
             System.out.println(playerArrayList_client.get(i).getPlayerID());
+            System.out.println("TESTTTTTTTTT!@###$$%%%%$%^%$%$: " +  playerArrayList_client.get(i).getCountBuildingCards());
         }
     }
     public void processLCName(String lcName) {

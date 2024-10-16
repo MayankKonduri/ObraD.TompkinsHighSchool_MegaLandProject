@@ -120,6 +120,34 @@ public class ServerListener implements Runnable{
             System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerName());
             System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerID());
         }
+
+
+
+        int len = serverMain.playerArrayList_Host.get(0).getCountBuildingCards().size();
+
+        int arrayNum[] = new int[serverMain.playerArrayList_Host.size()];
+        for(int j=0;j<len;j++) {
+            arrayNum = new int[serverMain.playerArrayList_Host.size()];
+            int min;
+            for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                arrayNum[i] = serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).getNumber();
+            }
+
+            min = arrayNum[0];
+            for(int i=0; i<arrayNum.length; i++)
+            {
+                if(min > arrayNum[i]) {
+                    min = arrayNum[i];
+                }
+            }
+
+            for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).setNumber(min);
+            }
+        }
+
+
+
         System.out.println("Sending Correct List to Clients After Final Join" + serverMain.playerArrayList_Host.size());
         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
         playerGet = null;

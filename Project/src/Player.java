@@ -21,11 +21,12 @@ public class Player implements Serializable{
     public ArrayList<TreasureCard> playerTreasures;
     public ArrayList<LevelCard> playerLevelCards;
     public ArrayList<TreasureCard> playerSafeTreasures;
+    public ArrayList<BuildingCards> countBuildingCards;
 
     public ArrayList<Player> allPlayers = new ArrayList<>();
     //    public ArrayList<TreasureCards> playerOwnedTreasureCards;
 //    public ArrayList<BuildingCards> playerOwnedBuildingCards;
-    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings, ArrayList<TreasureCard> playerTreasures, ArrayList<LevelCard> playerLevelCards, String characterImage, ArrayList<TreasureCard> playerSafeTreasures) {
+    public Player(int playerID, String playerName, boolean playerTurn, int playerCoins, int playerHearts, int playerJumps, boolean isPlayerActive, boolean canDrawLevel, boolean isHost, ArrayList<BuildingCards> playerBuildings, ArrayList<TreasureCard> playerTreasures, ArrayList<LevelCard> playerLevelCards, String characterImage, ArrayList<TreasureCard> playerSafeTreasures, ArrayList<BuildingCards> countBuildings) {
         this.playerID= playerID;
         this.playerName = playerName;
         this.playerTurn = playerTurn;
@@ -40,8 +41,16 @@ public class Player implements Serializable{
         this.playerLevelCards = playerLevelCards;
         this.playerImage = characterImage;
         this.playerSafeTreasures = playerSafeTreasures;
+        this.countBuildingCards = countBuildings;
 
         this.playerHearts = 4;
+    }
+
+    public void setCountBuildingCards(ArrayList<BuildingCards> buildingCards){
+        this.countBuildingCards = buildingCards;
+    }
+    public ArrayList<BuildingCards> getCountBuildingCards(){
+        return countBuildingCards;
     }
 
     public String getPlayerImage(){
