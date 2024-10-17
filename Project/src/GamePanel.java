@@ -1352,26 +1352,26 @@ public class GamePanel extends JPanel {
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)) {
                     if (clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
-                        buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
+
+                        buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
 
                         playerBuildings.add(buildingDeck.get(finalJ));
-
 
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
-
+                        clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setCountBuildingCards(buildingDeck1);
                         System.out.println("Before Sub: " + buildingDeck.get(finalJ).getNumber());
-                        buildingDeck.get(finalJ).setNumber(buildingDeck.get(finalJ).getNumber() - 1);
+                        //buildingDeck.get(finalJ).setNumber(buildingDeck.get(finalJ).getNumber() - 1);
                         System.out.println("After Sub: " + buildingDeck.get(finalJ).getNumber());
-                        playerBuildings.add(buildingDeck.get(finalJ));
-                        characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
-                        characterSelectPanel.playerClient.setCountBuildingCards(buildingDeck);
+                        clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setPlayerBuildings(playerBuildings);
+                        clientOwnedCardsDisplay(playerBuildings);
+                        clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setCountBuildingCards(buildingDeck1);
+                        clientOwnedCardsDisplay(playerBuildings);
                         System.out.println("After Set: " + characterSelectPanel.playerClient.getCountBuildingCards().get(finalJ).getNumber());
                         if (!isHost1) {
                             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         }
-                        clientOwnedCardsDisplay(playerBuildings);
                         CommandFromClient.notify_INTERCLICK(clientMain.getOut(), connectPanel.nameTextField.getText());
                         System.out.println("Debug222: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                     } else if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
@@ -1706,6 +1706,7 @@ public class GamePanel extends JPanel {
                 safeTreasurePanel.removeAll();
 
                 hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                System.out.println("Last" + serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                 serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                 safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
                 serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
