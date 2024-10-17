@@ -77,6 +77,7 @@ public class GamePanel extends JPanel {
     public JLabel jumpCount = new JLabel("0");
     private JPanel personalWallet = new JPanel();
     public boolean hasJumpedLevel = false;
+    int arrayNum[];
 
     JPanel LeaderBoard;
     //missing one\
@@ -405,11 +406,14 @@ public class GamePanel extends JPanel {
         }
 
         try {
-            indianWoman = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player1.png")));
-            gandalf = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player2.png")));
-            cat = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player3.png")));
-            frog = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player4.png")));
-            white = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player5.png")));
+            String basePath = "Project" + File.separator + "src" + File.separator + "Images" + File.separator;
+
+            indianWoman = ImageIO.read(new File(basePath + "MegaLand_Player1.png"));
+            gandalf = ImageIO.read(new File(basePath + "MegaLand_Player2.png"));
+            cat = ImageIO.read(new File(basePath + "MegaLand_Player3.png"));
+            frog = ImageIO.read(new File(basePath + "MegaLand_Player4.png"));
+            white = ImageIO.read(new File(basePath + "MegaLand_Player5.png"));
+
         } catch (Exception ah) {
             ah.printStackTrace();
             System.out.println("Error Loading Images: " + ah.getMessage());
@@ -644,73 +648,69 @@ public class GamePanel extends JPanel {
 
 
         try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\GamePanel1.jpg")));
-            personalCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0002.jpg")));
-            heartCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0003.jpg")));
-            starCardBackground = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0004.jpg")));
-            sandwichStand = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0005.jpg")));
-            cafe = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0006.jpg")));
-            arcade = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0007.jpg")));
-            bazaarOfOddities = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0008.jpg")));
-            hotel = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0009.jpg")));
-            templeOfZoz = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0010.jpg")));
-            buildingCardBackground = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0011.jpg")));
-            reptileStable = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
-            herbHut = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
-            ostrichRanch = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0014.jpg")));
-            gym = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0015.jpg")));
-            hospital = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0016.jpg")));
-            laboratory = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0017.jpg")));
-            fishingPond = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0018.jpg")));
-            bowlingAlley = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0019.jpg")));
-            smithy = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0020.jpg")));
-            fishVendor = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0021.jpg")));
-            tollBooth = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0022.jpg")));
-            soapMakers = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0023.jpg")));
-            hallOfElders = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0024.jpg")));
-            //skip 25
-            lodge = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0026.jpg")));
-            rootMarket = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0027.jpg")));
-            endlessMine = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0028.jpg")));
-            arena = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0029.jpg")));
-            backOfLevelCard = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0030.jpg")));
-            levelCard31 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0031.jpg")));
-            levelCard32 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0032.jpg")));
-            levelCard33 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0033.jpg")));
-            levelCard34 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0034.jpg")));
-            levelCard35 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0035.jpg")));
-            levelCard36 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0036.jpg")));
-            levelCard37 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0037.jpg")));
-            levelCard38 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0038.jpg")));
-            levelCard39 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0039.jpg")));
-            levelCard40 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0040.jpg")));
+            String basePath = "Project" + File.separator + "src" + File.separator + "Images" + File.separator;
 
+            loading = ImageIO.read(new File(basePath + "GamePanel1.jpg"));
+            personalCard = ImageIO.read(new File(basePath + "2024-08-19-10-14-0002.jpg"));
+            heartCard = ImageIO.read(new File(basePath + "2024-08-19-10-14-0003.jpg"));
+            starCardBackground = ImageIO.read(new File(basePath + "2024-08-19-10-14-0004.jpg"));
+            sandwichStand = ImageIO.read(new File(basePath + "2024-08-19-10-14-0005.jpg"));
+            cafe = ImageIO.read(new File(basePath + "2024-08-19-10-14-0006.jpg"));
+            arcade = ImageIO.read(new File(basePath + "2024-08-19-10-14-0007.jpg"));
+            bazaarOfOddities = ImageIO.read(new File(basePath + "2024-08-19-10-14-0008.jpg"));
+            hotel = ImageIO.read(new File(basePath + "2024-08-19-10-14-0009.jpg"));
+            templeOfZoz = ImageIO.read(new File(basePath + "2024-08-19-10-14-0010.jpg"));
+            buildingCardBackground = ImageIO.read(new File(basePath + "2024-08-19-10-14-0011.jpg"));
+            reptileStable = ImageIO.read(new File(basePath + "2024-08-19-10-14-0012.jpg"));
+            herbHut = ImageIO.read(new File(basePath + "2024-08-19-10-14-0013.jpg"));
+            ostrichRanch = ImageIO.read(new File(basePath + "2024-08-19-10-14-0014.jpg"));
+            gym = ImageIO.read(new File(basePath + "2024-08-19-10-14-0015.jpg"));
+            hospital = ImageIO.read(new File(basePath + "2024-08-19-10-14-0016.jpg"));
+            laboratory = ImageIO.read(new File(basePath + "2024-08-19-10-14-0017.jpg"));
+            fishingPond = ImageIO.read(new File(basePath + "2024-08-19-10-14-0018.jpg"));
+            bowlingAlley = ImageIO.read(new File(basePath + "2024-08-19-10-14-0019.jpg"));
+            smithy = ImageIO.read(new File(basePath + "2024-08-19-10-14-0020.jpg"));
+            fishVendor = ImageIO.read(new File(basePath + "2024-08-19-10-14-0021.jpg"));
+            tollBooth = ImageIO.read(new File(basePath + "2024-08-19-10-14-0022.jpg"));
+            soapMakers = ImageIO.read(new File(basePath + "2024-08-19-10-14-0023.jpg"));
+            hallOfElders = ImageIO.read(new File(basePath + "2024-08-19-10-14-0024.jpg"));
+            lodge = ImageIO.read(new File(basePath + "2024-08-19-10-14-0026.jpg"));
+            rootMarket = ImageIO.read(new File(basePath + "2024-08-19-10-14-0027.jpg"));
+            endlessMine = ImageIO.read(new File(basePath + "2024-08-19-10-14-0028.jpg"));
+            arena = ImageIO.read(new File(basePath + "2024-08-19-10-14-0029.jpg"));
+            backOfLevelCard = ImageIO.read(new File(basePath + "2024-08-19-10-14-0030.jpg"));
+            levelCard31 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0031.jpg"));
+            levelCard32 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0032.jpg"));
+            levelCard33 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0033.jpg"));
+            levelCard34 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0034.jpg"));
+            levelCard35 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0035.jpg"));
+            levelCard36 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0036.jpg"));
+            levelCard37 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0037.jpg"));
+            levelCard38 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0038.jpg"));
+            levelCard39 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0039.jpg"));
+            levelCard40 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0040.jpg"));
+            treasureCardBackground = ImageIO.read(new File(basePath + "2024-08-19-10-14-0041.jpg"));
+            gear = ImageIO.read(new File(basePath + "2024-08-19-10-14-0042.jpg"));
+            cube = ImageIO.read(new File(basePath + "2024-08-19-10-14-0043.jpg"));
+            egg = ImageIO.read(new File(basePath + "2024-08-19-10-14-0044.jpg"));
+            carrot = ImageIO.read(new File(basePath + "2024-08-19-10-14-0045.jpg"));
+            mineral = ImageIO.read(new File(basePath + "2024-08-19-10-14-0046.jpg"));
+            fish = ImageIO.read(new File(basePath + "2024-08-19-10-14-0047.jpg"));
 
-            treasureCardBackground = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0041.jpg")));
-            gear = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0042.jpg")));
-            cube = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0043.jpg")));
-            egg = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0044.jpg")));
-            carrot = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0045.jpg")));
-            mineral = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0046.jpg")));
-            fish = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0047.jpg")));
+            coin1 = ImageIO.read(new File(basePath + "MegaLand_1_Coin.png"));
+            coin5 = ImageIO.read(new File(basePath + "MegaLand_5_Coin.png"));
+            coin10 = ImageIO.read(new File(basePath + "MegaLand_10_Coin.png"));
+            firstPlayerToken = ImageIO.read(new File(basePath + "MegaLand_1stPlayerToken.png"));
+            heart = ImageIO.read(new File(basePath + "MegaLand_HeartToken.png"));
+            jump = ImageIO.read(new File(basePath + "MegaLand_JumpToken.png"));
 
+            indianWoman = ImageIO.read(new File(basePath + "MegaLand_Player1.png"));
+            gandalf = ImageIO.read(new File(basePath + "MegaLand_Player2.png"));
+            cat = ImageIO.read(new File(basePath + "MegaLand_Player3.png"));
+            frog = ImageIO.read(new File(basePath + "MegaLand_Player4.png"));
+            white = ImageIO.read(new File(basePath + "MegaLand_Player5.png"));
 
-            coin1 = ImageIO.read((new File("Project\\src\\Images\\MegaLand_1_Coin.png")));
-            coin5 = ImageIO.read((new File("Project\\src\\Images\\MegaLand_5_Coin.png")));
-            coin10 = ImageIO.read((new File("Project\\src\\Images\\MegaLand_10_Coin.png")));
-            firstPlayerToken = ImageIO.read((new File("Project\\src\\Images\\MegaLand_1stPlayerToken.png")));
-            heart = ImageIO.read((new File("Project\\src\\Images\\MegaLand_HeartToken.png")));
-            jump = ImageIO.read((new File("Project\\src\\Images\\MegaLand_JumpToken.png")));
-
-
-            indianWoman = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player1.png")));
-            gandalf = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player2.png")));
-            cat = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player3.png")));
-            frog = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player4.png")));
-            white = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player5.png")));
-
-
-            playerLevelCard = ImageIO.read((new File("Project\\src\\Images\\MegaLand_PlayerCard.png")));
+            playerLevelCard = ImageIO.read(new File(basePath + "MegaLand_PlayerCard.png"));
 
 
         } catch (Exception e) {
@@ -1069,23 +1069,74 @@ public class GamePanel extends JPanel {
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
                     if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
-                        if(buildingDeck.get(finalJ).getNumber() > 0) {
-                            System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
-                            buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
-                            System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+                        if(hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber() > 0) {
 
-                            buildingDeck.get(finalJ).setNumber(buildingDeck.get(finalJ).getNumber() - 1);
+                            buildingDeck.get(finalJ).setNumber(serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(finalJ).getNumber() - 1);
 
                             playerBuildings.add(buildingDeck.get(finalJ));
+
+                            System.out.println("Button clicked before minus: " + (hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber()));
+                            buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
+                            System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
+                            hostPanel.playerHost.setCountBuildingCards(buildingDeck1);
+                            System.out.println("Trial: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
+
+
+
                             hostPanel.playerHost.setPlayerBuildings(playerBuildings);
-                            hostPanel.playerHost.setCountBuildingCards(buildingDeck);
+                            hostOwnedCardsDisplay(playerBuildings);
+
+                            hostPanel.playerHost.setCountBuildingCards(buildingDeck1);
+
                             serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                             System.out.println("Index added: " + finalJ);
-                            hostOwnedCardsDisplay(playerBuildings);
                             serverMain.broadcastMessage(14, hostPanel.nameTextField.getText());
+                            //--
+                            //
+                                int len = serverMain.playerArrayList_Host.get(0).getCountBuildingCards().size();
+                                int num = serverMain.playerArrayList_Host.size();
+                                    arrayNum = new int[serverMain.playerArrayList_Host.size()];
+                                    int min;
+                                    for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                                        arrayNum[i] = serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(finalJ).getNumber();
+                                    }
+
+                            if (arrayNum.length > 0) {
+                                min = arrayNum[0];
+                                for (int i = 1; i < arrayNum.length; i++) {
+                                    if (min > arrayNum[i]) {
+                                        min = arrayNum[i];
+                                    }
+                                }
+
+                                for (int i = 0; i < arrayNum.length; i++) {
+                                    arrayNum[i] = min;
+                                }
+                                for (int xx : arrayNum) {
+                                    System.out.println("10/172: " + xx);
+                                }
+
+                                for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                                    // Ensure finalJ is within bounds and getCountBuildingCards() is not null
+                                    if (finalJ >= 0 && finalJ < serverMain.playerArrayList_Host.get(i).getCountBuildingCards().size()) {
+                                        serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(finalJ).setNumber(min);
+                                    } else {
+                                        System.out.println("Invalid index for finalJ: " + finalJ);
+                                    }
+                                }
+                            } else {
+                                System.out.println("arrayNum is empty.");
+                            }
+                            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                            System.out.println("ww" + serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(finalJ).getNumber());
+                            System.out.println("ww" + serverMain.playerArrayList_Host.get(1).getCountBuildingCards().get(finalJ).getNumber());
+                            //---
                         }
-                        System.out.println("Trial: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
+                        else if(serverMain.playerArrayList_Host.get(serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
+                            showError("Out of Stock");
+                        }
+                        System.out.println("Trial1: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
                     }
                         else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                             showError("Not Your View");
@@ -1094,6 +1145,7 @@ public class GamePanel extends JPanel {
                             showError("Still in Level");
                         }
                 });
+                System.out.println("Trial11: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
                 add(button);
                 imageButtons.add(button);
                 x += width + gap;
@@ -1198,6 +1250,8 @@ public class GamePanel extends JPanel {
         if(isHost1){
             hostPanel.playerHost.setPlayerCoins(0);
             serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+            //System.out.println("Trial2: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
+            System.out.println();
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
             LeaderBoardUpdateHost();
         }
@@ -1294,23 +1348,34 @@ public class GamePanel extends JPanel {
             int finalJ = j;
             int x1 = 0;
             button.addActionListener(e -> {
+                System.out.println("Debug: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)) {
-                    if (buildingDeck.get(finalJ).getNumber() > 0) {
+                    if (clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
+                        buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
+
+                        playerBuildings.add(buildingDeck.get(finalJ));
+
+
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
 
+                        System.out.println("Before Sub: " + buildingDeck.get(finalJ).getNumber());
                         buildingDeck.get(finalJ).setNumber(buildingDeck.get(finalJ).getNumber() - 1);
-
+                        System.out.println("After Sub: " + buildingDeck.get(finalJ).getNumber());
                         playerBuildings.add(buildingDeck.get(finalJ));
-                        characterSelectPanel.playerClient.setCountBuildingCards(buildingDeck);
                         characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
+                        characterSelectPanel.playerClient.setCountBuildingCards(buildingDeck);
+                        System.out.println("After Set: " + characterSelectPanel.playerClient.getCountBuildingCards().get(finalJ).getNumber());
                         if (!isHost1) {
                             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         }
                         clientOwnedCardsDisplay(playerBuildings);
                         CommandFromClient.notify_INTERCLICK(clientMain.getOut(), connectPanel.nameTextField.getText());
+                        System.out.println("Debug222: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
+                    } else if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
+                        showError("Out of Stock");
                     } else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
                         showError("Not Your View");
                     } else if ((characterSelectPanel.playerClient.isPlayerActive)) {
@@ -1607,20 +1672,6 @@ public class GamePanel extends JPanel {
     }
     public String playerGameView(int x){
         cardsPanel.setEnabled(false);
-        System.out.println(x);
-        System.out.println("Night Debug Test");
-        if(isHost1) {
-            for (int i = 0; i <serverMain.playerArrayList_Host.size();i++){
-                System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerName());
-                System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerID());
-            }
-        }
-        else{
-            for (int i = 0; i <clientMain.playerArrayList_client.size();i++){
-                System.out.println(clientMain.playerArrayList_client.get(i).getPlayerName());
-                System.out.println(clientMain.playerArrayList_client.get(i).getPlayerID());
-            }
-        }
 
         if(isHost1){
         switch (x){

@@ -1,5 +1,6 @@
 package Project.src;
 
+import javax.sound.midi.SysexMessage;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,28 +26,6 @@ public class ServerListener implements Runnable{
     public static final String FINALCHARACTER = "FINALCHARACTER:";
     public static final String LEVELDISCONNECTION = "LEVELDISCONNECTION:";
 
-
-
-    /*
-    public static final String CLIENT_NAME = "CLIENT_NAME:";
-    public static void notify_CLIENT_NAME(ObjectOutputStream out, String clientName){
-        sendMessage(out, CLIENT_NAME + clientName);
-    }
-
-    public static final String CLIENT_DISCONNECTED = "CLIENT_DISCONNECTED:";
-    public static void notify_CLIENT_DISCONNECTED(ObjectOutputStream out, String clientName) {
-        sendMessage(out, CLIENT_DISCONNECTED + clientName);
-    }
-    public static final String CHARACTER_SELECTION = "CHARACTER_SELECTION:";
-    public static void notify_CHARACTER_SELECTION(ObjectOutputStream out, String playerName, String characterName){
-        sendMessage(out, CHARACTER_SELECTION + playerName + "-" + characterName);
-    }
-    public static final String DONE_WITH_CHARACTER_SELECTION = "DONE_WITH_CHARACTER_SELECTION:";
-    public static void notify_DONE_WITH_CHARACTER_SELECTION(ObjectOutputStream out, String playerName) {
-        sendMessage(out, DONE_WITH_CHARACTER_SELECTION + playerName);
-    }
-     */
-
     public ServerListener(Socket clientSocket, ServerMain serverMain, ObjectInputStream in, ObjectOutputStream out) {
         this.clientSocket = clientSocket;
         this.serverMain = serverMain;
@@ -59,7 +38,7 @@ public class ServerListener implements Runnable{
             while (isRunning && (receivedObject = in.readObject()) != null) {
                 if (receivedObject instanceof String) {
                     String message = (String) receivedObject;
-                    System.out.println("Received message from server: " + message); // Debug statement
+                    System.out.println("Received message from server: " + message);
                     processMessage(message);
                 } else if (receivedObject instanceof Player) {
                     Player playerGet = (Player) receivedObject;
@@ -75,24 +54,17 @@ public class ServerListener implements Runnable{
     }
 
     private synchronized void processPlayer(Player playerGet) {
-        System.out.println("Debug Lib: " + playerGet.getPlayerID());
         int index = -1;
-        System.out.println(serverMain.playerArrayList_Host.size());
         for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
-
             String playerName = serverMain.playerArrayList_Host.get(i).getPlayerName();
-            System.out.println("Player Name In Order: " + playerName);
             if (playerGet.getPlayerName().equals(playerName)) {
                 index = i;
                 break;
             }
         }
-
         if (index != -1) {
             if (index < serverMain.playerArrayList_Host.size()) {
-                System.out.println(playerGet.getPlayerName());
                 serverMain.playerArrayList_Host.set(index, playerGet);
-                System.out.println("Player updated at index: " + index);
             } else {
                 System.err.println("Error: Mismatch between gamePlayerNames and playerArrayList_Host sizes.");
             }
@@ -100,7 +72,6 @@ public class ServerListener implements Runnable{
             serverMain.playerArrayList_Host.add(playerGet);
             //serverMain.gamePlayerNames.add(playerGet.getPlayerName());
             System.out.println("Success: New Player Added (H)");
-
 
             Collections.sort(serverMain.playerArrayList_Host, new Comparator<Player>() {
                 @Override
@@ -114,38 +85,42 @@ public class ServerListener implements Runnable{
                 System.out.println("Player ID In Order: " + playerID);
             }
         }
+        if(serverMain.playerArrayList_Host.get(0).getCountBuildingCards().size()>0) {
+            System.out.println("test " + serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(3).getNumber());
+            //System.out.println("First: " + serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(0).getNumber());
+            int len = serverMain.playerArrayList_Host.get(0).getCountBuildingCards().size();
+            int num = serverMain.playerArrayList_Host.size();
 
-
-        for(int i=0;i<serverMain.playerArrayList_Host.size();i++){
-            System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerName());
-            System.out.println(serverMain.playerArrayList_Host.get(i).getPlayerID());
-        }
-
-
-
-        int len = serverMain.playerArrayList_Host.get(0).getCountBuildingCards().size();
-
-        int arrayNum[] = new int[serverMain.playerArrayList_Host.size()];
-        for(int j=0;j<len;j++) {
-            arrayNum = new int[serverMain.playerArrayList_Host.size()];
-            int min;
-            for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
-                arrayNum[i] = serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).getNumber();
-            }
-
-            min = arrayNum[0];
-            for(int i=0; i<arrayNum.length; i++)
-            {
-                if(min > arrayNum[i]) {
-                    min = arrayNum[i];
+            int arrayNum[];
+            for (int j = 0; j < len; j++) {
+                arrayNum = new int[serverMain.playerArrayList_Host.size()];
+                int min;
+                for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                    arrayNum[i] = serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).getNumber();
                 }
-            }
 
-            for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
-                serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).setNumber(min);
+                min = arrayNum[0];
+                for (int i = 1; i < arrayNum.length; i++) {
+                    if (min > arrayNum[i]) {
+                        min = arrayNum[i];
+                    }
+                }
+
+                for (int i = 0; i < arrayNum.length; i++) {
+                    arrayNum[i] = min;
+                }
+                for (int xx : arrayNum) {
+                    System.out.println("10/172222: " +  + j + "," + xx);
+                }
+
+                for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                    serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).setNumber(arrayNum[0]);
+                }
+
             }
+            System.out.println("test11 " + serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(3).getNumber());
+            System.out.println("test12 " + serverMain.playerArrayList_Host.get(1).getCountBuildingCards().get(3).getNumber());
         }
-
 
 
         System.out.println("Sending Correct List to Clients After Final Join" + serverMain.playerArrayList_Host.size());
@@ -256,69 +231,4 @@ public class ServerListener implements Runnable{
             e.printStackTrace();
         }
     }
-    /*
-    public void handleClientConnection(Socket clientSocket){
-        try {
-            String clientID = clientSocket.getInetAddress().toString();
-
-            if(clientHandlers.stream().anyMatch(handler -> handler.getClientSocket().getInetAddress().toString().equals(clientID))){
-                System.out.print("Client Already Connected: " + clientID);
-                clientSocket.close();
-                return;
-
-        }}
-    public synchronized void addClient(ClientHandler clientHandler){
-        clientHandlers.add(clientHandler);
-        System.out.println("Client added: " + clientHandler.getName());
-        printClientHandlers();
-        if(clientUpdateListener != null){
-            clientUpdateListener.onClientAdded(clientHandler);
-        }
-    }
-
-    public void printClientHandlers() {
-        System.out.println("Current Clients:");
-        for (ClientHandler clientHandler : clientHandlers) {
-            System.out.println("Client: " + clientHandler.getName() + " at " + clientHandler.getClientSocket().getInetAddress());
-        }
-    }
-
-    public synchronized void removeClient(ClientHandler clientHandler){
-        synchronized (clientHandlers){
-            clientHandlers.remove(clientHandler);}
-        if(clientUpdateListener!=null){
-            clientUpdateListener.onClientRemoved(clientHandler);
-        }
-        notifyClientOfNewConnection(clientHandler);
-    }
-    public synchronized void notifyClientOfNewConnection(ClientHandler newClient){
-        synchronized (clientHandlers){
-            for(ClientHandler handler : clientHandlers){
-                if(!handler.equals(newClient)){
-                    handler.sendMessage("NEW_CLIENT" + newClient.getName());
-                    System.out.println("Notified client of new connection: " + newClient.getName());
-
-                }
-            }
-        }
-    }
-    private synchronized void notifyClientOfDisconnection(ClientHandler disconnectedClient){
-        synchronized (clientHandlers) {
-            for (ClientHandler handler : clientHandlers) {
-                handler.getOut().println("PLAYER_LEFT\n" + disconnectedClient.getName());
-            }
-        }
-    }
-    public synchronized void stop(){
-
-    }
-    public synchronized void notifyClientOfHostDisconnection(){
-        synchronized (clientHandlers){
-            for(ClientHandler handler : clientHandlers){
-                handler.getOut().println("HOST_DISCONNECTED");
-            }
-        }
-    }
-    public ArrayList<ClientHandler> getClientHandlers(){
-        return clientHandlers;  }*/
 }

@@ -123,7 +123,6 @@ public class ClientMain{
             connectPanel.playerListClientSide.add(0,hostName);
             connectPanel.updatePlayerList();
         }
-        System.out.println(gamePlayerNames_ClientSide);
     }
     public void addClientToList(String clientName) {
         if(!Final_gamePlayerNames_ClientSide.contains(clientName)){
@@ -133,18 +132,14 @@ public class ClientMain{
             connectPanel.playerListClientSide.add(clientName);
             connectPanel.updatePlayerList();
         }
-        System.out.println(gamePlayerNames_ClientSide);
-        //connectPanel.verifyName();
     }
     public void removeClientFromList(String clientName) {
         Final_gamePlayerNames_ClientSide.remove(clientName);
         connectPanel.playerListClientSide.remove(clientName);
         connectPanel.updatePlayerList();
-        System.out.println(gamePlayerNames_ClientSide);
     }
     public void tempFinalAndMessage(String nameAndMessage) {
         String[] finalNameAndMessage = nameAndMessage.split("-");
-        System.out.println("Player " + finalNameAndMessage[0] + " Has Sent Message: " + finalNameAndMessage[1]);
         if(!(finalNameAndMessage[0].equals(connectPanel.nameTextField.getText()))) {
             chatPanel.handleIncomingMessage(finalNameAndMessage[0], finalNameAndMessage[1]);
         }
@@ -168,7 +163,6 @@ public class ClientMain{
         for(int i=0;i<playerArrayList_client.size();i++){
             System.out.println(playerArrayList_client.get(i).getPlayerName());
             System.out.println(playerArrayList_client.get(i).getPlayerID());
-            System.out.println("TESTTTTTTTTT!@###$$%%%%$%^%$%$: " +  playerArrayList_client.get(i).getCountBuildingCards());
         }
     }
     public void processLCName(String lcName) {
@@ -184,7 +178,6 @@ public class ClientMain{
 
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
-        System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
         if(!(characterChosenInfo[0].equals(connectPanel.nameTextField.getText()))){
             if(characterChosenInfo[1].equals("catB")) {
                 Object[][] temp = characterSelectPanel.FINAL_ARRAY;
@@ -219,9 +212,7 @@ public class ClientMain{
     }
     public void characterTempUNChoose(String playerChoosing) {
         String[] characterUNChosenInfo = playerChoosing.split("-");
-        System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
         if(!(characterUNChosenInfo[0].equals(connectPanel.nameTextField.getText()))){
-            System.out.println("RUNNING THIS NOOOO!");
             if(characterUNChosenInfo[1].equals("catB")) {
                 Object[][] temp = characterSelectPanel.FINAL_ARRAY;
                 temp[0][0] = "No_Player";
@@ -252,7 +243,6 @@ public class ClientMain{
                 temp[4][1] = "Available";
                 characterSelectPanel.updateAvailability(temp);
             }} else{
-            System.out.println("BYPASSED BECAUSE CLIENT RECEIVING SAME");
         }
     }
     public void finalCharacterMethod() {
@@ -260,9 +250,7 @@ public class ClientMain{
         CommandFromClient.notifyFinalCharacter(getOut(), connectPanel.nameTextField.getText(), characterSelectPanel.characterSelected);
     }
     public void handleFinalCharacter(String fCharacter) {
-        System.out.println(fCharacter);
         String fCharacterTemp[] = fCharacter.split("-");
-        System.out.println("FINAL DEBUG" + fCharacterTemp[0] + "Temp" + fCharacterTemp[1]);
         if (!(fCharacterTemp[0].equals(connectPanel.nameTextField.getText()))) {
             charactersInLevel_client.add(fCharacterTemp[1]);
         }

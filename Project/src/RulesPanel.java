@@ -26,19 +26,22 @@ public class RulesPanel extends JPanel{
         setLayout(null);
 
         try {
-            rule1 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-01.png")));
-            rule2 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-02.png")));
-            rule3 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-03.png")));
-            rule4 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-04.png")));
-            rule5 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-05.png")));
-            rule6 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-06.png")));
-            rule7 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-07.png")));
-            rule8 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-08.png")));
-            rule9 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-09.png")));
-            rule10 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-10.png")));
-            rule11 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-11.png")));
-            rule12 = ImageIO.read((new File("Project\\src\\Images\\megaland+rulebook_ver+03-12.png")));
-            ruleEnd = ImageIO.read((new File("Project\\src\\Images\\EndRules.png")));
+            String basePath = "Project" + File.separator + "src" + File.separator + "Images" + File.separator;
+
+            rule1 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-01.png"));
+            rule2 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-02.png"));
+            rule3 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-03.png"));
+            rule4 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-04.png"));
+            rule5 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-05.png"));
+            rule6 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-06.png"));
+            rule7 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-07.png"));
+            rule8 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-08.png"));
+            rule9 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-09.png"));
+            rule10 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-10.png"));
+            rule11 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-11.png"));
+            rule12 = ImageIO.read(new File(basePath + "megaland+rulebook_ver+03-12.png"));
+            ruleEnd = ImageIO.read(new File(basePath + "EndRules.png"));
+
 
 
         } catch (Exception ah) {

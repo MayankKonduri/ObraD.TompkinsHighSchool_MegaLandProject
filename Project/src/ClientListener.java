@@ -82,7 +82,6 @@ public class ClientListener implements Runnable{
                     processMessage(message);
                 } else if (receivedObject instanceof ArrayList<?>) {
                     ArrayList<Player> players = (ArrayList<Player>) receivedObject;
-                    System.out.println("Final Recieving2: " + players.size());
                     processPlayerList(players);
                     setLeaderBoardGameClient1();
                     cLientMain.walletTemp();
@@ -96,8 +95,11 @@ public class ClientListener implements Runnable{
     }
 
     private synchronized void processPlayerList(ArrayList<Player> playerArrayList) {
-        System.out.println("Final Recieving2: " + playerArrayList.size());
         cLientMain.handleNewList(playerArrayList);
+        if(cLientMain.playerArrayList_client.get(0).getCountBuildingCards().size()>0 && cLientMain.playerArrayList_client.get(1).getCountBuildingCards().size()>0) {
+            System.out.println("First: " + cLientMain.playerArrayList_client.get(0).getCountBuildingCards().get(3).getNumber());
+            System.out.println("Second: " + cLientMain.playerArrayList_client.get(1).getCountBuildingCards().get(3).getNumber());
+        }
     }
 
     private void processMessage(String message) {
@@ -151,7 +153,6 @@ public class ClientListener implements Runnable{
     }
 
     private void handleFinalCharacter(String message) {
-        System.out.println("DEBUGGGGGGGGGG 10/3" + message);
         String fCharacter = message.substring(FINALCHARACTER.length());
         cLientMain.handleFinalCharacter(fCharacter);
     }
@@ -178,13 +179,10 @@ public class ClientListener implements Runnable{
     public void handleUpdatePlayers_Host(String message){
         String hostName = message.substring(HOST_NAME.length());
         cLientMain.addHostToList(hostName);
-        //TO BE DECIDED ON HOW TO HANDLE THIS CONDITION
-        System.out.println("THE Host Name: " + hostName);
     }
     public void handleAddition_Players_Client(String message){
         String clientName = message.substring(CLIENT_NAME.length());
         cLientMain.addClientToList(clientName);
-        System.out.println("New Client Joined: " + clientName);
     }
     public void handleRemoval_Players_Client(String message){
         String clientName = message.substring(CLIENT_DISCONNECTED.length());
@@ -217,13 +215,11 @@ public class ClientListener implements Runnable{
     public String[] halfway_CHARACTER_SELECTION(String message){
         String finalPlayerChoosing = message.substring(DONE_WITH_CHARACTER_SELECTION.length());
         String[] finalCharacterChosenInfo = finalPlayerChoosing.split("-");
-        System.out.println("Player " + finalCharacterChosenInfo[0] + " Has Finalized Character " + finalCharacterChosenInfo[1]);
         return finalCharacterChosenInfo;
     }
     public void send_Message_Clients(String message){
         String nameAndMessage = message.substring(CHAT_MESSAGE_HOST.length());
         cLientMain.tempFinalAndMessage(nameAndMessage);
-        System.out.println("Recieved Message From Host - 9/23");
     }
 
     public void switchingToGamePanel(String message){

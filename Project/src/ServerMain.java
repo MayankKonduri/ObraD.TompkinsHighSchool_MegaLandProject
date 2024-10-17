@@ -96,8 +96,6 @@ public class ServerMain{
         }
         hostPanel.playerList_serverSide.add(clientNameVerify);
         hostPanel.updatePeopleList(gamePlayerNames);
-        System.out.println(gamePlayerNames);
-        //hostPanel.verifyName();
         sendHostList(gamePlayerNames);
     }
 
@@ -110,7 +108,6 @@ public class ServerMain{
         }
         hostPanel.playerList_serverSide.remove(clientName);
         hostPanel.updatePeopleList(gamePlayerNames);
-        System.out.println(gamePlayerNames);
         sendHostList(gamePlayerNames);
     }
     public void tempFinalAndMessage(String nameAndMessage) {
@@ -142,17 +139,14 @@ public class ServerMain{
 
     public void characterTempChoose(String playerChoosing) {
         String[] characterChosenInfo = playerChoosing.split("-");
-        System.out.println("Player " + characterChosenInfo[0] + " Has Chosen Character " + characterChosenInfo[1]);
         for(ObjectOutputStream clientOut : clientOutputStreams){
             //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
             broadcastMessage(6, playerChoosing);
-            System.out.println("Sent Successfully");
         }
         if(characterChosenInfo[1].equals("catB")) {
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
             temp[0][0] = characterChosenInfo[0];
             temp[0][1] = "NotMine";
-            System.out.println("About to be Updated....");
             characterSelectPanel.updateAvailability(temp);
         }
         else if(characterChosenInfo[1].equals("indianWomanB")) {
@@ -182,11 +176,9 @@ public class ServerMain{
     }
     public void characterTempUNChoose(String playerChoosing) {
         String[] characterUNChosenInfo = playerChoosing.split("-");
-        System.out.println("Player " + characterUNChosenInfo[0] + " Has UNChosen Character " + characterUNChosenInfo[1]);
         for(ObjectOutputStream clientOut : clientOutputStreams){
             //CommandFromServer.notify_CLIENT_NAME(clientOut, clientName);
             broadcastMessage(7, playerChoosing);// I fixed now...
-            System.out.println("DEBUGCASE");
         }
         if(characterUNChosenInfo[1].equals("catB")) {
             Object[][] temp = characterSelectPanel.FINAL_ARRAY;
@@ -223,10 +215,8 @@ public class ServerMain{
         walletTemp();
         synchronized (clientOutputStreams){
             if(gamePanel!=null){
-                System.out.println("YES DOING");
                 gamePanel.LeaderBoardUpdateHost();
             }
-            System.out.println("Debug: " + playerArrayList_Host.size());
             for(ObjectOutputStream out: clientOutputStreams){
                 CommandFromServer.notify_PLAYEROBJECT_LIST(out, playerArrayListHost);
             }
@@ -303,7 +293,6 @@ public class ServerMain{
                     for(ObjectOutputStream out: clientOutputStreams){
                         String[] messageAndName = name.split("-");
                         CommandFromServer.notify_CHAT_MESSAGE_HOST(out, messageAndName[0], messageAndName[1]);
-                        System.out.println("Sent To Client" + messageAndName[1]);
                     }}
                 break;
             case 12:

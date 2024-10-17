@@ -47,7 +47,7 @@ public class ConnectPanel extends JPanel{
         this.jFrame1 = frame;
 
         try{
-            loading = ImageIO.read(new File("Project\\src\\Images\\Loading_v7.jpg"));
+            loading = ImageIO.read(new File("Project" + File.separator + "src" + File.separator + "Images" + File.separator + "Loading_v7.jpg"));
         } catch (Exception e) {
             e.printStackTrace();
         }

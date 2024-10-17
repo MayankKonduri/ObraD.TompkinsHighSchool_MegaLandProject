@@ -26,7 +26,7 @@ public class EndGamePanel extends JPanel {
 
 
         try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\Loading_v7.jpg")));
+            loading = ImageIO.read(new File("Project" + File.separator + "src" + File.separator + "Images" + File.separator + "Loading_v7.jpg"));
 
         } catch (Exception ah) {
             ah.printStackTrace();

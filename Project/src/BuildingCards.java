@@ -11,7 +11,7 @@ public class BuildingCards implements Serializable {
     public int buildingCost = 0;
     public boolean isStarCard = false;
     public boolean isNightCard = false;
-    public BufferedImage image;
+    public transient BufferedImage image;
     public int number = 0;
 
 

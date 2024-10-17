@@ -76,12 +76,15 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
 
 
         try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\Character_v.jpg")));
-            indianWoman = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player1.png")));
-            gandalf = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player2.png")));
-            cat = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player3.png")));
-            frog = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player4.png")));
-            white = ImageIO.read((new File("Project\\src\\Images\\MegaLand_Player5.png")));
+            String basePath = "Project" + File.separator + "src" + File.separator + "Images" + File.separator;
+
+            loading = ImageIO.read(new File(basePath + "Character_v.jpg"));
+            indianWoman = ImageIO.read(new File(basePath + "MegaLand_Player1.png"));
+            gandalf = ImageIO.read(new File(basePath + "MegaLand_Player2.png"));
+            cat = ImageIO.read(new File(basePath + "MegaLand_Player3.png"));
+            frog = ImageIO.read(new File(basePath + "MegaLand_Player4.png"));
+            white = ImageIO.read(new File(basePath + "MegaLand_Player5.png"));
+
 
 
         } catch (Exception ah) {
@@ -205,7 +208,6 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                     }
 
                 }
-                System.out.println(available.toString());
             }
         });
         indianWomanB.addActionListener(e -> {
@@ -273,7 +275,6 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                 }
             }
-            System.out.println(available.toString());
         });
         whiteB.addActionListener(e -> {
             if(isSelected)
@@ -339,7 +340,6 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                 }
             }
-            System.out.println(available.toString());
         });
         frogB.addActionListener(e -> {
             if(frogB.isEnabled()) {
@@ -405,7 +405,6 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                         CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                     }
                 }
-                System.out.println(available.toString());
             }
         });
         gandalfB.addActionListener(e -> {
@@ -472,7 +471,6 @@ public class CharacterSelectPanel extends JPanel implements Serializable {
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), this.playerClient);
                 }
             }
-            System.out.println(available.toString());
         });
         done.setBounds(1770, 900, 100, 60);
         done.setFont(new Font ("Georgia", Font.BOLD, 20));

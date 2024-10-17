@@ -31,7 +31,8 @@ public class WaitingForHostPanel extends JPanel {
         this.playerObject = player;
 
         try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\Waiting_v2.jpg")));
+            String basePath = "Project" + File.separator + "src" + File.separator + "Images" + File.separator;
+            loading = ImageIO.read(new File(basePath + "Waiting_v2.jpg"));
 
         } catch (Exception ah) {
             ah.printStackTrace();

@@ -65,24 +65,26 @@ public class CardSelectPanel extends JPanel {
             buildingsSelect.add(false);
         }
         try {
-            loading = ImageIO.read((new File("Project\\src\\Images\\Character_v.jpg")));
-            image12 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0012.jpg")));
-            image13 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0013.jpg")));
-            image14 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0014.jpg")));
-            image15 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0015.jpg")));
-            image16 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0016.jpg")));
-            image17 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0017.jpg")));
-            image18 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0018.jpg")));
-            image19 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0019.jpg")));
-            image20 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0020.jpg")));
-            image21 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0021.jpg")));
-            image22 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0022.jpg")));
-            image23 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0023.jpg")));
-            image24 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0024.jpg")));
-            image25 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0026.jpg")));
-            image26 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0027.jpg")));
-            image27 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0028.jpg")));
-            image28 = ImageIO.read((new File("Project\\src\\Images\\2024-08-19-10-14-0029.jpg")));
+            String basePath = "Project" + File.separator + "src" + File.separator + "Images" + File.separator;
+
+            loading = ImageIO.read(new File(basePath + "Character_v.jpg"));
+            image12 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0012.jpg"));
+            image13 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0013.jpg"));
+            image14 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0014.jpg"));
+            image15 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0015.jpg"));
+            image16 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0016.jpg"));
+            image17 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0017.jpg"));
+            image18 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0018.jpg"));
+            image19 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0019.jpg"));
+            image20 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0020.jpg"));
+            image21 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0021.jpg"));
+            image22 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0022.jpg"));
+            image23 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0023.jpg"));
+            image24 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0024.jpg"));
+            image25 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0026.jpg"));
+            image26 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0027.jpg"));
+            image27 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0028.jpg"));
+            image28 = ImageIO.read(new File(basePath + "2024-08-19-10-14-0029.jpg"));
 
         } catch (Exception ah) {
             ah.printStackTrace();
