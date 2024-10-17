@@ -99,6 +99,7 @@ public class ClientListener implements Runnable{
         if(cLientMain.playerArrayList_client.get(0).getCountBuildingCards().size()>0 && cLientMain.playerArrayList_client.get(1).getCountBuildingCards().size()>0) {
             System.out.println("First: " + cLientMain.playerArrayList_client.get(0).getCountBuildingCards().get(3).getNumber());
             System.out.println("Second: " + cLientMain.playerArrayList_client.get(1).getCountBuildingCards().get(3).getNumber());
+            System.out.println(cLientMain.playerArrayList_client.get(1).getPlayerBuildings().isEmpty());
         }
     }
 

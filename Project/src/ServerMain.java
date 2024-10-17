@@ -221,6 +221,12 @@ public class ServerMain{
                 CommandFromServer.notify_PLAYEROBJECT_LIST(out, playerArrayListHost);
             }
         }
+        if(playerArrayListHost.size()>1) {
+            if(playerArrayList_Host.get(1).getPlayerBuildings() != null){
+                System.out.println("1" + playerArrayList_Host.get(1).getPlayerBuildings().isEmpty());
+            }
+        }
+
     }
     public synchronized void broadcastMessage(int values, String name){
         switch (values){

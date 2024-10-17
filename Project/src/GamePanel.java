@@ -1079,9 +1079,6 @@ public class GamePanel extends JPanel {
                             buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                             System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                             hostPanel.playerHost.setCountBuildingCards(buildingDeck1);
-                            System.out.println("Trial: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
-
-
 
                             hostPanel.playerHost.setPlayerBuildings(playerBuildings);
                             hostOwnedCardsDisplay(playerBuildings);
@@ -1361,19 +1358,18 @@ public class GamePanel extends JPanel {
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
                         clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setCountBuildingCards(buildingDeck1);
-                        System.out.println("Before Sub: " + buildingDeck.get(finalJ).getNumber());
-                        //buildingDeck.get(finalJ).setNumber(buildingDeck.get(finalJ).getNumber() - 1);
-                        System.out.println("After Sub: " + buildingDeck.get(finalJ).getNumber());
                         clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setPlayerBuildings(playerBuildings);
+                        System.out.println("Try: " + playerBuildings.size());
                         clientOwnedCardsDisplay(playerBuildings);
+                        System.out.println("Try: " + playerBuildings.size());
                         clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setCountBuildingCards(buildingDeck1);
-                        clientOwnedCardsDisplay(playerBuildings);
-                        System.out.println("After Set: " + characterSelectPanel.playerClient.getCountBuildingCards().get(finalJ).getNumber());
                         if (!isHost1) {
                             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         }
                         CommandFromClient.notify_INTERCLICK(clientMain.getOut(), connectPanel.nameTextField.getText());
+                        System.out.println("Try31: " + playerBuildings.size());
                         System.out.println("Debug222: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
+                        clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setPlayerBuildings(playerBuildings);
                     } else if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
                         showError("Out of Stock");
                     } else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
@@ -1488,7 +1484,7 @@ public class GamePanel extends JPanel {
 
     public void clientOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
             cardsPanel.removeAll();
-
+            System.out.println("Try1: " + playerBuildings.size());
             int cardWidth = 140;
             int cardHeight = 210;
             int cardSpacing = 20;
@@ -1672,7 +1668,7 @@ public class GamePanel extends JPanel {
     }
     public String playerGameView(int x){
         cardsPanel.setEnabled(false);
-
+        System.out.println("In Player Game View: " + playerBuildings.size());
         if(isHost1){
         switch (x){
             case 0:
@@ -1799,13 +1795,13 @@ public class GamePanel extends JPanel {
             }
         }
         else{
+            System.out.println("In Player Game View (C): " + playerBuildings.size());
             switch (x){
                 case 0:
                     System.out.println("Player 1");
                     cardsPanel.removeAll();
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
-
                     clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
@@ -1816,6 +1812,7 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientOwnedCardsDisplay(playerBuildings);
                         return "My";
                     }
                     else{
@@ -1831,16 +1828,21 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    //clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
                     if (!isHost1) {
-                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        //CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                     }
                     if(clientMain.Final_gamePlayerNames_ClientSide.get(x).equals(connectPanel.nameTextField.getText())){
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientOwnedCardsDisplay(playerBuildings);
+                        if(!isHost1){
+                            characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
+                            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        }
                         return "My";
                     }
                     else{
@@ -1866,6 +1868,11 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientOwnedCardsDisplay(playerBuildings);
+                        if(!isHost1){
+                            characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
+                            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        }
                         return "My";
                     }
                     else{
@@ -1891,6 +1898,11 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientOwnedCardsDisplay(playerBuildings);
+                        if(!isHost1){
+                            characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
+                            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        }
                         return "My";
                     }
                     else{
@@ -1916,6 +1928,11 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientOwnedCardsDisplay(playerBuildings);
+                        if(!isHost1){
+                            characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
+                            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        }
                         return "My";
                     }
                     else{

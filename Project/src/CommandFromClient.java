@@ -81,6 +81,7 @@ public class CommandFromClient implements Serializable {
     }
     public static void sendPlayerObject(ObjectOutputStream out, Player player) {
         try {
+            System.out.println("222222222222222" + player.getPlayerBuildings().isEmpty());
             out.reset();
             out.writeObject(player);
             out.flush();

@@ -54,6 +54,7 @@ public class ServerListener implements Runnable{
     }
 
     private synchronized void processPlayer(Player playerGet) {
+
         int index = -1;
         for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
             String playerName = serverMain.playerArrayList_Host.get(i).getPlayerName();
