@@ -800,39 +800,39 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void buyBuildingsAction(BuildingCards buying) {
-        int costMatch = buyingCards.size();
-        int cost = buying.getBuildingCost();
-        int carrots = 0;//4
-        int gear = 0;//1
-        int cube = 0;//2
-        int mineral = 0;//5
-        int fish = 0;//6
-        int egg = 0;//3
-
-        for(int i = 0; i < playerTreasures.size(); i++) {
-            if(playerTreasures.get(i).getTreasureName().equals("gear")) {
-                gear++;
-            } else if(playerTreasures.get(i).getTreasureName().equals("cube")) {
-                cube++;
-            }else if(playerTreasures.get(i).getTreasureName().equals("egg")) {
-                egg++;
-            }else if(playerTreasures.get(i).getTreasureName().equals("carrots")) {
-                carrots++;
-            }else if(playerTreasures.get(i).getTreasureName().equals("mineral")) {
-                mineral++;
-            }else if(playerTreasures.get(i).getTreasureName().equals("fish")) {
-                fish++;
-            }
-        }
-
-        if(cost == costMatch) {
-            playerBuildings.add(buying);
-            hostOwnedCardsDisplay(playerBuildings);
-        }
-
-
-    }
+//    public void buyBuildingsAction(BuildingCards buying) {
+//        int costMatch = buyingCards.size();
+//        int cost = buying.getBuildingCost();
+//        int carrots = 0;//4
+//        int gear = 0;//1
+//        int cube = 0;//2
+//        int mineral = 0;//5
+//        int fish = 0;//6
+//        int egg = 0;//3
+//
+//        for(int i = 0; i < playerTreasures.size(); i++) {
+//            if(playerTreasures.get(i).getTreasureName().equals("gear")) {
+//                gear++;
+//            } else if(playerTreasures.get(i).getTreasureName().equals("cube")) {
+//                cube++;
+//            }else if(playerTreasures.get(i).getTreasureName().equals("egg")) {
+//                egg++;
+//            }else if(playerTreasures.get(i).getTreasureName().equals("carrots")) {
+//                carrots++;
+//            }else if(playerTreasures.get(i).getTreasureName().equals("mineral")) {
+//                mineral++;
+//            }else if(playerTreasures.get(i).getTreasureName().equals("fish")) {
+//                fish++;
+//            }
+//        }
+//
+//        if(cost == costMatch) {
+//            playerBuildings.add(buying);
+//            hostOwnedCardsDisplay(playerBuildings);
+//        }
+//
+//
+//    }
 
     public void updateTempChar(String tempCharChar){
         tempChar.remove(tempCharChar);
@@ -925,22 +925,22 @@ public class GamePanel extends JPanel {
 
     public void createDeck() {
         for(int i = 0; i < 6; i++) {
-            unshuffledDeck.add(new TreasureCard(1, "gear", false, gear, "Project\\src\\Images\\2024-08-19-10-14-0042.jpg"));//6
+            unshuffledDeck.add(new TreasureCard(1, "gear", false, gear, "Project\\src\\Images\\2024-08-19-10-14-0042.jpg", false));//6
         }
         for(int i = 0; i < 20; i++) {
-            unshuffledDeck.add(new TreasureCard(2, "cube", false, cube, "Project\\src\\Images\\2024-08-19-10-14-0043.jpg"));//20
+            unshuffledDeck.add(new TreasureCard(2, "cube", false, cube, "Project\\src\\Images\\2024-08-19-10-14-0043.jpg", false));//20
         }
         for(int i = 0; i < 16; i++) {
-            unshuffledDeck.add(new TreasureCard(3, "egg", false, egg, "Project\\src\\Images\\2024-08-19-10-14-0044.jpg"));//16
+            unshuffledDeck.add(new TreasureCard(3, "egg", false, egg, "Project\\src\\Images\\2024-08-19-10-14-0044.jpg", false));//16
         }
         for(int i = 0; i < 30; i++) {
-            unshuffledDeck.add(new TreasureCard(4, "carrot", false, carrot, "Project\\src\\Images\\2024-08-19-10-14-0045.jpg"));//30
+            unshuffledDeck.add(new TreasureCard(4, "carrot", false, carrot, "Project\\src\\Images\\2024-08-19-10-14-0045.jpg", false));//30
         }
         for(int i = 0; i < 10; i++) {
-            unshuffledDeck.add(new TreasureCard(5, "mineral", false, mineral, "Project\\src\\Images\\2024-08-19-10-14-0046.jpg"));//10
+            unshuffledDeck.add(new TreasureCard(5, "mineral", false, mineral, "Project\\src\\Images\\2024-08-19-10-14-0046.jpg", false));//10
         }
         for(int i = 0; i < 14; i++) {
-            unshuffledDeck.add(new TreasureCard(6, "fish", false,fish, "Project\\src\\Images\\2024-08-19-10-14-0047.jpg"));//14
+            unshuffledDeck.add(new TreasureCard(6, "fish", false,fish, "Project\\src\\Images\\2024-08-19-10-14-0047.jpg", false));//14
         }
         Collections.shuffle(unshuffledDeck);
         shuffledDeck.addAll(unshuffledDeck);
@@ -1118,11 +1118,23 @@ public class GamePanel extends JPanel {
 
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
-                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && buildingDeck.get(finalJ).getBuildingCost() == buyingCards.size()) {
+                        for(int i = 0; i < buyingCards.size(); i++) {
+                            for(int k = 0; k < playerTreasures.size(); k++) {
+                                if(buyingCards.get(i).getTreasureID() == playerTreasures.get(k).getTreasureID() && playerTreasures.get(k).getSelected() == true) {
+                                    playerTreasures.remove(k);
+                                    hostTreasureDisplay(playerTreasures);
+                                    revalidate();
+                                    repaint();
+                                }
+
+                            }
+                        }
+                        buyingCards.clear();
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
-                        buyBuildingsAction(buildingDeck.get(finalJ));
+                        //buyBuildingsAction(buildingDeck.get(finalJ));
                         playerBuildings.add(buildingDeck.get(finalJ));
                         hostPanel.playerHost.setPlayerBuildings(playerBuildings);
                         serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1171,10 +1183,15 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
-                if(buyBuildings.equals("Stop Buying")) {
-                    buyingCards.add(treasureCard);
+                System.out.println("Buying Cards1: " + buyingCards.size());
+                if(buyBuildings.getText().equals("Stop Buying")) {
+                    playerTreasures.get(finalI).setSelected(true);
+                    buyingCards.add(playerTreasures.get(finalI));
+                    button1.setEnabled(false);
+                    System.out.println("Buying Cards: " + buyingCards.size());
+
                 }
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                else if((buyBuildings.equals("Buy Buildings") && current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
                     safeTreasuresList.add(playerTreasures.get(finalI));
                     hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1342,7 +1359,19 @@ public class GamePanel extends JPanel {
             int x1 = 0;
             button.addActionListener(e -> {
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)){
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)&& buildingDeck.get(finalJ).getBuildingCost() == buyingCards.size()) {
+                    for(int i = 0; i < buyingCards.size(); i++) {
+                        for(int k = 0; k < playerTreasures.size(); k++) {
+                            if(buyingCards.get(i).getTreasureID() == playerTreasures.get(k).getTreasureID() && buyingCards.get(i).getSelected() == true) {
+                                playerTreasures.remove(k);
+                                clientTreasureDisplay(playerTreasures);
+                                revalidate();
+                                repaint();
+                            }
+
+                        }
+                    }
+                    buyingCards.clear();
                     System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                     buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                     System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
@@ -1391,7 +1420,15 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && !(characterSelectPanel.playerClient.isPlayerActive)){
+                System.out.println("Buying Cards1: " + buyingCards.size());
+                if(buyBuildings.getText().equals("Stop Buying")) {
+                    playerTreasures.get(finalI).setSelected(true);
+                    buyingCards.add(playerTreasures.get(finalI));
+                    button1.setEnabled(false);
+                    System.out.println("Buying Cards: " + buyingCards.size());
+
+                }
+                else if((buyBuildings.equals("Buy Buildings") && current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && !(characterSelectPanel.playerClient.isPlayerActive)){
                     safeTreasuresList.add(playerTreasures.get(finalI));
                     characterSelectPanel.playerClient.setPlayerSafeTreasures(safeTreasuresList);
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
