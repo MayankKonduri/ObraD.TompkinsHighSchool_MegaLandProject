@@ -1294,6 +1294,38 @@ public class GamePanel extends JPanel {
         });
         walletUpdate(playerBuildings);
     }
+
+    public void hostOwnedCardsDisplay1(ArrayList<BuildingCards> playerBuildings) {
+        cardsPanel.removeAll();
+
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 15;
+
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
+        }
+
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 200));
+
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
+
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar vertical = scrollPane.getVerticalScrollBar();
+            vertical.setValue(vertical.getMaximum());
+        });
+    }
     public void walletUpdate(ArrayList<BuildingCards> playerBuildings) {
         if(isHost1){
             hostPanel.playerHost.setPlayerCoins(0);
@@ -1592,6 +1624,33 @@ public class GamePanel extends JPanel {
         });
         walletUpdate(playerBuildings);
     }
+    public void clientOwnedCardsDisplay1(ArrayList<BuildingCards> playerBuildings) {
+        cardsPanel.removeAll();
+        System.out.println("Try1: " + playerBuildings.size());
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 20;
+
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
+        }
+
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
+
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
+
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
+    }
 
 
     public void paintComponent(Graphics g) {
@@ -1759,7 +1818,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    hostOwnedCardsDisplay1(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                     serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1783,7 +1842,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    hostOwnedCardsDisplay1(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                     System.out.println("Last" + serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                     serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
@@ -1808,7 +1867,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    hostOwnedCardsDisplay1(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                     serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1832,7 +1891,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    hostOwnedCardsDisplay1(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                     serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1856,7 +1915,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    hostOwnedCardsDisplay1(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
                     serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1884,7 +1943,8 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
-                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    
+                    clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
                     if (!isHost1) {
@@ -1924,7 +1984,7 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         clientTreasureDisplay(playerTreasures);
                         characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
-                        clientOwnedCardsDisplay(playerBuildings);
+                        clientOwnedCardsDisplay1(playerBuildings);
                         characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
                         CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
@@ -1942,7 +2002,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
                     if (!isHost1) {
@@ -1970,7 +2030,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
                     if (!isHost1) {
@@ -1998,7 +2058,7 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
-                    clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
+                    clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
                     if (!isHost1) {
@@ -2281,6 +2341,7 @@ public class GamePanel extends JPanel {
                 JLabel coinsLabel = new JLabel(String.valueOf(CoinsTemp), JLabel.CENTER);
                 coinsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
                 coinsLabel.setForeground(Color.WHITE);
+
 
                 JLabel jumpsLabel = new JLabel(String.valueOf(JumpTemp), JLabel.CENTER);
                 jumpsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
