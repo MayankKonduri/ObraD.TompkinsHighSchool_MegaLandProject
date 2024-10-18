@@ -1943,7 +1943,7 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
-                    
+
                     clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
@@ -2014,6 +2014,8 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         clientTreasureDisplay(playerTreasures);
                         characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        clientOwnedCardsDisplay1(playerBuildings);
+                        characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
                         CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
@@ -2042,6 +2044,8 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         clientTreasureDisplay(playerTreasures);
                         characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        clientOwnedCardsDisplay1(playerBuildings);
+                        characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
                         CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
@@ -2070,6 +2074,8 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         clientTreasureDisplay(playerTreasures);
                         characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        clientOwnedCardsDisplay1(playerBuildings);
+                        characterSelectPanel.playerClient.setPlayerBuildings(playerBuildings);
                         CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
