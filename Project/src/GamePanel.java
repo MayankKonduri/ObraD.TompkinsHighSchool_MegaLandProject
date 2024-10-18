@@ -1026,6 +1026,7 @@ public class GamePanel extends JPanel {
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
                 if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
+                    if(start==serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())){
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1035,6 +1036,16 @@ public class GamePanel extends JPanel {
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     hostTreasureDisplay(playerTreasures);
                     serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
+
+                    start++;
+                    serverMain.broadcastMessage(17, String.valueOf(start));
+                    }else{
+                        showError("Not Your Turn");
+                    }
+                }else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                    showError("Not Your View");
+                } else if(!(hostPanel.playerHost.isPlayerActive)){
+                    showError("In Buy Phase");
                 }
                 else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
                     showError("Not Your View");
@@ -1070,7 +1081,6 @@ public class GamePanel extends JPanel {
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
                     if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
-                        if(start==serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())){
                         if(hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber() > 0) {
 
                             buildingDeck.get(finalJ).setNumber(serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(finalJ).getNumber() - 1);
@@ -1131,11 +1141,8 @@ public class GamePanel extends JPanel {
                             System.out.println("ww" + serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(finalJ).getNumber());
                             System.out.println("ww" + serverMain.playerArrayList_Host.get(1).getCountBuildingCards().get(finalJ).getNumber());
                             //---
-                            start++;
-                            serverMain.broadcastMessage(17, String.valueOf(start));
-                        }else{
-                            showError("Not Your Turn");
-                        }
+
+
                         }
                         else if(serverMain.playerArrayList_Host.get(serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
                             showError("Out of Stock");
@@ -1183,7 +1190,8 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                System.out.println("(H) " + start);
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                     safeTreasuresList.add(playerTreasures.get(finalI));
                     hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1197,13 +1205,11 @@ public class GamePanel extends JPanel {
                     serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
                     revalidate();
                     repaint();
-                } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                } /*else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
-                } else if((hostPanel.playerHost.isPlayerActive)){
-                    showError("Still in Level");
-                }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
-                    showError("Cannot Draw Cards");
-                }
+                } else if(!(hostPanel.playerHost.isPlayerActive)){
+                    showError("In Buy Phase");
+                }*/
             });
         }
         int totalWidth = (cardWidth + cardSpacing) * playerTreasures.size();
@@ -1313,6 +1319,7 @@ public class GamePanel extends JPanel {
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
             if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)) {
+                if(start==clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())){
                 playerTreasures.add(shuffledDeck.remove(0));
                 characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
                 if (!isHost1) {
@@ -1320,6 +1327,17 @@ public class GamePanel extends JPanel {
                 }
                 clientTreasureDisplay(playerTreasures);
                 CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
+
+                    start++;
+                    if(start==clientMain.Final_gamePlayerNames_ClientSide.size()){
+                        start = 0;
+                    }
+                    if(!isHost1){
+                        CommandFromClient.notify_CHANGEMAIN(clientMain.getOut(),String.valueOf(start));
+                    }
+            } else{
+                showError("Not Your Turn");
+            }
             } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                 showError("Not Your View");
             }
@@ -1355,7 +1373,6 @@ public class GamePanel extends JPanel {
                 System.out.println("Debug: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)) {
-                    if(start==clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())){
                         if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
 
                         buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
@@ -1379,23 +1396,13 @@ public class GamePanel extends JPanel {
                         System.out.println("Debug222: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                         clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setPlayerBuildings(playerBuildings);
 
-                        start++;
-                        if(start==clientMain.Final_gamePlayerNames_ClientSide.size()){
-                            start = 0;
-                        }
-                        if(!isHost1){
-                            CommandFromClient.notify_CHANGEMAIN(clientMain.getOut(),String.valueOf(start));
-                        }
-                        } else{
-                            showError("Not Your Turn");
-                        }
                     }else if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
                         showError("Out of Stock");
-                    } else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
-                        showError("Not Your View");
-                    } else if ((characterSelectPanel.playerClient.isPlayerActive)) {
-                        showError("Still in Level");
                     }
+                }else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
+                    showError("Not Your View");
+                } else if ((characterSelectPanel.playerClient.isPlayerActive)) {
+                    showError("Still in Level");
                 }
             });
             add(button);
@@ -1429,7 +1436,8 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && !(characterSelectPanel.playerClient.isPlayerActive)){
+                System.out.println("(C) " + start);
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
                     safeTreasuresList.add(playerTreasures.get(finalI));
                     characterSelectPanel.playerClient.setPlayerSafeTreasures(safeTreasuresList);
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
@@ -1441,13 +1449,11 @@ public class GamePanel extends JPanel {
                     CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
                     revalidate();
                     repaint();
-                }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
+
+                } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
-                } else if((characterSelectPanel.playerClient.isPlayerActive)){
-                    showError("Still in Level");
-                }
-                else if(!(characterSelectPanel.playerClient.isCanDrawLevel())){
-                    showError("Cannot Draw Cards");
+                } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
+                    showError("In Buy Phase");
                 }
             });
         }
