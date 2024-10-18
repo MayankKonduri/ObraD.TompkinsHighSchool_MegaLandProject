@@ -12,14 +12,16 @@ public class TreasureCard implements Serializable {
     public boolean isSafe = false;
     public transient BufferedImage image;
     private String imagePath;
+    private boolean selected = false;
 
 
-    public TreasureCard(int treasureID, String treasureName, boolean isSafe, BufferedImage image, String imagePath) {
+    public TreasureCard(int treasureID, String treasureName, boolean isSafe, BufferedImage image, String imagePath, boolean selected) {
         this.treasureID = treasureID;
         this.treasureName = treasureName;
         this.isSafe = isSafe;
         this.image = image;
         this.imagePath = imagePath;
+        this.selected = selected;
 
     }
 
@@ -39,6 +41,12 @@ public class TreasureCard implements Serializable {
     /*public BufferedImage getImage() {
         return image;
     }*/
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+    public boolean getSelected() {
+        return selected;
+    }
 
     public int getTreasureID() {
         return treasureID;
