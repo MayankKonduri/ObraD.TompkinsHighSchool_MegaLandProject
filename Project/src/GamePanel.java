@@ -1362,7 +1362,7 @@ public class GamePanel extends JPanel {
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)&& buildingDeck.get(finalJ).getBuildingCost() == buyingCards.size()) {
                     for(int i = 0; i < buyingCards.size(); i++) {
                         for(int k = 0; k < playerTreasures.size(); k++) {
-                            if(buyingCards.get(i).getTreasureID() == playerTreasures.get(k).getTreasureID() && buyingCards.get(i).getSelected() == true) {
+                            if(buyingCards.get(i).getTreasureID() == playerTreasures.get(k).getTreasureID() && playerTreasures.get(k).getSelected() == true) {
                                 playerTreasures.remove(k);
                                 clientTreasureDisplay(playerTreasures);
                                 revalidate();
