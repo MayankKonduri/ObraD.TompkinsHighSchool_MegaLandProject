@@ -1432,17 +1432,21 @@ public class GamePanel extends JPanel {
 
                 }
                 else if((buyBuildings.equals("Buy Buildings") && current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && !(characterSelectPanel.playerClient.isPlayerActive)){
-                    safeTreasuresList.add(playerTreasures.get(finalI));
+                    /*safeTreasuresList.add(playerTreasures.get(finalI));
                     characterSelectPanel.playerClient.setPlayerSafeTreasures(safeTreasuresList);
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                     playerTreasures.remove(finalI);
                     characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-                    clientTreasureDisplay(playerTreasures);
+
+                    clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setPlayerTreasures(playerTreasures);
+                    clientTreasureDisplay(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerTreasures());
+                    CommandFromClient.sendPlayerObject(clientMain.getOut(), clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())));
+
                     safeTreasureDisplay(safeTreasuresList);
                     CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
                     revalidate();
-                    repaint();
+                    repaint();*/
                 }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
                 } else if((characterSelectPanel.playerClient.isPlayerActive)){
@@ -1846,6 +1850,7 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientTreasureDisplay(playerTreasures);
                         return "My";
                     }
                     else{
@@ -1871,6 +1876,8 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientTreasureDisplay(playerTreasures);
+                        
                         return "My";
                     }
                     else{
