@@ -91,7 +91,7 @@ public class GamePanel extends JPanel {
             backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard, loading;
-
+        int coinTemp;
 
 
 
@@ -144,6 +144,7 @@ public class GamePanel extends JPanel {
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     LeaderBoardUpdateHost();
                 }else{
+                    coinTemp = characterSelectPanel.playerClient.getPlayerCoins() + 1;
                     characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+1);
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                     LeaderBoardUpdateClient();
@@ -1266,7 +1267,7 @@ public class GamePanel extends JPanel {
             LeaderBoardUpdateHost();
         }
         else{
-            characterSelectPanel.playerClient.setPlayerCoins(0);
+            //characterSelectPanel.playerClient.setPlayerCoins(0);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
             LeaderBoardUpdateClient();
         }
@@ -1303,6 +1304,7 @@ public class GamePanel extends JPanel {
 //            characterSelectPanel.playerClient.setPlayerCoins(0);
 //            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
 //            LeaderBoardUpdateClient();
+            coinTemp = characterSelectPanel.playerClient.getPlayerCoins() + number;
             characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+number);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
             LeaderBoardUpdateClient();

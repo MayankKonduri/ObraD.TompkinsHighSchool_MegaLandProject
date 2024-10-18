@@ -169,6 +169,7 @@ public class ClientMain{
             System.out.println(playerArrayList_client.get(i).getPlayerName());
             System.out.println(playerArrayList_client.get(i).getPlayerID());
         }
+        characterSelectPanel.playerClient = playerArrayList_client.get(Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()));
     }
     public void processLCName(String lcName) {
         if(!(lcName.equals(connectPanel.nameTextField.getText()))){
