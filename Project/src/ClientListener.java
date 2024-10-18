@@ -27,6 +27,8 @@ public class ClientListener implements Runnable{
     public static final String INTERCLICK = "INTERCLICK:";
     public static final String FINALCHARACTER = "FINALCHARACTER:";
     public static final String LEVELDISCONNECTION = "LEVELDISCONNECTION:";
+    public static final String CHANGEMAIN = "CHANGEMAIN:";
+
 
 
 
@@ -138,10 +140,17 @@ public class ClientListener implements Runnable{
             handleFinalCharacter(message);
         } else if(message.startsWith(LEVELDISCONNECTION)){
             handleLevelDisconnection(message);
+        } else if(message.startsWith(CHANGEMAIN)){
+            handleChange(message);
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void handleChange(String message) {
+        String tempChange = message.substring(CHANGEMAIN.length());
+        cLientMain.processChange(tempChange);
     }
 
     public void setLeaderBoardGameClient1(){

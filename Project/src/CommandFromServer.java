@@ -82,7 +82,10 @@ public class CommandFromServer implements Serializable
     public static void notify_LEVELDISCONNECTION(ObjectOutputStream out, String s){
         sendMessage(out, LEVELDISCONNECTION + s);
     }
-
+    public static final String CHANGEMAIN = "CHANGEMAIN:";
+    public static void notify_CHANGEMAIN(ObjectOutputStream out, String s) {
+        sendMessage(out, CHANGEMAIN + s);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {

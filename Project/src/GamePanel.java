@@ -78,6 +78,7 @@ public class GamePanel extends JPanel {
     private JPanel personalWallet = new JPanel();
     public boolean hasJumpedLevel = false;
     int arrayNum[];
+    public int start = 0;
 
     JPanel LeaderBoard;
     //missing one\
@@ -1069,6 +1070,7 @@ public class GamePanel extends JPanel {
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
                     if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
+                        if(start==serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())){
                         if(hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber() > 0) {
 
                             buildingDeck.get(finalJ).setNumber(serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(finalJ).getNumber() - 1);
@@ -1129,6 +1131,11 @@ public class GamePanel extends JPanel {
                             System.out.println("ww" + serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(finalJ).getNumber());
                             System.out.println("ww" + serverMain.playerArrayList_Host.get(1).getCountBuildingCards().get(finalJ).getNumber());
                             //---
+                            start++;
+                            serverMain.broadcastMessage(17, String.valueOf(start));
+                        }else{
+                            showError("Not Your Turn");
+                        }
                         }
                         else if(serverMain.playerArrayList_Host.get(serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
                             showError("Out of Stock");
@@ -1348,7 +1355,8 @@ public class GamePanel extends JPanel {
                 System.out.println("Debug: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive)) {
-                    if (clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
+                    if(start==clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())){
+                        if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
 
                         buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
 
@@ -1370,7 +1378,18 @@ public class GamePanel extends JPanel {
                         System.out.println("Try31: " + playerBuildings.size());
                         System.out.println("Debug222: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                         clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setPlayerBuildings(playerBuildings);
-                    } else if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
+
+                        start++;
+                        if(start==clientMain.Final_gamePlayerNames_ClientSide.size()){
+                            start = 0;
+                        }
+                        if(!isHost1){
+                            CommandFromClient.notify_CHANGEMAIN(clientMain.getOut(),String.valueOf(start));
+                        }
+                        } else{
+                            showError("Not Your Turn");
+                        }
+                    }else if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
                         showError("Out of Stock");
                     } else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
                         showError("Not Your View");

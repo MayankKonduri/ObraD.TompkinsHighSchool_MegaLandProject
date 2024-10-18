@@ -26,6 +26,7 @@ public class ClientMain{
     public ArrayList<Player> playerArrayList_client = new ArrayList<Player>();
     private GamePanel gamePanel;
     public ArrayList<String> charactersInLevel_client = new ArrayList<>();
+    public int tempInt;
 
 
     public ClientMain(String clientName, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel, GamePanel gamePanel){
@@ -295,5 +296,10 @@ public class ClientMain{
     }
 
 
+    public void processChange(String tempChange) {
+         tempInt = Integer.parseInt(tempChange);
+         gamePanel.start = tempInt;
+         playerArrayList_client.get(Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setCanDrawLevel(tempInt==Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()));
 
+    }
 }

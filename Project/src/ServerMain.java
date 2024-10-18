@@ -27,6 +27,7 @@ public class ServerMain{
     public ArrayList<Player> playerArrayList_Host = new ArrayList<>();
     private GamePanel gamePanel;
     public ArrayList<String> charactersInLevel_host = new ArrayList<>();
+    public int tempInt;
 
 
     public ServerMain(int port, String hostName, HostPanel hostPanel, CharacterSelectPanel characterSelectPanel, ChatPanel chatPanel, GamePanel gamePanel){
@@ -331,6 +332,12 @@ public class ServerMain{
                         CommandFromServer.notify_LEVELDISCONNECTION(out, name);
                     }}
                 break;
+            case 17:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_CHANGEMAIN(out, name);
+                    }}
+                break;
         }
     }
     public void stopServer(){
@@ -388,5 +395,12 @@ public class ServerMain{
         if(gamePanel!= null) {
             gamePanel.wallet(playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerName(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerHearts(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerCoins(), playerArrayList_Host.get(gamePlayerNames.indexOf(hostPanel.nameTextField.getText())).getPlayerJumps());
         }
+    }
+
+    public void processChange(String tempChange) {
+        tempInt = Integer.parseInt(tempChange);
+        gamePanel.start = tempInt;
+        playerArrayList_Host.get(0).setCanDrawLevel(tempInt==0);
+        broadcastMessagePlayers(playerArrayList_Host);
     }
 }
