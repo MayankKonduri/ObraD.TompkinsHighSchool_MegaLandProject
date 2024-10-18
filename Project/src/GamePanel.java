@@ -1851,6 +1851,8 @@ public class GamePanel extends JPanel {
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         clientTreasureDisplay(playerTreasures);
+                        characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
                     else{
@@ -1877,7 +1879,8 @@ public class GamePanel extends JPanel {
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         clientTreasureDisplay(playerTreasures);
-                        
+                        characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
                     else{
@@ -1903,6 +1906,9 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientTreasureDisplay(playerTreasures);
+                        characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
                     else{
@@ -1928,6 +1934,9 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientTreasureDisplay(playerTreasures);
+                        characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
                     else{
@@ -1953,6 +1962,9 @@ public class GamePanel extends JPanel {
                         cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        clientTreasureDisplay(playerTreasures);
+                        characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                        CommandFromClient.sendPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         return "My";
                     }
                     else{
