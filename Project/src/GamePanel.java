@@ -91,7 +91,7 @@ public class GamePanel extends JPanel {
             backOfLevelCard, levelCard31, levelCard32, levelCard33, levelCard34, levelCard35, levelCard36, levelCard37, levelCard38, levelCard39, levelCard40,
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard, loading;
-        int coinTemp;
+    int coinTemp;
 
 
 
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel {
         this.isHost1 = isHost;
         //this.cardSelectPanel = cardSelectPanel;
 
- //---------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------
         /* TEST CASE BUTTONS*/
         buyBuildings.setBounds(1700,500,250,30);
         buyBuildings.addActionListener(e -> {
@@ -144,7 +144,7 @@ public class GamePanel extends JPanel {
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     LeaderBoardUpdateHost();
                 }else{
-                    coinTemp = characterSelectPanel.playerClient.getPlayerCoins() + 1;
+                    //coinTemp = characterSelectPanel.playerClient.getPlayerCoins() + 1;
                     characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+1);
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                     LeaderBoardUpdateClient();
@@ -875,17 +875,17 @@ public class GamePanel extends JPanel {
             levelDraw.setBounds(1450, 30, 140, 210);
             add(levelDraw);
             levelDraw.addActionListener(e -> {
-                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
-                        GUILevelCardsHost();
-                        serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
-                        //logic
-                    } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                    GUILevelCardsHost();
+                    serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
+                    //logic
+                } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
-                    } else if((!hostPanel.playerHost.isPlayerActive)){
-                        showError("Not in Level");
-                    }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
-                        showError("Cannot Draw Cards");
-                    }
+                } else if((!hostPanel.playerHost.isPlayerActive)){
+                    showError("Not in Level");
+                }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
+                    showError("Cannot Draw Cards");
+                }
             });
         }
     }
@@ -909,17 +909,17 @@ public class GamePanel extends JPanel {
         levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
-                    GUILevelCardsClient();
-                    CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
-                }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
-                    showError("Not Your View");
-                } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
-                    showError("Not in Level");
-                }
-                else if(!(characterSelectPanel.playerClient.isCanDrawLevel())){
-                    showError("Cannot Draw Cards");
-                }
+            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
+                GUILevelCardsClient();
+                CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
+            }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
+                showError("Not Your View");
+            } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
+                showError("Not in Level");
+            }
+            else if(!(characterSelectPanel.playerClient.isCanDrawLevel())){
+                showError("Cannot Draw Cards");
+            }
         });
     }
 
@@ -1144,12 +1144,12 @@ public class GamePanel extends JPanel {
                         hostOwnedCardsDisplay(playerBuildings);
                         serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
                     }
-                        else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
-                            showError("Not Your View");
-                        }
-                        else if((hostPanel.playerHost.isPlayerActive)){
-                            showError("Still in Level");
-                        }
+                    else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
+                        showError("Not Your View");
+                    }
+                    else if((hostPanel.playerHost.isPlayerActive)){
+                        showError("Still in Level");
+                    }
                 });
                 add(button);
                 imageButtons.add(button);
@@ -1228,31 +1228,31 @@ public class GamePanel extends JPanel {
         return playerTreasures;
     }
     public void hostOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
-            cardsPanel.removeAll();
+        cardsPanel.removeAll();
 
-            int cardWidth = 140;
-            int cardHeight = 210;
-            int cardSpacing = 15;
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 15;
 
-            for (int i = 0; i < playerBuildings.size(); i++) {
-                BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
-                JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
-                button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
-                cardsPanel.add(button1);
-            }
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
+        }
 
-            int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
-            cardsPanel.setPreferredSize(new Dimension(totalWidth, 200));
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 200));
 
-            cardsPanel.revalidate();
-            cardsPanel.repaint();
-            scrollPane.revalidate();
-            scrollPane.repaint();
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
 
-            SwingUtilities.invokeLater(() -> {
-                JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
-                horizontalBar.setValue(horizontalBar.getMaximum());
-            });
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
         SwingUtilities.invokeLater(() -> {
             JScrollBar vertical = scrollPane.getVerticalScrollBar();
             vertical.setValue(vertical.getMaximum());
@@ -1271,6 +1271,7 @@ public class GamePanel extends JPanel {
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
             LeaderBoardUpdateClient();
         }
+        coinTemp = 0;
         for(int i = 0; i < playerBuildings.size(); i++) {
             BuildingCards temp = playerBuildings.get(i);
             if(temp == buildingDeck.get(0)) {
@@ -1304,8 +1305,8 @@ public class GamePanel extends JPanel {
 //            characterSelectPanel.playerClient.setPlayerCoins(0);
 //            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
 //            LeaderBoardUpdateClient();
-            coinTemp = characterSelectPanel.playerClient.getPlayerCoins() + number;
-            characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+number);
+            coinTemp += number;
+            characterSelectPanel.playerClient.setPlayerCoins(coinTemp);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
             LeaderBoardUpdateClient();
         }
@@ -1503,133 +1504,133 @@ public class GamePanel extends JPanel {
 
 
     public void clientOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
-            cardsPanel.removeAll();
+        cardsPanel.removeAll();
 
-            int cardWidth = 140;
-            int cardHeight = 210;
-            int cardSpacing = 20;
+        int cardWidth = 140;
+        int cardHeight = 210;
+        int cardSpacing = 20;
 
-            for (int i = 0; i < playerBuildings.size(); i++) {
-                BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
-                JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
-                button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
-                cardsPanel.add(button1);
-            }
+        for (int i = 0; i < playerBuildings.size(); i++) {
+            BufferedImage image1 = buildingSelected.get(playerBuildings.get(i).getBuildingID() - 1);
+            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
+            button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
+            cardsPanel.add(button1);
+        }
 
-            int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
-            cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
+        int totalWidth = (cardWidth + cardSpacing) * playerBuildings.size();
+        cardsPanel.setPreferredSize(new Dimension(totalWidth, 230));
 
-            cardsPanel.revalidate();
-            cardsPanel.repaint();
-            scrollPane.revalidate();
-            scrollPane.repaint();
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
 
-            SwingUtilities.invokeLater(() -> {
-                JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
-                horizontalBar.setValue(horizontalBar.getMaximum());
-            });
-            walletUpdate(playerBuildings);
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+            horizontalBar.setValue(horizontalBar.getMaximum());
+        });
+        walletUpdate(playerBuildings);
     }
 
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-            g.drawImage(loading, 0, 0, 1920, 1050, null);
+        g.drawImage(loading, 0, 0, 1920, 1050, null);
 
 //        Graphics2D g2d = (Graphics2D) g;
-            if (isHost1) {
-                if(phase.getText() == "Run Phase") {
-                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-                } else if(phase.getText() == "Buy Phase") {
-                    g.drawImage(heartCard, 30, 20, 300, 180, null);
-                }
-                takeOff.setBounds(40, 220, 300, 30);
-                add(takeOff);
+        if (isHost1) {
+            if(phase.getText() == "Run Phase") {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+            } else if(phase.getText() == "Buy Phase") {
+                g.drawImage(heartCard, 30, 20, 300, 180, null);
+            }
+            takeOff.setBounds(40, 220, 300, 30);
+            add(takeOff);
 
-                for (int i = 0; i < drawnLevelCard.size(); i++) {
-                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                    g.drawImage(scaledImage, 1610, 30, this);
+            for (int i = 0; i < drawnLevelCard.size(); i++) {
+                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                g.drawImage(scaledImage, 1610, 30, this);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 //                g2d.setColor(new Color(128, 128, 128, 127));
 //                g2d.fillRect(1610, 30, 140, 210);
 //                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
 
-                }
-            } else {
-                if(phase.getText() == "Run Phase") {
-                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-                } else if(phase.getText() == "Buy Phase") {
-                    g.drawImage(heartCard, 30, 20, 300, 180, null);
-                }
-                takeOff.setBounds(40, 220, 300, 30);
-                add(takeOff);
-                for (int i = 0; i < drawnLevelCard.size(); i++) {
-                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                    g.drawImage(scaledImage, 1610, 30, this);
-
-
-                }
             }
-
-            if (isHost1) {
-                if(phase.getText() == "Run Phase") {
-                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-                } else if(phase.getText() == "Buy Phase") {
-                    g.drawImage(heartCard, 30, 20, 300, 180, null);
-                }
-                takeOff.setBounds(40, 220, 300, 30);
-                add(takeOff);
-                g.drawImage(personalCard, 30, 260, 320, 200, null);
-                int hearts = hostPanel.playerHost.getPlayerHearts();
-                for (int j = 0; j < hearts; j++) {
-                    if (j < 2) {
-                        g.drawImage(heart, 50 + (45 * j), 300, 40, 40, null);
-
-                    } else {
-                        int k = j - 2;
-                        g.drawImage(heart, 50 + (45 * k), 345, 40, 40, null);
-
-                    }
-                }
-                for (int i = 0; i < drawnLevelCard.size(); i++) {
-                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                    g.drawImage(scaledImage, 1610, 30, this);
-
-                }
-            } else {
-                if(phase.getText() == "Run Phase") {
-                    g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-                } else if(phase.getText() == "Buy Phase") {
-                    g.drawImage(heartCard, 30, 20, 300, 180, null);
-                }
-                takeOff.setBounds(40, 220, 300, 30);
-                add(takeOff);
-                g.drawImage(personalCard, 30, 260, 320, 200, null);
-                int hearts = characterSelectPanel.playerClient.getPlayerHearts();
-                for (int j = 0; j < hearts; j++) {
-                    if (j < 2) {
-                        g.drawImage(heart, 50 + (45 * j), 300, 40, 40, null);
-
-                    } else {
-                        int k = j - 2;
-                        g.drawImage(heart, 50 + (45 * k), 345, 40, 40, null);
-
-                    }
-                }
-                for (int i = 0; i < drawnLevelCard.size(); i++) {
-                    BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                    Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                    g.drawImage(scaledImage, 1610, 30, this);
-
-
-                }
+        } else {
+            if(phase.getText() == "Run Phase") {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+            } else if(phase.getText() == "Buy Phase") {
+                g.drawImage(heartCard, 30, 20, 300, 180, null);
+            }
+            takeOff.setBounds(40, 220, 300, 30);
+            add(takeOff);
+            for (int i = 0; i < drawnLevelCard.size(); i++) {
+                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                g.drawImage(scaledImage, 1610, 30, this);
 
 
             }
+        }
+
+        if (isHost1) {
+            if(phase.getText() == "Run Phase") {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+            } else if(phase.getText() == "Buy Phase") {
+                g.drawImage(heartCard, 30, 20, 300, 180, null);
+            }
+            takeOff.setBounds(40, 220, 300, 30);
+            add(takeOff);
+            g.drawImage(personalCard, 30, 260, 320, 200, null);
+            int hearts = hostPanel.playerHost.getPlayerHearts();
+            for (int j = 0; j < hearts; j++) {
+                if (j < 2) {
+                    g.drawImage(heart, 50 + (45 * j), 300, 40, 40, null);
+
+                } else {
+                    int k = j - 2;
+                    g.drawImage(heart, 50 + (45 * k), 345, 40, 40, null);
+
+                }
+            }
+            for (int i = 0; i < drawnLevelCard.size(); i++) {
+                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                g.drawImage(scaledImage, 1610, 30, this);
+
+            }
+        } else {
+            if(phase.getText() == "Run Phase") {
+                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+            } else if(phase.getText() == "Buy Phase") {
+                g.drawImage(heartCard, 30, 20, 300, 180, null);
+            }
+            takeOff.setBounds(40, 220, 300, 30);
+            add(takeOff);
+            g.drawImage(personalCard, 30, 260, 320, 200, null);
+            int hearts = characterSelectPanel.playerClient.getPlayerHearts();
+            for (int j = 0; j < hearts; j++) {
+                if (j < 2) {
+                    g.drawImage(heart, 50 + (45 * j), 300, 40, 40, null);
+
+                } else {
+                    int k = j - 2;
+                    g.drawImage(heart, 50 + (45 * k), 345, 40, 40, null);
+
+                }
+            }
+            for (int i = 0; i < drawnLevelCard.size(); i++) {
+                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+                g.drawImage(scaledImage, 1610, 30, this);
+
+
+            }
+
+
+        }
         /*if(isHost1) {
             if(hostPanel.playerHost.getPlayerImage().equals("cat")) {
                 g.drawImage(cat, 60, 60, 70, 105, null);
@@ -1645,46 +1646,46 @@ public class GamePanel extends JPanel {
             setVisible(true);
         }*/
 
-            if (isHost1) {
-                System.out.println(tempChar);
-                if(tempChar.size() != 0) {
-                    for (int i = 0; i < tempChar.size(); i++) {
-                        if ((tempChar.get(i)).equals("catB")) {
-                            g.drawImage(cat, 60, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("indianWomanB"))) {
-                            g.drawImage(indianWoman, 110, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("whiteB"))) {
-                            g.drawImage(white, 160, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("frogB"))) {
-                            g.drawImage(frog, 210, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("gandalfB"))) {
-                            g.drawImage(gandalf, 260, 60, 70, 105, null);
-                        }
-                        setVisible(true);
+        if (isHost1) {
+            System.out.println(tempChar);
+            if(tempChar.size() != 0) {
+                for (int i = 0; i < tempChar.size(); i++) {
+                    if ((tempChar.get(i)).equals("catB")) {
+                        g.drawImage(cat, 60, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("indianWomanB"))) {
+                        g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("whiteB"))) {
+                        g.drawImage(white, 160, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("frogB"))) {
+                        g.drawImage(frog, 210, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("gandalfB"))) {
+                        g.drawImage(gandalf, 260, 60, 70, 105, null);
                     }
-                }
-            } else {
-                if (tempChar.size() == 0) {
-                    phase.setText("Buy Phase");
-                }
-                System.out.println(tempChar);
-                if(tempChar.size() != 0) {
-                    for (int i = 0; i < tempChar.size(); i++) {
-                        if ((tempChar.get(i)).equals("catB")) {
-                            g.drawImage(cat, 60, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("indianWomanB"))) {
-                            g.drawImage(indianWoman, 110, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("whiteB"))) {
-                            g.drawImage(white, 160, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("frogB"))) {
-                            g.drawImage(frog, 210, 60, 70, 105, null);
-                        } else if ((tempChar.get(i).equals("gandalfB"))) {
-                            g.drawImage(gandalf, 260, 60, 70, 105, null);
-                        }
-                        setVisible(true);
-                    }
+                    setVisible(true);
                 }
             }
+        } else {
+            if (tempChar.size() == 0) {
+                phase.setText("Buy Phase");
+            }
+            System.out.println(tempChar);
+            if(tempChar.size() != 0) {
+                for (int i = 0; i < tempChar.size(); i++) {
+                    if ((tempChar.get(i)).equals("catB")) {
+                        g.drawImage(cat, 60, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("indianWomanB"))) {
+                        g.drawImage(indianWoman, 110, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("whiteB"))) {
+                        g.drawImage(white, 160, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("frogB"))) {
+                        g.drawImage(frog, 210, 60, 70, 105, null);
+                    } else if ((tempChar.get(i).equals("gandalfB"))) {
+                        g.drawImage(gandalf, 260, 60, 70, 105, null);
+                    }
+                    setVisible(true);
+                }
+            }
+        }
     }
     public String playerGameView(int x){
         cardsPanel.setEnabled(false);
@@ -1704,126 +1705,126 @@ public class GamePanel extends JPanel {
         }
 
         if(isHost1){
-        switch (x){
-            case 0:
-                System.out.println("Player 1");
-                cardsPanel.removeAll();
-                treasurePanel.removeAll();
-                safeTreasurePanel.removeAll();
+            switch (x){
+                case 0:
+                    System.out.println("Player 1");
+                    cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
 
-                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
-                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
-                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    return "My";
-                }
-                else{
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                }
-                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    }
+                    return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
-            case 1:
-                System.out.println("Player 2");
-                cardsPanel.removeAll();
-                treasurePanel.removeAll();
-                safeTreasurePanel.removeAll();
+                case 1:
+                    System.out.println("Player 2");
+                    cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
 
-                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
-                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
-                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    return "My";
-                }
-                else{
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                }
-                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    }
+                    return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
-            case 2:
-                System.out.println("Player 3");
-                cardsPanel.removeAll();
-                treasurePanel.removeAll();
-                safeTreasurePanel.removeAll();
+                case 2:
+                    System.out.println("Player 3");
+                    cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
 
-                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
-                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
-                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    return "My";
-                }
-                else{
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                }
-                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    }
+                    return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
-            case 3:
-                System.out.println("Player 4");
-                cardsPanel.removeAll();
-                treasurePanel.removeAll();
-                safeTreasurePanel.removeAll();
+                case 3:
+                    System.out.println("Player 4");
+                    cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
 
-                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
-                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
-                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    return "My";
-                }
-                else{
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                }
-                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    }
+                    return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
-            case 4:
-                System.out.println("Player 5");
-                cardsPanel.removeAll();
-                treasurePanel.removeAll();
-                safeTreasurePanel.removeAll();
+                case 4:
+                    System.out.println("Player 5");
+                    cardsPanel.removeAll();
+                    treasurePanel.removeAll();
+                    safeTreasurePanel.removeAll();
 
-                hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
-                serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
-                safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
-                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-                    return "My";
-                }
-                else{
-                    cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                    safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
-                }
-                return serverMain.playerArrayList_Host.get(x).getPlayerName();
+                    hostOwnedCardsDisplay(serverMain.playerArrayList_Host.get(x).getPlayerBuildings());
+                    serverMain.playerArrayList_Host.get(x).setPlayerTreasures(hostTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerTreasures()));
+                    safeTreasureDisplay(serverMain.playerArrayList_Host.get(x).getPlayerSafeTreasures());
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    if(serverMain.gamePlayerNames.get(x).equals(hostPanel.nameTextField.getText())){
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+                        return "My";
+                    }
+                    else{
+                        cardsPanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        treasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                        safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
+                    }
+                    return serverMain.playerArrayList_Host.get(x).getPlayerName();
                 //break;
             }
         }
@@ -1853,7 +1854,7 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
-                    //break;
+                //break;
                 case 1:
                     System.out.println("Player 2");
                     cardsPanel.removeAll();
@@ -1878,7 +1879,7 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
-                    //break;
+                //break;
                 case 2:
                     System.out.println("Player 3");
                     cardsPanel.removeAll();
@@ -1903,7 +1904,7 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
-                    //break;
+                //break;
                 case 3:
                     System.out.println("Player 4");
                     cardsPanel.removeAll();
@@ -1928,7 +1929,7 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
-                    //break;
+                //break;
                 case 4:
                     System.out.println("Player 5");
                     cardsPanel.removeAll();
@@ -1953,7 +1954,7 @@ public class GamePanel extends JPanel {
                         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.RED,2,true));
                     }
                     return clientMain.playerArrayList_client.get(x).getPlayerName();
-                    //break;
+                //break;
             }
         }
         return null;
@@ -2201,7 +2202,7 @@ public class GamePanel extends JPanel {
                     ((JLabel) comp).setBorder(BorderFactory.createLineBorder(Color.WHITE));
                 }
             }
-
+            JLabel coinsLabel;
             for (int i = 0; i < clientMain.playerArrayList_client.size(); i++) {
                 String playerName = clientMain.playerArrayList_client.get(i).getPlayerName();
                 int HeartsTemp = clientMain.playerArrayList_client.get(i).getPlayerHearts();
@@ -2216,9 +2217,16 @@ public class GamePanel extends JPanel {
                 heartsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
                 heartsLabel.setForeground(Color.WHITE);
 
-                JLabel coinsLabel = new JLabel(String.valueOf(CoinsTemp), JLabel.CENTER);
-                coinsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
-                coinsLabel.setForeground(Color.WHITE);
+                if(i == (clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
+                    coinsLabel = new JLabel(String.valueOf(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getPlayerCoins()), JLabel.CENTER);
+                    coinsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                    coinsLabel.setForeground(Color.WHITE);
+                }
+                else{
+                    coinsLabel = new JLabel(String.valueOf(CoinsTemp), JLabel.CENTER);
+                    coinsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+                    coinsLabel.setForeground(Color.WHITE);
+                }
 
                 JLabel jumpsLabel = new JLabel(String.valueOf(JumpTemp), JLabel.CENTER);
                 jumpsLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
