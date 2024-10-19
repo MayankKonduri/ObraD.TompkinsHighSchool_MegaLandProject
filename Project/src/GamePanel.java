@@ -1241,6 +1241,29 @@ public class GamePanel extends JPanel {
         });
         walletUpdate(playerBuildings);
     }
+    public void createDeck() {
+        for(int i = 0; i < 6; i++) {
+            unshuffledDeck.add(new TreasureCard(1, "gear", false, gear, "Project\\src\\Images\\2024-08-19-10-14-0042.jpg"));//6
+        }
+        for(int i = 0; i < 20; i++) {
+            unshuffledDeck.add(new TreasureCard(2, "cube", false, cube, "Project\\src\\Images\\2024-08-19-10-14-0043.jpg"));//20
+        }
+        for(int i = 0; i < 16; i++) {
+            unshuffledDeck.add(new TreasureCard(3, "egg", false, egg, "Project\\src\\Images\\2024-08-19-10-14-0044.jpg"));//16
+        }
+        for(int i = 0; i < 30; i++) {
+            unshuffledDeck.add(new TreasureCard(4, "carrot", false, carrot, "Project\\src\\Images\\2024-08-19-10-14-0045.jpg"));//30
+        }
+        for(int i = 0; i < 10; i++) {
+            unshuffledDeck.add(new TreasureCard(5, "mineral", false, mineral, "Project\\src\\Images\\2024-08-19-10-14-0046.jpg"));//10
+        }
+        for(int i = 0; i < 14; i++) {
+            unshuffledDeck.add(new TreasureCard(6, "fish", false,fish, "Project\\src\\Images\\2024-08-19-10-14-0047.jpg"));//14
+        }
+        Collections.shuffle(unshuffledDeck);
+        shuffledDeck.addAll(unshuffledDeck);
+
+    }
     public void walletUpdate(ArrayList<BuildingCards> playerBuildings) {
         if(isHost1){
             hostPanel.playerHost.setPlayerCoins(0);
@@ -1661,6 +1684,56 @@ public class GamePanel extends JPanel {
             for (int i = 0; i <clientMain.playerArrayList_client.size();i++){
                 System.out.println(clientMain.playerArrayList_client.get(i).getPlayerName());
                 System.out.println(clientMain.playerArrayList_client.get(i).getPlayerID());
+            }
+        }
+        public void walletUpdate(ArrayList<BuildingCards> playerBuildings) {
+            if(isHost1){
+                hostPanel.playerHost.setPlayerCoins(0);
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                LeaderBoardUpdateHost();
+            }
+            else{
+                characterSelectPanel.playerClient.setPlayerCoins(0);
+                CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                LeaderBoardUpdateClient();
+            }
+            for(int i = 0; i < playerBuildings.size(); i++) {
+                BuildingCards temp = playerBuildings.get(i);
+                if(temp == buildingDeck.get(0)) {
+                    addCoin(1);
+                } else if (temp == buildingDeck.get(1)) {
+                    addCoin(2);
+                } else if (temp == buildingDeck.get(2)) {
+                    addCoin(3);
+                }
+                else if (temp == buildingDeck.get(3)) {
+                    addCoin(4);
+                }
+                else if (temp == buildingDeck.get(4)) {
+                    addCoin(5);
+                }
+                else if (temp == buildingDeck.get(5)) {
+                    addCoin(7);
+                }
+            }
+
+        }
+
+        public void addCoin(int number) {
+            if(isHost1){
+                hostPanel.playerHost.setPlayerCoins(hostPanel.playerHost.getPlayerCoins() +number);
+                serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                LeaderBoardUpdateHost();
+            }else{
+//            int numberTemp = characterSelectPanel.playerClient.getPlayerCoins();
+//            characterSelectPanel.playerClient.setPlayerCoins(0);
+//            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+//            LeaderBoardUpdateClient();
+                characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+number);
+                CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                LeaderBoardUpdateClient();
             }
         }
 

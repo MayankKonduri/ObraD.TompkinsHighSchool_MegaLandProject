@@ -122,5 +122,101 @@ public class InGameRulesPanel extends JPanel{
             previousPage.setVisible(true);
             nextPage.setVisible(false);
         }
+        g.setColor(new Color(230, 230, 230));
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        if (pageCount == 0) {
+            g.drawImage(rule1, 0, 0, 1920, 1010, null);
+            previousPage.setVisible(false);
+        } else if (pageCount == 1) {
+            g.drawImage(rule2, 0, 0, 960, 1010, null);
+            g.drawImage(rule3, 960, 0, 960, 1010, null);
+            previousPage.setVisible(true);
+            nextPage.setVisible(true);
+        } else if (pageCount == 2) {
+            g.drawImage(rule4, 0, 0, 960, 1010, null);
+            g.drawImage(rule5, 960, 0, 960, 1010, null);
+            previousPage.setVisible(true);
+            nextPage.setVisible(true);
+        } else if (pageCount == 3) {
+            g.drawImage(rule6, 0, 0, 960, 1010, null);
+            g.drawImage(rule7, 960, 0, 960, 1010, null);
+            previousPage.setVisible(true);
+            nextPage.setVisible(true);
+        } else if (pageCount == 4) {
+            g.drawImage(rule8, 0, 0, 960, 1010, null);
+            g.drawImage(rule9, 960, 0, 960, 1010, null);
+            previousPage.setVisible(true);
+            nextPage.setVisible(true);
+        } else if (pageCount == 5) {
+            g.drawImage(rule10, 0, 0, 960, 1010, null);
+            g.drawImage(rule11, 960, 0, 960, 1010, null);
+            previousPage.setVisible(true);
+            nextPage.setVisible(true);
+        } else if (pageCount == 6) {
+            g.drawImage(rule12, 0, 0, 960, 1010, null);
+            g.drawImage(ruleEnd, 960, 0, 960, 1010, null);
+            previousPage.setVisible(true);
+            nextPage.setVisible(false);
+        }
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Page " + (pageCount + 1) + " of 7", 900, 30);
+
+        int progressBarWidth = 800;
+        int progressBarHeight = 20;
+        int progressX = (getWidth() - progressBarWidth) / 2;
+        int progressY = getHeight() - 50;
+        int progress = (int) ((pageCount / 6.0) * progressBarWidth);
+
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(progressX, progressY, progressBarWidth, progressBarHeight);
+
+        g.setColor(new Color(76, 175, 80));
+        g.fillRect(progressX, progressY, progress, progressBarHeight);
+
+        g.setColor(Color.BLACK);
+        g.drawRect(progressX, progressY, progressBarWidth, progressBarHeight);
+
+        if (nextPage.getBounds().contains(getMousePosition())) {
+            drawTooltip(g, "Next Page", nextPage.getX() - 10, nextPage.getY() - 10);
+        }
+        if (previousPage.getBounds().contains(getMousePosition())) {
+            drawTooltip(g, "Previous Page", previousPage.getX() - 10, previousPage.getY() - 10);
+        }
+        if (homeButton.getBounds().contains(getMousePosition())) {
+            drawTooltip(g, "Return to Game", homeButton.getX() - 10, homeButton.getY() - 10);
+        }
+
+        g.setColor(Color.DARK_GRAY);
+        g.drawRect(0, 0, 960, 1010);
+        g.drawRect(960, 0, 960, 1010);
+
+        addFadingEffect(g, pageCount);
+
+        private void drawTooltip(Graphics g, String text, int x, int y) {
+            FontMetrics metrics = g.getFontMetrics();
+            int width = metrics.stringWidth(text) + 10;
+            int height = metrics.getHeight() + 4;
+
+            g.setColor(new Color(50, 50, 50, 180));
+            g.fillRect(x, y - height, width, height);
+
+            g.setColor(Color.WHITE);
+            g.drawString(text, x + 5, y - 4);
+        }
+
+        private void addFadingEffect(Graphics g, int pageCount) {
+            Graphics2D g2d = (Graphics2D) g;
+            float alpha = 0.1f + (pageCount / 6.0f) * 0.9f;
+            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+            g2d.setComposite(ac);
+
+            g2d.setColor(new Color(200, 200, 200, 100));
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+        }
     }
 }
