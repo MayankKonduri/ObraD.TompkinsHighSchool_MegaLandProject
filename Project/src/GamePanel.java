@@ -108,13 +108,36 @@ public class GamePanel extends JPanel {
         /* TEST CASE BUTTONS*/
         buyBuildings.setBounds(1700,500,250,30);
         buyBuildings.addActionListener(e -> {
-            buyBuildings.setText("Stop Buying");
+            if(buyBuildings.getText().equals("Buy Buildings")) {
+                buyBuildings.setText("Stop Buying");
+                buyHearts.setText("Buy Hearts");
+
+            }else {
+                buyBuildings.setText("Buy Buildings");
+            }
+//            if(isHost) {
+//                hostTreasureDisplay(playerTreasures);
+//            } else {
+//                clientTreasureDisplay(playerTreasures);
+//            }
 
         });
         buyHearts.setBounds(1700, 600, 250, 30);
         buyHearts.addActionListener( e-> {
-            buyHearts.setText("Stop Buying");
+            if(buyHearts.getText().equals("Buy Hearts")) {
+                buyHearts.setText("Stop Buying");
+                buyBuildings.setText("Buy Buildings");
+            } else {
+                buyHearts.setText("Buy Hearts");
+            }
+//            if(isHost) {
+//                hostTreasureDisplay(playerTreasures);
+//            } else {
+//                clientTreasureDisplay(playerTreasures);
+//            }
+
         });
+
         add(buyBuildings);
         add(buyHearts);
 
@@ -133,29 +156,29 @@ public class GamePanel extends JPanel {
 
 //        add(jumpCount);
 
-        buildingDeck.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
-        buildingDeck.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
-        buildingDeck.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
-        buildingDeck.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
-        buildingDeck.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
-        buildingDeck.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
-        buildingDeck.add(new BuildingCards(7, "Reptile Stable", 1, true, false, reptileStable, 4));
-        buildingDeck.add(new BuildingCards(8, "Herb Hut", 1, false, false, herbHut, 4));
-        buildingDeck.add(new BuildingCards(9, "Ostrich Ranch", 2, false, false, ostrichRanch, 4));
-        buildingDeck.add(new BuildingCards(10, "Gym", 2, false, false, gym, 4));
-        buildingDeck.add(new BuildingCards(11, "Hospital", 2, false, false, hospital, 4));
-        buildingDeck.add(new BuildingCards(12, "Laboratory", 3, false, false, laboratory, 4));
-        buildingDeck.add(new BuildingCards(13, "Fishing Pond", 3, false, true, fishingPond, 4));
-        buildingDeck.add(new BuildingCards(14, "Bowling Alley", 3, false, true, bowlingAlley, 4));
-        buildingDeck.add(new BuildingCards(15, "Smithy", 3, false, false, smithy, 4));
-        buildingDeck.add(new BuildingCards(16, "Fish Vendor", 3, false, false, fishVendor, 4));
-        buildingDeck.add(new BuildingCards(17, "Toll Booth", 3, false, false, tollBooth, 4));
-        buildingDeck.add(new BuildingCards(18, "Soap Makers", 3, false, false, soapMakers, 4));
-        buildingDeck.add(new BuildingCards(19, "Hall of Elders", 3, false, false, hallOfElders, 4));
-        buildingDeck.add(new BuildingCards(20, "Lodge", 4, false, true, lodge, 4));
-        buildingDeck.add(new BuildingCards(21, "Root Market", 4, false, false, rootMarket, 4));
-        buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, endlessMine, 4));
-        buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, arena, 4));
+        buildingDeck.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, 4));
+        buildingDeck.add(new BuildingCards(2, "Cafe", 2, true, false, 4));
+        buildingDeck.add(new BuildingCards(3, "Arcade", 3, true, false, 4));
+        buildingDeck.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, 4));
+        buildingDeck.add(new BuildingCards(5, "Hotel", 5, true, false, 4));
+        buildingDeck.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, 4));
+        buildingDeck.add(new BuildingCards(7, "Reptile Stable", 1, true, false, 4));
+        buildingDeck.add(new BuildingCards(8, "Herb Hut", 1, false, false, 4));
+        buildingDeck.add(new BuildingCards(9, "Ostrich Ranch", 2, false, false, 4));
+        buildingDeck.add(new BuildingCards(10, "Gym", 2, false, false, 4));
+        buildingDeck.add(new BuildingCards(11, "Hospital", 2, false, false, 4));
+        buildingDeck.add(new BuildingCards(12, "Laboratory", 3, false, false, 4));
+        buildingDeck.add(new BuildingCards(13, "Fishing Pond", 3, false, true, 4));
+        buildingDeck.add(new BuildingCards(14, "Bowling Alley", 3, false, true, 4));
+        buildingDeck.add(new BuildingCards(15, "Smithy", 3, false, false, 4));
+        buildingDeck.add(new BuildingCards(16, "Fish Vendor", 3, false, false, 4));
+        buildingDeck.add(new BuildingCards(17, "Toll Booth", 3, false, false, 4));
+        buildingDeck.add(new BuildingCards(18, "Soap Makers", 3, false, false, 4));
+        buildingDeck.add(new BuildingCards(19, "Hall of Elders", 3, false, false, 4));
+        buildingDeck.add(new BuildingCards(20, "Lodge", 4, false, true, 4));
+        buildingDeck.add(new BuildingCards(21, "Root Market", 4, false, false, 4));
+        buildingDeck.add(new BuildingCards(22, "Endless Mine", 5, false, true, 4));
+        buildingDeck.add(new BuildingCards(23, "Arena", 5, false, false, 4));
 
         if(isHost){
             hostPanel.playerHost.setCountBuildingCards(buildingDeck);
@@ -856,16 +879,16 @@ public class GamePanel extends JPanel {
     }
 
     public void createLevelDeck_Host() {
-        deckLevelCard.add(new LevelCard("levelCard31",1, 0, false, false, levelCard31, false));
-        deckLevelCard.add(new LevelCard("levelCard32",2, 1, false, false, levelCard32, false));
-        deckLevelCard.add(new LevelCard("levelCard33",3, 1, false, true, levelCard33, true));
-        deckLevelCard.add(new LevelCard("levelCard34",4, 1, false, true, levelCard34, false));
-        deckLevelCard.add(new LevelCard("levelCard35",5, 2, false, false, levelCard35, false));
-        deckLevelCard.add(new LevelCard("levelCard36",6, 0, true, false, levelCard36, false));
-        deckLevelCard.add(new LevelCard("levelCard37",7, 3, false, true, levelCard37, false));
-        deckLevelCard.add(new LevelCard("levelCard38",8, 2, false, true, levelCard38, false));
-        deckLevelCard.add(new LevelCard("levelCard39",9, 0, false, false, levelCard39, false));
-        deckLevelCard.add(new LevelCard("levelCard40",10, 0, false, false, levelCard40, false));
+        deckLevelCard.add(new LevelCard("levelCard31",1, 0, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard32",2, 1, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard33",3, 1, false, true, true));
+        deckLevelCard.add(new LevelCard("levelCard34",4, 1, false, true, false));
+        deckLevelCard.add(new LevelCard("levelCard35",5, 2, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard36",6, 0, true, false, false));
+        deckLevelCard.add(new LevelCard("levelCard37",7, 3, false, true, false));
+        deckLevelCard.add(new LevelCard("levelCard38",8, 2, false, true, false));
+        deckLevelCard.add(new LevelCard("levelCard39",9, 0, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard40",10, 0, false, false, false));
         //Collections.shuffle(deckLevelCard);
         if(isHost1) {
             hostPanel.playerHost.setPlayerLevelCards(deckLevelCard);
@@ -892,16 +915,16 @@ public class GamePanel extends JPanel {
         }
     }
     public void createLevelDeck_Client() {
-        deckLevelCard.add(new LevelCard("levelCard31",1, 0, false, false, levelCard31, false));
-        deckLevelCard.add(new LevelCard("levelCard32",2, 1, false, false, levelCard32, false));
-        deckLevelCard.add(new LevelCard("levelCard33",3, 1, false, true, levelCard33, true));
-        deckLevelCard.add(new LevelCard("levelCard34",4, 1, false, true, levelCard34, false));
-        deckLevelCard.add(new LevelCard("levelCard35",5, 2, false, false, levelCard35, false));
-        deckLevelCard.add(new LevelCard("levelCard36",6, 0, true, false, levelCard36, false));
-        deckLevelCard.add(new LevelCard("levelCard37",7, 3, false, true, levelCard37, false));
-        deckLevelCard.add(new LevelCard("levelCard38",8, 2, false, true, levelCard38, false));
-        deckLevelCard.add(new LevelCard("levelCard39",9, 0, false, false, levelCard39, false));
-        deckLevelCard.add(new LevelCard("levelCard40",10, 0, false, false, levelCard40, false));
+        deckLevelCard.add(new LevelCard("levelCard31",1, 0, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard32",2, 1, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard33",3, 1, false, true, true));
+        deckLevelCard.add(new LevelCard("levelCard34",4, 1, false, true, false));
+        deckLevelCard.add(new LevelCard("levelCard35",5, 2, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard36",6, 0, true, false, false));
+        deckLevelCard.add(new LevelCard("levelCard37",7, 3, false, true, false));
+        deckLevelCard.add(new LevelCard("levelCard38",8, 2, false, true, false));
+        deckLevelCard.add(new LevelCard("levelCard39",9, 0, false, false, false));
+        deckLevelCard.add(new LevelCard("levelCard40",10, 0, false, false, false));
         //Collections.shuffle(deckLevelCard);
         characterSelectPanel.playerClient.setPlayerLevelCards(deckLevelCard);
         CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
@@ -928,55 +951,27 @@ public class GamePanel extends JPanel {
 
     public void createDeck() {
         for(int i = 0; i < 6; i++) {
-            unshuffledDeck.add(new TreasureCard(1, "gear", false, gear, "Project\\src\\Images\\2024-08-19-10-14-0042.jpg", false));//6
+            unshuffledDeck.add(new TreasureCard(1, "gear", false, false));//6
         }
         for(int i = 0; i < 20; i++) {
-            unshuffledDeck.add(new TreasureCard(2, "cube", false, cube, "Project\\src\\Images\\2024-08-19-10-14-0043.jpg", false));//20
+            unshuffledDeck.add(new TreasureCard(2, "cube", false, false));//20
         }
         for(int i = 0; i < 16; i++) {
-            unshuffledDeck.add(new TreasureCard(3, "egg", false, egg, "Project\\src\\Images\\2024-08-19-10-14-0044.jpg", false));//16
+            unshuffledDeck.add(new TreasureCard(3, "egg", false, false));//16
         }
         for(int i = 0; i < 30; i++) {
-            unshuffledDeck.add(new TreasureCard(4, "carrot", false, carrot, "Project\\src\\Images\\2024-08-19-10-14-0045.jpg", false));//30
+            unshuffledDeck.add(new TreasureCard(4, "carrot", false, false));//30
         }
         for(int i = 0; i < 10; i++) {
-            unshuffledDeck.add(new TreasureCard(5, "mineral", false, mineral, "Project\\src\\Images\\2024-08-19-10-14-0046.jpg", false));//10
+            unshuffledDeck.add(new TreasureCard(5, "mineral", false, false));//10
         }
         for(int i = 0; i < 14; i++) {
-            unshuffledDeck.add(new TreasureCard(6, "fish", false,fish, "Project\\src\\Images\\2024-08-19-10-14-0047.jpg", false));//14
+            unshuffledDeck.add(new TreasureCard(6, "fish", false, false));//14
         }
         Collections.shuffle(unshuffledDeck);
         shuffledDeck.addAll(unshuffledDeck);
 
     }
-//    public void levelDisplay() {
-//        for(int i = 0; i < drawnLevelCard.size(); i++) {
-//            BufferedImage image1 = drawnLevelCard.get(0).getImage();
-//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-//            button1.setFocusPainted(false);
-//            button1.setBorderPainted(false);
-//
-//            button1.setBounds(20+(80*i), 260, 140, 210);
-//
-//            add(button1);
-//        }
-//        revalidate();
-//        repaint();
-//    }
-//    public void levelDisplay() {
-//        for(int i = drawnLevelCard.size() - 1; i >= 0; i--) {
-//            BufferedImage image1 = drawnLevelCard.get(i).getImage();
-//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-//            button1.setFocusPainted(false);
-//            button1.setBorderPainted(false);
-//
-//            button1.setBounds(20+(80*i), 260, 140, 210);
-//
-//            add(button1);
-//        }
-//        revalidate();
-//        repaint();
-//    }
 
 
     private void toggleChatPanel() {
@@ -1027,12 +1022,12 @@ public class GamePanel extends JPanel {
         buildingSelected.add(bazaarOfOddities);
         buildingSelected.add(hotel);
         buildingSelected.add(templeOfZoz);
-        buildingDeck1.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, sandwichStand, 4));
-        buildingDeck1.add(new BuildingCards(2, "Cafe", 2, true, false, cafe, 4));
-        buildingDeck1.add(new BuildingCards(3, "Arcade", 3, true, false, arcade, 4));
-        buildingDeck1.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, bazaarOfOddities, 4));
-        buildingDeck1.add(new BuildingCards(5, "Hotel", 5, true, false, hotel, 4));
-        buildingDeck1.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, templeOfZoz, 4));
+        buildingDeck1.add(new BuildingCards(1, "Sandwich Stand", 1, true, false, 4));
+        buildingDeck1.add(new BuildingCards(2, "Cafe", 2, true, false,4));
+        buildingDeck1.add(new BuildingCards(3, "Arcade", 3, true, false, 4));
+        buildingDeck1.add(new BuildingCards(4, "Bazaar of Oddities", 4, true, false, 4));
+        buildingDeck1.add(new BuildingCards(5, "Hotel", 5, true, false, 4));
+        buildingDeck1.add(new BuildingCards(6, "Temple of Zoz", 6, true, false, 4));
         int x1 = 0;
         if(isHost1) {
             BufferedImage treasure = treasureCardBackground;
@@ -1202,7 +1197,21 @@ public class GamePanel extends JPanel {
         }
     }
 
-
+    public BufferedImage treasureImage(int id) {
+        if(id == 1) {
+            return gear;
+        } else if (id ==2) {
+            return cube;
+        } else if (id ==3) {
+            return egg;
+        }else if (id ==4) {
+            return carrot;
+        }else if (id ==5) {
+            return mineral;
+        }else {
+            return fish;
+        }
+    }
 
     public ArrayList<TreasureCard> hostTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
         treasurePanel.removeAll();
@@ -1213,7 +1222,8 @@ public class GamePanel extends JPanel {
 
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
-            BufferedImage image1 = treasureCard.getImage();
+            int idTreasure = treasureCard.getTreasureID();
+            BufferedImage image1 = treasureImage(idTreasure);
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
@@ -1228,7 +1238,30 @@ public class GamePanel extends JPanel {
                     System.out.println("Buying Cards: " + buyingCards.size());
 
                 }
-                else if((buyBuildings.equals("Buy Buildings") && current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
+                else if (buyHearts.getText().equals("Stop Buying")) {
+                    int heartToBuy = hostPanel.playerHost.getPlayerHearts() +1;
+                    int matching = 1;
+                    int temp = heartToBuy - 4;
+                    matching = matching + temp;
+                    playerTreasures.get(finalI).setSelected(true);
+                    buyingCards.add(playerTreasures.get(finalI));
+                    button1.setEnabled(false);
+                    if(buyingCards.size() == matching) {
+                        hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts() + 1);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                        for(int j = 0; j < playerTreasures.size(); j++) {
+                            if(playerTreasures.get(j).getSelected() == true) {
+                                playerTreasures.remove(j);
+                                hostTreasureDisplay(playerTreasures);
+                            }
+                        }
+                        LeaderBoardUpdateHost();
+                        repaint();
+                        revalidate();
+                    }
+                }
+                else if((buyBuildings.equals("Buy Buildings1") && current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                     safeTreasuresList.add(playerTreasures.get(finalI));
                     hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1511,11 +1544,13 @@ public class GamePanel extends JPanel {
 
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
-            BufferedImage image1 = treasureCard.getImage();
+            int idTreasure = treasureCard.getTreasureID();
+            BufferedImage image1 = treasureImage(idTreasure);
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
             int finalI = i;
+
             button1.addActionListener(e -> {
                 System.out.println("(C) " + start);
                 System.out.println("Buying Cards1: " + buyingCards.size());
@@ -1526,7 +1561,29 @@ public class GamePanel extends JPanel {
                     System.out.println("Buying Cards: " + buyingCards.size());
 
                 }
-                else if((buyBuildings.equals("Buy Buildings") && current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
+                else if (buyHearts.getText().equals("Stop Buying")) {
+                    int heartToBuy = characterSelectPanel.playerClient.getPlayerHearts() +1;
+                    int matching = 1;
+                    int temp = heartToBuy - 4;
+                    matching = matching + temp;
+                    playerTreasures.get(finalI).setSelected(true);
+                    buyingCards.add(playerTreasures.get(finalI));
+                    button1.setEnabled(false);
+                    if(buyingCards.size() == matching) {
+                        characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()+1);
+                        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+                        for(int j = 0; j < playerTreasures.size(); j++) {
+                            if(playerTreasures.get(j).getSelected() == true) {
+                                playerTreasures.remove(j);
+                                clientTreasureDisplay(playerTreasures);
+                            }
+                        }
+                        LeaderBoardUpdateClient();
+                        repaint();
+                        revalidate();
+                    }
+                }
+                else if((buyBuildings.equals("Buy Buildings1") && current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
                     safeTreasuresList.add(playerTreasures.get(finalI));
                     characterSelectPanel.playerClient.setPlayerSafeTreasures(safeTreasuresList);
                     CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
@@ -1556,16 +1613,7 @@ public class GamePanel extends JPanel {
             JScrollBar horizontalBar = scrollPane1.getHorizontalScrollBar();
             horizontalBar.setValue(horizontalBar.getMaximum());
         });
-//        for(int i = 0; i < playerTreasures.size(); i++) {
-//            BufferedImage image1 = playerTreasures.get(i).getImage();
-//            JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(90, 120, Image.SCALE_FAST)));
-//            button1.setBounds(1600+(110*i), 600, 90, 120);
-//
-//
-//            add(button1);
-//        }
-//        revalidate();
-//        repaint();
+
         return playerTreasures;
     }
 
@@ -1577,7 +1625,8 @@ public class GamePanel extends JPanel {
         int cardSpacing = 20;
         for(int i = 0; i < safeTreasuresList1.size(); i++) {
             TreasureCard treasureCard = safeTreasuresList1.get(i);
-            BufferedImage image1 = treasureCard.getImage();
+            int idTreasure = treasureCard.getTreasureID();
+            BufferedImage image1 = treasureImage(idTreasure);
             JButton button1 = new JButton(new ImageIcon(image1.getScaledInstance(cardWidth, cardHeight, Image.SCALE_FAST)));
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             safeTreasurePanel.add(button1);
@@ -1652,48 +1701,67 @@ public class GamePanel extends JPanel {
         });
     }
 
+    public BufferedImage levelImage (int id) {
+        if (id == 1) {
+            return levelCard31;
+        } else if (id ==2) {
+            return levelCard32;
+        }else if (id ==3) {
+            return levelCard33;
+        }else if (id ==4) {
+            return levelCard34;
+        }else if (id ==5) {
+            return levelCard35;
+        }else if (id ==6) {
+            return levelCard36;
+        }else if (id ==7) {
+            return levelCard37;
+        }else if (id ==8) {
+            return levelCard38;
+        }else if (id ==9) {
+            return levelCard39;
+        }else {
+            return levelCard40;
+        }
+    }
+
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(loading, 0, 0, 1920, 1050, null);
 
 //        Graphics2D g2d = (Graphics2D) g;
-        if (isHost1) {
-            if(phase.getText() == "Run Phase") {
-                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-            } else if(phase.getText() == "Buy Phase") {
-                g.drawImage(heartCard, 30, 20, 300, 180, null);
-            }
-            takeOff.setBounds(40, 220, 300, 30);
-            add(takeOff);
-
-            for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
-//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-//                g2d.setColor(new Color(128, 128, 128, 127));
-//                g2d.fillRect(1610, 30, 140, 210);
-//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
-
-            }
-        } else {
-            if(phase.getText() == "Run Phase") {
-                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-            } else if(phase.getText() == "Buy Phase") {
-                g.drawImage(heartCard, 30, 20, 300, 180, null);
-            }
-            takeOff.setBounds(40, 220, 300, 30);
-            add(takeOff);
-            for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-                g.drawImage(scaledImage, 1610, 30, this);
-
-
-            }
-        }
+//        if (isHost1) {
+//            if(phase.getText() == "Run Phase") {
+//                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+//            } else if(phase.getText() == "Buy Phase") {
+//                g.drawImage(heartCard, 30, 20, 300, 180, null);
+//            }
+//            takeOff.setBounds(40, 220, 300, 30);
+//            add(takeOff);
+//
+//            for (int i = 0; i < drawnLevelCard.size(); i++) {
+//                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+//                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+//                g.drawImage(scaledImage, 1610, 30, this);
+//
+//            }
+//        } else {
+//            if(phase.getText() == "Run Phase") {
+//                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
+//            } else if(phase.getText() == "Buy Phase") {
+//                g.drawImage(heartCard, 30, 20, 300, 180, null);
+//            }
+//            takeOff.setBounds(40, 220, 300, 30);
+//            add(takeOff);
+//            for (int i = 0; i < drawnLevelCard.size(); i++) {
+//                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+//                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
+//                g.drawImage(scaledImage, 1610, 30, this);
+//
+//
+//            }
+//        }
 
         if (isHost1) {
             if(phase.getText() == "Run Phase") {
@@ -1716,7 +1784,8 @@ public class GamePanel extends JPanel {
                 }
             }
             for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                int levelId = drawnLevelCard.get(i).getLevelCardID();
+                BufferedImage image1 = levelImage(levelId);
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
                 g.drawImage(scaledImage, 1610, 30, this);
 
@@ -1742,29 +1811,15 @@ public class GamePanel extends JPanel {
                 }
             }
             for (int i = 0; i < drawnLevelCard.size(); i++) {
-                BufferedImage image1 = drawnLevelCard.get(i).getImage();
+                int levelId = drawnLevelCard.get(i).getLevelCardID();
+                BufferedImage image1 = levelImage(levelId);
                 Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
                 g.drawImage(scaledImage, 1610, 30, this);
-
 
             }
 
 
         }
-        /*if(isHost1) {
-            if(hostPanel.playerHost.getPlayerImage().equals("cat")) {
-                g.drawImage(cat, 60, 60, 70, 105, null);
-            } else if(hostPanel.playerHost.getPlayerImage().equals("indianWoman")) {
-                g.drawImage(indianWoman, 110, 60, 70, 105, null);
-            } else if(hostPanel.playerHost.getPlayerImage().equals("white")) {
-                g.drawImage(white, 160, 60, 70, 105, null);
-            } else if(hostPanel.playerHost.getPlayerImage().equals("frog")) {
-                g.drawImage(frog, 210, 60, 70, 105, null);
-            } else if(hostPanel.playerHost.getPlayerImage().equals("gandalf")) {
-                g.drawImage(gandalf, 260, 60, 70, 105, null);
-            }
-            setVisible(true);
-        }*/
 
         if (isHost1) {
             System.out.println(tempChar);

@@ -10,31 +10,18 @@ public class TreasureCard implements Serializable {
     public int treasureID = 0;
     public String treasureName = null;
     public boolean isSafe = false;
-    public transient BufferedImage image;
-    private String imagePath;
+
     private boolean selected = false;
 
 
-    public TreasureCard(int treasureID, String treasureName, boolean isSafe, BufferedImage image, String imagePath, boolean selected) {
+    public TreasureCard(int treasureID, String treasureName, boolean isSafe,  boolean selected) {
         this.treasureID = treasureID;
         this.treasureName = treasureName;
         this.isSafe = isSafe;
-        this.image = image;
-        this.imagePath = imagePath;
         this.selected = selected;
 
     }
 
-    public BufferedImage getImage() {
-        if (image == null && imagePath != null) {
-            try {
-                image = ImageIO.read(new File(imagePath)); // Load the image from the path
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return image;
-    }
 
 
 

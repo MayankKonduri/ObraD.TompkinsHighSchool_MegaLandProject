@@ -8,18 +8,16 @@ public class LevelCard implements Serializable {
     public boolean isTreasureChest = false;
     public int numberSkulls = 0;
     public boolean isJumpAble = false;
-    public transient BufferedImage image;
     public boolean trade3;
     public String levelCardName;
 
 
-    public LevelCard(String levelCardName, int levelCardID, int numberSkulls, boolean isTreasureChest, boolean isJumpAble, BufferedImage image,  boolean trade3) {
+    public LevelCard(String levelCardName, int levelCardID, int numberSkulls, boolean isTreasureChest, boolean isJumpAble,  boolean trade3) {
         this.levelCardName = levelCardName;
         this.levelCardID = levelCardID;
         this.numberSkulls = numberSkulls;
         this.isJumpAble = isJumpAble;
         this.isTreasureChest = isTreasureChest;
-        this.image = image;
         this.trade3 = trade3;
     }
 
@@ -31,9 +29,6 @@ public class LevelCard implements Serializable {
     }
     public boolean isTrade3() {
         return trade3;
-    }
-    public BufferedImage getImage() {
-        return image;
     }
 
     public int getLevelCardID() {

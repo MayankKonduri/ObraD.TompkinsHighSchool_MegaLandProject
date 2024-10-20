@@ -11,18 +11,16 @@ public class BuildingCards implements Serializable {
     public int buildingCost = 0;
     public boolean isStarCard = false;
     public boolean isNightCard = false;
-    public transient BufferedImage image;
     public int number = 0;
 
 
-    public BuildingCards(int buildingID, String buildingName, int buildingCost, boolean isStarCard, boolean isNightCard, BufferedImage image, int number){
+    public BuildingCards(int buildingID, String buildingName, int buildingCost, boolean isStarCard, boolean isNightCard, int number){
 
         this.buildingID = buildingID;
         this.buildingName = buildingName;
         this.buildingCost = buildingCost;
         this.isStarCard = isStarCard;
         this.isNightCard = isNightCard;
-        this.image = image;
         this.number = number;
 
     }
