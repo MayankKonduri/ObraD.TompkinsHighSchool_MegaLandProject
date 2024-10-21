@@ -98,9 +98,11 @@ public class ServerListener implements Runnable{
             for (int j = 0; j < len; j++) {
                 arrayNum = new int[serverMain.playerArrayList_Host.size()];
                 int min;
-                for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
-                    arrayNum[i] = serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).getNumber();
-                }
+
+                    for (int i = 0; i < serverMain.playerArrayList_Host.size(); i++) {
+                        arrayNum[i] = serverMain.playerArrayList_Host.get(i).getCountBuildingCards().get(j).getNumber();
+                    }
+
 
                 min = arrayNum[0];
                 for (int i = 1; i < arrayNum.length; i++) {
