@@ -1222,6 +1222,8 @@ public class GamePanel extends JPanel {
         int cardHeight = 120;
         int cardSpacing = 15;
 
+        ArrayList<String>araylist2 = new ArrayList<String>();
+        ArrayList<String> temp2 = new ArrayList<>();
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
             int idTreasure = treasureCard.getTreasureID();
@@ -1231,21 +1233,32 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
+                araylist2.clear();
+                for(int ii=0;ii<buyingCards.size();ii++)
+                {
+                    araylist2.add(buyingCards.get(ii).getTreasureName());
+                }
                 System.out.println("(H) " + start);
                 System.out.println("Buying Cards1: " + buyingCards.size());
                 if(buyBuildings.getText().equals("Stop Buying")) {
-                    playerTreasures.get(finalI).setSelected(true);
-                    buyingCards.add(playerTreasures.get(finalI));
-                    button1.setEnabled(false);
-                    System.out.println("Buying Cards: " + buyingCards.size());
-
+                    if(araylist2.contains(playerTreasures.get(finalI).getTreasureName())){
+                        System.out.println("Nothing");
+                    }
+                    else {
+                        playerTreasures.get(finalI).setSelected(true);
+                        buyingCards.add(playerTreasures.get(finalI));
+                        button1.setEnabled(false);
+                        System.out.println("Buying Cards: " + buyingCards.size());
+                    }
                 }
+
                 if (buyHearts.getText().equals("Stop Buying")) {
                     int heartToBuy = hostPanel.playerHost.getPlayerHearts() +1;
                     int matching = 1;
                     int temp = heartToBuy - 4;
                     matching = matching + temp;
                     playerTreasures.get(finalI).setSelected(true);
+                   
                     System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
                     buyingCards1.add(playerTreasures.get(finalI));
                     button1.setEnabled(false);
@@ -1547,6 +1560,7 @@ public class GamePanel extends JPanel {
         int cardHeight = 120;
         int cardSpacing = 20;
 
+        ArrayList<String>araylist2 = new ArrayList<String>();
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
             int idTreasure = treasureCard.getTreasureID();
@@ -1555,17 +1569,26 @@ public class GamePanel extends JPanel {
             button1.setPreferredSize(new Dimension(cardWidth, cardHeight));
             treasurePanel.add(button1);
             int finalI = i;
-
             button1.addActionListener(e -> {
+                araylist2.clear();
+                for(int ii=0;ii<buyingCards.size();ii++)
+                {
+                    araylist2.add(buyingCards.get(ii).getTreasureName());
+                }
                 System.out.println("(C) " + start);
                 System.out.println("Buying Cards1: " + buyingCards.size());
                 if(buyBuildings.getText().equals("Stop Buying")) {
-                    playerTreasures.get(finalI).setSelected(true);
-                    buyingCards.add(playerTreasures.get(finalI));
-                    button1.setEnabled(false);
-                    System.out.println("Buying Cards: " + buyingCards.size());
-
+                    if(araylist2.contains(playerTreasures.get(finalI).getTreasureName())){
+                        System.out.println("Nothing");
+                    }
+                    else {
+                        playerTreasures.get(finalI).setSelected(true);
+                        buyingCards.add(playerTreasures.get(finalI));
+                        button1.setEnabled(false);
+                        System.out.println("Buying Cards: " + buyingCards.size());
+                    }
                 }
+
                 if (buyHearts.getText().equals("Stop Buying")) {
                     int heartToBuy = characterSelectPanel.playerClient.getPlayerHearts() +1;
                     int matching = 1;
