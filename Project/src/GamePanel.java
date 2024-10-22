@@ -1240,29 +1240,20 @@ public class GamePanel extends JPanel {
                     System.out.println("Buying Cards: " + buyingCards.size());
 
                 }
-                else if (buyHearts.getText().equals("Stop Buying")) {
+                if (buyHearts.getText().equals("Stop Buying")) {
                     int heartToBuy = hostPanel.playerHost.getPlayerHearts() +1;
                     int matching = 1;
                     int temp = heartToBuy - 4;
                     matching = matching + temp;
                     playerTreasures.get(finalI).setSelected(true);
+                    System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
                     buyingCards1.add(playerTreasures.get(finalI));
                     button1.setEnabled(false);
+                    System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
                     if(buyingCards1.size() == matching) {
-                        hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts() + 1);
-                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                        for(int j = 0; j < playerTreasures.size(); j++) {
-                            if(playerTreasures.get(j).getSelected() == true) {
-                                System.out.println("Treasure Name: " + playerTreasures.get(j).getTreasureName());
-                                playerTreasures.remove(j);
-                                hostTreasureDisplay(playerTreasures);
-                            }
-                        }
-                        LeaderBoardUpdateHost();
-                        repaint();
-                        revalidate();
+                        buyHeartsAction();
                         buyingCards1.clear();
+
                     }
                 }
                 else if((buyBuildings.equals("Buy Buildings1") && current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
@@ -1584,9 +1575,11 @@ public class GamePanel extends JPanel {
                     System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
                     buyingCards1.add(playerTreasures.get(finalI));
                     button1.setEnabled(false);
-                    System.out.println("Size: " + matching);
+                    System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
                     if(buyingCards1.size() == matching) {
                         buyHeartsAction();
+                        buyingCards1.clear();
+
                     }
                 }
                 else if((buyBuildings.equals("Buy Buildings1") && current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
@@ -1624,24 +1617,40 @@ public class GamePanel extends JPanel {
     }
 
     public void buyHeartsAction() {
-        characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()+1);
-        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+
         int count = 0;
-        for(int j = playerTreasures.size(); j < 0; j--) {
-            if(playerTreasures.get(j).getSelected() == true) {
+        for(int j = playerTreasures.size(); j > 0; j--) {
+            if(playerTreasures.get(j-1).getSelected() == true) {
                 count++;
-                System.out.println("Treasure Name: " + playerTreasures.get(j).getTreasureName());
-                playerTreasures.remove(j);
-                characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
-                CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-                clientTreasureDisplay(playerTreasures);
+                System.out.println("Treasure Name: " + playerTreasures.get(j-1).getTreasureName());
+                playerTreasures.remove(j-1);
+
+
             }
         }
+        buyHeartsSuccess();
         System.out.println("Count: " + count);
         LeaderBoardUpdateClient();
         repaint();
         revalidate();
-        buyingCards1.clear();
+    }
+
+    public void buyHeartsSuccess() {
+        if(isHost1) {
+            hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts()+1);
+            serverMain.playerArrayList_Host.set(0,hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+            hostPanel.playerHost.setPlayerTreasures(playerTreasures);
+            serverMain.playerArrayList_Host.set(0,hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+            hostTreasureDisplay(playerTreasures);
+        } else {
+            characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()+1);
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+            characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+            clientTreasureDisplay(playerTreasures);
+        }
     }
 
     public void safeTreasureDisplay(ArrayList<TreasureCard> safeTreasuresList1) {
