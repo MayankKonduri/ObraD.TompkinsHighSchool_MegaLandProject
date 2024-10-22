@@ -977,6 +977,8 @@ public class GamePanel extends JPanel {
 
 
     private void toggleInGameRulesPanel() {
+        BufferedImage backOfLevelCard1 = backOfLevelCard;
+        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
         if (inGameRulesPanel1.isVisible()) {
             inGameRulesPanel1.closeRules();
             chatPanel1.openChat();
@@ -994,10 +996,13 @@ public class GamePanel extends JPanel {
             playerLabel.setVisible(false);
             LeaderBoard.setVisible(false);
             takeOff.setVisible(false);
+            levelDraw.setVisible(!levelDraw.isVisible());
 
         }
     }
     public void openGame(){
+        BufferedImage backOfLevelCard1 = backOfLevelCard;
+        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
         setVisible(true);
         toggleChatPanel();
         rules.setVisible(true);
@@ -1008,6 +1013,7 @@ public class GamePanel extends JPanel {
         playerLabel.setVisible(true);
         LeaderBoard.setVisible(true);
         takeOff.setVisible(true);
+        levelDraw.setVisible(levelDraw.isVisible());
     }
 
 
