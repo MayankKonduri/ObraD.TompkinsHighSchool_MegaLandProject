@@ -16,9 +16,27 @@ public class EndGamePanel extends JPanel {
 
     private BufferedImage loading;
     private JFrame jFrame;
+    int coins, buildings, hearts;
+    boolean didWin;
+
+    JLabel message;
+
+    public EndGamePanel(JFrame frame, int coins, int buildings, int hearts){
+
+        this.coins = coins;
+        this.buildings = buildings;
+        this.hearts = hearts;
+
+        if(coins>=20){
+            didWin = true;
+            message = new JLabel("You Won!!!");
+        }
+        else{
+            didWin = false;
+            message = new JLabel("You Lost...");
+        }
 
 
-    public EndGamePanel(JFrame frame) {
 
         setSize(1920, 1040);
         setLayout(null);
@@ -41,6 +59,9 @@ public class EndGamePanel extends JPanel {
 //        Graphics bg = buffer.getGraphics();
         g.drawImage(loading, 0, 0, 1920, 1050, null);
 //        g.drawImage(buffer, 0, 0, null);
+
+            message.setFont(Font.getFont(Font.SANS_SERIF));
+            message.setBounds(100,100,300,100);
     }
 
 
