@@ -1210,7 +1210,7 @@ public class GamePanel extends JPanel {
         int cardWidth = 90;
         int cardHeight = 120;
         int cardSpacing = 15;
-
+        ArrayList<String>araylist2 = new ArrayList<String>();
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
             BufferedImage image1 = treasureCard.getImage();
@@ -1219,14 +1219,23 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
+                araylist2.clear();
+                for(int ii=0;ii<buyingCards.size();ii++)
+                {
+                    araylist2.add(buyingCards.get(ii).getTreasureName());
+                }
                 System.out.println("(H) " + start);
                 System.out.println("Buying Cards1: " + buyingCards.size());
                 if(buyBuildings.getText().equals("Stop Buying")) {
-                    playerTreasures.get(finalI).setSelected(true);
-                    buyingCards.add(playerTreasures.get(finalI));
-                    button1.setEnabled(false);
-                    System.out.println("Buying Cards: " + buyingCards.size());
-
+                    if(araylist2.contains(playerTreasures.get(finalI).getTreasureName())){
+                        System.out.println("Nothing");
+                    }
+                    else {
+                        playerTreasures.get(finalI).setSelected(true);
+                        buyingCards.add(playerTreasures.get(finalI));
+                        button1.setEnabled(false);
+                        System.out.println("Buying Cards: " + buyingCards.size());
+                    }
                 }
                 else if((buyBuildings.equals("Buy Buildings") && current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                     safeTreasuresList.add(playerTreasures.get(finalI));
@@ -1508,7 +1517,7 @@ public class GamePanel extends JPanel {
         int cardWidth = 90;
         int cardHeight = 120;
         int cardSpacing = 20;
-
+        ArrayList<String>araylist2 = new ArrayList<String>();
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
             BufferedImage image1 = treasureCard.getImage();
@@ -1517,14 +1526,23 @@ public class GamePanel extends JPanel {
             treasurePanel.add(button1);
             int finalI = i;
             button1.addActionListener(e -> {
+                araylist2.clear();
+                for(int ii=0;ii<buyingCards.size();ii++)
+                {
+                    araylist2.add(buyingCards.get(ii).getTreasureName());
+                }
                 System.out.println("(C) " + start);
                 System.out.println("Buying Cards1: " + buyingCards.size());
                 if(buyBuildings.getText().equals("Stop Buying")) {
-                    playerTreasures.get(finalI).setSelected(true);
-                    buyingCards.add(playerTreasures.get(finalI));
-                    button1.setEnabled(false);
-                    System.out.println("Buying Cards: " + buyingCards.size());
-
+                    if(araylist2.contains(playerTreasures.get(finalI).getTreasureName())){
+                        System.out.println("Nothing");
+                    }
+                    else {
+                        playerTreasures.get(finalI).setSelected(true);
+                        buyingCards.add(playerTreasures.get(finalI));
+                        button1.setEnabled(false);
+                        System.out.println("Buying Cards: " + buyingCards.size());
+                    }
                 }
                 else if((buyBuildings.equals("Buy Buildings") && current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
                     safeTreasuresList.add(playerTreasures.get(finalI));
