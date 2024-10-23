@@ -26,6 +26,9 @@ public class ServerListener implements Runnable{
     public static final String FINALCHARACTER = "FINALCHARACTER:";
     public static final String LEVELDISCONNECTION = "LEVELDISCONNECTION:";
     public static final String CHANGEMAIN = "CHANGEMAIN:";
+    public static final String DONEBUY = "DONEBUY:";
+    public static final String DONERUN = "DONERUN:";
+
 
 
     public ServerListener(Socket clientSocket, ServerMain serverMain, ObjectInputStream in, ObjectOutputStream out) {
@@ -161,10 +164,22 @@ public class ServerListener implements Runnable{
             handleLevelDisconnection(message);
         } else if(message.startsWith(CHANGEMAIN)){
             handleChange(message);
+        } else if(message.startsWith(DONEBUY)){
+            processDoneBuy();
+        } else if(message.startsWith(DONERUN)){
+            processDoneRun();
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void processDoneRun() {
+        serverMain.handleDoneRun();
+    }
+
+    private void processDoneBuy() {
+        serverMain.handleDoneBuy();
     }
 
     private void handleChange(String message) {

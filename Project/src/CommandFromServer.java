@@ -86,6 +86,14 @@ public class CommandFromServer implements Serializable
     public static void notify_CHANGEMAIN(ObjectOutputStream out, String s) {
         sendMessage(out, CHANGEMAIN + s);
     }
+    public static final String ENTERNIGHT = "ENTERNIGHT:";
+    public static void notify_ENTERNIGHT(ObjectOutputStream out) {
+        sendMessage(out, ENTERNIGHT);
+    }
+    public static final String DONERUNALL = "DONERUNALL:";
+    public static void notify_DONERUNALL(ObjectOutputStream out) {
+        sendMessage(out, DONERUNALL);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {

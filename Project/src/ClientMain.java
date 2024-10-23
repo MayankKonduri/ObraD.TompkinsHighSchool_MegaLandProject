@@ -302,4 +302,12 @@ public class ClientMain{
          playerArrayList_client.get(Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).setCanDrawLevel(tempInt==Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()));
 
     }
+
+    public void processEnterNight() {
+        gamePanel.phase.setText("Night Phase");
+    }
+
+    public void doneAll() {
+        gamePanel.updateTempChar(null);
+    }
 }

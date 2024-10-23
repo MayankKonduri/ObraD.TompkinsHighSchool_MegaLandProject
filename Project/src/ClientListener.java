@@ -28,6 +28,10 @@ public class ClientListener implements Runnable{
     public static final String FINALCHARACTER = "FINALCHARACTER:";
     public static final String LEVELDISCONNECTION = "LEVELDISCONNECTION:";
     public static final String CHANGEMAIN = "CHANGEMAIN:";
+    public static final String ENTERNIGHT = "ENTERNIGHT:";
+    public static final String DONERUNALL = "DONERUNALL:";
+
+
 
 
 
@@ -142,10 +146,24 @@ public class ClientListener implements Runnable{
             handleLevelDisconnection(message);
         } else if(message.startsWith(CHANGEMAIN)){
             handleChange(message);
+        } else if(message.startsWith(DONERUNALL)){
+            handleRunAll();
+        }
+        else if(message.startsWith(ENTERNIGHT))
+        {
+            handleEnterNight();
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void handleRunAll() {
+        cLientMain.doneAll();
+    }
+
+    private void handleEnterNight() {
+        cLientMain.processEnterNight();
     }
 
     private void handleChange(String message) {

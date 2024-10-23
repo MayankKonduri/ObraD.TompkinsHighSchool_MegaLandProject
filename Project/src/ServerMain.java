@@ -338,7 +338,20 @@ public class ServerMain{
                         CommandFromServer.notify_CHANGEMAIN(out, name);
                     }}
                 break;
+            case 18:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_ENTERNIGHT(out);
+                    }}
+                break;
+            case 19:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_DONERUNALL(out);
+                    }}
+                break;
         }
+
     }
     public void stopServer(){
         if(serverSocket != null && !serverSocket.isClosed()) {
@@ -402,5 +415,21 @@ public class ServerMain{
         gamePanel.start = tempInt;
         playerArrayList_Host.get(0).setCanDrawLevel(tempInt==0);
         broadcastMessagePlayers(playerArrayList_Host);
+    }
+
+    public void handleDoneBuy() {
+        gamePanel.totalDone++;
+        if(gamePanel.totalDone == gamePlayerNames.size()){
+            broadcastMessage(18, "Done With Buy Phase");
+            gamePanel.phase.setText("Night Phase");
+        }
+    }
+
+    public void handleDoneRun() {
+        gamePanel.doneRun++;
+        if(gamePanel.doneRun == gamePlayerNames.size()){
+            broadcastMessage(19, "Done With Run Phase");
+            gamePanel.phase.setText("Buy Phase");
+        }
     }
 }

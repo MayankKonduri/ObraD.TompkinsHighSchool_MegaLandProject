@@ -18,6 +18,7 @@ import java.util.Collections;
 public class GamePanel extends JPanel {
 
 
+    public int totalDone;
     private JLabel WelcomeLabel = new JLabel("IT'S GAME TIME!");
     private JFrame jFrame;
     private ClientMain clientMain;
@@ -81,6 +82,7 @@ public class GamePanel extends JPanel {
     public int start = 0;
     public JButton buyBuildings = new JButton("Buy Buildings");
     public JButton buyHearts = new JButton("Buy Hearts");
+    public JButton DoneBuy = new JButton("Done with Buying");
 
     JPanel LeaderBoard;
     //missing one\
@@ -96,6 +98,7 @@ public class GamePanel extends JPanel {
     int coinTemp;
     public ArrayList<TreasureCard> buyingCards = new ArrayList<>();
     public ArrayList<TreasureCard> buyingCards1 = new ArrayList<>();
+    int doneRun;
 
 
 
@@ -109,6 +112,7 @@ public class GamePanel extends JPanel {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------
         /* TEST CASE BUTTONS*/
         buyBuildings.setBounds(1700,500,250,30);
+        buyBuildings.setEnabled(false);
         buyBuildings.addActionListener(e -> {
             if(buyBuildings.getText().equals("Buy Buildings")) {
                 buyBuildings.setText("Stop Buying");
@@ -124,7 +128,30 @@ public class GamePanel extends JPanel {
 //            }
 
         });
+        DoneBuy.setBounds(1700, 650, 250, 30);
+        DoneBuy.setEnabled(false);
+        DoneBuy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buyHearts.setEnabled(false);
+                buyHearts.setText("Buy Hearts");
+                buyBuildings.setEnabled(false);
+                buyBuildings.setText("Buy Buildings");
+                if(isHost){
+                    totalDone++;
+                    if(totalDone == serverMain.gamePlayerNames.size()){
+                        serverMain.broadcastMessage(18, "Done With Buy Phase");
+                        phase.setText("Night Phase");
+                    }
+                }else{
+                    CommandFromClient.notify_DONEBUY(clientMain.getOut());
+                }
+                DoneBuy.setEnabled(false);
+            }
+        });
+        add(DoneBuy);
         buyHearts.setBounds(1700, 600, 250, 30);
+        buyHearts.setEnabled(false);
         buyHearts.addActionListener( e-> {
             if(buyHearts.getText().equals("Buy Hearts")) {
                 buyHearts.setText("Stop Buying");
@@ -196,7 +223,7 @@ public class GamePanel extends JPanel {
 
 
 
-        temp1.setBounds(1700,700,250,30);
+        /*temp1.setBounds(1700,700,250,30);
         add(temp1);
         temp1.addActionListener(new ActionListener() {
             @Override
@@ -309,8 +336,9 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-
+        */
         /* TEST CASE BUTTONS*/
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         LeaderBoard = new JPanel();
@@ -604,6 +632,12 @@ public class GamePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (isHost) {
                     if (hostPanel.playerHost.isPlayerActive) {
+                        doneRun++;
+                        if(doneRun == serverMain.gamePlayerNames.size()){
+                            serverMain.broadcastMessage(19, "Done With Run Phase");
+                            updateTempChar(null);
+                            phase.setText("Buy Phase");
+                        }
                         hostPanel.playerHost.setPlayerActive(false);
                         serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
@@ -619,6 +653,7 @@ public class GamePanel extends JPanel {
                     }
                 } else {
                     if (characterSelectPanel.playerClient.isPlayerActive) {
+                        CommandFromClient.notify_DONERUN(clientMain.getOut());
                         characterSelectPanel.playerClient.setPlayerActive(false);
                         CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
                         takeOff.setText("Dropped Level");
@@ -866,7 +901,9 @@ public class GamePanel extends JPanel {
         tempChar.remove(tempCharChar);
         if(tempChar.size() == 0){
             phase.setText("Buy Phase");
-
+            DoneBuy.setEnabled(true);
+            buyHearts.setEnabled(true);
+            buyBuildings.setEnabled(true);
             JButton heartBuy = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
             heartBuy.setBounds(30, 20, 310, 190);
             heartBuy.setOpaque(true);
@@ -1901,6 +1938,9 @@ public class GamePanel extends JPanel {
         } else {
             if (tempChar.size() == 0) {
                 phase.setText("Buy Phase");
+                DoneBuy.setEnabled(true);
+                buyHearts.setEnabled(true);
+                buyBuildings.setEnabled(true);
             }
             System.out.println(tempChar);
             if(tempChar.size() != 0) {

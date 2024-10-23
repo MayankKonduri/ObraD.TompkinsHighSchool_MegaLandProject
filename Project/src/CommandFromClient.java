@@ -69,6 +69,14 @@ public class CommandFromClient implements Serializable {
     public static void notify_CHANGEMAIN(ObjectOutputStream out, String s) {
         sendMessage(out, CHANGEMAIN + s);
     }
+    public static final String DONEBUY = "DONEBUY:";
+    public static void notify_DONEBUY(ObjectOutputStream out) {
+        sendMessage(out, DONEBUY);
+    }
+    public static final String DONERUN = "DONERUN:";
+    public static void notify_DONERUN(ObjectOutputStream out) {
+        sendMessage(out, DONERUN);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {
