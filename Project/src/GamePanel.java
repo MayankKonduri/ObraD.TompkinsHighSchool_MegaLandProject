@@ -77,6 +77,8 @@ public class GamePanel extends JPanel {
     public JLabel jumpCount = new JLabel("0");
     private JPanel personalWallet = new JPanel();
     public boolean hasJumpedLevel = false;
+    public JButton heartOne, jumpOne, coinOne;
+    public JButton levelDraw, treasureDraw;
 
     JPanel LeaderBoard;
     //missing one\
@@ -89,6 +91,7 @@ public class GamePanel extends JPanel {
             treasureCardBackground, gear, cube, egg, carrot, mineral, fish,
             coin1, coin5, coin10, firstPlayerToken, heart, jump, indianWoman, gandalf, cat, frog, white, playerLevelCard, loading;
 
+    private JPanel backgroundP = new JPanel();
 
 
 
@@ -558,7 +561,7 @@ public class GamePanel extends JPanel {
         playerLabel.setFont(new Font("Georgia", Font.BOLD, 20));
         playerLabel.setForeground(Color.white);
         playerLabel.setBounds(860, 490, 200, 50);
-        JPanel backgroundP = new JPanel();
+
         backgroundP.setBounds(750,485, 400,40);
         backgroundP.setBorder(BorderFactory.createLineBorder(Color.white));
         backgroundP.setBackground(Color.black);
@@ -688,26 +691,26 @@ public class GamePanel extends JPanel {
         personalWallet.setBackground(Color.black);
         personalWallet.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
         personalWallet.setBounds(1420, 485, 230, 40);
-        JButton heart1 = new JButton(new ImageIcon(heart.getScaledInstance(30, 30, Image.SCALE_FAST)));
-        heart1.setOpaque(true);
-        heart1.setBackground(Color.black);
-        heart1.setFocusable(false);
-        heart1.setBorder(BorderFactory.createEmptyBorder());
-        personalWallet.add(heart1);
+        heartOne = new JButton(new ImageIcon(heart.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        heartOne.setOpaque(true);
+        heartOne.setBackground(Color.black);
+        heartOne.setFocusable(false);
+        heartOne.setBorder(BorderFactory.createEmptyBorder());
+        personalWallet.add(heartOne);
         personalWallet.add(heartCount);
-        JButton coinOne = new JButton(new ImageIcon(coin1.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        coinOne = new JButton(new ImageIcon(coin1.getScaledInstance(30, 30, Image.SCALE_FAST)));
         coinOne.setOpaque(true);
         coinOne.setBackground(Color.black);
         coinOne.setFocusable(false);
         coinOne.setBorder(BorderFactory.createEmptyBorder());
         personalWallet.add(coinOne);
         personalWallet.add(coinCount);
-        JButton jump1 = new JButton(new ImageIcon(jump.getScaledInstance(30, 30, Image.SCALE_FAST)));
-        jump1.setOpaque(true);
-        jump1.setBackground(Color.black);
-        jump1.setFocusable(false);
-        jump1.setBorder(BorderFactory.createEmptyBorder());
-        jump1.addActionListener(e-> {
+        jumpOne = new JButton(new ImageIcon(jump.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        jumpOne.setOpaque(true);
+        jumpOne.setBackground(Color.black);
+        jumpOne.setFocusable(false);
+        jumpOne.setBorder(BorderFactory.createEmptyBorder());
+        jumpOne.addActionListener(e-> {
             if(!jumpCount.equals(0)) {
                 hasJumpedLevel = true;
                 if(isHost){
@@ -720,7 +723,7 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-        personalWallet.add(jump1);
+        personalWallet.add(jumpOne);
         personalWallet.add(jumpCount);
         add(personalWallet);
 
@@ -822,7 +825,7 @@ public class GamePanel extends JPanel {
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
 
             BufferedImage backOfLevelCard1 = backOfLevelCard;
-            JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+            levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
             levelDraw.setBounds(1450, 30, 140, 210);
             add(levelDraw);
             levelDraw.addActionListener(e -> {
@@ -855,9 +858,6 @@ public class GamePanel extends JPanel {
         characterSelectPanel.playerClient.setPlayerLevelCards(deckLevelCard);
         CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
 
-        BufferedImage backOfLevelCard1 = backOfLevelCard;
-        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
-        levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
@@ -977,8 +977,6 @@ public class GamePanel extends JPanel {
 
 
     private void toggleInGameRulesPanel() {
-        BufferedImage backOfLevelCard1 = backOfLevelCard;
-        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
         if (inGameRulesPanel1.isVisible()) {
             inGameRulesPanel1.closeRules();
             chatPanel1.openChat();
@@ -996,13 +994,27 @@ public class GamePanel extends JPanel {
             playerLabel.setVisible(false);
             LeaderBoard.setVisible(false);
             takeOff.setVisible(false);
-            levelDraw.setVisible(!levelDraw.isVisible());
+            temp1.setVisible(false);
+            temp2.setVisible(false);
+            temp3.setVisible(false);
+            temp4.setVisible(false);
+            temp5.setVisible(false);
+            temp6.setVisible(false);
+            safeTreasures.setVisible(false);
+            safeTreasurePanel.setVisible(false);
+            scrollPane2.setVisible(false);
+            safeTreasures.setVisible(false);
+            scrollPane1.setVisible(false);
+            backgroundP.setVisible(false);
+            heartOne.setVisible(false);
+            jumpOne.setVisible(false);
+            coinOne.setVisible(false);
+            levelDraw.setVisible(false);
+            treasureDraw.setVisible(false);
 
         }
     }
     public void openGame(){
-        BufferedImage backOfLevelCard1 = backOfLevelCard;
-        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
         setVisible(true);
         toggleChatPanel();
         rules.setVisible(true);
@@ -1013,7 +1025,24 @@ public class GamePanel extends JPanel {
         playerLabel.setVisible(true);
         LeaderBoard.setVisible(true);
         takeOff.setVisible(true);
-        levelDraw.setVisible(levelDraw.isVisible());
+        temp1.setVisible(true);
+        temp2.setVisible(true);
+        temp3.setVisible(true);
+        temp4.setVisible(true);
+        temp5.setVisible(true);
+        temp6.setVisible(true);
+        safeTreasures.setVisible(true);
+        safeTreasurePanel.setVisible(true);
+        scrollPane2.setVisible(true);
+        unsafeTreasures.setVisible(true);
+        scrollPane1.setVisible(true);
+        backgroundP.setVisible(true);
+        heartOne.setVisible(true);
+        jumpOne.setVisible(true);
+        coinOne.setVisible(true);
+        levelDraw.setVisible(true);
+        treasureDraw.setVisible(true);
+        levelDraw.setVisible(!levelDraw.isVisible());
     }
 
 
@@ -1035,7 +1064,7 @@ public class GamePanel extends JPanel {
         int x1 = 0;
         if(isHost1) {
             BufferedImage treasure = treasureCardBackground;
-            JButton treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
+            treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
             treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
@@ -1257,8 +1286,6 @@ public class GamePanel extends JPanel {
 
 
     public void createImageButtonsClient() {
-        BufferedImage treasure = treasureCardBackground;
-        JButton treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
         treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
