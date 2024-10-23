@@ -1109,6 +1109,8 @@ public class GamePanel extends JPanel {
                             }
                             buyingCards.clear();
 
+
+
                             buildingDeck.get(finalJ).setNumber(serverMain.playerArrayList_Host.get(0).getCountBuildingCards().get(finalJ).getNumber() - 1);
 
                             playerBuildings.add(buildingDeck.get(finalJ));
@@ -1223,7 +1225,7 @@ public class GamePanel extends JPanel {
         int cardSpacing = 15;
 
         ArrayList<String>araylist2 = new ArrayList<String>();
-        ArrayList<String> temp2 = new ArrayList<>();
+        ArrayList<Integer> temp2 = new ArrayList<>();
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
             int idTreasure = treasureCard.getTreasureID();
@@ -1241,6 +1243,7 @@ public class GamePanel extends JPanel {
                 System.out.println("(H) " + start);
                 System.out.println("Buying Cards1: " + buyingCards.size());
                 if(buyBuildings.getText().equals("Stop Buying")) {
+                    temp2.clear();
                     if(araylist2.contains(playerTreasures.get(finalI).getTreasureName())){
                         System.out.println("Nothing");
                     }
@@ -1253,21 +1256,43 @@ public class GamePanel extends JPanel {
                 }
 
                 if (buyHearts.getText().equals("Stop Buying")) {
-                    int heartToBuy = hostPanel.playerHost.getPlayerHearts() +1;
-                    int matching = 1;
-                    int temp = heartToBuy - 4;
-                    matching = matching + temp;
-                    playerTreasures.get(finalI).setSelected(true);
-                   
-                    System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
-                    buyingCards1.add(playerTreasures.get(finalI));
-                    button1.setEnabled(false);
-                    System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
-                    if(buyingCards1.size() == matching) {
-                        buyHeartsAction();
-                        buyingCards1.clear();
+                    temp2.add(playerTreasures.get(finalI).getTreasureID());
+                    if(temp2.isEmpty()) {
+                        int heartToBuy = hostPanel.playerHost.getPlayerHearts() +1;
+                        int matching = 1;
+                        int temp = heartToBuy - 4;
+                        matching = matching + temp;
+                        playerTreasures.get(finalI).setSelected(true);
 
+                        System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
+                        buyingCards1.add(playerTreasures.get(finalI));
+                        button1.setEnabled(false);
+                        System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
+                        if(buyingCards1.size() == matching) {
+                            buyHeartsAction();
+                            buyingCards1.clear();
+                        }
+                    } else {
+                        if(temp2.get(0).equals(playerTreasures.get(finalI).getTreasureID())) {
+                            int heartToBuy = hostPanel.playerHost.getPlayerHearts() +1;
+                            int matching = 1;
+                            int temp = heartToBuy - 4;
+                            matching = matching + temp;
+                            playerTreasures.get(finalI).setSelected(true);
+
+                            System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
+                            buyingCards1.add(playerTreasures.get(finalI));
+                            button1.setEnabled(false);
+                            System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
+                            if(buyingCards1.size() == matching) {
+                                buyHeartsAction();
+                                buyingCards1.clear();
+                                temp2.clear();
+
+                            }
+                        }
                     }
+
                 }
                 else if((buyBuildings.equals("Buy Buildings1") && current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                     safeTreasuresList.add(playerTreasures.get(finalI));
@@ -1303,6 +1328,8 @@ public class GamePanel extends JPanel {
         });
         return playerTreasures;
     }
+
+
     public void hostOwnedCardsDisplay(ArrayList<BuildingCards> playerBuildings) {
         cardsPanel.removeAll();
 
@@ -1398,6 +1425,45 @@ public class GamePanel extends JPanel {
             }
             else if (temp == buildingDeck.get(5)) {
                 addCoin(7);
+            } else if (temp == buildingDeck.get(6)) {
+                System.out.println("When you return home, draw a treasure and return a treasure.");
+            } else if (temp == buildingDeck.get(7)){
+                System.out.println("If you fall, you can retuwn with one of your treasures.");
+            } else if (temp == buildingDeck.get(8)) {
+                System.out.println("If owned eggs, they can be used as any treasure type");
+            } else if (temp == buildingDeck.get(9)) {
+                addCoin(1);
+                System.out.println("AddJump(2))");
+            } else if (temp == buildingDeck.get(10)) {
+                System.out.println("+2 every time a player next to you falls");
+            } else if (temp == buildingDeck.get(11)) {
+                addCoin(3);
+                System.out.println("Draw a treasure when you fall");
+            } else if (temp == buildingDeck.get(12)) {
+                System.out.println("During night draw treasure card");
+            } else if (temp == buildingDeck.get(13)) {
+                System.out.println("When Night add coin");
+            } else if (temp == buildingDeck.get(14)) {
+                System.out.println("When you buy 4/5 cost button u add +3 coins");
+            } else if (temp == buildingDeck.get(15)) {
+                addCoin(2);
+                System.out.println("Once per round, you may use one fish as another treasure");
+            } else if (temp == buildingDeck.get(16)) {
+                System.out.println("addCoin(1) every time you buy a starBuilding");
+            } else if (temp == buildingDeck.get(17)) {
+                System.out.println("Ignore sludge creature damage and draw 1 treasure");
+            } else if (temp == buildingDeck.get(18)) {
+                System.out.println("addCoin(1) when buy a normal building");
+            } else if (temp == buildingDeck.get(19)) {
+                System.out.println("addCoin(2) when night");
+            } else if (temp == buildingDeck.get(20)) {
+                addCoin(4);
+                System.out.println("per round you can use one carrot as any other treasure");
+            } else if (temp == buildingDeck.get(21)) {
+                System.out.println("AddCoin(3) when night");
+            } else if (temp == buildingDeck.get(22)) {
+                addCoin(6);
+                System.out.println("addJump(2)");
             }
         }
 
@@ -1493,6 +1559,7 @@ public class GamePanel extends JPanel {
             button.addActionListener(e -> {
                 System.out.println("Debug: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
+                System.out.println("THIS IS THE BUTTON: " + buildingDeck.get(finalJ).getBuildingName());
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive) && buildingDeck.get(finalJ).getBuildingCost()== buyingCards.size()) {
                     if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
                         for(int i = 0; i < buyingCards.size(); i++) {
@@ -1507,6 +1574,7 @@ public class GamePanel extends JPanel {
                             }
                         }
                         buyingCards.clear();
+
                         buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
 
                         playerBuildings.add(buildingDeck.get(finalJ));
@@ -1561,6 +1629,7 @@ public class GamePanel extends JPanel {
         int cardSpacing = 20;
 
         ArrayList<String>araylist2 = new ArrayList<String>();
+        ArrayList<Integer> temp2 = new ArrayList<>();
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
             int idTreasure = treasureCard.getTreasureID();
@@ -1590,20 +1659,43 @@ public class GamePanel extends JPanel {
                 }
 
                 if (buyHearts.getText().equals("Stop Buying")) {
-                    int heartToBuy = characterSelectPanel.playerClient.getPlayerHearts() +1;
-                    int matching = 1;
-                    int temp = heartToBuy - 4;
-                    matching = matching + temp;
-                    playerTreasures.get(finalI).setSelected(true);
-                    System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
-                    buyingCards1.add(playerTreasures.get(finalI));
-                    button1.setEnabled(false);
-                    System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
-                    if(buyingCards1.size() == matching) {
-                        buyHeartsAction();
-                        buyingCards1.clear();
+                    temp2.add(playerTreasures.get(finalI).getTreasureID());
+                    if(temp2.isEmpty()) {
+                        int heartToBuy = characterSelectPanel.playerClient.getPlayerHearts() +1;
+                        int matching = 1;
+                        int temp = heartToBuy - 4;
+                        matching = matching + temp;
+                        playerTreasures.get(finalI).setSelected(true);
 
+                        System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
+                        buyingCards1.add(playerTreasures.get(finalI));
+                        button1.setEnabled(false);
+                        System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
+                        if(buyingCards1.size() == matching) {
+                            buyHeartsAction();
+                            buyingCards1.clear();
+                        }
+                    } else {
+                        if(temp2.get(0).equals(playerTreasures.get(finalI).getTreasureID())) {
+                            int heartToBuy = characterSelectPanel.playerClient.getPlayerHearts() +1;
+                            int matching = 1;
+                            int temp = heartToBuy - 4;
+                            matching = matching + temp;
+                            playerTreasures.get(finalI).setSelected(true);
+
+                            System.out.println("Treasure Selected:" + playerTreasures.get(finalI).getTreasureName());
+                            buyingCards1.add(playerTreasures.get(finalI));
+                            button1.setEnabled(false);
+                            System.out.println("Size: " + buyingCards1.size() + " Matching: " + matching);
+                            if(buyingCards1.size() == matching) {
+                                buyHeartsAction();
+                                buyingCards1.clear();
+                                temp2.clear();
+
+                            }
+                        }
                     }
+
                 }
                 else if((buyBuildings.equals("Buy Buildings1") && current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)){
                     safeTreasuresList.add(playerTreasures.get(finalI));
