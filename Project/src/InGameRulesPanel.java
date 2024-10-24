@@ -12,7 +12,7 @@ public class InGameRulesPanel extends JPanel{
     private BufferedImage rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12, ruleEnd;
     private JButton nextPage = new JButton(">");
     private JButton previousPage = new JButton("<");
-    private JButton homeButton = new JButton("Home");
+    private JButton homeButton = new JButton("Game");
     public int pageCount1 = 0;
     public int pageCount = 0;
     private GamePanel gamePanel;
@@ -83,22 +83,7 @@ public class InGameRulesPanel extends JPanel{
 
         homeButton.setBounds(10, 10, 100, 40);
         homeButton.setFont(new Font("Georgia", Font.BOLD, 20));
-        homeButton.addActionListener(e -> {
-            LoadingPanel loadingPanel = new LoadingPanel(frame);
-            loadingPanel.setPreferredSize(new Dimension(1920,1040));
-
-            JScrollPane scrollPane1 = new JScrollPane(loadingPanel);
-            scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            add(scrollPane1);
-            frame.setContentPane(scrollPane1);
-
-            frame.pack();
-            frame.revalidate();
-            frame.repaint();
-            frame.setVisible(true);
-
-        });
+        
 
         homeButton.setFocusPainted(false);
         homeButton.setBackground(Color.black);
