@@ -100,6 +100,11 @@ public class GamePanel extends JPanel {
     public ArrayList<BuildingCards> buildingDeck2 = new ArrayList<>();
     JButton levelDraw;
     JButton treasureDraw;
+    private JPanel backgroundP = new JPanel();
+    public JButton heartOne, jumpOne, coinOne;
+
+    public boolean firstPick = false;
+
 
 
 
@@ -225,125 +230,6 @@ public class GamePanel extends JPanel {
             }
         }
 
-
-
-//        temp1.setBounds(1700,700,250,30);
-//        add(temp1);
-//        temp1.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(isHost){
-//                    hostPanel.playerHost.setPlayerCoins(hostPanel.playerHost.getPlayerCoins() +1);
-//                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-//                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-//                    LeaderBoardUpdateHost();
-//                }else{
-//                    characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+1);
-//                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-//                    LeaderBoardUpdateClient();
-//                }
-//            }
-//        });
-//
-//        temp2.setBounds(1700,730,250,30);
-//        add(temp2);
-//        temp2.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(isHost){
-//                    hostPanel.playerHost.setPlayerCoins(hostPanel.playerHost.getPlayerCoins() - 1);
-//                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-//                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-//                    LeaderBoardUpdateHost();
-//                }else{
-//                    characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()-1);
-//                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-//                    LeaderBoardUpdateClient();
-//                }
-//            }
-//        });
-//
-//        temp3.setBounds(1700,760,250,30);
-//        add(temp3);
-//        temp3.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(isHost){
-//                    hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts() +1);
-//                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-//                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-//                    LeaderBoardUpdateHost();
-//                    repaint();
-//                    revalidate();
-//                }else{
-//                    characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()+1);
-//                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-//                    LeaderBoardUpdateClient();
-//                    repaint();
-//                    revalidate();
-//                }
-//            }
-//        });
-//
-//        temp4.setBounds(1700,790,250,30);
-//        add(temp4);
-//        temp4.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(isHost){
-//                    hostPanel.playerHost.setPlayerHearts(hostPanel.playerHost.getPlayerHearts() -1);
-//                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-//                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-//                    LeaderBoardUpdateHost();
-//                    repaint();
-//                    revalidate();
-//                }else{
-//                    characterSelectPanel.playerClient.setPlayerHearts(characterSelectPanel.playerClient.getPlayerHearts()-1);
-//                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-//                    LeaderBoardUpdateClient();
-//                    repaint();
-//                    revalidate();
-//                }
-//            }
-//        });
-//
-//        temp5.setBounds(1700,820,250,30);
-//        add(temp5);
-//        temp5.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(isHost){
-//                    hostPanel.playerHost.setPlayerJumps(hostPanel.playerHost.getPlayerJumps() +1);
-//                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-//                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-//                    LeaderBoardUpdateHost();
-//                }else{
-//                    characterSelectPanel.playerClient.setPlayerJumps(characterSelectPanel.playerClient.getPlayerJumps()+1);
-//                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-//                    LeaderBoardUpdateClient();
-//                }
-//            }
-//        });
-//
-//        temp6.setBounds(1700,850,250,30);
-//        add(temp6);
-//        temp6.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(isHost){
-//                    hostPanel.playerHost.setPlayerJumps(hostPanel.playerHost.getPlayerJumps() -1);
-//                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-//                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-//                }else{
-//                    characterSelectPanel.playerClient.setPlayerJumps(characterSelectPanel.playerClient.getPlayerJumps()-1);
-//                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-//                }
-//            }
-//        });
-
-        /* TEST CASE BUTTONS*/
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
         LeaderBoard = new JPanel();
         LeaderBoard.setBounds(30,475,230,300);
         add(LeaderBoard);
@@ -357,11 +243,6 @@ public class GamePanel extends JPanel {
         LeaderBoard.setBackground(Color.BLACK);
         LeaderBoard.setBorder(BorderFactory.createLineBorder(Color.WHITE,2,true));
         LeaderBoard.add(leaderBoardName, BorderLayout.NORTH);
-        /*if(isHost){
-            LeaderBoardUpdateHost();
-        } else{
-            LeaderBoardUpdateClient();
-        }*/
 
 
         ErrorArea = new JLabel("",JLabel.CENTER);
@@ -371,19 +252,9 @@ public class GamePanel extends JPanel {
         ErrorArea.setForeground(Color.RED);
         ErrorArea.setFont(new Font("Georgia", Font.BOLD, 20));
         ErrorArea.setBounds(500, 485, 230, 40);
-        //ErrorArea.setEditable(false);
         add(ErrorArea);
         ErrorArea.setVisible(false);
 
-
-//        ErrorArea1 = new JLabel("",JLabel.CENTER);
-//        ErrorArea1.setBorder(BorderFactory.createLineBorder(Color.red,2,true));
-//        ErrorArea1.setBackground(Color.PINK);
-//        ErrorArea1.setForeground(Color.red);
-//        ErrorArea1.setFont(new Font("Georgia", Font.BOLD, 20));
-//        ErrorArea1.setBounds(1170, 485, 230, 40);
-//        add(ErrorArea1);
-//        ErrorArea1.setVisible(false);
         phase = new JLabel("Run Phase",JLabel.CENTER);
         phase.setBorder(BorderFactory.createLineBorder(Color.green,2,true));
         phase.setOpaque(true);
@@ -558,7 +429,6 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-//        JButton rightArrow = new JButton("→");
         JButton rightArrow = new JButton(">");
         rightArrow.setBounds(1150, 490, 50, 40);
         rightArrow.setForeground(Color.white);
@@ -669,7 +539,7 @@ public class GamePanel extends JPanel {
         playerLabel.setFont(new Font("Georgia", Font.BOLD, 20));
         playerLabel.setForeground(Color.white);
         playerLabel.setBounds(860, 490, 200, 50);
-        JPanel backgroundP = new JPanel();
+        backgroundP = new JPanel();
         backgroundP.setBounds(750,485, 400,40);
         backgroundP.setBorder(BorderFactory.createLineBorder(Color.white));
         backgroundP.setBackground(Color.black);
@@ -693,11 +563,11 @@ public class GamePanel extends JPanel {
         chatPanel1.setForeground(Color.YELLOW);
 
 
-//        rules.setBounds(1830, 20, 70, 30);
-//        rules.addActionListener(e -> {
-//            toggleInGameRulesPanel();
-//        });
-//        add(rules);
+        rules.setBounds(1830, 20, 70, 30);
+        rules.addActionListener(e -> {
+            toggleInGameRulesPanel();
+        });
+        add(rules);
 
 
 
@@ -797,26 +667,26 @@ public class GamePanel extends JPanel {
         personalWallet.setBackground(Color.black);
         personalWallet.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
         personalWallet.setBounds(1420, 485, 230, 40);
-        JButton heart1 = new JButton(new ImageIcon(heart.getScaledInstance(30, 30, Image.SCALE_FAST)));
-        heart1.setOpaque(true);
-        heart1.setBackground(Color.black);
-        heart1.setFocusable(false);
-        heart1.setBorder(BorderFactory.createEmptyBorder());
-        personalWallet.add(heart1);
+        heartOne = new JButton(new ImageIcon(heart.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        heartOne.setOpaque(true);
+        heartOne.setBackground(Color.black);
+        heartOne.setFocusable(false);
+        heartOne.setBorder(BorderFactory.createEmptyBorder());
+        personalWallet.add(heartOne);
         personalWallet.add(heartCount);
-        JButton coinOne = new JButton(new ImageIcon(coin1.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        coinOne = new JButton(new ImageIcon(coin1.getScaledInstance(30, 30, Image.SCALE_FAST)));
         coinOne.setOpaque(true);
         coinOne.setBackground(Color.black);
         coinOne.setFocusable(false);
         coinOne.setBorder(BorderFactory.createEmptyBorder());
         personalWallet.add(coinOne);
         personalWallet.add(coinCount);
-        JButton jump1 = new JButton(new ImageIcon(jump.getScaledInstance(30, 30, Image.SCALE_FAST)));
-        jump1.setOpaque(true);
-        jump1.setBackground(Color.black);
-        jump1.setFocusable(false);
-        jump1.setBorder(BorderFactory.createEmptyBorder());
-        jump1.addActionListener(e-> {
+        jumpOne = new JButton(new ImageIcon(jump.getScaledInstance(30, 30, Image.SCALE_FAST)));
+        jumpOne.setOpaque(true);
+        jumpOne.setBackground(Color.black);
+        jumpOne.setFocusable(false);
+        jumpOne.setBorder(BorderFactory.createEmptyBorder());
+        jumpOne.addActionListener(e-> {
             if(!jumpCount.equals(0)) {
                 hasJumpedLevel = true;
                 if(isHost){
@@ -829,7 +699,7 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-        personalWallet.add(jump1);
+        personalWallet.add(jumpOne);
         personalWallet.add(jumpCount);
         add(personalWallet);
 
@@ -933,22 +803,25 @@ public class GamePanel extends JPanel {
             BufferedImage backOfLevelCard1 = backOfLevelCard;
 //            JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
             levelDraw.setBounds(1450, 30, 140, 210);
-//            levelDraw.setEnabled(false);
+            levelDraw.setEnabled(false);
             add(levelDraw);
             levelDraw.addActionListener(e -> {
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
-                    GUILevelCardsHost();
-                    serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
+                if(firstPick) {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                        GUILevelCardsHost();
+                        serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
 //                    levelDraw.setEnabled(false);
 //                    treasureDraw.setEnabled(true);
-                    //logic
-                } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
-                    showError("Not Your View");
-                } else if((!hostPanel.playerHost.isPlayerActive)){
-                    showError("Not in Level");
-                }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
-                    showError("Cannot Draw Cards");
+                        //logic
+                    } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                        showError("Not Your View");
+                    } else if((!hostPanel.playerHost.isPlayerActive)){
+                        showError("Not in Level");
+                    }else if (!(hostPanel.playerHost.isCanDrawLevel())) {
+                        showError("Cannot Draw Cards");
+                    }
                 }
+
             });
         }
     }
@@ -1027,22 +900,50 @@ public class GamePanel extends JPanel {
 
 
     private void toggleInGameRulesPanel() {
+        BufferedImage backOfLevelCard1 = backOfLevelCard;
+        levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+        levelDraw.setBounds(1450, 30, 140, 210);
+        add(levelDraw);
         if (inGameRulesPanel1.isVisible()) {
             inGameRulesPanel1.closeRules();
             chatPanel1.openChat();
             rules.setVisible(true);
             scrollPane.setVisible(true);
             scrollPane1.setVisible(true);
-
-
-
-
         } else {
             inGameRulesPanel1.openRules();
             chatPanel1.closeChat();
             scrollPane.setVisible(false);
             scrollPane1.setVisible(false);
             rules.setVisible(false);
+            phase.setVisible(false);
+            unsafeTreasures.setVisible(false);
+            playerLabel.setVisible(false);
+            LeaderBoard.setVisible(false);
+            takeOff.setVisible(false);
+            temp1.setVisible(false);
+            temp2.setVisible(false);
+            temp3.setVisible(false);
+            temp4.setVisible(false);
+            temp5.setVisible(false);
+            temp6.setVisible(false);
+            safeTreasures.setVisible(false);
+            safeTreasurePanel.setVisible(false);
+            scrollPane2.setVisible(false);
+            safeTreasures.setVisible(false);
+            scrollPane1.setVisible(false);
+            backgroundP.setVisible(false);
+            heartOne.setVisible(false);
+            jumpOne.setVisible(false);
+            coinOne.setVisible(false);
+            levelDraw.setVisible(false);
+            treasureDraw.setVisible(false);
+            levelDraw.setEnabled(false);
+            buyBuildings.setEnabled(false);
+            buyHearts.setEnabled(false);
+            buyBuildings.setVisible(false);
+            buyHearts.setVisible(false);
+
         }
     }
     public void openGame(){
@@ -1051,7 +952,38 @@ public class GamePanel extends JPanel {
         rules.setVisible(true);
         scrollPane.setVisible(true);
         scrollPane1.setVisible(true);
+        phase.setVisible(true);
+        safeTreasures.setVisible(true);
+        playerLabel.setVisible(true);
+        LeaderBoard.setVisible(true);
+        takeOff.setVisible(true);
+        temp1.setVisible(true);
+        temp2.setVisible(true);
+        temp3.setVisible(true);
+        temp4.setVisible(true);
+        temp5.setVisible(true);
+        temp6.setVisible(true);
+        safeTreasures.setVisible(true);
+        safeTreasurePanel.setVisible(true);
+        scrollPane2.setVisible(true);
+        unsafeTreasures.setVisible(true);
+        scrollPane1.setVisible(true);
+        backgroundP.setVisible(true);
+        heartOne.setVisible(true);
+        jumpOne.setVisible(true);
+        coinOne.setVisible(true);
+        levelDraw.setVisible(true);
+        treasureDraw.setVisible(true);
+        levelDraw.setVisible(true);
+        levelDraw.setEnabled(true);
+        buyBuildings.setEnabled(true);
+        buyHearts.setEnabled(true);
+        buyBuildings.setVisible(true);
+        buyHearts.setVisible(true);
+
     }
+
+
 
 
     public void createImageButtons() {
