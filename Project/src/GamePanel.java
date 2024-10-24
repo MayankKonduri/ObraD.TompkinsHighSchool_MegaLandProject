@@ -80,9 +80,9 @@ public class GamePanel extends JPanel {
     public boolean hasJumpedLevel = false;
     int arrayNum[];
     public int start = 0;
-    public JButton buyBuildings = new JButton("Buy Buildings");
-    public JButton buyHearts = new JButton("Buy Hearts");
-    public JButton DoneBuy = new JButton("Done with Buying");
+    public static JButton buyBuildings = new JButton("Buy Buildings");
+    public static JButton buyHearts = new JButton("Buy Hearts");
+    public static JButton DoneBuy = new JButton("Done with Buying");
 
     JPanel LeaderBoard;
     //missing one\
@@ -635,7 +635,6 @@ public class GamePanel extends JPanel {
                         doneRun++;
                         if(doneRun == serverMain.gamePlayerNames.size()){
                             serverMain.broadcastMessage(19, "Done With Run Phase");
-                            updateTempChar(null);
                             phase.setText("Buy Phase");
                         }
                         hostPanel.playerHost.setPlayerActive(false);
@@ -1074,7 +1073,7 @@ public class GamePanel extends JPanel {
             treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (phase.getText().equals("Run Phase"))) {
                     if(start==serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())){
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
@@ -1091,16 +1090,14 @@ public class GamePanel extends JPanel {
                     }else{
                         showError("Not Your Turn");
                     }
-                }else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
+                } else if(!phase.getText().equals("Run Phase")){
+                    System.out.println("Not Run Phase");
                 } else if(!(hostPanel.playerHost.isPlayerActive)){
-                    showError("In Buy Phase");
-                }
-                else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
-                    showError("Not Your View");
-                }
-                else if((!hostPanel.playerHost.isPlayerActive)){
-                    showError("In Buy Phase");
+                    showError("Dropped Level");
+                } else{
+                    System.out.println("Not Run Phase");
                 }
             });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
@@ -1129,7 +1126,7 @@ public class GamePanel extends JPanel {
 
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
-                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && buildingDeck.get(finalJ).getBuildingCost()== buyingCards.size()) {
+                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive) && buildingDeck.get(finalJ).getBuildingCost()== buyingCards.size() && phase.getText().equals("Buy Phase")) {
                         if(hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber() > 0) {
 
                             for(int i = 0; i < buyingCards.size(); i++) {
@@ -1217,6 +1214,8 @@ public class GamePanel extends JPanel {
                     }
                     else if((hostPanel.playerHost.isPlayerActive)){
                         showError("Still in Level");
+                    } else if(! phase.getText().equals("Buy Phase")){
+                        System.out.println("Not in Buy Phase");
                     }
                 });
                 System.out.println("Trial11: " + hostPanel.playerHost.getCountBuildingCards().get(finalJ).getNumber());
@@ -1322,8 +1321,6 @@ public class GamePanel extends JPanel {
                     repaint();
                 } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
-                } else if(!(hostPanel.playerHost.isPlayerActive)){
-                    showError("In Buy Phase");
                 }
                 // uncommented
             });
@@ -1476,7 +1473,7 @@ public class GamePanel extends JPanel {
         treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
-            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive)) {
+            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive) && (phase.getText().equals("Run Phase"))) {
                 if(start==clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())){
                 playerTreasures.add(shuffledDeck.remove(0));
                 characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
@@ -1498,9 +1495,13 @@ public class GamePanel extends JPanel {
             }
             } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                 showError("Not Your View");
+            } else if(!phase.getText().equals("Run Phase")){
+                System.out.println("Not Run Phase");
             }
             else if((!characterSelectPanel.playerClient.isPlayerActive)){
-                showError("In Buy Phase");
+                showError("Dropped Level");
+            } else{
+                System.out.println("Not Run Phase");
             }
         });
         System.out.println(cardSelectedList_g_client.size());
@@ -1530,7 +1531,7 @@ public class GamePanel extends JPanel {
             button.addActionListener(e -> {
                 System.out.println("Debug: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive) && buildingDeck.get(finalJ).getBuildingCost()== buyingCards.size()) {
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive) && buildingDeck.get(finalJ).getBuildingCost()== buyingCards.size() && phase.getText().equals("Buy Phase")) {
                     if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
                         for(int i = 0; i < buyingCards.size(); i++) {
                             for(int k = 0; k < playerTreasures.size(); k++) {
@@ -1568,10 +1569,12 @@ public class GamePanel extends JPanel {
                     }else if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() ==0){
                         showError("Out of Stock");
                     }
-                }else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
+                } else if (!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))) {
                     showError("Not Your View");
                 } else if ((characterSelectPanel.playerClient.isPlayerActive)) {
                     showError("Still in Level");
+                } else if(! phase.getText().equals("Buy Phase")){
+                    System.out.println("Not in Buy Phase");
                 }
             });
             add(button);
@@ -1657,8 +1660,6 @@ public class GamePanel extends JPanel {
 
                 } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
-                } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
-                    showError("In Buy Phase");
                 }
             });
         }
@@ -1863,6 +1864,9 @@ public class GamePanel extends JPanel {
             if(phase.getText() == "Run Phase") {
                 g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
             } else if(phase.getText() == "Buy Phase") {
+                GamePanel.DoneBuy.setEnabled(true);
+                GamePanel.buyHearts.setEnabled(true);
+                GamePanel.buyBuildings.setEnabled(true);
                 g.drawImage(heartCard, 30, 20, 300, 180, null);
             }
             takeOff.setBounds(40, 220, 300, 30);

@@ -309,5 +309,6 @@ public class ClientMain{
 
     public void doneAll() {
         gamePanel.updateTempChar(null);
+        gamePanel.DoneBuy.setEnabled(true);
     }
 }

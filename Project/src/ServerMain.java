@@ -429,7 +429,8 @@ public class ServerMain{
         gamePanel.doneRun++;
         if(gamePanel.doneRun == gamePlayerNames.size()){
             broadcastMessage(19, "Done With Run Phase");
-            gamePanel.phase.setText("Buy Phase");
+            gamePanel.phase.setText("xBuy Phase");
+            gamePanel.updateTempChar(null);
         }
     }
 }
