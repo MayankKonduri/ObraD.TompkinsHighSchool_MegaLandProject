@@ -135,10 +135,9 @@ public class GamePanel extends JPanel {
                 buyBuildings.setBorder(null);
             }
         });
+
         buyBuildings.addActionListener(e -> {
-            if(phase.equals("Buy Phase")) {
-                buyBuildings.setEnabled(true);
-            }
+
             if(buyBuildings.getText().equals("Buy Buildings")) {
                 buyBuildings.setText("Stop Buying");
                 buyHearts.setText("Buy Hearts");
@@ -163,11 +162,10 @@ public class GamePanel extends JPanel {
                 buyHearts.setBorder(null);
             }
         });
+
         buyHearts.setEnabled(false);
         buyHearts.addActionListener( e-> {
-            if(phase.equals("Buy Phase")) {
-                buyHearts.setEnabled(true);
-            }
+
             if(buyHearts.getText().equals("Buy Hearts")) {
                 buyHearts.setText("Stop Buying");
                 buyBuildings.setText("Buy Buildings");
@@ -769,6 +767,9 @@ public class GamePanel extends JPanel {
         tempChar.remove(tempCharChar);
         if(tempChar.size() == 0){
             phase.setText("Buy Phase");
+            buyBuildings.setEnabled(true);
+            buyHearts.setEnabled(true);
+
 
             JButton heartBuy = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
             heartBuy.setBounds(30, 20, 310, 190);
@@ -1484,7 +1485,7 @@ public class GamePanel extends JPanel {
             serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
             serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
             LeaderBoardUpdateHost();
-            if(hostPanel.playerHost.getPlayerCoins() >= 20) {
+            if(hostPanel.playerHost.getPlayerCoins() >= 2) {
                 EndGamePanel endGamePanel = new EndGamePanel(jFrame);
                 endGamePanel.setPreferredSize(new Dimension(1920,1040));
 
@@ -1508,7 +1509,7 @@ public class GamePanel extends JPanel {
             characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+number);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
             LeaderBoardUpdateClient();
-            if(characterSelectPanel.playerClient.getPlayerCoins()>=20) {
+            if(characterSelectPanel.playerClient.getPlayerCoins()>=2) {
                 EndGamePanel endGamePanel = new EndGamePanel(jFrame);
                 endGamePanel.setPreferredSize(new Dimension(1920,1040));
 
@@ -2042,6 +2043,8 @@ public class GamePanel extends JPanel {
         } else {
             if (tempChar.size() == 0) {
                 phase.setText("Buy Phase");
+                buyBuildings.setEnabled(true);
+                buyHearts.setEnabled(true);
             }
             System.out.println(tempChar);
             if(tempChar.size() != 0) {
@@ -2404,6 +2407,13 @@ public class GamePanel extends JPanel {
                             takeOff.setText("Dropped Level");
                             takeOff.setEnabled(false);
                             playerTreasures.clear();
+                            if(isHost1) {
+                                hostTreasureDisplay(playerTreasures);
+                            } else {
+                                clientTreasureDisplay(playerTreasures);
+                                characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+
+                            }
                             tempChar.remove(hostPanel.playerHost.getPlayerImage());
                             repaint();
                             revalidate();
@@ -2441,6 +2451,13 @@ public class GamePanel extends JPanel {
                             takeOff.setText("Dropped Level");
                             takeOff.setEnabled(false);
                             playerTreasures.clear();
+                            if(isHost1) {
+                                hostTreasureDisplay(playerTreasures);
+                            } else {
+                                clientTreasureDisplay(playerTreasures);
+                                characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+
+                            }
                             tempChar.remove(characterSelectPanel.playerClient.getPlayerImage());
                             repaint();
                             revalidate();
