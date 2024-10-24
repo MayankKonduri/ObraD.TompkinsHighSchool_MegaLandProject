@@ -858,6 +858,9 @@ public class GamePanel extends JPanel {
         characterSelectPanel.playerClient.setPlayerLevelCards(deckLevelCard);
         CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
 
+        BufferedImage backOfLevelCard1 = backOfLevelCard;
+        JButton levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+        levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
                 if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
@@ -977,6 +980,10 @@ public class GamePanel extends JPanel {
 
 
     private void toggleInGameRulesPanel() {
+        BufferedImage backOfLevelCard1 = backOfLevelCard;
+        levelDraw = new JButton(new ImageIcon(backOfLevelCard1.getScaledInstance(140, 210, Image.SCALE_FAST)));
+        levelDraw.setBounds(1450, 30, 140, 210);
+        add(levelDraw);
         if (inGameRulesPanel1.isVisible()) {
             inGameRulesPanel1.closeRules();
             chatPanel1.openChat();
@@ -1011,6 +1018,7 @@ public class GamePanel extends JPanel {
             coinOne.setVisible(false);
             levelDraw.setVisible(false);
             treasureDraw.setVisible(false);
+            levelDraw.setEnabled(false);
 
         }
     }
@@ -1042,7 +1050,8 @@ public class GamePanel extends JPanel {
         coinOne.setVisible(true);
         levelDraw.setVisible(true);
         treasureDraw.setVisible(true);
-        levelDraw.setVisible(!levelDraw.isVisible());
+        levelDraw.setVisible(true);
+        levelDraw.setEnabled(true);
     }
 
 
@@ -1068,28 +1077,26 @@ public class GamePanel extends JPanel {
             treasureDraw.setBounds(360, 75, 90, 120);
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
+                if ((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive)) {
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     System.out.println(hostPanel.playerHost.getPlayerTreasures());
-                    serverMain.playerArrayList_Host.set(0,hostPanel.playerHost);
+                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     hostTreasureDisplay(playerTreasures);
-                    serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
-                }
-                else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
+                    serverMain.broadcastMessage(14, hostPanel.nameTextField.getText());
+                } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
-                }
-                else if((!hostPanel.playerHost.isPlayerActive)){
+                } else if ((!hostPanel.playerHost.isPlayerActive)) {
                     showError("In Buy Phase");
                 }
             });
             for (int i = 0; i < cardSelectPanel.buildingsSelect.size(); i++) {
                 if (cardSelectPanel.buildingsSelect.get(i) == true) {
                     buildingSelected.add(buildingNames.get(i));
-                    buildingDeck1.add(buildingDeck.get(i+6));
+                    buildingDeck1.add(buildingDeck.get(i + 6));
                 }
             }
 
@@ -1101,7 +1108,7 @@ public class GamePanel extends JPanel {
             int gap = 20;
             boolean row1 = true;
             int index = 0;
-            for(int j = 0; j < buildingSelected.size(); j++) {
+            for (int j = 0; j < buildingSelected.size(); j++) {
                 BufferedImage image = buildingSelected.get(j);
                 JButton button = new JButton(new ImageIcon(image.getScaledInstance(140, 210, Image.SCALE_FAST)));
                 button.setBounds(x, y, width, height);
@@ -1112,7 +1119,7 @@ public class GamePanel extends JPanel {
 
                 button.addActionListener(e -> {
                     System.out.println("FINAL CHARACTER LIST (H): " + serverMain.charactersInLevel_host);
-                    if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
+                    if ((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && !(hostPanel.playerHost.isPlayerActive)) {
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
                         System.out.println("Button clicked: " + (buildingDeck1.get(finalJ).getNumber()));
@@ -1122,31 +1129,27 @@ public class GamePanel extends JPanel {
                         serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                         System.out.println("Index added: " + finalJ);
                         hostOwnedCardsDisplay(playerBuildings);
-                        serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
+                        serverMain.broadcastMessage(14, hostPanel.nameTextField.getText());
+                    } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
+                        showError("Not Your View");
+                    } else if ((hostPanel.playerHost.isPlayerActive)) {
+                        showError("Still in Level");
                     }
-                        else if(!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))){
-                            showError("Not Your View");
-                        }
-                        else if((hostPanel.playerHost.isPlayerActive)){
-                            showError("Still in Level");
-                        }
                 });
                 add(button);
                 imageButtons.add(button);
                 x += width + gap;
 
 
-                if(x > 1281 && row1) {
+                if (x > 1281 && row1) {
                     row1 = false;
                     x = 400;
                     y += height + gap;
                 }
             }
 
-
         }
     }
-
 
 
     public ArrayList<TreasureCard> hostTreasureDisplay(ArrayList<TreasureCard> playerTreasures) {
@@ -1286,6 +1289,8 @@ public class GamePanel extends JPanel {
 
 
     public void createImageButtonsClient() {
+        BufferedImage treasure = treasureCardBackground;
+       treasureDraw = new JButton(new ImageIcon(treasure.getScaledInstance(90, 120, Image.SCALE_FAST)));
         treasureDraw.setBounds(360, 75, 90, 120);
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
