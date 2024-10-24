@@ -113,6 +113,15 @@ public class GamePanel extends JPanel {
         /* TEST CASE BUTTONS*/
         buyBuildings.setBounds(1700,500,250,30);
         buyBuildings.setEnabled(false);
+        buyBuildings.setVisible(false);
+
+        buyBuildings.setFont(new Font("Georgia", Font.BOLD, 15));
+
+        buyBuildings.setFocusPainted(false);
+        buyBuildings.setBackground(Color.black);
+        buyBuildings.setForeground(Color.white);
+
+
         buyBuildings.addActionListener(e -> {
             if(buyBuildings.getText().equals("Buy Buildings")) {
                 buyBuildings.setText("Stop Buying");
@@ -130,28 +139,52 @@ public class GamePanel extends JPanel {
         });
         DoneBuy.setBounds(1700, 650, 250, 30);
         DoneBuy.setEnabled(false);
+        DoneBuy.setVisible(false);
+
+        DoneBuy.setFont(new Font("Georgia", Font.BOLD, 15));
+
+        DoneBuy.setFocusPainted(false);
+        DoneBuy.setBackground(Color.black);
+        DoneBuy.setForeground(Color.white);
+
         DoneBuy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buyHearts.setEnabled(false);
+                buyHearts.setVisible(true);
                 buyHearts.setText("Buy Hearts");
                 buyBuildings.setEnabled(false);
+                buyBuildings.setVisible(false);
                 buyBuildings.setText("Buy Buildings");
                 if(isHost){
                     totalDone++;
                     if(totalDone == serverMain.gamePlayerNames.size()){
                         serverMain.broadcastMessage(18, "Done With Buy Phase");
+                        buyHearts.setEnabled(false);
+                        buyHearts.setVisible(false);
+                        buyBuildings.setEnabled(false);
+                        buyBuildings.setVisible(false);
+                        DoneBuy.setEnabled(false);
+                        DoneBuy.setVisible(false);
                         phase.setText("Night Phase");
                     }
                 }else{
                     CommandFromClient.notify_DONEBUY(clientMain.getOut());
                 }
                 DoneBuy.setEnabled(false);
+                DoneBuy.setVisible(false);
             }
         });
         add(DoneBuy);
         buyHearts.setBounds(1700, 600, 250, 30);
         buyHearts.setEnabled(false);
+        buyHearts.setVisible(false);
+        buyHearts.setFont(new Font("Georgia", Font.BOLD, 15));
+
+        buyHearts.setFocusPainted(false);
+        buyHearts.setBackground(Color.black);
+        buyHearts.setForeground(Color.white);
+
         buyHearts.addActionListener( e-> {
             if(buyHearts.getText().equals("Buy Hearts")) {
                 buyHearts.setText("Stop Buying");
@@ -901,8 +934,11 @@ public class GamePanel extends JPanel {
         if(tempChar.size() == 0){
             phase.setText("Buy Phase");
             DoneBuy.setEnabled(true);
+            DoneBuy.setVisible(true);
             buyHearts.setEnabled(true);
+            buyHearts.setVisible(true);
             buyBuildings.setEnabled(true);
+            buyBuildings.setVisible(true);
             JButton heartBuy = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
             heartBuy.setBounds(30, 20, 310, 190);
             heartBuy.setOpaque(true);
@@ -1925,8 +1961,11 @@ public class GamePanel extends JPanel {
                 g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
             } else if(phase.getText() == "Buy Phase") {
                 GamePanel.DoneBuy.setEnabled(true);
+                GamePanel.DoneBuy.setVisible(true);
                 GamePanel.buyHearts.setEnabled(true);
+                GamePanel.buyHearts.setVisible(true);
                 GamePanel.buyBuildings.setEnabled(true);
+                GamePanel.buyBuildings.setVisible(true);
                 g.drawImage(heartCard, 30, 20, 300, 180, null);
             }
             takeOff.setBounds(40, 220, 300, 30);
@@ -2003,8 +2042,11 @@ public class GamePanel extends JPanel {
             if (tempChar.size() == 0) {
                 phase.setText("Buy Phase");
                 DoneBuy.setEnabled(true);
+                DoneBuy.setVisible(true);
                 buyHearts.setEnabled(true);
+                buyHearts.setVisible(true);
                 buyBuildings.setEnabled(true);
+                buyBuildings.setVisible(true);
             }
             System.out.println(tempChar);
             if(tempChar.size() != 0) {

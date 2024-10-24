@@ -148,8 +148,7 @@ public class ClientListener implements Runnable{
             handleChange(message);
         } else if(message.startsWith(DONERUNALL)){
             handleRunAll();
-        }
-        else if(message.startsWith(ENTERNIGHT))
+        } else if(message.startsWith(ENTERNIGHT))
         {
             handleEnterNight();
         }

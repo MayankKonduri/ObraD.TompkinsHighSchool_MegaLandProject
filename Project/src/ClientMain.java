@@ -305,6 +305,12 @@ public class ClientMain{
 
     public void processEnterNight() {
         gamePanel.phase.setText("Night Phase");
+        gamePanel.buyHearts.setEnabled(false);
+        gamePanel.buyHearts.setVisible(false);
+        gamePanel.buyBuildings.setEnabled(false);
+        gamePanel.buyBuildings.setVisible(false);
+        gamePanel.DoneBuy.setEnabled(false);
+        gamePanel.DoneBuy.setVisible(false);
     }
 
     public void doneAll() {
