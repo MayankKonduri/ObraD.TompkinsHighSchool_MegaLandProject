@@ -96,6 +96,7 @@ public class GamePanel extends JPanel {
     int coinTemp;
     public ArrayList<TreasureCard> buyingCards = new ArrayList<>();
     public ArrayList<TreasureCard> buyingCards1 = new ArrayList<>();
+    public ArrayList<BuildingCards> buildingDeck2 = new ArrayList<>();
 
 
 
@@ -1533,7 +1534,7 @@ public class GamePanel extends JPanel {
             }
         });
         System.out.println(cardSelectedList_g_client.size());
-        System.out.println(cardSelectedList_g_client);
+        System.out.println("Selected is this: " + cardSelectedList_g_client.toString());
         System.out.println(buildingSelected);
         System.out.println(buildingNames);
         for (int i = 0; i < cardSelectedList_g_client.size(); i++) {
@@ -1542,6 +1543,7 @@ public class GamePanel extends JPanel {
                 buildingDeck1.add(buildingDeck.get(i+6));
             }
         }
+        System.out.println("This is the rows: " + buildingDeck1.size());
         System.out.println(buildingSelected);
         int x = 480;
         int y = 30;
@@ -1556,11 +1558,12 @@ public class GamePanel extends JPanel {
             button.setContentAreaFilled(false);
             int finalJ = j;
             int x1 = 0;
+            boolean finalRow1 = row1;
             button.addActionListener(e -> {
                 System.out.println("Debug: " + clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber());
                 System.out.println("FINAL CHARACTER LIST (C): " + clientMain.charactersInLevel_client);
-                System.out.println("THIS IS THE BUTTON: " + buildingDeck.get(finalJ).getBuildingName());
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive) && buildingDeck.get(finalJ).getBuildingCost()== buyingCards.size()) {
+                System.out.println("THIS IS THE BUTTON: " + buildingDeck1.get(finalJ).getBuildingName());
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && !(characterSelectPanel.playerClient.isPlayerActive) && buildingDeck1.get(finalJ).getBuildingCost()== buyingCards.size()) {
                     if(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() > 0) {
                         for(int i = 0; i < buyingCards.size(); i++) {
                             for(int k = 0; k < playerTreasures.size(); k++) {
@@ -1574,10 +1577,21 @@ public class GamePanel extends JPanel {
                             }
                         }
                         buyingCards.clear();
+                        System.out.println("This is what is selected from 2nd row: " + buildingDeck1.get(finalJ).getBuildingName());
 
-                        buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
-
-                        playerBuildings.add(buildingDeck.get(finalJ));
+                        buildingDeck1.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
+                        playerBuildings.add(buildingDeck1.get(finalJ));
+//                        if(finalRow1) {
+//                            System.out.println("This is what is selected from 2nd row: " + buildingDeck1.get(finalJ).getBuildingName());
+//
+//                            buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
+//                            playerBuildings.add(buildingDeck.get(finalJ));
+//
+//                        } else {
+//                            System.out.println("This is what is selected from 2nd row: " + buildingDeck1.get(finalJ).getBuildingName());
+//                            buildingDeck1.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
+//                            playerBuildings.add(buildingDeck1.get(finalJ));
+//                        }
 
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
