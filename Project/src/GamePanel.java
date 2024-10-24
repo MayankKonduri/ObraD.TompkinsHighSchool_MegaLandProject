@@ -1569,8 +1569,63 @@ public class GamePanel extends JPanel {
             }
             else if (temp == buildingDeck.get(5)) {
                 addCoin(7);
+            } else if (temp == buildingDeck.get(6)) {
+                System.out.println("When you return home, draw a treasure and return a treasure.");
+            } else if (temp == buildingDeck.get(7)){
+                System.out.println("If you fall, you can return with one of your treasures.");
+            } else if (temp == buildingDeck.get(8)) {
+                System.out.println("If owned eggs, they can be used as any treasure type");
+            } else if (temp == buildingDeck.get(9)) {
+                addCoin(1);
+                addJump(2);
+            } else if (temp == buildingDeck.get(10)) {
+                System.out.println("+2 every time a player next to you falls");
+            } else if (temp == buildingDeck.get(11)) {
+                addCoin(3);
+                System.out.println("Draw a treasure when you fall");
+            } else if (temp == buildingDeck.get(12)) {
+                if(phase.getText().equals("Night Phase")) {
+                    playerTreasures.add(shuffledDeck.remove(0));
+                }
+                if(isHost1) {
+                    hostTreasureDisplay(playerTreasures);
+                } else {
+                    clientTreasureDisplay(playerTreasures);
+                    characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
+                }
+                System.out.println("During night draw treasure card");
+            } else if (temp == buildingDeck.get(13)) {
+                if(phase.getText().equals("Night Phase")) {
+                    addCoin(1);
+                }
+            } else if (temp == buildingDeck.get(14)) {
+                System.out.println("When you buy 4/5 cost button u add +3 coins");
+            } else if (temp == buildingDeck.get(15)) {
+                addCoin(2);
+                System.out.println("Once per round, you may use one fish as another treasure");
+            } else if (temp == buildingDeck.get(16)) {
+                System.out.println("addCoin(1) every time you buy a starBuilding");
+            } else if (temp == buildingDeck.get(17)) {
+                System.out.println("Ignore sludge creature damage and draw 1 treasure");
+            } else if (temp == buildingDeck.get(18)) {
+                System.out.println("addCoin(1) when buy a normal building");
+            } else if (temp == buildingDeck.get(19)) {
+                if(phase.getText().equals("Night Phase")) {
+                    addCoin(2);
+                }
+            } else if (temp == buildingDeck.get(20)) {
+                addCoin(4);
+                System.out.println("per round you can use one carrot as any other treasure");
+            } else if (temp == buildingDeck.get(21)) {
+                if(phase.getText().equals("Night Phase")) {
+                    addCoin(3);
+                }
+            } else if (temp == buildingDeck.get(22)) {
+                addCoin(6);
+                addJump(2);
             }
         }
+
 
     }
 
@@ -1586,10 +1641,7 @@ public class GamePanel extends JPanel {
 
             }
         }else{
-//            int numberTemp = characterSelectPanel.playerClient.getPlayerCoins();
-//            characterSelectPanel.playerClient.setPlayerCoins(0);
-//            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-//            LeaderBoardUpdateClient();
+
             characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerCoins()+number);
             CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
             LeaderBoardUpdateClient();
@@ -1598,6 +1650,22 @@ public class GamePanel extends JPanel {
                 rulesPanel.setPreferredSize(new Dimension(1920,1040));
 
             }
+        }
+    }
+
+    public void addJump(int jump) {
+        if(isHost1){
+            hostPanel.playerHost.setPlayerCoins(hostPanel.playerHost.getPlayerJumps() +jump);
+            serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+            serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+            LeaderBoardUpdateHost();
+
+        }else{
+
+            characterSelectPanel.playerClient.setPlayerCoins(characterSelectPanel.playerClient.getPlayerJumps() + jump);
+            CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
+            LeaderBoardUpdateClient();
+
         }
     }
 
@@ -1685,6 +1753,20 @@ public class GamePanel extends JPanel {
                         buildingDeck.get(finalJ).setNumber(clientMain.playerArrayList_client.get(clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())).getCountBuildingCards().get(finalJ).getNumber() - 1);
 
                         playerBuildings.add(buildingDeck.get(finalJ));
+                        if(finalJ <=6) {
+                            for(int h = 0; h < playerBuildings.size(); h++) {
+                                if(playerBuildings.get(h).getBuildingID() == 17) {
+                                    addCoin(1);
+                                }
+                            }
+                        }
+                        if(finalJ > 6) {
+                            for(int h = 0; h < playerBuildings.size(); h++) {
+                                if(playerBuildings.get(h).getBuildingID() == 19) {
+                                    addCoin(1);
+                                }
+                            }
+                        }
 
                         System.out.println("Button clicked before minus: " + (buildingDeck1.get(finalJ).getBuildingName()) + (buildingDeck1.get(finalJ).getNumber()));
                         buildingDeck1.get(finalJ).setNumber(buildingDeck1.get(finalJ).getNumber() - 1);
