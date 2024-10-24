@@ -1361,6 +1361,7 @@ public class GamePanel extends JPanel {
 
         ArrayList<String>araylist2 = new ArrayList<String>();
         ArrayList<String> temp2 = new ArrayList<>();
+
         for(int i = 0; i < playerTreasures.size(); i++) {
             TreasureCard treasureCard = playerTreasures.get(i);
             int idTreasure = treasureCard.getTreasureID();
@@ -1439,19 +1440,22 @@ public class GamePanel extends JPanel {
                         }
                 }
                 else if(phase.getText().equals("Night Phase")) {
-                    safeTreasuresList.add(playerTreasures.get(finalI));
-                    hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
-                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                    playerTreasures.remove(finalI);
-                    hostPanel.playerHost.setPlayerTreasures(playerTreasures);
-                    serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
-                    serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
-                    hostTreasureDisplay(playerTreasures);
-                    safeTreasureDisplay(safeTreasuresList);
-                    serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
-                    revalidate();
-                    repaint();
+                    if(safeTreasuresList.size()>playerBuildings.size()) {
+                        safeTreasuresList.add(playerTreasures.get(finalI));
+                        hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                        playerTreasures.remove(finalI);
+                        hostPanel.playerHost.setPlayerTreasures(playerTreasures);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                        hostTreasureDisplay(playerTreasures);
+                        safeTreasureDisplay(safeTreasuresList);
+                        serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
+                        revalidate();
+                        repaint();
+                    }
+
                 } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
                 }
@@ -1807,17 +1811,21 @@ public class GamePanel extends JPanel {
                     }
                 }
                 else if(phase.getText().equals("Night Phase")){
-                    safeTreasuresList.add(playerTreasures.get(finalI));
-                    characterSelectPanel.playerClient.setPlayerSafeTreasures(safeTreasuresList);
-                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-                    playerTreasures.remove(finalI);
-                    characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
-                    CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
-                    //clientTreasureDisplay(playerTreasures);
-                    safeTreasureDisplay(safeTreasuresList);
-                    CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
-                    revalidate();
-                    repaint();
+                    if(safeTreasuresList.size()>playerBuildings.size()) {
+                        safeTreasuresList.add(playerTreasures.get(finalI));
+                        hostPanel.playerHost.setPlayerSafeTreasures(safeTreasuresList);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                        playerTreasures.remove(finalI);
+                        hostPanel.playerHost.setPlayerTreasures(playerTreasures);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                        hostTreasureDisplay(playerTreasures);
+                        safeTreasureDisplay(safeTreasuresList);
+                        serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
+                        revalidate();
+                        repaint();
+                    }
 
                 } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                     showError("Not Your View");
