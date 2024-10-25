@@ -1015,7 +1015,7 @@ public class GamePanel extends JPanel {
             levelDraw.setBounds(1450, 30, 140, 210);
             add(levelDraw);
             levelDraw.addActionListener(e -> {
-                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel()) && (phase.getText().equals("Run Phase"))) {
                     if(start==serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())){
                     GUILevelCardsHost();
                     serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
@@ -1057,7 +1057,7 @@ public class GamePanel extends JPanel {
         levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
-                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive) && (phase.getText().equals("Run Phase"))){
                     if(start==clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())){
                         GUILevelCardsClient();
                         CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
