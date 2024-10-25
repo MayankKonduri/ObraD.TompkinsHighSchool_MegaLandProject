@@ -1016,9 +1016,17 @@ public class GamePanel extends JPanel {
             add(levelDraw);
             levelDraw.addActionListener(e -> {
                 if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (hostPanel.playerHost.isCanDrawLevel())) {
+                    if(start==serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())){
                     GUILevelCardsHost();
                     serverMain.broadcastMessage(13, hostPanel.nameTextField.getText());
                     //logic
+
+                        start++;
+                        serverMain.broadcastMessage(17, String.valueOf(start));
+                    }else{
+                        showError("Not Your Turn");
+                    }
+
                 } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
                 } else if((!hostPanel.playerHost.isPlayerActive)){
@@ -1049,9 +1057,21 @@ public class GamePanel extends JPanel {
         levelDraw.setBounds(1450, 30, 140, 210);
         add(levelDraw);
         levelDraw.addActionListener(e -> {
-            if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
-                GUILevelCardsClient();
-                CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
+                if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isCanDrawLevel()) && (characterSelectPanel.playerClient.isPlayerActive)){
+                    if(start==clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())){
+                        GUILevelCardsClient();
+                        CommandFromClient.notify_LEVEL_CARD_NAME(clientMain.getOut(),connectPanel.nameTextField.getText());
+
+                    start++;
+                    if(start==clientMain.Final_gamePlayerNames_ClientSide.size()){
+                        start = 0;
+                    }
+                    if(!isHost1){
+                        CommandFromClient.notify_CHANGEMAIN(clientMain.getOut(),String.valueOf(start));
+                    }
+                } else{
+                    showError("Not Your Turn");
+                }
             }   else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                 showError("Not Your View");
             } else if(!(characterSelectPanel.playerClient.isPlayerActive)){
@@ -1212,7 +1232,6 @@ public class GamePanel extends JPanel {
             add(treasureDraw);
             treasureDraw.addActionListener(e -> {
                 if((current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())) && (hostPanel.playerHost.isPlayerActive) && (phase.getText().equals("Run Phase"))) {
-                    if(start==serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText())){
                     playerTreasures.add(shuffledDeck.remove(0));
                     hostPanel.playerHost.setPlayerTreasures(playerTreasures);
                     serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
@@ -1222,12 +1241,6 @@ public class GamePanel extends JPanel {
                     serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
                     hostTreasureDisplay(playerTreasures);
                     serverMain.broadcastMessage(14,hostPanel.nameTextField.getText());
-
-                    start++;
-                    serverMain.broadcastMessage(17, String.valueOf(start));
-                    }else{
-                        showError("Not Your Turn");
-                    }
                 } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
                 } else if(!phase.getText().equals("Run Phase")){
@@ -1662,8 +1675,6 @@ public class GamePanel extends JPanel {
                 addJump(2);
             }
         }
-
-
     }
 
     public void addCoin(int number) {
@@ -1675,7 +1686,8 @@ public class GamePanel extends JPanel {
             if(hostPanel.playerHost.getPlayerCoins() >= 20) {
                 RulesPanel rulesPanel = new RulesPanel(jFrame);
                 rulesPanel.setPreferredSize(new Dimension(1920,1040));
-
+                WinningClass winningClass = new WinningClass(jFrame, true);
+                winningClass.setPreferredSize(new Dimension(1920,1040));
             }
         }else{
 
@@ -1685,7 +1697,8 @@ public class GamePanel extends JPanel {
             if(characterSelectPanel.playerClient.getPlayerCoins()>=20) {
                 RulesPanel rulesPanel = new RulesPanel(jFrame);
                 rulesPanel.setPreferredSize(new Dimension(1920,1040));
-
+                WinningClass winningClass = new WinningClass(jFrame, true);
+                winningClass.setPreferredSize(new Dimension(1920,1040));
             }
         }
     }
@@ -1716,7 +1729,6 @@ public class GamePanel extends JPanel {
         add(treasureDraw);
         treasureDraw.addActionListener(e -> {
             if((current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())) && (characterSelectPanel.playerClient.isPlayerActive) && (phase.getText().equals("Run Phase"))) {
-                if(start==clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText())){
                 playerTreasures.add(shuffledDeck.remove(0));
                 characterSelectPanel.playerClient.setPlayerTreasures(playerTreasures);
                 if (!isHost1) {
@@ -1724,17 +1736,6 @@ public class GamePanel extends JPanel {
                 }
                 clientTreasureDisplay(playerTreasures);
                 CommandFromClient.notify_INTERCLICK(clientMain.getOut(),connectPanel.nameTextField.getText());
-
-                    start++;
-                    if(start==clientMain.Final_gamePlayerNames_ClientSide.size()){
-                        start = 0;
-                    }
-                    if(!isHost1){
-                        CommandFromClient.notify_CHANGEMAIN(clientMain.getOut(),String.valueOf(start));
-                    }
-            } else{
-                showError("Not Your Turn");
-            }
             } else if(!(current_player == clientMain.Final_gamePlayerNames_ClientSide.indexOf(connectPanel.nameTextField.getText()))){
                 showError("Not Your View");
             } else if(!phase.getText().equals("Run Phase")){
