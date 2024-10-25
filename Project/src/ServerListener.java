@@ -28,6 +28,7 @@ public class ServerListener implements Runnable{
     public static final String CHANGEMAIN = "CHANGEMAIN:";
     public static final String DONEBUY = "DONEBUY:";
     public static final String DONERUN = "DONERUN:";
+    public static final String DONENIGHT = "DONENIGHT:";
 
 
 
@@ -168,10 +169,16 @@ public class ServerListener implements Runnable{
             processDoneBuy();
         } else if(message.startsWith(DONERUN)){
             processDoneRun();
+        } else if(message.startsWith(DONENIGHT)){
+            processDoneNight();
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void processDoneNight() {
+        serverMain.handleDoneNight();
     }
 
     private void processDoneRun() {

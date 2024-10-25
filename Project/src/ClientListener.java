@@ -30,6 +30,7 @@ public class ClientListener implements Runnable{
     public static final String CHANGEMAIN = "CHANGEMAIN:";
     public static final String ENTERNIGHT = "ENTERNIGHT:";
     public static final String DONERUNALL = "DONERUNALL:";
+    public static final String DONENIGHT = "DONENIGHT:";
 
 
 
@@ -148,13 +149,18 @@ public class ClientListener implements Runnable{
             handleChange(message);
         } else if(message.startsWith(DONERUNALL)){
             handleRunAll();
-        } else if(message.startsWith(ENTERNIGHT))
-        {
+        } else if(message.startsWith(ENTERNIGHT)) {
             handleEnterNight();
+        } else if(message.startsWith(DONENIGHT)){
+            handleDoneNight();
         }
         else{
             System.out.println("Received Message: " + message); //chat-feature for Mr. Nischal and Mr. Ayan, as this is abstract Message
         }
+    }
+
+    private void handleDoneNight() {
+        cLientMain.processDoneNight();
     }
 
     private void handleRunAll() {

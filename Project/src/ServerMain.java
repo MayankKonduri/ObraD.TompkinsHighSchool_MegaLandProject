@@ -350,6 +350,12 @@ public class ServerMain{
                         CommandFromServer.notify_DONERUNALL(out);
                     }}
                 break;
+            case 20:
+                synchronized (clientOutputStreams){
+                    for(ObjectOutputStream out: clientOutputStreams){
+                        CommandFromServer.notify_DONENIGHT(out);
+                    }}
+                break;
         }
 
     }
@@ -421,7 +427,15 @@ public class ServerMain{
         gamePanel.totalDone++;
         if(gamePanel.totalDone == gamePlayerNames.size()){
             broadcastMessage(18, "Done With Buy Phase");
+            gamePanel.buyHearts.setEnabled(false);
+            gamePanel.buyHearts.setVisible(false);
+            gamePanel.buyBuildings.setEnabled(false);
+            gamePanel.buyBuildings.setVisible(false);
+            gamePanel.DoneBuy.setEnabled(false);
+            gamePanel.DoneBuy.setVisible(false);
             gamePanel.phase.setText("Night Phase");
+            gamePanel.DoneNight.setEnabled(true);
+            gamePanel.DoneNight.setVisible(true);
         }
     }
 
@@ -429,8 +443,17 @@ public class ServerMain{
         gamePanel.doneRun++;
         if(gamePanel.doneRun == gamePlayerNames.size()){
             broadcastMessage(19, "Done With Run Phase");
-            gamePanel.phase.setText("xBuy Phase");
-            gamePanel.updateTempChar(null);
+            gamePanel.phase.setText("Buy Phase");
+            //gamePanel.phase.setText("xBuy Phase");
+            //gamePanel.updateTempChar(null);
+        }
+    }
+
+    public void handleDoneNight() {
+        gamePanel.totalNight++;
+        if(gamePanel.totalNight == gamePlayerNames.size()){
+            broadcastMessage(20, "Done With Night Phase");
+            gamePanel.resetRun();
         }
     }
 }

@@ -94,6 +94,10 @@ public class CommandFromServer implements Serializable
     public static void notify_DONERUNALL(ObjectOutputStream out) {
         sendMessage(out, DONERUNALL);
     }
+    public static final String DONENIGHT = "DONENIGHT:";
+    public static void notify_DONENIGHT(ObjectOutputStream out) {
+        sendMessage(out, DONENIGHT);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {

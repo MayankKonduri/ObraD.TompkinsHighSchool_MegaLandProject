@@ -77,6 +77,10 @@ public class CommandFromClient implements Serializable {
     public static void notify_DONERUN(ObjectOutputStream out) {
         sendMessage(out, DONERUN);
     }
+    public static final String DONENIGHT = "DONENIGHT:";
+    public static void notify_DONENIGHT(ObjectOutputStream out) {
+        sendMessage(out, DONENIGHT);
+    }
     public static void sendMessage(ObjectOutputStream out, String message) {
         try {
             if (out != null) {

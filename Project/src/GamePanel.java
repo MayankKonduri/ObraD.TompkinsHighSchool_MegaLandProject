@@ -2,6 +2,7 @@ package Project.src;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.DesktopPaneUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -47,7 +48,7 @@ public class GamePanel extends JPanel {
     public ArrayList<TreasureCard> shuffledDeck = new ArrayList<>();
     public ArrayList<TreasureCard> safeTreasuresList = new ArrayList();
     public ArrayList<TreasureCard> playerTreasures = new ArrayList<>();
-    private JButton takeOff = new JButton("Drop Off Level");
+    public JButton takeOff = new JButton("Drop Off Level");
     public ArrayList<LevelCard> deckLevelCard = new ArrayList<>();
     public ArrayList<LevelCard>  drawnLevelCard = new ArrayList<>();
     public int imageLevel = 0;
@@ -83,6 +84,7 @@ public class GamePanel extends JPanel {
     public static JButton buyBuildings = new JButton("Buy Buildings");
     public static JButton buyHearts = new JButton("Buy Hearts");
     public static JButton DoneBuy = new JButton("Done with Buying");
+    public static JButton DoneNight = new JButton("Done Night Phase");
 
     JPanel LeaderBoard;
     //missing one\
@@ -103,8 +105,7 @@ public class GamePanel extends JPanel {
     JButton treasureDraw;
     private JPanel backgroundP = new JPanel();
     public JButton heartOne, jumpOne, coinOne;
-
-
+    public int totalNight;
 
 
     public GamePanel(JFrame frame, ClientMain clientMain, ServerMain serverMain, HostPanel hostPanel, ConnectPanel connectPanel, CardSelectPanel cardSelectPanel, CharacterSelectPanel characterSelectPanel, Boolean isHost, ChatPanel chatPanel, InGameRulesPanel inGameRulesPanel) {
@@ -141,7 +142,7 @@ public class GamePanel extends JPanel {
 //            }
 
         });
-        DoneBuy.setBounds(1700, 650, 250, 30);
+        DoneBuy.setBounds(1700, 600, 250, 30);
         DoneBuy.setEnabled(false);
         DoneBuy.setVisible(false);
 
@@ -150,18 +151,29 @@ public class GamePanel extends JPanel {
         DoneBuy.setFocusPainted(false);
         DoneBuy.setBackground(Color.black);
         DoneBuy.setForeground(Color.white);
+        add(DoneBuy);
+
+        DoneNight.setBounds(1700,650,250,30);
+        DoneNight.setEnabled(false);
+        DoneNight.setVisible(false);
+
+        DoneNight.setFont(new Font("Georgia",Font.BOLD, 15));
+        DoneNight.setFocusPainted(false);
+        DoneNight.setBackground(Color.black);
+        DoneNight.setForeground(Color.white);
+        add(DoneNight);
 
         DoneBuy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buyHearts.setEnabled(false);
-                buyHearts.setVisible(true);
-                buyHearts.setText("Buy Hearts");
                 buyBuildings.setEnabled(false);
-                buyBuildings.setVisible(false);
+                DoneBuy.setEnabled(false);
+                buyHearts.setText("Buy Hearts");
                 buyBuildings.setText("Buy Buildings");
                 if(isHost){
                     totalDone++;
+                    DoneBuy.setEnabled(false);
                     if(totalDone == serverMain.gamePlayerNames.size()){
                         serverMain.broadcastMessage(18, "Done With Buy Phase");
                         buyHearts.setEnabled(false);
@@ -171,16 +183,47 @@ public class GamePanel extends JPanel {
                         DoneBuy.setEnabled(false);
                         DoneBuy.setVisible(false);
                         phase.setText("Night Phase");
+                        DoneNight.setEnabled(true);
+                        DoneNight.setVisible(true);
                     }
                 }else{
                     CommandFromClient.notify_DONEBUY(clientMain.getOut());
+                    DoneBuy.setEnabled(false);
                 }
-                DoneBuy.setEnabled(false);
-                DoneBuy.setVisible(false);
             }
         });
-        add(DoneBuy);
-        buyHearts.setBounds(1700, 600, 250, 30);
+
+        DoneNight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DoneNight.setEnabled(false);
+                if(isHost){
+                    totalNight++;
+                    DoneBuy.setEnabled(false);
+                    if(totalNight == serverMain.gamePlayerNames.size()){
+                        serverMain.broadcastMessage(20, "Done With Night Phase");
+                        DoneNight.setEnabled(false);
+                        DoneNight.setVisible(false);
+                        phase.setText("Run Phase");
+                        tempChar = new ArrayList<>(serverMain.charactersInLevel_host);
+                        repaint();
+                        revalidate();
+                        takeOff.setEnabled(true);
+                        takeOff.setVisible(true);
+                        takeOff.setText("Drop Off Level ");
+                        System.out.println("TEST" + serverMain.charactersInLevel_host);
+                        hostPanel.playerHost.setPlayerActive(true);
+                        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+                        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+                    }
+                }else{
+                    CommandFromClient.notify_DONENIGHT(clientMain.getOut());
+                    DoneNight.setEnabled(false);
+                }
+            }
+        });
+
+        buyHearts.setBounds(1700, 550, 250, 30);
         buyHearts.setEnabled(false);
         buyHearts.setVisible(false);
         buyHearts.setFont(new Font("Georgia", Font.BOLD, 15));
@@ -505,10 +548,10 @@ public class GamePanel extends JPanel {
         safeTreasurePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
 
         if(isHost){
-            tempChar = serverMain.charactersInLevel_host;
+            tempChar = new ArrayList<>(serverMain.charactersInLevel_host);
         }
         else{
-            tempChar = clientMain.charactersInLevel_client;
+            tempChar = new ArrayList<>(clientMain.charactersInLevel_client);
         }
 
         try {
@@ -937,19 +980,13 @@ public class GamePanel extends JPanel {
         tempChar.remove(tempCharChar);
         if(tempChar.size() == 0){
             phase.setText("Buy Phase");
-            DoneBuy.setEnabled(true);
-            DoneBuy.setVisible(true);
-            buyHearts.setEnabled(true);
-            buyHearts.setVisible(true);
-            buyBuildings.setEnabled(true);
-            buyBuildings.setVisible(true);
-            JButton heartBuy = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
-            heartBuy.setBounds(30, 20, 310, 190);
-            heartBuy.setOpaque(true);
-            heartBuy.setBackground(Color.black);
-            heartBuy.setFocusable(false);
-            heartBuy.setBorder(BorderFactory.createEmptyBorder());
-            add(heartBuy);
+            JButton heartBuy4 = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
+            heartBuy4.setBounds(30, 20, 310, 190);
+            heartBuy4.setOpaque(true);
+            heartBuy4.setBackground(Color.black);
+            heartBuy4.setFocusable(false);
+            heartBuy4.setBorder(BorderFactory.createEmptyBorder());
+            add(heartBuy4);
         }
         System.out.println(tempChar);
         repaint();
@@ -1194,7 +1231,7 @@ public class GamePanel extends JPanel {
                 } else if (!(current_player == serverMain.gamePlayerNames.indexOf(hostPanel.nameTextField.getText()))) {
                     showError("Not Your View");
                 } else if(!phase.getText().equals("Run Phase")){
-                    System.out.println("Not Run Phase");
+                    showError("Not Run Phase");
                 } else if(!(hostPanel.playerHost.isPlayerActive)){
                     showError("Dropped Level");
                 } else{
@@ -2078,43 +2115,17 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(loading, 0, 0, 1920, 1050, null);
 
-//        Graphics2D g2d = (Graphics2D) g;
-//        if (isHost1) {
-//            if(phase.getText() == "Run Phase") {
-//                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-//            } else if(phase.getText() == "Buy Phase") {
-//                g.drawImage(heartCard, 30, 20, 300, 180, null);
-//            }
-//            takeOff.setBounds(40, 220, 300, 30);
-//            add(takeOff);
-//
-//            for (int i = 0; i < drawnLevelCard.size(); i++) {
-//                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-//                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-//                g.drawImage(scaledImage, 1610, 30, this);
-//
-//            }
-//        } else {
-//            if(phase.getText() == "Run Phase") {
-//                g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-//            } else if(phase.getText() == "Buy Phase") {
-//                g.drawImage(heartCard, 30, 20, 300, 180, null);
-//            }
-//            takeOff.setBounds(40, 220, 300, 30);
-//            add(takeOff);
-//            for (int i = 0; i < drawnLevelCard.size(); i++) {
-//                BufferedImage image1 = drawnLevelCard.get(i).getImage();
-//                Image scaledImage = image1.getScaledInstance(140, 210, Image.SCALE_FAST);
-//                g.drawImage(scaledImage, 1610, 30, this);
-//
-//
-//            }
-//        }
-
         if (isHost1) {
-            if(phase.getText() == "Run Phase") {
+            if(phase.getText().equals("Run Phase")) {
                 g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-            } else if(phase.getText() == "Buy Phase") {
+                buyHearts.setEnabled(false);
+                buyHearts.setVisible(false);
+                buyBuildings.setEnabled(false);
+                buyBuildings.setVisible(false);
+                DoneBuy.setEnabled(false);
+                DoneBuy.setVisible(false);
+                System.out.println("hello buddy");
+            } else if(phase.getText().equals("Buy Phase")) {
                 GamePanel.DoneBuy.setEnabled(true);
                 GamePanel.DoneBuy.setVisible(true);
                 GamePanel.buyHearts.setEnabled(true);
@@ -2145,9 +2156,9 @@ public class GamePanel extends JPanel {
 
             }
         } else {
-            if(phase.getText() == "Run Phase") {
+            if(phase.getText().equals("Run Phase")) {
                 g.drawImage(playerLevelCard, 30, 20, 320, 200, null);
-            } else if(phase.getText() == "Buy Phase") {
+            } else if(phase.getText().equals("Buy Phase")) {
                 g.drawImage(heartCard, 30, 20, 300, 180, null);
             }
             takeOff.setBounds(40, 220, 300, 30);
@@ -2171,13 +2182,19 @@ public class GamePanel extends JPanel {
                 g.drawImage(scaledImage, 1610, 30, this);
 
             }
-
-
         }
 
         if (isHost1) {
-            System.out.println(tempChar);
-            if(tempChar.size() != 0) {
+            if (tempChar.size() == 0 && phase.getText().equals("Run Phase")){
+                phase.setText("Buy Phase");
+                DoneBuy.setEnabled(true);
+                DoneBuy.setVisible(true);
+                buyHearts.setEnabled(true);
+                buyHearts.setVisible(true);
+                buyBuildings.setEnabled(true);
+                buyBuildings.setVisible(true);
+            }
+            else if(tempChar.size() != 0 && phase.getText().equals("Run Phase")) {
                 for (int i = 0; i < tempChar.size(); i++) {
                     if ((tempChar.get(i)).equals("catB")) {
                         g.drawImage(cat, 60, 60, 70, 105, null);
@@ -2194,7 +2211,7 @@ public class GamePanel extends JPanel {
                 }
             }
         } else {
-            if (tempChar.size() == 0) {
+            if (tempChar.size() == 0 && phase.getText().equals("Run Phase")){
                 phase.setText("Buy Phase");
                 DoneBuy.setEnabled(true);
                 DoneBuy.setVisible(true);
@@ -2203,8 +2220,7 @@ public class GamePanel extends JPanel {
                 buyBuildings.setEnabled(true);
                 buyBuildings.setVisible(true);
             }
-            System.out.println(tempChar);
-            if(tempChar.size() != 0) {
+            else if(tempChar.size() != 0 && phase.getText().equals("Run Phase")) {
                 for (int i = 0; i < tempChar.size(); i++) {
                     if ((tempChar.get(i)).equals("catB")) {
                         g.drawImage(cat, 60, 60, 70, 105, null);
@@ -2359,6 +2375,17 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
+                    if(phase.getText().equals("Buy Phase")) {
+                        JButton heartBuy = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
+                        heartBuy.setBounds(30, 20, 310, 190);
+                        heartBuy.setOpaque(true);
+                        heartBuy.setBackground(Color.black);
+                        heartBuy.setFocusable(false);
+                        heartBuy.setBorder(BorderFactory.createEmptyBorder());
+                        add(heartBuy);
+                    }
+
+
                     clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
@@ -2386,6 +2413,16 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
+
+                    if(phase.getText().equals("Buy Phase")) {
+                        JButton heartBuy1 = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
+                        heartBuy1.setBounds(30, 20, 310, 190);
+                        heartBuy1.setOpaque(true);
+                        heartBuy1.setBackground(Color.black);
+                        heartBuy1.setFocusable(false);
+                        heartBuy1.setBorder(BorderFactory.createEmptyBorder());
+                        add(heartBuy1);
+                    }
 
                     //clientOwnedCardsDisplay(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
@@ -2417,6 +2454,16 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
+                    if(phase.getText().equals("Buy Phase")) {
+                        JButton heartBuy2 = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
+                        heartBuy2.setBounds(30, 20, 310, 190);
+                        heartBuy2.setOpaque(true);
+                        heartBuy2.setBackground(Color.black);
+                        heartBuy2.setFocusable(false);
+                        heartBuy2.setBorder(BorderFactory.createEmptyBorder());
+                        add(heartBuy2);
+                    }
+
                     clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
@@ -2447,6 +2494,16 @@ public class GamePanel extends JPanel {
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
 
+                    if(phase.getText().equals("Buy Phase")) {
+                        JButton heartBuy3 = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
+                        heartBuy3.setBounds(30, 20, 310, 190);
+                        heartBuy3.setOpaque(true);
+                        heartBuy3.setBackground(Color.black);
+                        heartBuy3.setFocusable(false);
+                        heartBuy3.setBorder(BorderFactory.createEmptyBorder());
+                        add(heartBuy3);
+                    }
+
                     clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
                     safeTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerSafeTreasures());
@@ -2476,6 +2533,16 @@ public class GamePanel extends JPanel {
                     cardsPanel.removeAll();
                     treasurePanel.removeAll();
                     safeTreasurePanel.removeAll();
+
+                    if(phase.getText().equals("Buy Phase")) {
+                        JButton heartBuy4 = new JButton(new ImageIcon(heartCard.getScaledInstance(310, 190, Image.SCALE_FAST)));
+                        heartBuy4.setBounds(30, 20, 310, 190);
+                        heartBuy4.setOpaque(true);
+                        heartBuy4.setBackground(Color.black);
+                        heartBuy4.setFocusable(false);
+                        heartBuy4.setBorder(BorderFactory.createEmptyBorder());
+                        add(heartBuy4);
+                    }
 
                     clientOwnedCardsDisplay1(clientMain.playerArrayList_client.get(x).getPlayerBuildings());
                     clientMain.playerArrayList_client.get(x).setPlayerTreasures(clientTreasureDisplay(clientMain.playerArrayList_client.get(x).getPlayerTreasures()));
@@ -2803,5 +2870,51 @@ public class GamePanel extends JPanel {
     }
     public InGameRulesPanel getinGameRulesPanel() {
         return inGameRulesPanel1;
+    }
+
+    public void fixNight() {
+        phase.setText("Night Phase");
+        buyHearts.setEnabled(false);
+        buyHearts.setVisible(false);
+        buyBuildings.setEnabled(false);
+        buyBuildings.setVisible(false);
+        DoneBuy.setEnabled(false);
+        DoneBuy.setVisible(false);
+        DoneNight.setEnabled(true);
+        DoneNight.setVisible(true);
+        System.out.println("x^2");
+    }
+
+    public void resetRun() {
+        DoneNight.setEnabled(false);
+        DoneNight.setVisible(false);
+        phase.setText("Run Phase");
+        tempChar = new ArrayList<>(serverMain.charactersInLevel_host);
+        repaint();
+        revalidate();
+        takeOff.setEnabled(true);
+        takeOff.setVisible(true);
+        takeOff.setText("Drop Off Level ");
+        System.out.println("TEST" + serverMain.charactersInLevel_host);
+        hostPanel.playerHost.setPlayerActive(true);
+        serverMain.playerArrayList_Host.set(0, hostPanel.playerHost);
+        serverMain.broadcastMessagePlayers(serverMain.playerArrayList_Host);
+    }
+
+    public void resetRun1() {
+        DoneNight.setEnabled(false);
+        DoneNight.setVisible(false);
+        phase.setText("Run Phase");
+        tempChar = new ArrayList<>(clientMain.charactersInLevel_client);
+        System.out.println("new111 " + tempChar);
+        repaint();
+        revalidate();
+        takeOff.setEnabled(true);
+        takeOff.setVisible(true);
+        System.out.println("new " + tempChar);
+        takeOff.setText("Drop Off Level ");
+        System.out.println("TEST" + clientMain.charactersInLevel_client);
+        characterSelectPanel.playerClient.setPlayerActive(true);
+        CommandFromClient.notifyPlayerObject(clientMain.getOut(), characterSelectPanel.playerClient);
     }
 }

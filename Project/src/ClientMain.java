@@ -304,17 +304,20 @@ public class ClientMain{
     }
 
     public void processEnterNight() {
-        gamePanel.phase.setText("Night Phase");
-        gamePanel.buyHearts.setEnabled(false);
-        gamePanel.buyHearts.setVisible(false);
-        gamePanel.buyBuildings.setEnabled(false);
-        gamePanel.buyBuildings.setVisible(false);
-        gamePanel.DoneBuy.setEnabled(false);
-        gamePanel.DoneBuy.setVisible(false);
+        gamePanel.fixNight();
     }
 
     public void doneAll() {
         gamePanel.updateTempChar(null);
         gamePanel.DoneBuy.setEnabled(true);
+        gamePanel.DoneBuy.setVisible(true);
+        gamePanel.buyHearts.setEnabled(true);
+        gamePanel.buyHearts.setVisible(true);
+        gamePanel.buyBuildings.setEnabled(true);
+        gamePanel.buyBuildings.setVisible(true);
+    }
+
+    public void processDoneNight() {
+        gamePanel.resetRun1();
     }
 }
