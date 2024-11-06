@@ -45,6 +45,3 @@ For full gameplay rules, refer to the official [Rules Document](https://docs.goo
 git clone https://github.com/yourusername/ObraD.TompkinsHighSchool_MegaLandProject
 ls
 python3 [Code To Be Compiled]
-
-
-
