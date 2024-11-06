@@ -41,7 +41,10 @@ For full gameplay rules, refer to the official [Rules Document](https://docs.goo
   
 ## How to Run the Game
 
-1. Clone the repository.
-2. Compile the Java files:
-   ```bash
-   javac *.java
+```bash
+git clone https://github.com/yourusername/ObraD.TompkinsHighSchool_MegaLandProject
+ls
+python3 [Code To Be Compiled]
+
+
+
