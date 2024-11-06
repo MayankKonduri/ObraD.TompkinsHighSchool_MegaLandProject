@@ -37,7 +37,7 @@ For full gameplay rules, refer to the official [Rules Document](https://docs.goo
 ## Technologies Used
 
 - **Java:** Core programming language used for game mechanics, logic, and GUI.
-- **Java Swing (Optional):** GUI components (if used) for creating an interactive interface for gameplay.
+- **Java Swing:** GUI components for creating an interactive interface for gameplay.
   
 ## How to Run the Game
 
