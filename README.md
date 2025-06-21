@@ -33,15 +33,4 @@ For full gameplay rules, refer to the official [Rules Document](https://docs.goo
 
 4. **Score Tracking:**  
    - The game tracks scores based on players' collected resources and constructed buildings.
-
-## Technologies Used
-
-- **Java:** Core programming language used for game mechanics, logic, and GUI.
-- **Java Swing:** GUI components for creating an interactive interface for gameplay.
   
-## How to Run the Game
-
-```bash
-git clone https://github.com/yourusername/ObraD.TompkinsHighSchool_MegaLandProject
-ls
-python3 [Code To Be Compiled]
