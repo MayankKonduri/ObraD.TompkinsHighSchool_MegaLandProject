@@ -28,7 +28,7 @@
 This project is a Java-based simulation of the *Megaland* board game, developed
 by our team to bring the game's exciting mechanics and challenges to a digital
 format. *Megaland* is a game of exploration, risk-taking, and resource
-gathering, where players venture through a dangerous landscape to collect
+gathering, where players venture through a dangerous landscape to chttps://github.com/MayankKonduri?tab=repositoriesollect
 treasures, avoid hazards, and build their own prosperous domain.
 
 It runs as a **client–server desktop application**: one player hosts a game, the
