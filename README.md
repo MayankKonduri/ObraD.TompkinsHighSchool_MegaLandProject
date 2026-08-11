@@ -1,135 +1,68 @@
-<div align="center">
+# Megaland Game Simulation
 
-# 🏰 Megaland Game Simulation
+A networked Java adaptation of the *Megaland* board game.
 
-### A Networked Java Adaptation of the *Megaland* Board Game
+`Java Swing` · `TCP sockets` · `2–5 players` · `25 classes` · `~8,000 lines`
 
-<p>
-  <img src="https://img.shields.io/badge/Java-Swing-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
-  <img src="https://img.shields.io/badge/Networking-TCP_Sockets-4A90D9?style=for-the-badge" alt="Sockets" />
-  <img src="https://img.shields.io/badge/IntelliJ-IDEA-000000?style=for-the-badge&logo=intellijidea&logoColor=white" alt="IntelliJ" />
-</p>
-
-<p>
-  <img src="https://img.shields.io/badge/players-2_to_5-blue?style=flat-square" alt="Players" />
-  <img src="https://img.shields.io/badge/classes-25-informational?style=flat-square" alt="Classes" />
-  <img src="https://img.shields.io/badge/lines-~8,000-green?style=flat-square" alt="LOC" />
-  <img src="https://img.shields.io/badge/mode-host_%2F_join_LAN-orange?style=flat-square" alt="Mode" />
-</p>
-
-<sub>Obra D. Tompkins High School</sub>
-
-</div>
+Obra D. Tompkins High School
 
 ---
 
 ## Overview
 
 This project is a Java-based simulation of the *Megaland* board game, developed
-by our team to bring the game's exciting mechanics and challenges to a digital
-format. *Megaland* is a game of exploration, risk-taking, and resource
-gathering, where players venture through a dangerous landscape to chttps://github.com/MayankKonduri?tab=repositoriesollect
-treasures, avoid hazards, and build their own prosperous domain.
+by our team to bring the game's mechanics and challenges to a digital format.
+*Megaland* is a game of exploration, risk-taking, and resource gathering, where
+players venture through a dangerous landscape to collect treasures, avoid
+hazards, and build their own prosperous domain.
 
-It runs as a **client–server desktop application**: one player hosts a game, the
+It runs as a client–server desktop application: one player hosts a game, the
 others connect over the local network, and the full session — character
 selection, card draws, hazard resolution, building purchases, and chat — is
 synchronized across every client.
 
-## Team Members
-
-<div align="center">
-
-| Member |
-|:---|
-| **Mayank Konduri** |
-| **Nischal Konduri** |
-| **Ayan Gupta** |
-
-</div>
+**Team:** Mayank Konduri · Nischal Konduri · Ayan Gupta
 
 ---
 
 ## Gameplay Rules
 
-Our Java simulation is built based on the official rules of *Megaland*. The game
-mechanics include:
+The simulation is built on the official rules of *Megaland*:
 
-- **Resource Gathering** — Players explore various areas, gathering resources to
-  be used for purchases or advancement.
-- **Risk Management** — Players must decide when to withdraw from exploration to
-  avoid losing resources due to hazards.
-- **Building and Scoring** — Gathered resources allow players to build
-  establishments that score points, progressing towards victory.
+**Resource gathering.** Players explore various areas, gathering resources to be
+used for purchases or advancement.
 
-For full gameplay rules, refer to the official
-[Rules Document](https://docs.google.com/document/d/16IWZxScFI1Z-VdZrBNeJG5rALevHiWSy55krg7O0iKY/edit?usp=sharing),
+**Risk management.** Players must decide when to withdraw from exploration to
+avoid losing resources to hazards.
+
+**Building and scoring.** Gathered resources allow players to build
+establishments that score points, progressing towards victory.
+
+For the complete rules, see the
+[rules document](https://docs.google.com/document/d/16IWZxScFI1Z-VdZrBNeJG5rALevHiWSy55krg7O0iKY/edit?usp=sharing)
 or the illustrated rulebook bundled in `Assets/Rules/`.
 
 ---
 
 ## Features
 
-<table>
-<tr>
-<td width="55"><h3 align="center">🗺️</h3></td>
-<td>
+**Exploration mechanics.** Players venture into different areas, encountering
+random events and collecting resources. Level cards carry a skull count, a
+treasure-chest flag, a jump flag, and a trade option.
 
-**Exploration Mechanics**
+**Hazard encounters.** Players face hazards, adding an element of risk where
+resources may be lost if players overextend. A drawn card's skull count is
+subtracted directly from the player's hearts, which start at 4.
 
-Players venture into different areas, encountering random events and collecting
-resources. Level cards carry a skull count, a treasure-chest flag, a jump flag,
-and a trade option.
+**Building system.** Resources can be spent on structures, adding strategic
+depth. Each building card carries a cost, plus star-card and night-card flags
+that affect scoring.
 
-</td>
-</tr>
-<tr>
-<td width="55"><h3 align="center">💀</h3></td>
-<td>
-
-**Hazard Encounters**
-
-Players face hazards, adding an element of risk where resources may be lost if
-players overextend. A drawn card's skull count is subtracted directly from the
-player's hearts, which start at **4**.
-
-</td>
-</tr>
-<tr>
-<td width="55"><h3 align="center">🏗️</h3></td>
-<td>
-
-**Building System**
-
-Resources can be used to build various structures, adding strategic depth. Each
-building card carries a cost, plus star-card and night-card flags that affect
-scoring.
-
-</td>
-</tr>
-<tr>
-<td width="55"><h3 align="center">🏆</h3></td>
-<td>
-
-**Score Tracking**
-
-The game tracks scores based on players' collected resources and constructed
+**Score tracking.** Scores are computed from collected resources and constructed
 buildings, resolving to a win/lose screen at the end of the session.
 
-</td>
-</tr>
-<tr>
-<td width="55"><h3 align="center">💬</h3></td>
-<td>
-
-**In-Game Chat**
-
-A dedicated chat panel relays messages through the host to every connected
-client during play.
-
-</td>
-</tr>
-</table>
+**In-game chat.** A dedicated chat panel relays messages through the host to
+every connected client during play.
 
 ---
 
@@ -172,10 +105,10 @@ changes route through the host, which broadcasts them outward.
 
 ### Protocol
 
-Communication uses **prefix-tagged strings** sent over `ObjectOutputStream`.
+Communication uses prefix-tagged strings sent over `ObjectOutputStream`.
 `CommandFromServer` defines 21 message types and `CommandFromClient` defines 16,
 each as a `public static final String` constant with a matching `notify_*()`
-helper — for example `START_GAME:`, `CHARACTER_SELECTION:`,
+helper — for example `START_GAME:`, `CHARACTER_SELECTION:`, and
 `HOST_DISCONNECTED:`. Keeping every wire format in two files means the client
 and server can't silently drift apart.
 
@@ -224,7 +157,7 @@ and server can't silently drift apart.
 │
 ├── Class Diagrams/                 # UML, week 1
 ├── Storyboards/                    # design storyboards
-└── out/                            # ⚠ committed build output — see Known Issues
+└── out/                            # committed build output — see Known Issues
 ```
 
 ---
@@ -237,24 +170,16 @@ and server can't silently drift apart.
 
 > [!IMPORTANT]
 > Classes are declared `package Project.src;`, and images are loaded with paths
-> relative to `Project/src/Images/`. **The working directory must be the
-> repository root** — not `Project/` — or every image fails to load.
+> relative to `Project/src/Images/`. The working directory must be the
+> repository root — not `Project/` — or every image fails to load.
 
-<details open>
-<summary><b>IntelliJ IDEA</b></summary>
-
-<br>
+**IntelliJ IDEA**
 
 1. Open the repository root as a project.
 2. Run `FrameMain` (or `Frame`).
 3. Confirm the working directory in the run configuration is the repository root.
 
-</details>
-
-<details>
-<summary><b>Command line</b></summary>
-
-<br>
+**Command line**
 
 ```bash
 # from the repository root
@@ -262,24 +187,22 @@ javac -d build Project/src/*.java
 java -cp build Project.src.FrameMain
 ```
 
-</details>
-
 ### Playing
 
 1. **One player hosts.** Choose *Host*, enter a name, pick 2–5 players. The
-   server binds to port **12345**.
+   server binds to port 12345.
 2. **Everyone else joins.** Choose *Connect* and enter the host's local IP.
 3. Pick characters, select cards, and play. The host must stay connected — a
    `HOST_DISCONNECTED` broadcast ends the session for everyone.
 
 > [!NOTE]
-> Port `12345` is hardcoded in `HostPanel` and `ClientMain`. All players must be
+> Port 12345 is hardcoded in `HostPanel` and `ClientMain`. All players must be
 > on the same local network, and the host's firewall must allow inbound
 > connections on that port.
 
 ---
 
-## ⚠️ Known Issues
+## Known Issues
 
 Observations from reading the code. Nothing here has been changed.
 
@@ -287,7 +210,7 @@ Observations from reading the code. Nothing here has been changed.
 > **The repository is roughly twice the size it needs to be.** `out/` contains a
 > complete copy of the project — every source file, all 86 images, and all
 > `Assets/` archives — alongside 76 compiled `.class` files. It accounts for
-> **130 MB of the 260 MB total**.
+> 130 MB of the 260 MB total.
 >
 > A `.gitignore` listing `out/` does exist, but it sits in `Project/`, so it
 > never applies to the `out/` directory at the repository root. Moving that file
@@ -316,7 +239,7 @@ Observations from reading the code. Nothing here has been changed.
 > ```java
 > this.playerHearts = playerHearts;
 > ...
-> this.playerHearts = 4;   // ← every player starts at 4 regardless
+> this.playerHearts = 4;   // every player starts at 4 regardless
 > ```
 > If 4 is the intended starting value, dropping the parameter and declaring
 > `private static final int STARTING_HEARTS = 4;` would say so clearly.
@@ -364,9 +287,3 @@ Observations from reading the code. Nothing here has been changed.
 > **Fixed 1920×1040 window.** `Frame` sets that preferred size directly, so on a
 > smaller display the layout relies on the surrounding `JScrollPane` rather than
 > adapting. Worth knowing before a demo on unfamiliar hardware.
-
----
-
-<div align="center">
-<sub>Built with Java Swing · Obra D. Tompkins High School</sub>
-</div>
